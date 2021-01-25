@@ -23,65 +23,8 @@ package com.timenotclocks.bookcase
 import androidx.room.*
 
 /**
+ * TODO: too dumb to figure out how many to many works with Room
  */
-
-@Entity(tableName = "authors")
-data class Author(
-    @PrimaryKey(autoGenerate = true) val authorId: Long,
-    val firstName: String,
-    val lastName: String
-)
-
-@Entity(tableName = "publications")
-data class Publication(
-    @PrimaryKey(autoGenerate = true) val publicationId: Long,
-    val publisher: String,
-    val year: Int,
-    val originalYear: Int
-)
-
-
-@Entity(primaryKeys = ["authorId", "bookId"])
-data class AuthorCrossRef(
-        val authorId: Long,
-        val bookId: Long
-)
-
-@Entity(primaryKeys = ["publicationId", "bookId"])
-data class PublicationCrossRef(
-        val publicationId: Long,
-        val bookId: Long
-)
-
-data class BookWithAuthors(
-        @Embedded val book: Book,
-        @Relation(
-                parentColumn = "bookId",
-                entityColumn = "authorId",
-                associateBy = Junction(AuthorCrossRef::class)
-        )
-        val authors: List<Author>
-)
-
-data class AuthorWithBooks(
-        @Embedded val author: Author,
-        @Relation(
-                parentColumn = "authorId",
-                entityColumn = "bookId",
-                associateBy = Junction(AuthorCrossRef::class)
-        )
-        val books: List<Book>
-)
-
-data class BookWithPublications(
-        @Embedded val book: Book,
-        @Relation(
-                parentColumn = "bookId",
-                entityColumn = "publicationId",
-                associateBy = Junction(PublicationCrossRef::class)
-        )
-        val publication: List<Publication>
-)
 
 @Entity(tableName = "books")
 data class Book(
@@ -90,7 +33,76 @@ data class Book(
         @ColumnInfo(name = "cover_url") val coverUrl: String?,
         @ColumnInfo(name = "isbn") val isbn: Int,
         @ColumnInfo(name = "isbn13") val isbn13: Long,
+        @ColumnInfo(name = "authorFirst") val authorFirst: String?,
+        @ColumnInfo(name = "authorLast") val authorLast: String?,
+        @ColumnInfo(name = "publisher") val publisher: String?,
+        @ColumnInfo(name = "year") val year: Int?,
+        @ColumnInfo(name = "originalYear") val originalYear: Int?,
+
         @ColumnInfo(name = "rating") val rating: Int?,
         @ColumnInfo(name = "shelf") val shelf: String,
         @ColumnInfo(name = "notes") val notes: String?
 )
+
+
+/*
+
+
+@Entity(tableName = "authors")
+ data class Author(
+             @PrimaryKey(autoGenerate = true) val authorId: Long,
+     val firstName: String,
+     val lastName: String
+ )
+ 
+ @Entity(tableName = "publications")
+ data class Publication(
+             @PrimaryKey(autoGenerate = true) val publicationId: Long,
+     val publisher: String,
+     val year: Int,
+     val originalYear: Int
+ )
+ 
+ 
+ @Entity(primaryKeys = ["authorId", "bookId"])
+ data class AuthorCrossRef(
+                 val authorId: Long,
+                 val bookId: Long
+         )
+ 
+ @Entity(primaryKeys = ["publicationId", "bookId"])
+ data class PublicationCrossRef(
+                 val publicationId: Long,
+                 val bookId: Long
+         )
+ 
+ data class BookWithAuthors(
+                 @Embedded val book: Book,
+                 @Relation(
+                         parentColumn = "bookId",
+                 entityColumn = "authorId",
+                 associateBy = Junction(AuthorCrossRef::class)
+         )
+         val authors: List<Author>
+ )
+ 
+ data class AuthorWithBooks(
+                 @Embedded val author: Author,
+                 @Relation(
+                         parentColumn = "authorId",
+                 entityColumn = "bookId",
+                 associateBy = Junction(AuthorCrossRef::class)
+         )
+         val books: List<Book>
+ )
+ 
+ data class BookWithPublications(
+                 @Embedded val book: Book,
+                 @Relation(
+                         parentColumn = "bookId",
+                 entityColumn = "publicationId",
+                 associateBy = Junction(PublicationCrossRef::class)
+         )
+         val publication: List<Publication>
+ )
+*/

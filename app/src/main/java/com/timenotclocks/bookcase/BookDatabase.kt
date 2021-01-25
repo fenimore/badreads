@@ -26,7 +26,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.timenotclocks.bookcase.Author
 
 
 /**
@@ -35,8 +34,6 @@ import com.timenotclocks.bookcase.Author
  */
 @Database(entities = [
     Book::class,
-    Author::class, Publication::class,
-    AuthorCrossRef::class, PublicationCrossRef::class,
 ], version = 1)
 abstract class BookDatabase : RoomDatabase() {
 
@@ -97,17 +94,19 @@ abstract class BookDatabase : RoomDatabase() {
             // Not needed if you only populate on creation.
             // bookDao.deleteAll()
             val title = "The Address Book: What Street Addresses Reveal About Identity, Race, Wealth, and Power"
-            val author = Author(0, firstName = "Deirdre", lastName = "Mask")
-            val publication = Publication(0,"St. Martin's Press,Hardcover", 2020, 2020)
             val isbn = 1250134765
             val isbn13 = 9781250134769
-            val numPages = 336
             var book = Book(
                     bookId = 0,
                     title = title,
                     coverUrl = null,
                     isbn = isbn,
                     isbn13 = isbn13,
+                    authorFirst = "Deirdre",
+                    authorLast = "Mask",
+                    publisher = "St. Martin's Press,Hardcover",
+                    year = 2020,
+                    originalYear = 2020,
                     rating = null,
                     shelf ="want to read",
                     notes = null

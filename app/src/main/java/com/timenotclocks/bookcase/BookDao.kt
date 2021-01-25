@@ -37,25 +37,11 @@ interface BookDao {
     fun getAlphabetizedWords(): Flow<List<Book>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertAuthor(author: Author)
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertPublication(publication: Publication)
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertBook(book: Book)
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertAuthorCrossRef(info: AuthorCrossRef)
 
     @Query("DELETE FROM books")
     suspend fun deleteAll()
 
-    @Transaction
     @Query("SELECT * FROM books")
-    fun getbookWithAuthors(): Flow<List<BookWithAuthors>>
-
-    @Transaction
-    @Query("SELECT * FROM authors")
-    fun getAuthorsWithBooks(): Flow<List<AuthorWithBooks>>
+    fun getBooks(): Flow<List<Book>>
 }

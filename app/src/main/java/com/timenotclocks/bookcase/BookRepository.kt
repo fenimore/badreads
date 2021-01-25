@@ -36,11 +36,4 @@ class BookRepository(private val bookDao: BookDao) {
     suspend fun insertBook(book: Book) {
         bookDao.insertBook(book)
     }
-
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun insertAuthor(author: Author) {
-        bookDao.insertAuthor(author)
-    }
-
 }
