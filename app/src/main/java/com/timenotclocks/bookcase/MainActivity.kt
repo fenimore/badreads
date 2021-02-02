@@ -51,10 +51,12 @@ class MainActivity : AppCompatActivity() {
             books.let { adapter.submitList(it) }
         }
 
+
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val intent = Intent(this@MainActivity, NewBookActivity::class.java)
             startActivityForResult(intent, newWordActivityRequestCode)
+
         }
     }
 

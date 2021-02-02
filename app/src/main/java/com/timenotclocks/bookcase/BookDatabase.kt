@@ -23,6 +23,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -112,7 +113,6 @@ abstract class BookDatabase : RoomDatabase() {
                     notes = null
             )
             var result = bookDao.insertBook(book)
-
             //val author = // Deirdre Mask,"Mask, Deirdre",,"=""1250134765""","=""9781250134769""",0,4.13,St. Martin's Press,Hardcover,336,2020,2020,,2020/11/25,to-read,to-read (#100),to-read,,,,0,,,0,,,,,
 
             //var book = Book("Hello")

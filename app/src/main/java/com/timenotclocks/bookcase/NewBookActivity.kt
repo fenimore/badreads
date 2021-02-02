@@ -33,7 +33,11 @@ class NewBookActivity : AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_book)
-        val editTitleView = findViewById<EditText>(R.id.edit_word)
+        val editTitleView = findViewById<EditText>(R.id.edit_title)
+        val coverUrlView = findViewById<EditText>(R.id.cover_url)
+        val isbnView = findViewById<EditText>(R.id.isbn)
+        val isbn13View = findViewById<EditText>(R.id.isbn13)
+        val authorNameView = findViewById<EditText>(R.id.author_name)
 
         val button = findViewById<Button>(R.id.button_save)
         button.setOnClickListener {
@@ -50,6 +54,6 @@ class NewBookActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val EXTRA_REPLY = "com.example.android.wordlistsql.REPLY"
+        const val EXTRA_REPLY = "com.timenotclocks.android.wordlistsql.REPLY"
     }
 }

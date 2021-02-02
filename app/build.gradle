@@ -67,11 +67,19 @@ dependencies {
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
     // Testing
-    androidTestImplementation "junit:junit:$rootProject.junitVersion"
+    testImplementation 'junit:junit:4.12'
+    //androidTestImplementation "junit:junit:$rootProject.junitVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
     androidTestImplementation ("androidx.test.espresso:espresso-core:$rootProject.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestImplementation "androidx.test.ext:junit:$rootProject.androidxJunitVersion"
+
+
+    //implementation 'com.android.volley:volley:1.1.1'
+
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-android:$ktor_version"
+
 }
 
