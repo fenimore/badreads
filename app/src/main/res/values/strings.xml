@@ -21,4 +21,7 @@ limitations under the License. -->
     <string name="add_word">Add book</string>
     <string name="app_label">bookcase</string>
     <string name="search_hint">isbn . . .</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

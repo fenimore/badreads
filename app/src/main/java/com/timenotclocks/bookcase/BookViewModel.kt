@@ -34,9 +34,12 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
-    val allBooks: LiveData<List<Book>> = repository.allWords.asLiveData()
-
+    val allBooks: LiveData<List<Book>> = repository.allBooks.asLiveData()
+    val readShelf: LiveData<List<Book>> = repository.readShelf.asLiveData()
+    val toReadShelf: LiveData<List<Book>> = repository.toReadShelf.asLiveData()
+    val currentShelf: LiveData<List<Book>> = repository.currentShelf.asLiveData()
     /**
+     *
      * Launching a new coroutine to insert the data in a non-blocking way
      */
     fun insert(book: Book) = viewModelScope.launch {

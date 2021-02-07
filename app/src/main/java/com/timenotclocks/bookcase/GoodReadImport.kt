@@ -16,6 +16,10 @@ class GoodReadImport {
 
         for (row in rows) {
             Log.d("BK", row.toString())
+            for (m in row.entries) {
+                Log.i("BK", m.key + ": " + m.value)
+            }
+
             val title = row.get("Title") ?: continue
 
             val formatter = SimpleDateFormat("yyyy/MM/dd", Locale.US)
@@ -24,7 +28,7 @@ class GoodReadImport {
                     bookId = 0,
                     title = title,
                     coverUrl = null,
-                    isbn = when(row["ISBN"] != null) {
+                    isbn = when(!row["ISBN"].isNullOrEmpty()) {
                         true -> row["ISBN"]!!.drop(2).dropLast(1).toIntOrNull()
                         false -> null
                     },
@@ -41,13 +45,13 @@ class GoodReadImport {
                     rating = row["My Rating"]?.toIntOrNull(),
                     shelf =row.getOrDefault("Exclusive Shelf", "to-read"),
                     notes = row["My Review"],
-                    dateAdded = when(row["Date Added"] != null) {
-                        true -> formatter.parse(row.get("Date Added")!!)
+                    dateAdded = when(!row["Date Added"].isNullOrEmpty()) {
+                        true -> formatter.parse(row["Date Added"]!!)
                         false -> null
 
                     },
-                    dateRead = when(row["Date Read"] != null) {
-                        true -> formatter.parse(row.get("Date Read")!! )
+                    dateRead = when(!row["Date Read"].isNullOrBlank()) {
+                        true -> formatter.parse(row["Date Read"]!!)
                         false -> null
                     },
             )

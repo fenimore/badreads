@@ -61,7 +61,7 @@ abstract class BookDatabase : RoomDatabase() {
         ): BookDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
-            context.deleteDatabase("books")  // TODO: delete
+            //  context.deleteDatabase("books")  // TODO: delete  # TODO: refresh on load
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
@@ -104,7 +104,7 @@ abstract class BookDatabase : RoomDatabase() {
         suspend fun populateDatabase(bookDao: BookDao) {
             // Start the app with a clean database every time.
             // Not needed if you only populate on creation.
-            bookDao.deleteAll()
+            //bookDao.deleteAll()
 
             //val author = // Deirdre Mask,"Mask, Deirdre",,"=""1250134765""","=""9781250134769""",0,4.13,St. Martin's Press,Hardcover,336,2020,2020,,2020/11/25,to-read,to-read (#100),to-read,,,,0,,,0,,,,,
 

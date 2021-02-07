@@ -32,7 +32,10 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.tabs.TabLayout
+import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -52,6 +55,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
+        val viewPager: ViewPager = findViewById(R.id.view_pager)
+        viewPager.adapter = sectionsPagerAdapter
+        val tabs: TabLayout = findViewById(R.id.tabs)
+        tabs.setupWithViewPager(viewPager)
+
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
         val adapter = BookListAdapter()
         recyclerView.adapter = adapter
@@ -60,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        bookViewModel.allBooks.observe(owner = this) { books ->
+        bookViewModel.currentShelf.observe(owner = this) { books ->
             // Update the cached copy of the books in the adapter.
             books.let { adapter.submitList(it) }
         }

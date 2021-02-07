@@ -26,7 +26,10 @@ class BookRepository(private val bookDao: BookDao) {
 
     // Room executes all queries on a separate thread.
     // Observed Flow will notify the observer when the data has changed.
-    val allWords: Flow<List<Book>> = bookDao.getAlphabetizedWords()
+    val allBooks: Flow<List<Book>> = bookDao.allBooks()
+    val readShelf: Flow<List<Book>> = bookDao.readShelf()
+    val toReadShelf: Flow<List<Book>> = bookDao.toReadShelf()
+    val currentShelf: Flow<List<Book>> = bookDao.currentShelf()
 
     // By default Room runs suspend queries off the main thread, therefore, we don't need to
     // implement anything else to ensure we're not doing long running database work
