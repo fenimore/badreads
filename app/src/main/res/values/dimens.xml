@@ -16,4 +16,12 @@ limitations under the License. -->
     <dimen name="small_padding">8dp</dimen>
     <dimen name="big_padding">16dp</dimen>
     <dimen name="min_height">48dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="standard_21">21dp</dimen>
+    <dimen name="standard_45">45dp</dimen>
+    <dimen name="standard_55">55dp</dimen>
+    <dimen name="standard_105">105dp</dimen>
+    <dimen name="standard_155">155dp</dimen>
+    <dimen name="standard_23">23dp</dimen>
+    <dimen name="standard_75">75dp</dimen>
 </resources>

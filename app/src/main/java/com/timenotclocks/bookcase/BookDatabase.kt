@@ -17,16 +17,26 @@
 package com.timenotclocks.bookcase
 
 import android.content.Context
-import android.util.Log
-import android.util.Log.INFO
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
+
+
+class Converters {
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time?.toLong()
+    }
+}
 
 
 /**
@@ -36,6 +46,7 @@ import kotlinx.coroutines.launch
 @Database(entities = [
     Book::class,
 ], version = 1)
+@TypeConverters(Converters::class)
 abstract class BookDatabase : RoomDatabase() {
 
     abstract fun bookDao(): BookDao
@@ -93,26 +104,8 @@ abstract class BookDatabase : RoomDatabase() {
         suspend fun populateDatabase(bookDao: BookDao) {
             // Start the app with a clean database every time.
             // Not needed if you only populate on creation.
-            // bookDao.deleteAll()
-            val title = "The Address Book: What Street Addresses Reveal About Identity, Race, Wealth, and Power"
-            val isbn = 1250134765
-            val isbn13 = 9781250134769
-            var book = Book(
-                    bookId = 0,
-                    title = title,
-                    coverUrl = null,
-                    isbn = isbn,
-                    isbn13 = isbn13,
-                    authorFirst = "Deirdre",
-                    authorLast = "Mask",
-                    publisher = "St. Martin's Press,Hardcover",
-                    year = 2020,
-                    originalYear = 2020,
-                    rating = null,
-                    shelf ="want to read",
-                    notes = null
-            )
-            var result = bookDao.insertBook(book)
+            bookDao.deleteAll()
+
             //val author = // Deirdre Mask,"Mask, Deirdre",,"=""1250134765""","=""9781250134769""",0,4.13,St. Martin's Press,Hardcover,336,2020,2020,,2020/11/25,to-read,to-read (#100),to-read,,,,0,,,0,,,,,
 
             //var book = Book("Hello")

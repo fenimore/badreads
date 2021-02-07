@@ -19,6 +19,12 @@ limitations under the License. -->
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></SearchView>
     <EditText
         android:id="@+id/edit_title"
         android:layout_width="match_parent"

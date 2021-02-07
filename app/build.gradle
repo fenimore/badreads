@@ -6,7 +6,7 @@ android {
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.timenotclocks.bookcase"
-        minSdkVersion 20
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -76,10 +76,12 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$rootProject.androidxJunitVersion"
 
 
-    //implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.android.volley:volley:1.1.1'
 
-    implementation "io.ktor:ktor-client-core:$ktor_version"
-    implementation "io.ktor:ktor-client-android:$ktor_version"
+    implementation 'com.beust:klaxon:5.0.1'
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.0")
+    //implementation "io.ktor:ktor-client-core:$ktor_version"
+    //implementation "io.ktor:ktor-client-android:$ktor_version"
 
 }
 

@@ -21,29 +21,39 @@
 package com.timenotclocks.bookcase
 
 import androidx.room.*
+import java.util.*
 
 /**
  * TODO: too dumb to figure out how many to many works with Room
  */
 
-@Entity(tableName = "books")
+@Entity(
+        tableName = "books",
+        indices = arrayOf(Index(value = ["title", "author"], unique = true)),
+)
 data class Book(
         @PrimaryKey(autoGenerate = true) val bookId: Long,
         @ColumnInfo(name = "title") val title: String,
-        @ColumnInfo(name = "cover_url") val coverUrl: String?,
-        @ColumnInfo(name = "isbn") val isbn: Int,
-        @ColumnInfo(name = "isbn13") val isbn13: Long,
-        @ColumnInfo(name = "authorFirst") val authorFirst: String?,
-        @ColumnInfo(name = "authorLast") val authorLast: String?,
+        @ColumnInfo(name = "coverUrl") val coverUrl: String?,
+        @ColumnInfo(name = "isbn") val isbn: Int?,
+        @ColumnInfo(name = "isbn13") val isbn13: Long?,
+        @ColumnInfo(name = "author") val author: String?,
+        @ColumnInfo(name = "authorExtras") val authorExtras: String?,
         @ColumnInfo(name = "publisher") val publisher: String?,
         @ColumnInfo(name = "year") val year: Int?,
         @ColumnInfo(name = "originalYear") val originalYear: Int?,
+        @ColumnInfo(name = "numberPages") val numberPages: Int?,
 
+
+        @ColumnInfo(name = "dateRead") val dateRead: Date?,
+        @ColumnInfo(name = "dateAdded") val dateAdded: Date?,
         @ColumnInfo(name = "rating") val rating: Int?,
         @ColumnInfo(name = "shelf") val shelf: String,
         @ColumnInfo(name = "notes") val notes: String?
 )
 
+
+//Book Id,Title,Author,Author l-f,Additional Authors,ISBN,ISBN13,My Rating,Average Rating,Publisher,Binding,Number of Pages,Year Published,Original Publication Year,Date Read,Date Added,Bookshelves,Bookshelves with positions,Exclusive Shelf,My Review,Spoiler,Private Notes,Read Count,Recommended For,Recommended By,Owned Copies,Original Purchase Date,Original Purchase Location,Condition,Condition Description,BCID
 
 /*
 

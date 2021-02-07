@@ -19,4 +19,6 @@ limitations under the License. -->
     <string name="button_save">Add</string>
     <string name="empty_not_saved">Book not saved because of missing fields.</string>
     <string name="add_word">Add book</string>
+    <string name="app_label">bookcase</string>
+    <string name="search_hint">isbn . . .</string>
 </resources>

@@ -38,14 +38,36 @@ So, we are leaving the template code in. -->
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab2"
+        android:layout_width="@dimen/standard_45"
+        android:layout_height="@dimen/standard_45"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/standard_23"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_add_black_24dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab1"
+        android:layout_width="45dp"
+        android:layout_height="@dimen/standard_45"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/standard_23"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@android:drawable/ic_menu_upload" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/add_word"
-        android:src="@drawable/ic_add_black_24dp"/>
+        android:src="@drawable/ic_add_black_24dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
