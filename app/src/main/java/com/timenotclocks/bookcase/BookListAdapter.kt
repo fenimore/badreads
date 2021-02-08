@@ -16,6 +16,8 @@
 
 package com.timenotclocks.bookcase
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,21 +25,39 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.beust.klaxon.Klaxon
+import com.google.gson.Gson
 import com.timenotclocks.bookcase.BookListAdapter.BookViewHolder
+
+
+val EXTRA_BOOK = "Bookintent"
+
+val BOOK_DETAILS = 200
 
 class BookListAdapter : ListAdapter<Book, BookViewHolder>(WORDS_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
+
         return BookViewHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val current = getItem(position)
         holder.bind(current.title)
+        holder.itemView.setOnClickListener {
+            val intent = Intent(it.context, BookView::class.java).apply {
+                //val book = Gson().toJson(current)
+                val book: String = Klaxon().toJsonString(current)
+                putExtra(EXTRA_BOOK, book)
+            }
+
+            it.context.startActivity(intent)
+        }
     }
 
     class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val wordItemView: TextView = itemView.findViewById(R.id.textView)
+
 
         fun bind(text: String?) {
             wordItemView.text = text

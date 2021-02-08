@@ -39,10 +39,10 @@ interface BookDao {
     @Query("SELECT * FROM books WHERE shelf = 'currently-reading' ORDER BY dateAdded DESC")
     fun currentShelf(): Flow<List<Book>>
 
-    @Query("SELECT * FROM books WHERE shelf = 'to-read' ORDER BY dateAdded DESC")
+    @Query("SELECT * FROM books WHERE shelf = 'read' ORDER BY dateAdded DESC")
     fun readShelf(): Flow<List<Book>>
 
-    @Query("SELECT * FROM books WHERE shelf = 'read' ORDER BY dateAdded DESC")
+    @Query("SELECT * FROM books WHERE shelf = 'to-read' ORDER BY dateAdded DESC")
     fun toReadShelf(): Flow<List<Book>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

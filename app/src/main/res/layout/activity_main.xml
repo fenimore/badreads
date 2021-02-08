@@ -49,15 +49,12 @@ So, we are leaving the template code in. -->
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
-
-
-
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary" />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:tabTextColor="#FFFFFF" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -72,6 +69,16 @@ So, we are leaving the template code in. -->
         tools:listitem="@layout/recyclerview_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab3"
+        android:layout_width="@dimen/standard_45"
+        android:layout_height="@dimen/standard_45"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/standard_23"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_baseline_delete_forever_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab2"
         android:layout_width="@dimen/standard_45"
         android:layout_height="@dimen/standard_45"
@@ -79,7 +86,7 @@ So, we are leaving the template code in. -->
         android:layout_margin="@dimen/standard_23"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_add_black_24dp" />
+        android:src="@drawable/ic_baseline_insert_drive_file_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab1"
@@ -89,7 +96,7 @@ So, we are leaving the template code in. -->
         android:layout_margin="@dimen/standard_23"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@android:drawable/ic_menu_upload" />
+        android:src="@android:drawable/ic_menu_search" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab0"
@@ -100,7 +107,7 @@ So, we are leaving the template code in. -->
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/add_word"
-        android:src="@drawable/ic_add_black_24dp"
+        android:src="@drawable/ic_baseline_menu_book_24"
         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

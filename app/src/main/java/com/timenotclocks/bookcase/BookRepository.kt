@@ -39,4 +39,8 @@ class BookRepository(private val bookDao: BookDao) {
     suspend fun insertBook(book: Book) {
         bookDao.insertBook(book)
     }
+    @WorkerThread
+    suspend fun deleteAll() {
+        bookDao.deleteAll()
+    }
 }

@@ -26,11 +26,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Request
-import com.android.volley.toolbox.StringRequest
-import com.beust.klaxon.JsonObject
-import com.beust.klaxon.Klaxon
-import java.io.StringReader
 
 /**
  * Activity for entering a word.
@@ -65,7 +60,7 @@ class NewBookActivity : AppCompatActivity() {
                     return false
                 }
                 val isbn = query.replace("-", "").toLong()
-
+/*
                 val stringRequest = StringRequest(Request.Method.GET, url + "$isbn.json",
                         { response ->
                             // Display the first 500 characters of the response string.
@@ -78,7 +73,7 @@ class NewBookActivity : AppCompatActivity() {
                         {
                             Log.i("BK","DOESNT WORK")
                         })
-                RequestQueueSingleton.getInstance(applicationContext).addToRequestQueue(stringRequest)
+                RequestQueueSingleton.getInstance(applicationContext).addToRequestQueue(stringRequest)*/
 
                 Log.i("BK","Llego al querysubmit $query?")
                 return false

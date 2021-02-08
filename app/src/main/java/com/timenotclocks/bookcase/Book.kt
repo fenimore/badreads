@@ -21,11 +21,24 @@
 package com.timenotclocks.bookcase
 
 import androidx.room.*
+import com.beust.klaxon.Converter
+import com.beust.klaxon.Json
+import com.beust.klaxon.JsonValue
+import com.beust.klaxon.KlaxonException
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
  * TODO: too dumb to figure out how many to many works with Room
  */
+
+///notes: , dateAdded: Sat Jan 09 00:00:00 EST 2021,
+// authorExtras: , year: 2019, author: Mark Miodownik,
+// isbn13: 9780544850194,
+// bookId: 4, title: Liquid Rules: The Delightful and Dangerous Substances That Flow Through Our Lives, rating: 0, numberPages: 256, originalYear: 2018, shelf: currently-reading, publisher: Houghton Mifflin Harcourt]
 
 @Entity(
         tableName = "books",
@@ -34,7 +47,6 @@ import java.util.*
 data class Book(
         @PrimaryKey(autoGenerate = true) val bookId: Long,
         @ColumnInfo(name = "title") val title: String,
-        @ColumnInfo(name = "coverUrl") val coverUrl: String?,
         @ColumnInfo(name = "isbn") val isbn: Int?,
         @ColumnInfo(name = "isbn13") val isbn13: Long?,
         @ColumnInfo(name = "author") val author: String?,
@@ -43,14 +55,34 @@ data class Book(
         @ColumnInfo(name = "year") val year: Int?,
         @ColumnInfo(name = "originalYear") val originalYear: Int?,
         @ColumnInfo(name = "numberPages") val numberPages: Int?,
-
-
-        @ColumnInfo(name = "dateRead") val dateRead: Date?,
-        @ColumnInfo(name = "dateAdded") val dateAdded: Date?,
+        @KlaxonDate @ColumnInfo(name = "dateRead") val dateRead: LocalDate?,
+        @KlaxonDate @ColumnInfo(name = "dateAdded") val dateAdded: LocalDate?,
         @ColumnInfo(name = "rating") val rating: Int?,
         @ColumnInfo(name = "shelf") val shelf: String,
         @ColumnInfo(name = "notes") val notes: String?
 )
+
+@Target(AnnotationTarget.FIELD)
+annotation class KlaxonDate
+
+val dateConverter = object: Converter {
+    var formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    //val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US)
+
+    override fun canConvert(cls: Class<*>)
+            = cls == Date::class.java
+
+    override fun fromJson(jv: JsonValue) =
+            if (jv.string != null) {  // ugh
+                LocalDate.parse(jv.string, formatter)
+            } else {
+                null
+            }
+
+    override fun toJson(o: Any)
+                =
+            """ { "date" : $o } """
+}
 
 
 //Book Id,Title,Author,Author l-f,Additional Authors,ISBN,ISBN13,My Rating,Average Rating,Publisher,Binding,Number of Pages,Year Published,Original Publication Year,Date Read,Date Added,Bookshelves,Bookshelves with positions,Exclusive Shelf,My Review,Spoiler,Private Notes,Read Count,Recommended For,Recommended By,Owned Copies,Original Purchase Date,Original Purchase Location,Condition,Condition Description,BCID

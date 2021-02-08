@@ -17,24 +17,33 @@
 package com.timenotclocks.bookcase
 
 import android.content.Context
+import android.util.Log
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
 class Converters {
-    @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
-    }
+    var formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
+    fun fromDateString(value: String?): LocalDate? {
+        if (value != "null" && value != null) {
+            return LocalDate.parse(value, formatter)
+        }
+        return null  // this is dumb
+    }
+
+
+    @TypeConverter
+    fun toDateString(date: LocalDate?): String? {
+        return date.toString()
     }
 }
 
@@ -56,17 +65,17 @@ abstract class BookDatabase : RoomDatabase() {
         private var INSTANCE: BookDatabase? = null
 
         fun getDatabase(
-            context: Context,
-            scope: CoroutineScope
+                context: Context,
+                scope: CoroutineScope
         ): BookDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
-            //  context.deleteDatabase("books")  // TODO: delete  # TODO: refresh on load
+            //context.deleteDatabase("books")  // TODO: delete  # TODO: refresh on load
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    BookDatabase::class.java,
-                    "books"
+                        context.applicationContext,
+                        BookDatabase::class.java,
+                        "books"
                 )
                     // Wipes and rebuilds instead of migrating if no Migration object.
                     // Migration is not part of this codelab.
@@ -80,7 +89,7 @@ abstract class BookDatabase : RoomDatabase() {
         }
 
         private class BookDatabaseCallback(
-            private val scope: CoroutineScope
+                private val scope: CoroutineScope
         ) : RoomDatabase.Callback() {
             /**
              * Override the onCreate method to populate the database.

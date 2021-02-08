@@ -4,6 +4,9 @@ import android.util.Log
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import java.io.InputStream
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
 import java.util.*
 
 
@@ -22,12 +25,12 @@ class GoodReadImport {
 
             val title = row.get("Title") ?: continue
 
-            val formatter = SimpleDateFormat("yyyy/MM/dd", Locale.US)
+            //val formatter = SimpleDateFormat("yyyy/MM/dd", Locale.US)
+            var formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
 
             val book = Book(
                     bookId = 0,
                     title = title,
-                    coverUrl = null,
                     isbn = when(!row["ISBN"].isNullOrEmpty()) {
                         true -> row["ISBN"]!!.drop(2).dropLast(1).toIntOrNull()
                         false -> null
@@ -45,13 +48,13 @@ class GoodReadImport {
                     rating = row["My Rating"]?.toIntOrNull(),
                     shelf =row.getOrDefault("Exclusive Shelf", "to-read"),
                     notes = row["My Review"],
-                    dateAdded = when(!row["Date Added"].isNullOrEmpty()) {
-                        true -> formatter.parse(row["Date Added"]!!)
+                    dateAdded = when(!row["Date Added"].isNullOrEmpty() && row["Date Added"] != "null") {
+                        true -> LocalDate.parse(row["Date Added"], formatter)
                         false -> null
 
                     },
-                    dateRead = when(!row["Date Read"].isNullOrBlank()) {
-                        true -> formatter.parse(row["Date Read"]!!)
+                    dateRead = when(!row["Date Read"].isNullOrBlank() && row["Date Read"] != "null") {
+                        true -> LocalDate.parse(row["Date Read"], formatter)
                         false -> null
                     },
             )
