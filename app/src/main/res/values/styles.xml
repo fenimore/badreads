@@ -22,21 +22,4 @@ limitations under the License. -->
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- The default font for RecyclerView items is too small.
-    The margin is a simple delimiter between the words. // TODO  reimplement-->
-
-    <style name="book_entry">
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:paddingLeft">8dp</item>
-
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline5</item>
-    </style>
-
-    <style name="edit_mystery">
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:background">@null</item>
-        <item name="android:textAppearance">@android:style/TextAppearance.Material.Body1</item>
-        <item name="android:inputType">textNoSuggestions|textMultiLine</item>
-    </style>
 </resources>

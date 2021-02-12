@@ -31,18 +31,19 @@ import androidx.appcompat.app.AppCompatActivity
 
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.timenotclocks.bookcase.api.GoodReadImport
 import com.timenotclocks.bookcase.database.BooksApplication
 import com.timenotclocks.bookcase.database.BookViewModel
 import com.timenotclocks.bookcase.database.BookViewModelFactory
 import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
+import java.io.InputStream
 
 
 class MainActivity : AppCompatActivity()  {
 
-    private val goodReadsImport = 2
-
+    private val goodReadsImport = 20
     private val bookViewModel: BookViewModel by viewModels {
         BookViewModelFactory((application as BooksApplication).repository)
     }
@@ -65,15 +66,18 @@ class MainActivity : AppCompatActivity()  {
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
-
-        val fab0: FloatingActionButton = findViewById<FloatingActionButton>(R.id.fab0)
-        fab0.setOnClickListener {}
+        Log.i("BK", bookViewModel.allBooks.toString())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_search -> {
                 val intent = Intent(applicationContext, SearchActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.menu_settings -> {
+                val intent = Intent(applicationContext, SettingsActivity::class.java)
                 startActivity(intent)
                 return true
             }
@@ -114,36 +118,25 @@ class MainActivity : AppCompatActivity()  {
         }
     }
 
-    // TODO: either handler or remove
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intentData)
-        if (requestCode == goodReadsImport && resultCode == Activity.RESULT_OK) {
-
-            if (intentData?.data == null) {
-                Log.i("BK", "Nothing to report")
-                return
-            }
-
-            val uri: Uri? = intentData?.data
-            if (uri != null) {
-                val inputStream = contentResolver.openInputStream(uri)
-                if (inputStream != null){
-                    val books = GoodReadImport().serialize(inputStream)
-                    books.forEach {
-                        Log.i("BK", it.toString())
-                        bookViewModel.insert(it)
-                    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == goodReadsImport && resultCode == RESULT_OK) {
+            val uri: Uri? = data?.data
+            uri?.let {
+                contentResolver.openInputStream(it)?.let {
+                    inputStream ->
+                    val imports = GoodReadImport().serialize(inputStream)
+                    // TODO: add batch import
+                    imports.map { book -> bookViewModel.insert(book)}
+                    Snackbar.make(
+                            findViewById(R.id.activity_main_layout),
+                            "You've added ${imports.size} books",
+                            Snackbar.LENGTH_LONG
+                    ).setAction("Action", null).show()
                 }
             }
         }
 
-//        if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
-//            intentData?.getStringExtra(SearchActivity.EXTRA_REPLY)?.let { reply ->
-//                //val book = Book(reply)
-//                //bookViewModel.insert(book)
-//            }
-//        }
-
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }
 

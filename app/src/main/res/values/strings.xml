@@ -36,14 +36,11 @@ limitations under the License. -->
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_search_book_activity">Badreads Search</string>
     <string name="title_activity_book_edit">Edit Book</string>
-    <string name="hello_world">Hello Square World!</string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
-    <string-array name="shelf_spinner">
-        <item>to-read</item>
-        <item>currently-reading</item>
-        <item>read</item>
-    </string-array>
+
+    <string name="title_activity_settings">Settings</string>
+    <string name="library_header">Library</string>
+    <!-- Preference Titles -->
+    <string name="library_name_title">Library Name</string>
+    <string name="dark_mode_title">Dark mode</string>
+
 </resources>

@@ -55,47 +55,31 @@ class BookViewActivity : AppCompatActivity() {
             )
         }
 
-        val titleEdit = findViewById<EditText>(R.id.book_view_title)
-        book?.title.let {titleEdit.setText(it)}
-        titleEdit.doAfterTextChanged { editable -> book?.title = editable.toString()}
+        val titleView = findViewById<TextView>(R.id.book_view_title)
+        book?.title.let {titleView.setText(it)}
 
-        val subTitleEdit = findViewById<EditText>(R.id.book_view_subtitle)
-        book?.subtitle.let {subTitleEdit.setText(it)}
-        subTitleEdit.doAfterTextChanged { editable -> book?.subtitle = editable.toString()}
+        val subTitleView = findViewById<TextView>(R.id.book_view_subtitle)
+        book?.subtitle.let {subTitleView.setText(it)}
 
-        val authorEdit = findViewById<EditText>(R.id.author)
-        book?.author.let {authorEdit.setText(it)}
-        authorEdit.doAfterTextChanged { editable -> book?.author = editable.toString()}
+        val authorView = findViewById<TextView>(R.id.author)
+        book?.author.let {authorView.setText(it)}
 
-        val isbn10Edit = findViewById<EditText>(R.id.book_view_isbn10)
-        book?.isbn10?.let {isbn10Edit.setText(it.toString())}
-        isbn10Edit.doAfterTextChanged { editable -> book?.isbn10 = editable.toString()}
+        val isbn10View = findViewById<TextView>(R.id.book_view_isbn10)
+        book?.isbn10?.let {isbn10View.setText(it.toString())}
 
-        val isbn13Edit = findViewById<EditText>(R.id.book_view_isbn13)
-        book?.isbn13?.let {isbn13Edit.setText(it.toString())}
-        isbn13Edit.doAfterTextChanged { editable -> book?.isbn13 = editable.toString()}
+        val isbn13View = findViewById<TextView>(R.id.book_view_isbn13)
+        book?.isbn13?.let {isbn13View.setText(it.toString())}
 
-        val publisherEdit = findViewById<EditText>(R.id.book_view_publisher)
-        book?.publisher?.let {publisherEdit.setText(it.toString())}
-        publisherEdit.doAfterTextChanged { book?.publisher = it.toString()}
+        val publisherView = findViewById<TextView>(R.id.book_view_publisher)
+        book?.publisher?.let {publisherView.setText(it.toString())}
 
-        val yearEdit = findViewById<EditText>(R.id.book_view_year)
-        book?.year?.let {yearEdit.setText(it.toString())}
-        yearEdit.doAfterTextChanged { editable ->
-            editable.toString().toIntOrNull().let {
-                if (it is Int) {book?.year = it}
-            }
-        }
+        val yearView = findViewById<TextView>(R.id.book_view_year)
+        book?.year?.let {yearView.setText(it.toString())}
 
-        val originalYearEdit = findViewById<EditText>(R.id.book_view_original_year)
-        book?.originalYear?.let {originalYearEdit.setText((it.toString()))}
-        originalYearEdit.doAfterTextChanged { editable ->
-            editable.toString().toIntOrNull().let {
-                if (it is Int) {book?.originalYear = it}
-            }
-        }
+        val originalYearView = findViewById<TextView>(R.id.book_view_original_year)
+        book?.originalYear?.let {originalYearView.setText((it.toString()))}
 
-        val shelfSpinner = findViewById<Spinner>(R.id.shelf_spinner)
+        val shelfSpinner = findViewById<Spinner>(R.id.book_view_shelf_spinner)
         ArrayAdapter.createFromResource(
                 this,
                 R.array.shelf_spinner,
@@ -118,15 +102,16 @@ class BookViewActivity : AppCompatActivity() {
         }
         shelfSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                when(position) {
-                    0 -> {
-                        book?.shelf = "to-read"
-                    }
-                    1 -> {
-                        book?.shelf = "currently-reading"
-                    }
-                    2 -> {
-                        book?.shelf = "read"
+                book?.let {
+                    var shelves: Array<String> = resources.getStringArray(R.array.shelf_spinner)
+                    if (it.shelf != shelves[position]) {
+                        it.shelf = shelves[position]
+                        bookViewModel.update(it)
+                        Snackbar.make(
+                                findViewById(R.id.book_view_activity),
+                                "You've shelved ${it.title}",
+                                Snackbar.LENGTH_LONG
+                        ).setAction("Action", null).show()
                     }
                 }
             }
@@ -135,15 +120,20 @@ class BookViewActivity : AppCompatActivity() {
 
         val ratingBar = findViewById<RatingBar>(R.id.book_view_rating_bar)
         book?.rating?.let {ratingBar.setRating(it.toFloat())}
-        ratingBar.onRatingBarChangeListener = object : RatingBar.OnRatingBarChangeListener {
-            override fun onRatingChanged(ratingBar: RatingBar?, rating: Float, fromUser: Boolean) {
-                book?.rating = rating.toInt()
-            }
+        ratingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener {
+            rateBar, rating, fromUser ->
+            book?.rating = rating.toInt()
+            book?.let {bookViewModel.update(it)}
+            Snackbar.make(
+                    findViewById(R.id.book_view_activity),
+                    "Your new rating has been recorded",
+                    Snackbar.LENGTH_LONG
+            ).setAction("Action", null).show()
         }
 
-        val notesEdit = findViewById<EditText>(R.id.book_view_notes)
-        book?.notes?.let {notesEdit.setText(it)}
-        notesEdit.doAfterTextChanged { book?.notes = it.toString()}
+        val notesView = findViewById<TextView>(R.id.book_view_notes)
+        book?.notes?.let {notesView.setText(it)}
+        notesView.doAfterTextChanged { book?.notes = it.toString()}
 
     }
 

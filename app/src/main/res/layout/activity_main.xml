@@ -24,6 +24,7 @@ So, we are leaving the template code in. -->
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/activity_main_layout"
     tools:context=".MainActivity">
 
 
@@ -63,50 +64,8 @@ So, we are leaving the template code in. -->
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/fab0"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:listitem="@layout/recyclerview_item" />
-
-    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab3"
-        android:layout_width="@dimen/standard_45"
-        android:layout_height="@dimen/standard_45"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/standard_23"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_baseline_delete_forever_24" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab2"
-        android:layout_width="@dimen/standard_45"
-        android:layout_height="@dimen/standard_45"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/standard_23"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_baseline_insert_drive_file_24" />-->
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab1"
-        android:layout_width="45dp"
-        android:layout_height="@dimen/standard_45"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/standard_23"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@android:drawable/ic_menu_search" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/add_word"
-        android:src="@drawable/ic_baseline_menu_book_24"
-        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

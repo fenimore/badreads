@@ -11,36 +11,38 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SearchActivity"
             android:label="@string/title_search_book_activity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            />
         <activity
             android:name=".BookViewActivity"
             android:label="@string/title_activity_book_view"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-
+            />
         <activity
             android:name=".BookEditActivity"
             android:label="@string/title_activity_book_edit"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            />
 
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

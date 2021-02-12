@@ -57,7 +57,7 @@ class GoodReadImport {
                     notes = row["My Review"],
                     dateAdded = when(!row["Date Added"].isNullOrEmpty() && row["Date Added"] != "null") {
                         true -> LocalDate.parse(row["Date Added"], formatter)
-                        false -> null
+                        false -> LocalDate.now()
 
                     },
                     dateRead = when(!row["Date Read"].isNullOrBlank() && row["Date Read"] != "null") {

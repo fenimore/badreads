@@ -52,11 +52,14 @@ class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
     companion object {
         private val SEARCH_COMPARATOR = object : DiffUtil.ItemCallback<Book>() {
             override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
+                Log.i("BK", "WTF")
                 return oldItem === newItem
             }
 
             override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
-                return oldItem.title == newItem.title && oldItem.bookId == newItem.bookId
+                Log.i("BK", "WTF")
+                return oldItem.title == newItem.title
+                        && oldItem.bookId == newItem.bookId
                         && oldItem.isbn13 == newItem.isbn13
             }
         }
