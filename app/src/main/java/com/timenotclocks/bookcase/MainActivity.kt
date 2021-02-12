@@ -17,16 +17,14 @@
 package com.timenotclocks.bookcase
 
 import android.app.Activity
-import android.app.PendingIntent.getActivity
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.DocumentsContract
 import android.util.Log
-import android.view.View
-import android.widget.Toast
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -34,28 +32,34 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
+import com.timenotclocks.bookcase.api.GoodReadImport
+import com.timenotclocks.bookcase.database.BooksApplication
+import com.timenotclocks.bookcase.database.BookViewModel
+import com.timenotclocks.bookcase.database.BookViewModelFactory
 import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
-import kotlinx.coroutines.NonCancellable.cancel
-import java.io.BufferedInputStream
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.nio.Buffer
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity()  {
 
-    private val newWordActivityRequestCode = 1
     private val goodReadsImport = 2
 
     private val bookViewModel: BookViewModel by viewModels {
         BookViewModelFactory((application as BooksApplication).repository)
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        application
 
+        setSupportActionBar(findViewById(R.id.toolbar))
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
@@ -63,39 +67,32 @@ class MainActivity : AppCompatActivity() {
         tabs.setupWithViewPager(viewPager)
 
         val fab0: FloatingActionButton = findViewById<FloatingActionButton>(R.id.fab0)
-        val fab1: FloatingActionButton = findViewById<FloatingActionButton>(R.id.fab1)
-        val fab2: FloatingActionButton = findViewById<FloatingActionButton>(R.id.fab2)
-        val fab3: FloatingActionButton = findViewById<FloatingActionButton>(R.id.fab3)
-        var isFABOpen = false
-        fab0.setOnClickListener {
-            if (!isFABOpen) {
-                isFABOpen = true
-                fab1.animate().translationY(-resources.getDimension(R.dimen.standard_75))
-                fab2.animate().translationY(-resources.getDimension(R.dimen.standard_155))
-                fab3.animate().translationY(-resources.getDimension(R.dimen.standard_230))
-            } else {
-                isFABOpen = false
+        fab0.setOnClickListener {}
+    }
 
-                fab1.animate().translationY(0F)
-                fab2.animate().translationY(0F)
-                fab3.animate().translationY(0F)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_search -> {
+                val intent = Intent(applicationContext, SearchActivity::class.java)
+                startActivity(intent)
+                return true
             }
-        }
-        fab1.setOnClickListener {
-            val intent = Intent(this@MainActivity, NewBookActivity::class.java)
-            startActivityForResult(intent, newWordActivityRequestCode)
-        }
-        fab2.setOnClickListener {
-            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-            }
-            intent.type = "text/*"
+            R.id.menu_import -> {
+                val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                }
+                intent.type = "text/*"
 
-            startActivityForResult(intent, goodReadsImport)
-        }
-        fab3.setOnClickListener {
-            val alertDialog: AlertDialog? = this?.let {
-                val builder = AlertDialog.Builder(it)
+                // TODO: add a confirmation
+                startActivityForResult(intent, goodReadsImport)
+                return true
+            }
+            R.id.menu_export -> {
+                true
+            }
+            R.id.menu_delete -> {
+                Log.i("BK", "Deleting data")
+                val builder: AlertDialog.Builder = AlertDialog.Builder(this)
                 builder.apply {
                     setPositiveButton("OK",
                             DialogInterface.OnClickListener { dialog, id ->
@@ -107,15 +104,17 @@ class MainActivity : AppCompatActivity() {
                                 // User cancelled the dialog
                             })
                 }
-                builder.setTitle("Delete All Your Data!?")
-                builder.setMessage("This cannot be undone.")
+                builder.setTitle("Delete")
+                builder.setMessage("Delete all your data? (This cannot be undone)")
                 builder.create()
+                builder.show()
+                return true
             }
-            alertDialog?.show()
+            else -> super.onOptionsItemSelected(item)
         }
-
     }
 
+    // TODO: either handler or remove
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
         if (requestCode == goodReadsImport && resultCode == Activity.RESULT_OK) {
@@ -138,19 +137,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.getStringExtra(NewBookActivity.EXTRA_REPLY)?.let { reply ->
-                //val book = Book(reply)
-                //bookViewModel.insert(book)
-            }
-        }
-
-        // TODO: update this
-        Toast.makeText(
-                applicationContext,
-                R.string.empty_not_saved,
-                Toast.LENGTH_LONG
-        ).show()
+//        if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
+//            intentData?.getStringExtra(SearchActivity.EXTRA_REPLY)?.let { reply ->
+//                //val book = Book(reply)
+//                //bookViewModel.insert(book)
+//            }
+//        }
 
     }
 }

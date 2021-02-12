@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.timenotclocks.bookcase
+package com.timenotclocks.bookcase.database
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+
 
 /**
  * The Room Magic is in this file, where you map a method call to an SQL query.
@@ -29,7 +30,7 @@ import kotlinx.coroutines.flow.Flow
  */
 
 @Dao
-interface BookDao {
+public interface BookDao {
 
     // The flow always holds/caches latest version of data. Notifies its observers when the
     // data has changed.
@@ -48,9 +49,17 @@ interface BookDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertBook(book: Book)
 
+    @Delete
+    suspend fun delete(book: Book)
+
     @Query("DELETE FROM books")
     suspend fun deleteAll()
 
+    @Update
+    suspend fun update(book: Book)
+
     @Query("SELECT * FROM books")
     fun getBooks(): Flow<List<Book>>
+
+
 }

@@ -1,4 +1,4 @@
-package com.timenotclocks.bookcase
+package com.timenotclocks.bookcase.api
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -7,14 +7,6 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.Volley
-
-// Get a RequestQueue
-// val queue = MySingleton.getInstance(this.applicationContext).requestQueue
-
-// ...
-
-// Add a request (in this example, called stringRequest) to your RequestQueue.
-// MySingleton.getInstance(this).addToRequestQueue(stringRequest)
 
 
 class RequestQueueSingleton constructor(context: Context) {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.timenotclocks.bookcase
+package com.timenotclocks.bookcase.database
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -43,9 +43,15 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
      * Launching a new coroutine to insert the data in a non-blocking way
      */
     fun insert(book: Book) = viewModelScope.launch {
-        // TODO: do some operations
-
         repository.insertBook(book)
+    }
+
+    fun delete(book: Book) = viewModelScope.launch {
+        repository.delete(book)
+    }
+
+    fun update(book: Book) = viewModelScope.launch {
+        repository.update(book)
     }
 
     fun deleteAll() = viewModelScope.launch {

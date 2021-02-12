@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.timenotclocks.bookcase
+package com.timenotclocks.bookcase.database
 
 import android.content.Context
-import android.util.Log
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
 
@@ -26,7 +25,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class Converters {

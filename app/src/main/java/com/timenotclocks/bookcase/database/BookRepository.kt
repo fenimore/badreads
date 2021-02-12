@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.timenotclocks.bookcase
+package com.timenotclocks.bookcase.database
 
 import androidx.annotation.WorkerThread
+import com.timenotclocks.bookcase.database.Book
+import com.timenotclocks.bookcase.database.BookDao
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -38,6 +40,14 @@ class BookRepository(private val bookDao: BookDao) {
     @WorkerThread
     suspend fun insertBook(book: Book) {
         bookDao.insertBook(book)
+    }
+    @WorkerThread
+    suspend fun delete(book: Book) {
+        bookDao.delete(book)
+    }
+    @WorkerThread
+    suspend fun update(book: Book) {
+        bookDao.update(book)
     }
     @WorkerThread
     suspend fun deleteAll() {

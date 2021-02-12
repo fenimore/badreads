@@ -15,7 +15,7 @@ limitations under the License. -->
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppTheme" parent="AppTheme.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -25,17 +25,18 @@ limitations under the License. -->
     <!-- The default font for RecyclerView items is too small.
     The margin is a simple delimiter between the words. // TODO  reimplement-->
 
-    <style name="word_title">
+    <style name="book_entry">
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:paddingLeft">8dp</item>
-        <item name="android:background">@android:color/holo_orange_light</item>
-        <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
+
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline5</item>
     </style>
 
     <style name="edit_mystery">
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:paddingLeft">8dp</item>
         <item name="android:background">@null</item>
-        <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Body1</item>
+        <item name="android:inputType">textNoSuggestions|textMultiLine</item>
     </style>
 </resources>

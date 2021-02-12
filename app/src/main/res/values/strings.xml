@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. -->
 
 <resources>
-    <string name="app_name">Litrate</string>
+    <string name="app_name">Badreads</string>
     <string name="action_settings">Settings</string>
     <string name="hint_word">The Bible . . .</string>
     <string name="button_save">Add</string>
@@ -22,9 +22,9 @@ limitations under the License. -->
     <string name="app_label">bookcase</string>
     <string name="search_hint">isbn . . .</string>
     <string name="title_activity_main2">MainActivity2</string>
-    <string name="tab_text_1">Current</string>
+    <string name="tab_text_1">Reading</string>
     <string name="tab_text_2">Read</string>
-    <string name="tab_text_3">Reading List</string>
+    <string name="tab_text_3">To Read</string>
     <string name="title_activity_book_view">BookView</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -34,4 +34,16 @@ limitations under the License. -->
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_search_book_activity">Badreads Search</string>
+    <string name="title_activity_book_edit">Edit Book</string>
+    <string name="hello_world">Hello Square World!</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string-array name="shelf_spinner">
+        <item>to-read</item>
+        <item>currently-reading</item>
+        <item>read</item>
+    </string-array>
 </resources>

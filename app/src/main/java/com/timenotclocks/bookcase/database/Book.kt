@@ -18,16 +18,12 @@
  * limitations under the License.
  */
 
-package com.timenotclocks.bookcase
+package com.timenotclocks.bookcase.database
 
 import androidx.room.*
 import com.beust.klaxon.Converter
-import com.beust.klaxon.Json
 import com.beust.klaxon.JsonValue
-import com.beust.klaxon.KlaxonException
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -46,20 +42,21 @@ import java.util.*
 )
 data class Book(
         @PrimaryKey(autoGenerate = true) val bookId: Long,
-        @ColumnInfo(name = "title") val title: String,
-        @ColumnInfo(name = "isbn") val isbn: Int?,
-        @ColumnInfo(name = "isbn13") val isbn13: Long?,
-        @ColumnInfo(name = "author") val author: String?,
-        @ColumnInfo(name = "authorExtras") val authorExtras: String?,
-        @ColumnInfo(name = "publisher") val publisher: String?,
-        @ColumnInfo(name = "year") val year: Int?,
-        @ColumnInfo(name = "originalYear") val originalYear: Int?,
-        @ColumnInfo(name = "numberPages") val numberPages: Int?,
-        @KlaxonDate @ColumnInfo(name = "dateRead") val dateRead: LocalDate?,
-        @KlaxonDate @ColumnInfo(name = "dateAdded") val dateAdded: LocalDate?,
-        @ColumnInfo(name = "rating") val rating: Int?,
-        @ColumnInfo(name = "shelf") val shelf: String,
-        @ColumnInfo(name = "notes") val notes: String?
+        @ColumnInfo(name = "title") var title: String,
+        @ColumnInfo(name = "subtitle") var subtitle: String?,
+        @ColumnInfo(name = "isbn10") var isbn10: String?,
+        @ColumnInfo(name = "isbn13") var isbn13: String?,
+        @ColumnInfo(name = "author") var author: String?,
+        @ColumnInfo(name = "authorExtras") var authorExtras: String?,
+        @ColumnInfo(name = "publisher") var publisher: String?,
+        @ColumnInfo(name = "year") var year: Int?,
+        @ColumnInfo(name = "originalYear") var originalYear: Int?,
+        @ColumnInfo(name = "numberPages") var numberPages: Int?,
+        @KlaxonDate @ColumnInfo(name = "dateRead") var dateRead: LocalDate?,
+        @KlaxonDate @ColumnInfo(name = "dateAdded") var dateAdded: LocalDate?,
+        @ColumnInfo(name = "rating") var rating: Int?,
+        @ColumnInfo(name = "shelf") var shelf: String,
+        @ColumnInfo(name = "notes") var notes: String?
 )
 
 @Target(AnnotationTarget.FIELD)

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BookViewActivity"
-    android:id="@+id/book_view_activity">
+    tools:context=".BookEditActivity"
+    android:id="@+id/book_edit_activity">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
-                >
+        >
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -32,7 +32,7 @@
         android:paddingBottom="10dp">
 
 
-    <include layout="@layout/book_view_content" />
+        <include layout="@layout/book_edit_content" />
     </ScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
