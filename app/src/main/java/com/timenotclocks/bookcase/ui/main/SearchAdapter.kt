@@ -16,7 +16,7 @@ import com.timenotclocks.bookcase.database.Book
 
 class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
 
-    // Create new views (invoked by the layout manager)
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SearchViewHolder {
         Log.i("BK", "Search Create view Holder")
         return SearchViewHolder.create(viewGroup)
@@ -52,17 +52,29 @@ class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
     companion object {
         private val SEARCH_COMPARATOR = object : DiffUtil.ItemCallback<Book>() {
             override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
-                Log.i("BK", "WTF")
+                Log.i("BK", "DUHH $oldItem and=== $newItem")
                 return oldItem === newItem
             }
 
             override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
-                Log.i("BK", "WTF")
+                Log.i("BK", "$oldItem and $newItem")
                 return oldItem.title == newItem.title
                         && oldItem.bookId == newItem.bookId
                         && oldItem.isbn13 == newItem.isbn13
+                        && oldItem.isbn10 == newItem.isbn10
+                        && oldItem.numberPages == newItem.numberPages
+                        && oldItem.author == newItem.author
+                        && oldItem.authorExtras == newItem.authorExtras
+                        && oldItem.notes == newItem.notes
+                        && oldItem.year == newItem.year
+                        && oldItem.originalYear == newItem.originalYear
             }
         }
     }
+
+    override fun submitList(list: List<Book>?) {
+        super.submitList(list?.let { ArrayList(it) })
+    }
+
 }
 

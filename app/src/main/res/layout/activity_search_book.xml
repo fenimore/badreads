@@ -34,7 +34,7 @@
         android:paddingStart="16dp"
         />
     <SearchView
-        android:id="@+id/search_view"
+        android:id="@+id/search_bar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:queryHint="Search for a book"
@@ -48,6 +48,14 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:padding="16dp"
         android:id="@+id/num_results_view"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:padding="16dp"
+        android:id="@+id/test_search_View"
         />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -43,7 +43,6 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
                 val book: String = Klaxon().toJsonString(current)
                 putExtra(EXTRA_BOOK, book)
             }
-
             it.context.startActivity(intent)
         }
     }
