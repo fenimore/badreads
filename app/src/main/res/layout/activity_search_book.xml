@@ -45,14 +45,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-        android:padding="16dp"
+        android:padding="8dp"
         android:id="@+id/num_results_view"
         />
     <ProgressBar
         android:id="@+id/search_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
+        android:layout_gravity="center"
         />
 
     <androidx.recyclerview.widget.RecyclerView

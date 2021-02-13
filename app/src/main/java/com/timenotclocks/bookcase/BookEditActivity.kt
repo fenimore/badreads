@@ -14,6 +14,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.LiveData
 import com.beust.klaxon.Klaxon
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -24,6 +25,9 @@ import com.timenotclocks.bookcase.database.dateConverter
 import com.timenotclocks.bookcase.database.BookViewModel
 import com.timenotclocks.bookcase.database.BookViewModelFactory
 import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
+import com.timenotclocks.bookcase.ui.main.EXTRA_OPEN_LIBRARY_SEARCH
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 
 
 class BookEditActivity : AppCompatActivity() {
@@ -47,8 +51,22 @@ class BookEditActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val bookInfo: String = intent.extras?.get(EXTRA_BOOK).toString()
-
         book = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).parse<Book>(bookInfo)
+
+        val searchExtra: Boolean = intent.extras?.getBoolean(EXTRA_OPEN_LIBRARY_SEARCH) ?: false
+        if (searchExtra) {
+            Log.i("BK", "Got the extra!")
+            //val alike = createIfDoesntExist(it)
+            book?.let {
+                bookViewModel.insert(it)
+                Snackbar.make(
+                        findViewById(R.id.book_edit_activity),
+                        "You've added ${it.title} to your library",
+                        Snackbar.LENGTH_LONG
+                ).setAction("Action", null).show()
+            }
+
+        }
 
         if (book?.isbn13 != null) {
             val url = "https://covers.openlibrary.org/b/isbn/${book?.isbn13}-L.jpg?default=false"
@@ -67,11 +85,11 @@ class BookEditActivity : AppCompatActivity() {
         titleEdit.doAfterTextChanged { editable -> book?.title = editable.toString()}
 
         val subTitleEdit = findViewById<EditText>(R.id.book_view_subtitle)
-        book?.subtitle.let {subTitleEdit.setText(it)}
+        book?.subtitle?.let {subTitleEdit.setText(it)}
         subTitleEdit.doAfterTextChanged { editable -> book?.subtitle = editable.toString()}
 
         val authorEdit = findViewById<EditText>(R.id.author)
-        book?.author.let {authorEdit.setText(it)}
+        book?.author?.let {authorEdit.setText(it)}
         authorEdit.doAfterTextChanged { editable -> book?.author = editable.toString()}
 
         val isbn10Edit = findViewById<EditText>(R.id.book_view_isbn10)
@@ -183,4 +201,9 @@ class BookEditActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
+
+    private fun createIfDoesntExist(book: Book): List<Book> {
+        return bookViewModel.findAlike(book.title, book.isbn10, book.isbn13)
+    }
+
 }

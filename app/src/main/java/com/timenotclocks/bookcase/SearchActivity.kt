@@ -59,34 +59,13 @@ class SearchActivity : AppCompatActivity() {
         recyclerView?.layoutManager = LinearLayoutManager(applicationContext)
     }
 
-
     override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet): View? {
-        val single_book = listOf<Book>(Book(
-                bookId = 0,
-                title = "One Thousand and One Winning Chess Sacrifices and Combinations",
-                subtitle = "A Random Subtitle",
-                isbn10 = "123458690",
-                isbn13 = " 9780879801113",
-                author = "My author",
-                authorExtras = null,
-                publisher = "Shorman",
-                year = 2009,
-                originalYear = 2009,
-                numberPages = 10,
-                rating = 0,
-                shelf = "to-read",
-                notes = null,
-                dateAdded = LocalDate.now(),
-                dateRead = null,
-        ))
-        adapter.submitList(single_book)
-
         val searchView = parent?.findViewById<SearchView>(R.id.search_bar_view)
         val progressBar = parent?.findViewById<ProgressBar>(R.id.search_progress_bar)
         val numResultsView = parent?.findViewById<TextView>(R.id.num_results_view)
         searchView?.requestFocus()
         searchViewModel.numResults.observe(this, Observer<Int> {
-            progressBar?.visibility = View.INVISIBLE
+            progressBar?.visibility = View.GONE
             it?.let {
                 when {
                     it > 100 -> {numResultsView?.text = "Showing 100 results of $it"}
@@ -96,8 +75,10 @@ class SearchActivity : AppCompatActivity() {
             }
         })
         searchViewModel.getSearches().observe(this, Observer<List<Book>> {
-            progressBar?.visibility = View.INVISIBLE
-            it?.let { adapter.submitList(it) }
+            progressBar?.visibility = View.GONE
+            it?.let {
+                adapter.submitList(ArrayList(it))
+            }
         })
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -111,7 +92,6 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                Log.i("BK", "Checking for something")
                 return true
             }
         })

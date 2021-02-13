@@ -47,6 +47,7 @@ internal class SearchViewModel(application: Application) : AndroidViewModel(appl
                         val books: List<Book> = serializeSearchResults(results)
                         searches.setValue(books)
                     } else {
+                        numResults.value = 0
                         searches.setValue(emptyList<Book>())
                         Log.e("BK", "No results :(")
                     }
@@ -78,7 +79,7 @@ internal class SearchViewModel(application: Application) : AndroidViewModel(appl
                     author = author,
                     authorExtras = authorExtras,
                     publisher = publisher,
-                    year = year,  // TODO figure out how to save dates months
+                    year = year,
                     originalYear = originalYear,
                     numberPages = null,
                     rating = null,

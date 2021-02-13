@@ -2,6 +2,8 @@
 
 package com.timenotclocks.bookcase.ui.main
 
+import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +13,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.beust.klaxon.Klaxon
 import com.squareup.picasso.Picasso
+import com.timenotclocks.bookcase.BookEditActivity
 import com.timenotclocks.bookcase.R
 import com.timenotclocks.bookcase.ui.main.SearchAdapter.SearchViewHolder
 import com.timenotclocks.bookcase.database.Book
 
-class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
+val EXTRA_OPEN_LIBRARY_SEARCH = "open_library_search_extra"
 
+
+class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SearchViewHolder {
         return SearchViewHolder.create(viewGroup)
@@ -28,6 +34,16 @@ class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
         val current = getItem(position)
 
         viewHolder.bindTo(current)
+        viewHolder.itemView.setOnClickListener {
+            Log.i("BK", "Yanke")
+            val intent = Intent(it.context, BookEditActivity::class.java).apply {
+
+                val book: String = Klaxon().toJsonString(current)
+                putExtra(EXTRA_BOOK, book)
+                putExtra(EXTRA_OPEN_LIBRARY_SEARCH, true)
+            }
+            it.context.startActivity(intent)
+        }
     }
 
     class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -52,23 +68,8 @@ class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
 
             book.isbn13?.let {
                 isbn13View.text = it
-                val url = "http://covers.openlibrary.org/b/isbn/$it-M.jpg?default=false?default=false"
-                Picasso.get().load(url).into(
-                        coverView,
-                        object : com.squareup.picasso.Callback {
-                            override fun onSuccess() {}
-                            override fun onError(e: java.lang.Exception?) {
-                                // NOTE: try backup isbn13 from search
-                                book.notes?.let { backup ->
-                                    Log.i("BK", "Try Again with Backup ISBN $it")
-                                    book.isbn13 = backup
-                                    val url = "http://covers.openlibrary.org/b/isbn/$backup-M.jpg?default=false?default=false"
-                                    Picasso.get().load(url).into(coverView)
-
-                                }
-                            }
-                        }
-                )
+                val url = "http://covers.openlibrary.org/b/isbn/$it-S.jpg?default=false?default=false"
+                Picasso.get().load(url).into(coverView)
             }
             book.isbn10?.let { isbn10View.text = it }
         }
@@ -102,10 +103,5 @@ class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
             }
         }
     }
-
-    override fun submitList(list: List<Book>?) {
-        super.submitList(list?.let { ArrayList(it) })
-    }
-
 }
 

@@ -53,4 +53,9 @@ class BookRepository(private val bookDao: BookDao) {
     suspend fun deleteAll() {
         bookDao.deleteAll()
     }
+
+    @WorkerThread
+    fun findAlike(title: String, isbn10: String?, isbn13: String?): List<Book> {
+        return bookDao.findAlike(title, isbn10, isbn13)
+    }
 }
