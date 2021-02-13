@@ -19,7 +19,7 @@
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/book_view_constraint_layout"
+        android:id="@+id/book_edit_constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         card_view:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -27,7 +27,7 @@
 
 
         <ImageView
-            android:id="@+id/book_view_cover_image"
+            android:id="@+id/book_edit_cover_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="300dp"
@@ -39,27 +39,27 @@
 
 
         <EditText
-            android:id="@+id/book_view_title"
+            android:id="@+id/book_edit_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="title"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_cover_image" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_cover_image" />
 
         <EditText
-            android:id="@+id/book_view_subtitle"
+            android:id="@+id/book_edit_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="subtitle"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_title" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_title" />
 
         <EditText
-            android:id="@+id/author"
+            android:id="@+id/book_edit_author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -67,10 +67,10 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_subtitle" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_subtitle" />
 
         <EditText
-            android:id="@+id/book_view_author_extras"
+            android:id="@+id/book_edit_author_extras"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
@@ -78,11 +78,11 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/author" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_author" />
 
 
         <EditText
-            android:id="@+id/book_view_publisher"
+            android:id="@+id/book_edit_publisher"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -90,44 +90,44 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_author_extras" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_author_extras" />
 
         <EditText
-            android:id="@+id/book_view_year"
+            android:id="@+id/book_edit_year"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
             android:hint="publication year"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintEnd_toStartOf="@+id/book_view_original_year"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_publisher" />
+            card_view:layout_constraintEnd_toStartOf="@+id/book_edit_original_year"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_publisher" />
 
         <EditText
-            android:id="@+id/book_view_original_year"
+            android:id="@+id/book_edit_original_year"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
             android:hint="original publication year"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toEndOf="@+id/book_view_year"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_publisher" />
+            card_view:layout_constraintStart_toEndOf="@+id/book_edit_year"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_publisher" />
 
         <EditText
-            android:id="@+id/book_view_isbn13"
+            android:id="@+id/book_edit_isbn13"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
             android:hint="ISBN 13"
             android:inputType="number"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            card_view:layout_constraintEnd_toStartOf="@+id/book_view_isbn10"
+            card_view:layout_constraintEnd_toStartOf="@+id/book_edit_isbn10"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_original_year" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_original_year" />
 
         <EditText
-            android:id="@+id/book_view_isbn10"
+            android:id="@+id/book_edit_isbn10"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -135,27 +135,31 @@
             android:inputType="number"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toEndOf="@+id/book_view_isbn13"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_original_year" />
+            card_view:layout_constraintStart_toEndOf="@+id/book_edit_isbn13"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_original_year" />
 
 
-        <Spinner
-            android:id="@+id/shelf_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_isbn10" />
-
-        <RatingBar
-            android:id="@+id/book_view_rating_bar"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/book_edit_shelf_dropdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintTop_toBottomOf="@id/shelf_spinner"
+            card_view:layout_constraintHorizontal_bias="0.5"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="30dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            card_view:cornerRadius="15dp"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_isbn10"
+            android:text="Shelve Book"
+            />
+
+
+        <RatingBar
+            android:id="@+id/book_edit_rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            card_view:layout_constraintTop_toBottomOf="@id/book_edit_shelf_dropdown"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintHorizontal_bias="0.5"
@@ -164,7 +168,7 @@
             />
 
         <EditText
-            android:id="@+id/book_view_notes"
+            android:id="@+id/book_edit_notes"
             android:hint="Thoughts"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -178,45 +182,45 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_rating_bar"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_rating_bar"
 
             />
         <TextView
-            android:id="@+id/book_view_date_added_label"
+            android:id="@+id/book_edit_date_added_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Date Added"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_notes"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_notes"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             />
         <DatePicker
-            android:id="@+id/book_view_date_added"
+            android:id="@+id/book_edit_date_added"
             android:datePickerMode="spinner"
             android:calendarViewShown="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_added_label"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_added_label"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintHorizontal_bias="0.5"
             />
         <TextView
-            android:id="@+id/book_view_date_shelved_label"
+            android:id="@+id/book_edit_date_shelved_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Date Shelved"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_added"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_added"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             />
         <DatePicker
-            android:id="@+id/book_view_date_shelved"
+            android:id="@+id/book_edit_date_shelved"
             android:datePickerMode="spinner"
             android:calendarViewShown="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_shelved_label"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_shelved_label"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintHorizontal_bias="0.5"

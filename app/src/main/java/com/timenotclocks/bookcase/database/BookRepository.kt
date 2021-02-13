@@ -36,7 +36,6 @@ class BookRepository(private val bookDao: BookDao) {
     // By default Room runs suspend queries off the main thread, therefore, we don't need to
     // implement anything else to ensure we're not doing long running database work
     // off the main thread.
-    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insertBook(book: Book) {
         bookDao.insertBook(book)
@@ -54,8 +53,10 @@ class BookRepository(private val bookDao: BookDao) {
         bookDao.deleteAll()
     }
 
-    @WorkerThread
-    fun findAlike(title: String, isbn10: String?, isbn13: String?): List<Book> {
+    fun findArray(title: String, isbn10: String?, isbn13: String?): Array<Book> {
+        return bookDao.findArray(title, isbn10, isbn13)
+    }
+    fun findAlike(title: String, isbn10: String?, isbn13: String?): Flow<List<Book>> {
         return bookDao.findAlike(title, isbn10, isbn13)
     }
 }

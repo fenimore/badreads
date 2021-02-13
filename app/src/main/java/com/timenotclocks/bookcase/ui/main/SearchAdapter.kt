@@ -19,6 +19,10 @@ import com.timenotclocks.bookcase.BookEditActivity
 import com.timenotclocks.bookcase.R
 import com.timenotclocks.bookcase.ui.main.SearchAdapter.SearchViewHolder
 import com.timenotclocks.bookcase.database.Book
+import com.timenotclocks.bookcase.database.BookViewModel
+import com.timenotclocks.bookcase.database.BookViewModelFactory
+import com.timenotclocks.bookcase.database.BooksApplication
+
 
 val EXTRA_OPEN_LIBRARY_SEARCH = "open_library_search_extra"
 

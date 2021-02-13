@@ -22,9 +22,12 @@ import com.timenotclocks.bookcase.BookEditActivity
 import com.timenotclocks.bookcase.BookViewActivity
 import com.timenotclocks.bookcase.R
 import com.timenotclocks.bookcase.database.Book
+import com.timenotclocks.bookcase.database.KlaxonDate
+import com.timenotclocks.bookcase.database.dateConverter
 
 
-val EXTRA_BOOK = "Bookintent"
+const val LOG_BOOK_ADAPTER = "BookAdapter"
+const val EXTRA_BOOK = "Bookintent"
 
 class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_COMPARATOR) {
 
@@ -40,7 +43,8 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, BookViewActivity::class.java).apply {
 
-                val book: String = Klaxon().toJsonString(current)
+                val book: String = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).toJsonString(current)
+                Log.i(LOG_BOOK_ADAPTER, book)
                 putExtra(EXTRA_BOOK, book)
             }
             it.context.startActivity(intent)

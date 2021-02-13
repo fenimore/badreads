@@ -20,12 +20,16 @@
 
 package com.timenotclocks.bookcase.database
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.beust.klaxon.Converter
 import com.beust.klaxon.JsonValue
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
+import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.primaryConstructor
 
 /**
  * TODO: too dumb to figure out how many to many works with Room
@@ -40,8 +44,8 @@ import java.util.*
         tableName = "books",
         indices = arrayOf(Index(value = ["title", "author"], unique = true)),
 )
-data class Book(
-        @PrimaryKey(autoGenerate = true) val bookId: Long,
+data class Book @JvmOverloads constructor(  // TODO: can I remove overloads? i'ts for the converter
+        @PrimaryKey(autoGenerate = true) var bookId: Long,
         @ColumnInfo(name = "title") var title: String,
         @ColumnInfo(name = "subtitle") var subtitle: String?,
         @ColumnInfo(name = "isbn10") var isbn10: String?,
@@ -62,23 +66,68 @@ data class Book(
 @Target(AnnotationTarget.FIELD)
 annotation class KlaxonDate
 
-val dateConverter = object: Converter {
+val dateConverter = object : Converter {
     var formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    //val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US)
 
-    override fun canConvert(cls: Class<*>)
-            = cls == Date::class.java
+    override fun canConvert(cls: Class<*>) = cls == LocalDate::class.java
 
-    override fun fromJson(jv: JsonValue) =
-            if (jv.string != null) {  // ugh
-                LocalDate.parse(jv.string, formatter)
-            } else {
-                null
-            }
+    override fun fromJson(jv: JsonValue): LocalDate? {
+        if (jv.string != null) {
+            return LocalDate.parse(jv.string, formatter)
+        } else {
+            return null
+        }
+    }
 
-    override fun toJson(o: Any)
-                =
-            """ { "date" : $o } """
+    override fun toJson(o: Any): String {
+        return """ "$o" """
+    }
+}
+
+inline infix fun <reified T : Any> T.merge(other: T): T {
+    val propertiesByName = T::class.declaredMemberProperties.associateBy { it.name }
+    val primaryConstructor = T::class.primaryConstructor
+            ?: throw IllegalArgumentException("merge type must have a primary constructor")
+    val args = primaryConstructor.parameters.associateWith { parameter ->
+        val property = propertiesByName[parameter.name]
+                ?: throw IllegalStateException("no declared member property found with name '${parameter.name}'")
+        (property.get(this) ?: property.get(other))
+    }
+    return primaryConstructor.callBy(args)
+}
+
+
+fun mergeBooks(old: Book, new: Book): Book {
+    return old merge new
+}
+
+
+fun fakeBook(
+        id: Long = 0, title: String = "Dark Money",
+        author: String? = "Jane Mayer",
+        authorExtras: String? = "edit. Someoneelse",
+        isbn13: String? = "978-0-385-53559-5",
+        year: Int? = null,
+        publisher: String? = null,
+): Book {
+    return Book(
+            bookId = id,
+            title = title,
+            subtitle = "How Subs Change Books",
+            isbn10 = "0123456789",
+            isbn13 = isbn13,
+            author = author,
+            authorExtras = authorExtras,
+            publisher = publisher,
+            year = year,
+            originalYear = 2010,
+            numberPages = 290,
+            rating = null,
+            shelf = "currently-reading",
+            notes = null,
+            dateAdded = LocalDate.now(),
+            dateRead = null,
+    )
 }
 
 

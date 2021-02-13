@@ -1,6 +1,7 @@
 package com.timenotclocks.bookcase
 
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -8,26 +9,20 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.LiveData
 import com.beust.klaxon.Klaxon
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
-import com.timenotclocks.bookcase.database.Book
-import com.timenotclocks.bookcase.database.BooksApplication
-import com.timenotclocks.bookcase.database.KlaxonDate
-import com.timenotclocks.bookcase.database.dateConverter
-import com.timenotclocks.bookcase.database.BookViewModel
-import com.timenotclocks.bookcase.database.BookViewModelFactory
+import com.timenotclocks.bookcase.database.*
+import com.timenotclocks.bookcase.ui.main.DuplicateDialogFragment
 import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
 import com.timenotclocks.bookcase.ui.main.EXTRA_OPEN_LIBRARY_SEARCH
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
+import java.time.LocalDate
+import java.util.*
 
 
 class BookEditActivity : AppCompatActivity() {
@@ -44,6 +39,7 @@ class BookEditActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_edit)
@@ -53,116 +49,120 @@ class BookEditActivity : AppCompatActivity() {
         val bookInfo: String = intent.extras?.get(EXTRA_BOOK).toString()
         book = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).parse<Book>(bookInfo)
 
-        val searchExtra: Boolean = intent.extras?.getBoolean(EXTRA_OPEN_LIBRARY_SEARCH) ?: false
-        if (searchExtra) {
-            Log.i("BK", "Got the extra!")
-            //val alike = createIfDoesntExist(it)
-            book?.let {
-                bookViewModel.insert(it)
-                Snackbar.make(
-                        findViewById(R.id.book_edit_activity),
-                        "You've added ${it.title} to your library",
-                        Snackbar.LENGTH_LONG
-                ).setAction("Action", null).show()
-            }
-
-        }
-
-        if (book?.isbn13 != null) {
-            val url = "https://covers.openlibrary.org/b/isbn/${book?.isbn13}-L.jpg?default=false"
-            val coverView = findViewById<ImageView>(R.id.book_view_cover_image)
-            Picasso.get().load(url).into(
-                    coverView,
-                    object : com.squareup.picasso.Callback {
-                        override fun onSuccess() {}
-                        override fun onError(e: java.lang.Exception?) {}
+        val isSearch = intent.getBooleanExtra(EXTRA_OPEN_LIBRARY_SEARCH, false)
+        if (isSearch) {
+            book?.let { search ->
+                val alike = bookViewModel.findAlike("%${search.title}%", search.isbn10, search.isbn13)
+                alike.observe(this,{ observed ->
+                    observed?.let { books ->
+                        Log.i(LOG_TAG, "Found duplicate book entries ${books.size}")
+                        if (books.isNotEmpty()) {
+                            val dialog = DuplicateDialogFragment(search, books.first())
+                            dialog.show(supportFragmentManager, LOG_TAG)
+                        }
                     }
-            )
-        }
-
-        val titleEdit = findViewById<EditText>(R.id.book_view_title)
-        book?.title.let {titleEdit.setText(it)}
-        titleEdit.doAfterTextChanged { editable -> book?.title = editable.toString()}
-
-        val subTitleEdit = findViewById<EditText>(R.id.book_view_subtitle)
-        book?.subtitle?.let {subTitleEdit.setText(it)}
-        subTitleEdit.doAfterTextChanged { editable -> book?.subtitle = editable.toString()}
-
-        val authorEdit = findViewById<EditText>(R.id.author)
-        book?.author?.let {authorEdit.setText(it)}
-        authorEdit.doAfterTextChanged { editable -> book?.author = editable.toString()}
-
-        val isbn10Edit = findViewById<EditText>(R.id.book_view_isbn10)
-        book?.isbn10?.let {isbn10Edit.setText(it.toString())}
-        isbn10Edit.doAfterTextChanged { editable -> book?.isbn10 = editable.toString()}
-
-        val isbn13Edit = findViewById<EditText>(R.id.book_view_isbn13)
-        book?.isbn13?.let {isbn13Edit.setText(it.toString())}
-        isbn13Edit.doAfterTextChanged { editable -> book?.isbn13 = editable.toString()}
-
-        val publisherEdit = findViewById<EditText>(R.id.book_view_publisher)
-        book?.publisher?.let {publisherEdit.setText(it.toString())}
-        publisherEdit.doAfterTextChanged { book?.publisher = it.toString()}
-
-        val yearEdit = findViewById<EditText>(R.id.book_view_year)
-        book?.year?.let {yearEdit.setText(it.toString())}
-        yearEdit.doAfterTextChanged { editable ->
-            editable.toString().toIntOrNull().let {
-                if (it is Int) {book?.year = it}
+                })
             }
         }
 
-        val originalYearEdit = findViewById<EditText>(R.id.book_view_original_year)
-        book?.originalYear?.let {originalYearEdit.setText((it.toString()))}
-        originalYearEdit.doAfterTextChanged { editable ->
-            editable.toString().toIntOrNull().let {
-                if (it is Int) {book?.originalYear = it}
+        book?.let { current ->
+            // current.bookId.let { findViewById<TextView>(R.id.book_edit_id).text = it.toString() }
+            current.title.let {
+                val titleEdit = findViewById<EditText>(R.id.book_edit_title)
+                titleEdit.doAfterTextChanged { editable -> current.title = editable.toString() }
+                titleEdit.setText(it)
             }
-        }
-
-        val shelfSpinner = findViewById<Spinner>(R.id.shelf_spinner)
-        ArrayAdapter.createFromResource(
-                this,
-                R.array.shelf_spinner,
-                android.R.layout.simple_spinner_item,
-        ).also {
-            adapter ->  // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            shelfSpinner.adapter = adapter
-            when(book?.shelf) {
-                "to-read" -> { shelfSpinner.setSelection(0) }
-                "currently-reading" -> { shelfSpinner.setSelection(1) }
-                "read" -> { shelfSpinner.setSelection(2) }
+            current.subtitle?.let {
+                val subTitleEdit = findViewById<EditText>(R.id.book_edit_subtitle)
+                subTitleEdit.doAfterTextChanged { editable -> current.subtitle = editable.toString() }
+                subTitleEdit.setText(it)
             }
-        }
-        shelfSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                when(position) {
-                    0 -> {book?.shelf = "to-read"}
-                    1 -> {book?.shelf = "currently-reading"}
-                    2 -> {book?.shelf = "read"}
+            current.author?.let {
+                val authorEdit = findViewById<EditText>(R.id.book_edit_author)
+                authorEdit.doAfterTextChanged { editable -> current.author = editable.toString() }
+                authorEdit.setText(it)
+            }
+            current.authorExtras?.let { findViewById<TextView>(R.id.book_edit_author_extras).text = it }
+            current.isbn10?.let {
+                val isbn10Edit = findViewById<EditText>(R.id.book_edit_isbn10)
+                isbn10Edit.doAfterTextChanged { editable -> current.isbn10 = editable.toString() }
+                isbn10Edit.setText(it)
+            }
+            current.isbn13?.let { isbn ->
+                val url = "https://covers.openlibrary.org/b/isbn/$isbn-L.jpg?default=false"
+                val coverView = findViewById<ImageView>(R.id.book_edit_cover_image)
+                Picasso.get().load(url).into(coverView)
+                val isbn13Edit = findViewById<EditText>(R.id.book_edit_isbn13)
+                isbn13Edit.doAfterTextChanged { editable -> current.isbn13 = editable.toString() }
+                isbn13Edit.setText(isbn)
+            }
+            current.publisher?.let {
+                val publisherEdit = findViewById<EditText>(R.id.book_edit_publisher)
+                publisherEdit.doAfterTextChanged { editable -> current.publisher = editable.toString() }
+                publisherEdit.setText(it)
+            }
+            current.year?.let {
+                val yearEdit = findViewById<EditText>(R.id.book_edit_year)
+                yearEdit.doAfterTextChanged { editable ->
+                    editable.toString().toIntOrNull()?.let { year ->
+                        current.year = year
+                    }
+                }
+                yearEdit.setText(it.toString())
+            }
+            current.originalYear?.let {
+                val originalYearEdit = findViewById<EditText>(R.id.book_edit_original_year)
+                originalYearEdit.doAfterTextChanged { editable ->
+                    editable.toString().toIntOrNull()?.let { year ->
+                        current.originalYear = year
+                    }
+                }
+                originalYearEdit.setText(it.toString())
+            }
+            current.dateRead?.let {
+                val dateRead = findViewById<DatePicker>(R.id.book_edit_date_shelved)
+                dateRead.init(it.year, it.monthValue, it.dayOfMonth,  object : DatePicker.OnDateChangedListener {
+                    override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+                        current.dateRead = LocalDate.of(year, monthOfYear, dayOfMonth)
+                    }
+                })
+            }
+            current.dateAdded?.let {
+                val dateAdded = findViewById<DatePicker>(R.id.book_edit_date_added)
+                dateAdded.init(it.year, it.monthValue, it.dayOfMonth,  object : DatePicker.OnDateChangedListener {
+                    override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+                        current.dateAdded = LocalDate.of(year, monthOfYear, dayOfMonth)
+                    }
+                })
+            }
+            current.notes?.let {
+                val notesEdit = findViewById<EditText>(R.id.book_edit_notes)
+                notesEdit.doAfterTextChanged { editable -> current.notes = editable.toString() }
+                notesEdit.setText(it)
+            }
+            val shelfDropdown = findViewById<Button>(R.id.book_edit_shelf_dropdown)
+            current.shelf.let {
+                shelfDropdown.text = it
+                shelfDropdown.setOnClickListener { view ->
+                    view?.let { v ->
+                        null  //showMenu(v, R.menu.shelf_menu)
+                    }
                 }
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
-        val ratingBar = findViewById<RatingBar>(R.id.book_view_rating_bar)
-        book?.rating?.let {ratingBar.setRating(it.toFloat())}
-        ratingBar.onRatingBarChangeListener = object : RatingBar.OnRatingBarChangeListener {
-            override fun onRatingChanged(ratingBar: RatingBar?, rating: Float, fromUser: Boolean) {
-                book?.rating = rating.toInt()
+            val ratingBar = findViewById<RatingBar>(R.id.book_edit_rating_bar)
+            current.rating?.let { ratingBar.setRating(it.toFloat()) }
+            ratingBar.onRatingBarChangeListener = object : RatingBar.OnRatingBarChangeListener {
+                override fun onRatingChanged(ratingBar: RatingBar?, rating: Float, fromUser: Boolean) {
+                    current.rating = rating.toInt()
+                }
             }
         }
 
-        val notesEdit = findViewById<EditText>(R.id.book_view_notes)
-        book?.notes?.let {notesEdit.setText(it)}
-        notesEdit.doAfterTextChanged { book?.notes = it.toString()}
 
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> {
                 finish()
             }
@@ -188,7 +188,27 @@ class BookEditActivity : AppCompatActivity() {
             }
             R.id.menu_save -> {
                 Log.i("BK", "Saving Book")
-                book?.let{bookViewModel.update(it)}
+
+
+                val searchExtra: Boolean = intent.extras?.getBoolean(EXTRA_OPEN_LIBRARY_SEARCH)
+                        ?: false
+                if (searchExtra) {
+                    Log.i("BK", "Got the extra!")
+
+                    book?.let {
+                        //val alike = createIfDoesntExist(it)
+                        //Log.i("BK", alike.toString())
+                        bookViewModel.insert(it)
+                        Snackbar.make(
+                                findViewById(R.id.book_edit_activity),
+                                "You've added ${it.title} to your library",
+                                Snackbar.LENGTH_LONG
+                        ).setAction("Action", null).show()
+                    }
+
+                }
+
+                book?.let { bookViewModel.update(it) }
                 val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
                     book?.let {
                         putExtra(EXTRA_BOOK, Klaxon().toJsonString(book))
@@ -201,9 +221,4 @@ class BookEditActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
-
-    private fun createIfDoesntExist(book: Book): List<Book> {
-        return bookViewModel.findAlike(book.title, book.isbn10, book.isbn13)
-    }
-
 }

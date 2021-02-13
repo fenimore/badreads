@@ -37,9 +37,12 @@ import com.timenotclocks.bookcase.api.GoodReadImport
 import com.timenotclocks.bookcase.database.BooksApplication
 import com.timenotclocks.bookcase.database.BookViewModel
 import com.timenotclocks.bookcase.database.BookViewModelFactory
+import com.timenotclocks.bookcase.database.fakeBook
+import com.timenotclocks.bookcase.ui.main.DuplicateDialogFragment
 import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
 import java.io.InputStream
 
+const val LOG_TAG = "Bookshelf"
 
 class MainActivity : AppCompatActivity()  {
 
@@ -67,7 +70,7 @@ class MainActivity : AppCompatActivity()  {
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
 
-        Log.d("Badreads", "????")
+        Log.d(LOG_TAG, "Created Main Activity")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -96,7 +99,7 @@ class MainActivity : AppCompatActivity()  {
                 true
             }
             R.id.menu_delete -> {
-                Log.i("BK", "Deleting data")
+                Log.i(LOG_TAG, "Request deleting all data")
                 val builder: AlertDialog.Builder = AlertDialog.Builder(this)
                 builder.apply {
                     setPositiveButton("OK",
@@ -139,6 +142,8 @@ class MainActivity : AppCompatActivity()  {
 
         super.onActivityResult(requestCode, resultCode, data)
     }
+
+
 }
 
 

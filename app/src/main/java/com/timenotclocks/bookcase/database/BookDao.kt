@@ -47,7 +47,10 @@ public interface BookDao {
     fun toReadShelf(): Flow<List<Book>>
 
     @Query("SELECT * FROM books WHERE title LIKE :title OR isbn10 LIKE :isbn10 OR isbn13 LIKE :isbn13")
-    fun findAlike(title: String, isbn10: String?, isbn13: String?): List<Book>
+    fun findArray(title: String, isbn10: String?, isbn13: String?): Array<Book>
+
+    @Query("SELECT * FROM books WHERE title LIKE :title OR isbn10 LIKE :isbn10 OR isbn13 LIKE :isbn13")
+    fun findAlike(title: String, isbn10: String?, isbn13: String?): Flow<List<Book>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertBook(book: Book)

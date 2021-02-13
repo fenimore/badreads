@@ -41,6 +41,8 @@
             android:id="@+id/book_view_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:hint="title"
             android:textIsSelectable="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
@@ -52,6 +54,8 @@
             android:id="@+id/book_view_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:hint="subtitle"
             android:textIsSelectable="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
@@ -60,10 +64,12 @@
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_title" />
 
         <TextView
-            android:id="@+id/author"
+            android:id="@+id/book_view_author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:hint="author"
             android:textIsSelectable="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
@@ -76,19 +82,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:hint="more authors"
             android:textIsSelectable="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/author" />
-
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_author" />
 
         <TextView
             android:id="@+id/book_view_publisher"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:hint="publisher"
             android:textIsSelectable="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
@@ -100,7 +109,7 @@
             android:id="@+id/book_view_year"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="10dp"
             android:hint="publication year"
             android:textIsSelectable="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
@@ -112,7 +121,7 @@
             android:id="@+id/book_view_original_year"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="10dp"
             android:hint="original publication year"
             android:textIsSelectable="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
@@ -124,9 +133,8 @@
             android:id="@+id/book_view_isbn13"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="12dp"
             android:hint="ISBN 13"
-            android:inputType="number"
             android:textIsSelectable="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toStartOf="@+id/book_view_isbn10"
@@ -137,42 +145,102 @@
             android:id="@+id/book_view_isbn10"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="12dp"
             android:hint="ISBN 10"
-            android:inputType="number"
             android:textIsSelectable="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/book_view_isbn13"
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_original_year" />
 
-
-        <Spinner
-            android:id="@+id/book_view_shelf_spinner"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/book_view_id"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:layout_marginTop="12dp"
+            android:hint="Book ID"
             android:textIsSelectable="true"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_isbn10" />
 
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/book_view_shelf_dropdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            card_view:layout_constraintHorizontal_bias="0.5"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="30dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            card_view:cornerRadius="15dp"
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_isbn10"
+            android:text="Shelve Book"
             />
 
         <RatingBar
             android:id="@+id/book_view_rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintTop_toBottomOf="@id/book_view_shelf_spinner"
+            android:layout_marginTop="24dp"
+            card_view:layout_constraintTop_toBottomOf="@id/book_view_shelf_dropdown"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintHorizontal_bias="0.5"
             android:numStars="5"
             android:stepSize="1"
             />
+
+        <TextView
+            android:id="@+id/book_view_date_added_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Date Added"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_rating_bar"
+            card_view:layout_constraintEnd_toStartOf="@+id/book_view_date_shelved_label"
+            card_view:layout_constraintStart_toStartOf="parent"
+            android:textIsSelectable="true"
+            />
+
+        <TextView
+            android:id="@+id/book_view_date_added"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_added_label"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            android:hint="date added"
+            android:textIsSelectable="true"
+            />
+        <TextView
+            android:id="@+id/book_view_date_shelved_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Date Shelved"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_rating_bar"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@id/book_view_date_added_label"
+
+            android:hint="date shelved"
+            />
+        <TextView
+            android:id="@+id/book_view_date_shelved"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_shelved_label"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="@id/book_view_date_shelved_label"
+            card_view:layout_constraintStart_toEndOf="@+id/book_view_date_added"
+            android:textIsSelectable="true"
+            />
+
 
         <TextView
             android:id="@+id/book_view_notes"
@@ -185,52 +253,10 @@
             android:lines="10"
             android:scrollbars="vertical"
             android:textIsSelectable="true"
-            android:inputType="textMultiLine"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_rating_bar"
-
-            />
-        <TextView
-            android:id="@+id/book_view_date_added_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Date Added"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_notes"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            android:textIsSelectable="true"
-            />
-
-        <TextView
-            android:id="@+id/book_view_date_added"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_added_label"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.5"
-            android:textIsSelectable="true"
-                />
-        <TextView
-            android:id="@+id/book_view_date_shelved_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Date Shelved"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_added"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            />
-        <TextView
-            android:id="@+id/book_view_date_shelved"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_shelved_label"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.5"
-            android:textIsSelectable="true"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_shelved"
             />
 
 

@@ -25,7 +25,9 @@ limitations under the License. -->
     <style name="AppToolbar" parent="ThemeOverlay.MaterialComponents.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:popupBackground">@color/colorAccent</item>
     </style>
+
 
 
 </resources>

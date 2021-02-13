@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/duplicate_action_merge"
+        android:title="merge"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/duplicate_action_add"
+        android:title="add"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/duplicate_action_replace"
+        android:title="replace"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/duplicate_action_cancel"
+        android:title="cancel"
+        app:showAsAction="ifRoom" />
+</menu>

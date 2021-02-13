@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/shelf_to_read"
+        android:title="want to read" />
+    <item android:id="@+id/shelf_currently_reading"
+        android:title="currently reading" />
+    <item android:id="@+id/shelf_read"
+        android:title="read" />
+</menu>
