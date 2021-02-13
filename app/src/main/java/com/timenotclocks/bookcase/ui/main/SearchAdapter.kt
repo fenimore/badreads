@@ -6,10 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.R
 import com.timenotclocks.bookcase.ui.main.SearchAdapter.SearchViewHolder
 import com.timenotclocks.bookcase.database.Book
@@ -18,32 +20,63 @@ class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SearchViewHolder {
-        Log.i("BK", "Search Create view Holder")
         return SearchViewHolder.create(viewGroup)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: SearchViewHolder, position: Int) {
-        Log.i("BK", "Search View minding")
-
         val current = getItem(position)
 
-        viewHolder.bind(current)
+        viewHolder.bindTo(current)
     }
 
     class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val titleView: TextView = itemView.findViewById(R.id.row_item_title_view)
+        private val coverView: ImageView = itemView.findViewById(R.id.search_cover_view)
+        private val mainView: TextView = itemView.findViewById(R.id.search_main_view)
+        private val subView: TextView = itemView.findViewById(R.id.search_sub_view)
+        private val bodyView: TextView = itemView.findViewById(R.id.search_body_view)
+        private val captionView: TextView = itemView.findViewById(R.id.search_caption_view)
+        private val isbn10View: TextView = itemView.findViewById(R.id.search_isbn10_view)
+        private val isbn13View: TextView = itemView.findViewById(R.id.search_isbn13_view)
 
-        fun bind(book: Book?) {
-            Log.i("BK", "Get that book ${book.toString()}")
-            book?.title?.let { titleView.setText(it) }
+        fun bindTo(book: Book?) {
+            book ?: return
+
+            // TODO: doesnt work as expected
+            mainView.text = book.subtitle?.let{ book.title +  ": $it"} ?: book.title
+
+            book.author?.let { subView.text = "by " + it }
+
+            book.year?.let { bodyView.text = "$it" }
+            book.originalYear?.let { captionView.text = "($it)" }
+
+            book.isbn13?.let {
+                isbn13View.text = it
+                val url = "http://covers.openlibrary.org/b/isbn/$it-M.jpg?default=false?default=false"
+                Picasso.get().load(url).into(
+                        coverView,
+                        object : com.squareup.picasso.Callback {
+                            override fun onSuccess() {}
+                            override fun onError(e: java.lang.Exception?) {
+                                // NOTE: try backup isbn13 from search
+                                book.notes?.let { backup ->
+                                    Log.i("BK", "Try Again with Backup ISBN $it")
+                                    book.isbn13 = backup
+                                    val url = "http://covers.openlibrary.org/b/isbn/$backup-M.jpg?default=false?default=false"
+                                    Picasso.get().load(url).into(coverView)
+
+                                }
+                            }
+                        }
+                )
+            }
+            book.isbn10?.let { isbn10View.text = it }
         }
 
         companion object {
             fun create(parent: ViewGroup): SearchViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.row_item, parent, false)
-                Log.i("BK", "Creating the Holder")
+                        .inflate(R.layout.search_item_row, parent, false)
                 return SearchViewHolder(view)
             }
         }
@@ -52,12 +85,10 @@ class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
     companion object {
         private val SEARCH_COMPARATOR = object : DiffUtil.ItemCallback<Book>() {
             override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
-                Log.i("BK", "DUHH $oldItem and=== $newItem")
                 return oldItem === newItem
             }
 
             override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
-                Log.i("BK", "$oldItem and $newItem")
                 return oldItem.title == newItem.title
                         && oldItem.bookId == newItem.bookId
                         && oldItem.isbn13 == newItem.isbn13

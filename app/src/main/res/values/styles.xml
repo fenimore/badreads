@@ -22,4 +22,10 @@ limitations under the License. -->
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppToolbar" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+
+
 </resources>

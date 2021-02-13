@@ -38,7 +38,7 @@ So, we are leaving the template code in. -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppToolbar">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

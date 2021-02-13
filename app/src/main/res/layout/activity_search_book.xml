@@ -12,7 +12,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
+        android:theme="@style/AppToolbar"
         >
 
         <androidx.appcompat.widget.Toolbar
@@ -41,7 +41,6 @@
         android:focusedByDefault="true"
         android:iconifiedByDefault="false"
         />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,13 +48,11 @@
         android:padding="16dp"
         android:id="@+id/num_results_view"
         />
-
-    <TextView
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/search_progress_bar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-        android:padding="16dp"
-        android:id="@+id/test_search_View"
+        android:visibility="gone"
         />
 
     <androidx.recyclerview.widget.RecyclerView

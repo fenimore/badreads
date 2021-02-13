@@ -47,6 +47,7 @@ internal class SearchViewModel(application: Application) : AndroidViewModel(appl
                         val books: List<Book> = serializeSearchResults(results)
                         searches.setValue(books)
                     } else {
+                        searches.setValue(emptyList<Book>())
                         Log.e("BK", "No results :(")
                     }
                 },
@@ -61,27 +62,28 @@ internal class SearchViewModel(application: Application) : AndroidViewModel(appl
             val author: String? = (result["author_name"] as? JsonArray<*>)?.removeFirst() as String?
             val authorExtras: String? = (result["author_name"] as? JsonArray<*>)?.joinToString(", ")
             val publisher: String? = (result["publisher"] as? JsonArray<*>)?.removeFirst() as String?
-            val year: Int? = (result["publish_date"] as? JsonArray<*>)?.removeFirst()?.toString()?.toIntOrNull()
-            val originalYear: Int? = result["first_publish_date"].toString().toIntOrNull()
+            val year: Int? = (result["publish_year"] as? JsonArray<Int>)?.removeFirst()
+            val originalYear: Int? = result["first_publish_year"].toString().toIntOrNull()
+                    ?: (result["publish_year"] as? JsonArray<Int>)?.minOrNull()
             val isbnArray: JsonArray<String>? = result["isbn"] as? JsonArray<String>
-            val isbn10 = isbnArray?.firstOrNull { it.length <= 10 }
-            val isbn13 = isbnArray?.firstOrNull { it.length == 13 }
-
+            val isbn10 = isbnArray?.firstOrNull { it.length <= 10 }?.replace("-", "")
+            val isbn13 = isbnArray?.firstOrNull { it.length == 13 }?.replace("-", "")
+            val secondIsbn13 = isbnArray?.getOrNull(1)
             Book(
                     bookId = 0,
                     title = result["title"].toString(),
-                    subtitle = result["subtitle"].toString(),
+                    subtitle = result["subtitle"].toString(),  // always null
                     isbn10 = isbn10,
                     isbn13 = isbn13,
                     author = author,
                     authorExtras = authorExtras,
                     publisher = publisher,
-                    year = year,
+                    year = year,  // TODO figure out how to save dates months
                     originalYear = originalYear,
                     numberPages = null,
                     rating = null,
                     shelf = "to-read",
-                    notes = null,
+                    notes = secondIsbn13,
                     dateAdded = LocalDate.now(),
                     dateRead = null,
             )

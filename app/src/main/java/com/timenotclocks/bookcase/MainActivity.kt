@@ -66,7 +66,8 @@ class MainActivity : AppCompatActivity()  {
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
-        Log.i("BK", bookViewModel.allBooks.toString())
+
+        Log.d("Badreads", "????")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

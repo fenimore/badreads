@@ -23,27 +23,17 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
-import com.android.volley.toolbox.StringRequest
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
-import com.beust.klaxon.Klaxon
-import com.timenotclocks.bookcase.api.RequestQueueSingleton
 import com.timenotclocks.bookcase.database.Book
 import com.timenotclocks.bookcase.ui.main.SearchAdapter
-import com.timenotclocks.bookcase.ui.main.SearchAdapter2
 import com.timenotclocks.bookcase.ui.main.SearchViewModel
-import java.io.StringReader
-import java.net.URLEncoder.encode
 import java.time.LocalDate
 
 /**
@@ -55,6 +45,7 @@ import java.time.LocalDate
 class SearchActivity : AppCompatActivity() {
 
     private val searchViewModel: SearchViewModel by viewModels()
+
     private val adapter = SearchAdapter()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,18 +54,19 @@ class SearchActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val recyclerView = parent?.findViewById<RecyclerView>(R.id.search_result_view)
+        val recyclerView = findViewById<RecyclerView>(R.id.search_result_view)
         recyclerView?.adapter = adapter
         recyclerView?.layoutManager = LinearLayoutManager(applicationContext)
     }
 
+
     override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet): View? {
         val single_book = listOf<Book>(Book(
                 bookId = 0,
-                title = "Test book",
-                subtitle = "Test Subtitle",
+                title = "One Thousand and One Winning Chess Sacrifices and Combinations",
+                subtitle = "A Random Subtitle",
                 isbn10 = "123458690",
-                isbn13 = "978123898998",
+                isbn13 = " 9780879801113",
                 author = "My author",
                 authorExtras = null,
                 publisher = "Shorman",
@@ -88,30 +80,24 @@ class SearchActivity : AppCompatActivity() {
                 dateRead = null,
         ))
         adapter.submitList(single_book)
-        adapter.notifyDataSetChanged()
 
         val searchView = parent?.findViewById<SearchView>(R.id.search_bar_view)
+        val progressBar = parent?.findViewById<ProgressBar>(R.id.search_progress_bar)
         val numResultsView = parent?.findViewById<TextView>(R.id.num_results_view)
         searchView?.requestFocus()
         searchViewModel.numResults.observe(this, Observer<Int> {
-            Log.i("BK", "Observable $it")
+            progressBar?.visibility = View.INVISIBLE
             it?.let {
                 when {
-                    it > 100 -> {numResultsView?.text = "Showing 100 of $it results"}
-                    it > 0 ->  {numResultsView?.text = "$it results"}
+                    it > 100 -> {numResultsView?.text = "Showing 100 results of $it"}
+                    it > 0 ->  {numResultsView?.text = "Showing $it results"}
                     it == 0 ->  {numResultsView?.text = ""}
                 }
             }
         })
         searchViewModel.getSearches().observe(this, Observer<List<Book>> {
-            it?.let {
-                Log.i("BK", "Observable Submit ${it.size} ${it.first().title}")
-                adapter.submitList(it)
-                adapter.notifyDataSetChanged()
-                it.first().let { first ->
-                    parent?.findViewById<TextView>(R.id.test_search_View)?.setText(first.title)
-                }
-            }
+            progressBar?.visibility = View.INVISIBLE
+            it?.let { adapter.submitList(it) }
         })
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -119,7 +105,8 @@ class SearchActivity : AppCompatActivity() {
                 Log.i("BK", "Query $query?")
 
                 query?.let{searchViewModel.searchOpenLibrary(it)}
-
+                searchView.clearFocus()
+                progressBar?.visibility = View.VISIBLE
                 return true
             }
 
@@ -141,36 +128,5 @@ class SearchActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-    private fun serializeSearchResults(results: JsonArray<JsonObject>): Array<Book> {
-        return results.map { result ->
-            val author: String? = (result["author_name"] as? JsonArray<*>)?.removeFirst() as String?
-            val authorExtras: String? = (result["author_name"] as? JsonArray<*>)?.joinToString(", ")
-            val publisher: String? = (result["publisher"] as? JsonArray<*>)?.removeFirst() as String?
-            val year: Int? = (result["publish_date"] as? JsonArray<*>)?.removeFirst()?.toString()?.toIntOrNull()
-            val originalYear: Int? = result["first_publish_date"].toString().toIntOrNull()
-            val isbnArray: JsonArray<String>? = result["isbn"] as? JsonArray<String>
-            val isbn10 = isbnArray?.firstOrNull { it.length <= 10 }
-            val isbn13 = isbnArray?.firstOrNull { it.length == 13 }
-
-            Book(
-                    bookId = 0,
-                    title = result["title"].toString(),
-                    subtitle = result["subtitle"].toString(),
-                    isbn10 = isbn10,
-                    isbn13 = isbn13,
-                    author = author,
-                    authorExtras = authorExtras,
-                    publisher = publisher,
-                    year = year,
-                    originalYear = originalYear,
-                    numberPages = null,
-                    rating = null,
-                    shelf = "to-read",
-                    notes = null,
-                    dateAdded = LocalDate.now(),
-                    dateRead = null,
-            )
-        }.toTypedArray()
     }
 }
