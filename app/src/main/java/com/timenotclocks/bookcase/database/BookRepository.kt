@@ -53,9 +53,10 @@ class BookRepository(private val bookDao: BookDao) {
         bookDao.deleteAll()
     }
 
-    fun findArray(title: String, isbn10: String?, isbn13: String?): Array<Book> {
-        return bookDao.findArray(title, isbn10, isbn13)
+    fun query(term: String): Flow<List<Book>> {
+        return bookDao.fullSearch(term)
     }
+
     fun findAlike(title: String, isbn10: String?, isbn13: String?): Flow<List<Book>> {
         return bookDao.findAlike(title, isbn10, isbn13)
     }

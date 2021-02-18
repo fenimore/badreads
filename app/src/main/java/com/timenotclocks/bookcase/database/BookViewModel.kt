@@ -16,11 +16,7 @@
 
 package com.timenotclocks.bookcase.database
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -40,6 +36,10 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
     val readShelf: LiveData<List<Book>> = repository.readShelf.asLiveData()
     val toReadShelf: LiveData<List<Book>> = repository.toReadShelf.asLiveData()
     val currentShelf: LiveData<List<Book>> = repository.currentShelf.asLiveData()
+
+    fun query(term: String): LiveData<List<Book>> {
+        return repository.query(term).asLiveData() as MutableLiveData<List<Book>>
+    }
 
     fun findAlike(title: String, isbn10: String?, isbn13: String?): LiveData<List<Book>> {
         return repository.findAlike(title, isbn10, isbn13).asLiveData()

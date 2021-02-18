@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2017 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.timenotclocks.bookcase
 
 import android.content.Context
@@ -21,36 +5,32 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.beust.klaxon.JsonArray
-import com.beust.klaxon.JsonObject
-import com.timenotclocks.bookcase.database.Book
+import com.timenotclocks.bookcase.database.BookViewModel
+import com.timenotclocks.bookcase.database.BookViewModelFactory
+import com.timenotclocks.bookcase.database.BooksApplication
+import com.timenotclocks.bookcase.ui.main.OpenLibrarySearchAdapter
 import com.timenotclocks.bookcase.ui.main.SearchAdapter
-import com.timenotclocks.bookcase.ui.main.SearchViewModel
-import java.time.LocalDate
-
-/**
- * Activity for entering a word.
- */
-
-
 
 class SearchActivity : AppCompatActivity() {
 
-    private val searchViewModel: SearchViewModel by viewModels()
-
     private val adapter = SearchAdapter()
+    private val bookViewModel: BookViewModel by viewModels {
+        BookViewModelFactory((application as BooksApplication).repository)
+    }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_book)
+        setContentView(R.layout.activity_open_library_search)
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -59,33 +39,17 @@ class SearchActivity : AppCompatActivity() {
         recyclerView?.layoutManager = LinearLayoutManager(applicationContext)
     }
 
-    override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet): View? {
-        val searchView = parent?.findViewById<SearchView>(R.id.search_bar_view)
-        val progressBar = parent?.findViewById<ProgressBar>(R.id.search_progress_bar)
-        val numResultsView = parent?.findViewById<TextView>(R.id.num_results_view)
-        searchView?.requestFocus()
-        searchViewModel.numResults.observe(this, Observer<Int> {
-            progressBar?.visibility = View.GONE
-            it?.let {
-                when {
-                    it > 100 -> {numResultsView?.text = "Showing 100 results of $it"}
-                    it > 0 ->  {numResultsView?.text = "Showing $it results"}
-                    it == 0 ->  {numResultsView?.text = ""}
-                }
-            }
-        })
-        searchViewModel.getSearches().observe(this, Observer<List<Book>> {
-            progressBar?.visibility = View.GONE
-            it?.let {
-                adapter.submitList(ArrayList(it))
-            }
-        })
+    private fun searchLibrary(searchView: SearchView?, progressBar: ProgressBar?, numResultsView: TextView?) {
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                Log.i(LOG_SEARCH, "Searching Library: $query?")
 
-                Log.i("BK", "Query $query?")
-
-                query?.let{searchViewModel.searchOpenLibrary(it)}
+                query?.let {
+                    bookViewModel.query("*$it*").observe(this@SearchActivity, { observable ->
+                        progressBar?.visibility = View.GONE
+                        observable?.let{ books -> adapter.submitList(books) }
+                    })
+                }
                 searchView.clearFocus()
                 progressBar?.visibility = View.VISIBLE
                 return true
@@ -95,8 +59,23 @@ class SearchActivity : AppCompatActivity() {
                 return true
             }
         })
+    }
 
+    override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet): View? {
         return super.onCreateView(name, context, attrs)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+        val searchItem: MenuItem = menu.findItem(R.id.search_menu_item)
+        var searchView = searchItem.actionView as? SearchView
+        searchView?.queryHint = "Title, Author, or ISBN"
+        searchItem.expandActionView()
+        val progressBar = findViewById<ProgressBar>(R.id.search_progress_bar)
+        val numResultsView = findViewById<TextView>(R.id.num_results_view)
+        searchLibrary(searchView, progressBar, numResultsView)
+        numResultsView.text = "Search your library"
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

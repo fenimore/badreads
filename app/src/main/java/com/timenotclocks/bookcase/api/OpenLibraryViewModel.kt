@@ -1,4 +1,4 @@
-package com.timenotclocks.bookcase.ui.main
+package com.timenotclocks.bookcase.api
 
 import android.app.Application
 import android.util.Log
@@ -15,11 +15,13 @@ import com.timenotclocks.bookcase.api.RequestQueueSingleton
 import com.timenotclocks.bookcase.database.Book
 import kotlinx.coroutines.launch
 import java.io.StringReader
+import java.lang.Integer.min
 import java.net.URLEncoder.encode
 import java.time.LocalDate
 
 
-internal class SearchViewModel(application: Application) : AndroidViewModel(application) {
+const val MAX_SEARCH_RESULTS = 50
+internal class OpenLibraryViewModel(application: Application) : AndroidViewModel(application) {
 
     private val searches: MutableLiveData<List<Book>> by lazy {
         MutableLiveData()
@@ -45,7 +47,7 @@ internal class SearchViewModel(application: Application) : AndroidViewModel(appl
                     val results: JsonArray<JsonObject>? = entry["docs"] as? JsonArray<JsonObject>
                     if (results != null && !results.isEmpty()) {
                         val books: List<Book> = serializeSearchResults(results)
-                        searches.setValue(books)
+                        searches.setValue(books.subList(0, min(MAX_SEARCH_RESULTS, books.size)))
                     } else {
                         numResults.value = 0
                         searches.setValue(emptyList<Book>())
@@ -73,7 +75,7 @@ internal class SearchViewModel(application: Application) : AndroidViewModel(appl
             Book(
                     bookId = 0,
                     title = result["title"].toString(),
-                    subtitle = result["subtitle"].toString(),  // always null
+                    subtitle = result["subtitle"] as? String,
                     isbn10 = isbn10,
                     isbn13 = isbn13,
                     author = author,

@@ -5,7 +5,6 @@
 package com.timenotclocks.bookcase.ui.main
 
 import android.content.Intent
-import android.media.Image
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,8 +17,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.beust.klaxon.Klaxon
 import com.squareup.picasso.Picasso
-import com.timenotclocks.bookcase.BookEditActivity
 import com.timenotclocks.bookcase.BookViewActivity
+import com.timenotclocks.bookcase.LOG_TAG
 import com.timenotclocks.bookcase.R
 import com.timenotclocks.bookcase.database.Book
 import com.timenotclocks.bookcase.database.KlaxonDate
@@ -52,33 +51,28 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
     }
 
     class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val titleView: TextView = itemView.findViewById(R.id.title_view)
-        private val subTitleView: TextView = itemView.findViewById(R.id.subtitle_view)
+        private val titleView: TextView = itemView.findViewById(R.id.book_view_item_title)
         private val authorView: TextView = itemView.findViewById(R.id.author_view)
         private val coverView: ImageView = itemView.findViewById(R.id.cover_view)
-        private val ratingView: RatingBar = itemView.findViewById(R.id.list_rating_bar)
         private val dateView: TextView = itemView.findViewById(R.id.date_added_view)
 
         fun bind(book: Book?) {
-            book?.title.let { titleView.text = it }
-            book?.subtitle?.let { subTitleView.text = it }
-            book?.author?.let { authorView.text = "by " + it }
-            book?.rating?.let{ ratingView.setRating(it.toFloat())}
-            book?.dateRead?.let {
-                dateView.setText(it.toString())
-            } ?: book?.dateAdded?.let {
-                dateView.setText(it.toString())
-            }
-            book?.isbn13?.let {
-                val url = "http://covers.openlibrary.org/b/isbn/$it-M.jpg?default=false"
-                Picasso.get().load(url).into(coverView)
+            book?.let{ b ->
+                titleView.setText(b.subtitle?.let{ it -> b.title +  ": $it"} ?: b.title)
+                b.author?.let { authorView.text = "by " + it }
+                b.dateRead?.let {
+                    dateView.text = it.toString()
+                } ?: b.dateAdded?.let {
+                    dateView.text = it.toString()
+                }
+                b.cover("M").let {Picasso.get().load(it).into(coverView)}
             }
         }
 
         companion object {
             fun create(parent: ViewGroup): BookViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.recyclerview_item, parent, false)
+                    .inflate(R.layout.book_view_list_item, parent, false)
                 return BookViewHolder(view)
             }
         }

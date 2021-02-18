@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SearchActivity">
+    tools:context=".OpenLibrarySearchActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -23,36 +23,18 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:text="Title, author, or ISBN"
-        android:labelFor="@+id/search_view"
-        android:paddingTop="16dp"
-        android:paddingStart="16dp"
-        />
-    <SearchView
-        android:id="@+id/search_bar_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:queryHint="Search for a book"
-        android:focusedByDefault="true"
-        android:iconifiedByDefault="false"
-        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-        android:padding="8dp"
+        android:padding="16dp"
         android:id="@+id/num_results_view"
         />
     <ProgressBar
         android:id="@+id/search_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_gravity="center"
         />
 
@@ -61,8 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/big_padding"
-        tools:listitem="@layout/row_item"
-
+        tools:listitem="@layout/open_library_search_item_row"
         />
 </LinearLayout>
 

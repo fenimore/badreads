@@ -20,10 +20,7 @@
 
 package com.timenotclocks.bookcase.database
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
 import com.beust.klaxon.Converter
 import com.beust.klaxon.JsonValue
 import java.time.LocalDate
@@ -58,10 +55,21 @@ data class Book @JvmOverloads constructor(  // TODO: can I remove overloads? i't
         @ColumnInfo(name = "numberPages") var numberPages: Int?,
         @KlaxonDate @ColumnInfo(name = "dateRead") var dateRead: LocalDate?,
         @KlaxonDate @ColumnInfo(name = "dateAdded") var dateAdded: LocalDate?,
+        // create column for every shelf added
         @ColumnInfo(name = "rating") var rating: Int?,
         @ColumnInfo(name = "shelf") var shelf: String,
         @ColumnInfo(name = "notes") var notes: String?
-)
+) {
+    fun cover(size: String = "M"): String? {
+        val isbn = isbn13 ?: isbn10
+        if (isbn.isNullOrBlank()) {
+            return null
+        }
+        return "https://covers.openlibrary.org/b/isbn/$isbn-$size.jpg"
+    }
+}
+
+
 
 @Target(AnnotationTarget.FIELD)
 annotation class KlaxonDate
@@ -130,6 +138,10 @@ fun fakeBook(
     )
 }
 
+
+@Fts4(contentEntity = Book::class)
+@Entity(tableName = "books_fts")
+class BooksFts(val bookId: Long, val title: String, val subtitle: String?, val author: String?, val shelf: String)
 
 //Book Id,Title,Author,Author l-f,Additional Authors,ISBN,ISBN13,My Rating,Average Rating,Publisher,Binding,Number of Pages,Year Published,Original Publication Year,Date Read,Date Added,Bookshelves,Bookshelves with positions,Exclusive Shelf,My Review,Spoiler,Private Notes,Read Count,Recommended For,Recommended By,Owned Copies,Original Purchase Date,Original Purchase Location,Condition,Condition Description,BCID
 

@@ -14,8 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License. -->
 
 <resources>
-    <color name="colorPrimary">#006064</color>
-    <color name="colorPrimaryDark">#00363a</color>
-    <color name="colorAccent">#428e92</color>
-    <color name="buttonLabel">#FFF</color>
+    <color name="primaryColor">#ef5350</color>
+    <color name="primaryLightColor">#ff867c</color>
+    <color name="primaryDarkColor">#b61827</color>
+    <color name="secondaryColor">#ffb74d</color>
+    <color name="secondaryLightColor">#ffe97d</color>
+    <color name="secondaryDarkColor">#c88719</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#000000</color>
 </resources>

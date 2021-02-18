@@ -16,7 +16,6 @@
 
 package com.timenotclocks.bookcase
 
-import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
@@ -30,17 +29,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.timenotclocks.bookcase.api.GoodReadImport
+import com.timenotclocks.bookcase.barcodereader.BarcodeActivity
 import com.timenotclocks.bookcase.database.BooksApplication
 import com.timenotclocks.bookcase.database.BookViewModel
 import com.timenotclocks.bookcase.database.BookViewModelFactory
-import com.timenotclocks.bookcase.database.fakeBook
-import com.timenotclocks.bookcase.ui.main.DuplicateDialogFragment
 import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
-import java.io.InputStream
 
 const val LOG_TAG = "Bookshelf"
 
@@ -75,8 +71,13 @@ class MainActivity : AppCompatActivity()  {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu_search -> {
+            R.id.menu_main_search -> {
                 val intent = Intent(applicationContext, SearchActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.menu_main_open_library_search -> {
+                val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
                 startActivity(intent)
                 return true
             }

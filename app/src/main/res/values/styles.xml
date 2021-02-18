@@ -17,15 +17,14 @@ limitations under the License. -->
     <!-- Base application theme. -->
     <style name="AppTheme" parent="AppTheme.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
     </style>
 
     <style name="AppToolbar" parent="ThemeOverlay.MaterialComponents.ActionBar">
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="android:popupBackground">@color/colorAccent</item>
+
+        <item name="android:popupBackground">@color/secondaryColor</item>
     </style>
 
 

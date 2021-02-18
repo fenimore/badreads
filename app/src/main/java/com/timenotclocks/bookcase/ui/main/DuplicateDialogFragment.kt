@@ -27,10 +27,10 @@ const val DIALOG_TAG = "DuplicateDialog"
 const val EXTRA_SAVE = "duplicate_save_message"
 
 class DuplicateDialogFragment(old: Book, new: Book) : DialogFragment() {
-    var toolbar: Toolbar? = null
+    private var toolbar: Toolbar? = null
 
-    val oldBook = old
-    val newBook = new
+    private val oldBook = old
+    private val newBook = new
 
     private val serializer = Klaxon().fieldConverter(KlaxonDate::class, dateConverter)
     private val bookViewModel: BookViewModel by viewModels {
@@ -52,19 +52,13 @@ class DuplicateDialogFragment(old: Book, new: Book) : DialogFragment() {
         return view
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-
-
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Add Old Book Information
         view.findViewById<TextView>(R.id.old_duplicate_title).text = oldBook.title
         oldBook.subtitle?.let {view.findViewById<TextView>(R.id.old_duplicate_subtitle).text = it}
         oldBook.author?.let {view.findViewById<TextView>(R.id.old_duplicate_author).text = it}
         oldBook.authorExtras?.let {view.findViewById<TextView>(R.id.old_duplicate_author_extras).text = it}
-        oldBook.publisher?.let {view.findViewById<TextView>(R.id.old_duplicate_publisher).text = it.toString()}
+        oldBook.publisher?.let {view.findViewById<TextView>(R.id.old_duplicate_publisher).text = it}
         oldBook.year?.let {view.findViewById<TextView>(R.id.old_duplicate_year).text = it.toString()}
         oldBook.originalYear?.let {view.findViewById<TextView>(R.id.old_duplicate_original_year).text = it.toString()}
         oldBook.isbn10?.let {view.findViewById<TextView>(R.id.old_duplicate_isbn10).text = it}
@@ -78,7 +72,7 @@ class DuplicateDialogFragment(old: Book, new: Book) : DialogFragment() {
         newBook.subtitle?.let {view.findViewById<TextView>(R.id.new_duplicate_subtitle).text = it}
         newBook.author?.let {view.findViewById<TextView>(R.id.new_duplicate_author).text = it}
         newBook.authorExtras?.let {view.findViewById<TextView>(R.id.new_duplicate_author_extras).text = it}
-        newBook.publisher?.let {view.findViewById<TextView>(R.id.new_duplicate_publisher).text = it.toString()}
+        newBook.publisher?.let {view.findViewById<TextView>(R.id.new_duplicate_publisher).text = it}
         newBook.year?.let {view.findViewById<TextView>(R.id.new_duplicate_year).text = it.toString()}
         newBook.originalYear?.let {view.findViewById<TextView>(R.id.new_duplicate_original_year).text = it.toString()}
         newBook.isbn10?.let {view.findViewById<TextView>(R.id.new_duplicate_isbn10).text = it}

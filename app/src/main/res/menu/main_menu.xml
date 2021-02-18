@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_search"
+    <item android:id="@+id/menu_main_search"
         android:title="Search for a book"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_magnify_glass"
+        app:showAsAction="always"
+        />
+    <item android:id="@+id/menu_main_open_library_search"
+        android:title="Search Open Library"
+        android:icon="@drawable/ic_plus"
         app:showAsAction="always"
         />
     <item android:id="@+id/menu_export_import"
         android:title="Library export/import"
-        android:icon="@drawable/ic_baseline_menu_book_24"
-        app:showAsAction="ifRoom">
+        >
         <!-- "file" submenu -->
         <menu>
             <item android:id="@+id/menu_export"

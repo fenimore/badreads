@@ -1,19 +1,10 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <PreferenceCategory app:title="@string/library_header">
-
-        <EditTextPreference
-            app:key="library_name"
-            app:title="@string/library_name_title"
-            app:useSimpleSummaryProvider="true" />
-
+    <PreferenceCategory app:title="user interface">
         <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/dark_mode"
-            app:entryValues="@array/dark_mode"
-            app:key="reply"
-            app:title="@string/dark_mode_title"
-            app:useSimpleSummaryProvider="true" />
-
+            app:defaultValue="@string/dark_mode_def_value"
+            app:entries="@array/dark_mode_entries"
+            app:entryValues="@array/dark_mode_values"
+            app:key="@string/dark_mode"
+            app:title="@string/dark_mode" />
     </PreferenceCategory>
 </PreferenceScreen>

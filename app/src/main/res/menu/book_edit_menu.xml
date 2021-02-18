@@ -2,6 +2,6 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Save" android:id="@+id/menu_save" android:icon="@android:drawable/ic_menu_save" app:showAsAction="always"/>
+    <item android:title="Save" android:id="@+id/menu_save" android:icon="@drawable/ic_save_disk" app:showAsAction="always"/>
     <item android:title="Delete" android:id="@+id/menu_delete" android:icon="@drawable/ic_baseline_delete_forever_24" app:showAsAction="ifRoom"/>
 </menu>

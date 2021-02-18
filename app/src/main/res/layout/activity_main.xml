@@ -51,10 +51,9 @@ So, we are leaving the template code in. -->
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorColor="@color/secondaryColor"
             app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Button"
-            app:tabTextColor="#FFFFFF" />
+            />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -66,7 +65,7 @@ So, we are leaving the template code in. -->
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:listitem="@layout/recyclerview_item" />
+        tools:listitem="@layout/book_view_list_item" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

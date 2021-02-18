@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:text="Current entry:"
+        android:text="Current library entry:"
         />
 
     <androidx.cardview.widget.CardView
@@ -163,8 +163,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:text="Possibly duplicate entry:"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:text="New and possibly duplicate entry:"
         />
 
     <androidx.cardview.widget.CardView
@@ -205,20 +205,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="title"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 android:textIsSelectable="true"
-                card_view:layout_constraintEnd_toStartOf="@+id/new_duplicate_cover_image"
+                card_view:layout_constraintEnd_toStartOf="@id/new_duplicate_cover_image"
                 card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent"/>
-
+                card_view:layout_constraintTop_toTopOf="parent" />
             <TextView
                 android:id="@+id/new_duplicate_subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="subtitle"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:textIsSelectable="true"
-                card_view:layout_constraintEnd_toStartOf="@+id/new_duplicate_cover_image"
+                card_view:layout_constraintEnd_toStartOf="@id/new_duplicate_cover_image"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@+id/new_duplicate_title" />
 
@@ -230,7 +229,7 @@
                 android:hint="author"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:textIsSelectable="true"
-                card_view:layout_constraintEnd_toStartOf="@+id/new_duplicate_cover_image"
+                card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@+id/new_duplicate_subtitle" />
 
@@ -240,7 +239,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
                 android:hint="more authors"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 android:textIsSelectable="true"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
@@ -253,7 +252,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
                 android:hint="publisher"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:textIsSelectable="true"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
@@ -289,7 +288,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
                 android:hint="ISBN 13"
-                android:inputType="number"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:textIsSelectable="true"
                 card_view:layout_constraintEnd_toStartOf="@+id/new_duplicate_isbn10"
@@ -302,7 +300,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
                 android:hint="ISBN 10"
-                android:inputType="number"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:textIsSelectable="true"
                 card_view:layout_constraintEnd_toEndOf="parent"
@@ -312,5 +309,4 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
 </LinearLayout>

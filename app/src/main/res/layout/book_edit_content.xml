@@ -175,9 +175,7 @@
             android:layout_marginTop="9dp"
             android:lineSpacingMultiplier="2"
             android:minLines="5"
-            android:lines="10"
             android:scrollbars="vertical"
-
             android:inputType="textMultiLine"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toEndOf="parent"

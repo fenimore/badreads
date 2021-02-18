@@ -51,8 +51,8 @@ class Converters {
  * The fact that this has very few comments emphasizes its coolness.
  */
 @Database(entities = [
-    Book::class,
-], version = 1)
+    Book::class, BooksFts::class
+], version = 3)
 @TypeConverters(Converters::class)
 abstract class BookDatabase : RoomDatabase() {
 
@@ -109,16 +109,6 @@ abstract class BookDatabase : RoomDatabase() {
          * If you want to start with more words, just add them.
          */
         suspend fun populateDatabase(bookDao: BookDao) {
-            // Start the app with a clean database every time.
-            // Not needed if you only populate on creation.
-            //bookDao.deleteAll()
-
-            //val author = // Deirdre Mask,"Mask, Deirdre",,"=""1250134765""","=""9781250134769""",0,4.13,St. Martin's Press,Hardcover,336,2020,2020,,2020/11/25,to-read,to-read (#100),to-read,,,,0,,,0,,,,,
-
-            //var book = Book("Hello")
-            //bookDao.insert(book)
-            //book = Book("World!")
-            //bookDao.insert(book)
         }
     }
 }

@@ -36,73 +36,43 @@ limitations under the License. -->
             android:id="@+id/cover_view"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            android:scaleType="centerInside"
+            card_view:layout_constraintBottom_toBottomOf="parent"
 
+            android:scaleType="centerCrop"
+            android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="100dp"
+            android:minWidth="50dp"
             />
         <TextView
-            android:id="@+id/title_view"
+            android:id="@+id/book_view_item_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintEnd_toStartOf="@+id/cover_view" />
-        <TextView
-            android:id="@+id/subtitle_view"
-            android:maxLines="2"
+            android:lines="2"
             android:ellipsize="end"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            card_view:layout_constraintTop_toBottomOf="@+id/title_view"
-            card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintEnd_toStartOf="@+id/cover_view" />
 
         <TextView
             android:id="@+id/author_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:paddingTop="6dp"
+            android:lines="2"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             card_view:layout_constraintEnd_toStartOf="@+id/cover_view"
             card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintBottom_toBottomOf="@id/cover_view"
-            card_view:layout_constraintTop_toBottomOf="@+id/subtitle_view" />
-
-        <RatingBar
-            style="@style/Widget.AppCompat.RatingBar.Small"
-            android:id="@+id/list_rating_bar"
-            android:numStars="5"
-            android:stepSize="1"
-            android:isIndicator="true"
-            card_view:layout_constraintVertical_bias="0.5"
-            android:minWidth="0dp"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            card_view:layout_constraintTop_toBottomOf="@+id/cover_view"
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:paddingBottom="12dp"
-            android:paddingTop="16dp"
-
-            />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_item_title" />
 
         <TextView
             android:id="@+id/date_added_view"
@@ -110,14 +80,13 @@ limitations under the License. -->
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintStart_toEndOf="@id/list_rating_bar"
-            card_view:layout_constraintTop_toBottomOf="@+id/cover_view"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/author_view"
             card_view:layout_constraintVertical_bias="1.0"
 
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:paddingBottom="12dp"
-            android:paddingTop="16dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             />

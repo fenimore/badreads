@@ -49,18 +49,13 @@ class BookViewActivity : AppCompatActivity() {
         Log.i(LOG_BOOK_VIEW, book.toString())
 
         book?.let { current ->
-            current.bookId.let { findViewById<TextView>(R.id.book_view_id).text = it.toString() }
             current.title.let { findViewById<TextView>(R.id.book_view_title).text = it }
+            current.cover("L").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.book_view_cover_image)) }
             current.subtitle?.let { findViewById<TextView>(R.id.book_view_subtitle).text = it }
             current.author?.let { findViewById<TextView>(R.id.book_view_author).text = it }
             current.authorExtras?.let { findViewById<TextView>(R.id.book_view_author_extras).text = it }
             current.isbn10?.let { findViewById<TextView>(R.id.book_view_isbn10).text = it }
-            current.isbn13?.let {  isbn ->
-                findViewById<TextView>(R.id.book_view_isbn13).text = isbn
-                val url = "https://covers.openlibrary.org/b/isbn/$isbn-L.jpg?default=false"
-                val coverView = findViewById<ImageView>(R.id.book_view_cover_image)
-                Picasso.get().load(url).into(coverView)
-            }
+            current.isbn13?.let {  isbn -> findViewById<TextView>(R.id.book_view_isbn13).text = isbn}
             current.publisher?.let { findViewById<TextView>(R.id.book_view_publisher).text = it }
             current.year?.let { findViewById<TextView>(R.id.book_view_year).text = it.toString() }
             current.originalYear?.let { findViewById<TextView>(R.id.book_view_original_year).text = it.toString() }
@@ -117,9 +112,13 @@ class BookViewActivity : AppCompatActivity() {
                         "Book information has been saved", Snackbar.LENGTH_LONG
                 ).setAction("Action", null).show()
             }
-            RESULT_CANCELED -> {
-                finish()
+            RESULT_DELETED -> {
+                Snackbar.make(
+                        findViewById(R.id.book_view_activity),
+                        "Book information has been deleted. undo", Snackbar.LENGTH_LONG  // TODO: click
+                ).setAction("Action", null).show()
             }
+            RESULT_CANCELED -> {}
 
         }
 

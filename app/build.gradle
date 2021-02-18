@@ -6,7 +6,7 @@ android {
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.timenotclocks.bookcase"
-        minSdkVersion 26
+        minSdkVersion 29
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -87,14 +87,13 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.1'
 
     implementation 'com.beust:klaxon:5.4'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.0")
+        implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.0")
 
-    implementation "androidx.activity:activity-ktx:1.1.0"
+    implementation "androidx.activity:activity-ktx:1.2.0"
     implementation "androidx.fragment:fragment-ktx:1.1.0"
 
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    //implementation "io.ktor:ktor-client-core:$ktor_version"
-    //implementation "io.ktor:ktor-client-android:$ktor_version"
+    // For barcode reader
+    compile 'com.google.android.gms:play-services-vision:9.4.0+'
+
 }
 

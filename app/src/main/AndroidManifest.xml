@@ -11,7 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -21,29 +20,46 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".SearchActivity"
-            android:label="@string/title_search_book_activity"
-            />
+            android:name=".OpenLibrarySearchActivity"
+            android:label="@string/title_search_book_activity" />
+        <!--
+               Set to true if your app is Standalone, that is, it does not require the handheld
+               app to run.
+        -->
         <activity
             android:name=".BookViewActivity"
-            android:label="@string/title_activity_book_view"
-            />
+            android:label="@string/title_activity_book_view" />
         <activity
             android:name=".BookEditActivity"
-            android:label="@string/title_activity_book_edit"
-            />
+            android:label="@string/title_activity_book_edit" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
-            />
+            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search">
+        </activity>
+        <activity
+            android:name=".barcodereader.BarcodeActivity"
+            android:label="Barcode Reader">
+        </activity>
+        <activity
+            android:name=".barcodereader.BarcodeCaptureActivity"
+            android:label="Barcode Reader">
+        </activity>
+
 
     </application>
-
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- for barcode -->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
 </manifest>

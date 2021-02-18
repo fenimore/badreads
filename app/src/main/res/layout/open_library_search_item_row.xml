@@ -24,11 +24,13 @@
             android:id="@+id/search_cover_view"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            android:scaleType="centerInside"
+            android:scaleType="centerCrop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="100dp"
             android:minWidth="50dp"
+            android:layout_margin="10dp"
+
             />
         <TextView
             android:id="@+id/search_main_view"
@@ -38,7 +40,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textIsSelectable="true"
             android:ellipsize="end"
             android:lines="2"
             card_view:layout_constraintTop_toTopOf="parent"
@@ -55,7 +56,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textIsSelectable="true"
             card_view:layout_constraintTop_toBottomOf="@+id/search_main_view"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintEnd_toStartOf="@+id/search_cover_view"
@@ -71,7 +71,6 @@
             android:layout_marginEnd="16dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             card_view:layout_constraintEnd_toStartOf="@+id/search_caption_view"
-            android:textIsSelectable="true"
             card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintStart_toStartOf="parent"
 
@@ -88,7 +87,6 @@
             android:layout_marginEnd="16dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             card_view:layout_constraintEnd_toStartOf="@+id/search_cover_view"
-            android:textIsSelectable="true"
             card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintStart_toEndOf="@id/search_body_view"
             card_view:layout_constraintBottom_toBottomOf="@id/search_cover_view"
@@ -110,7 +108,6 @@
             android:paddingTop="16dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:textIsSelectable="true"
             />
 
         <TextView

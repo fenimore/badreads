@@ -1,8 +1,6 @@
-/*Fenimore Love 2021*/
-
 package com.timenotclocks.bookcase.ui.main
 
-import android.app.Activity
+
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,21 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.beust.klaxon.Klaxon
 import com.squareup.picasso.Picasso
-import com.timenotclocks.bookcase.BookEditActivity
+import com.timenotclocks.bookcase.BookViewActivity
+import com.timenotclocks.bookcase.LOG_TAG
 import com.timenotclocks.bookcase.R
-import com.timenotclocks.bookcase.ui.main.SearchAdapter.SearchViewHolder
 import com.timenotclocks.bookcase.database.Book
-import com.timenotclocks.bookcase.database.BookViewModel
-import com.timenotclocks.bookcase.database.BookViewModelFactory
-import com.timenotclocks.bookcase.database.BooksApplication
-
-
-val EXTRA_OPEN_LIBRARY_SEARCH = "open_library_search_extra"
+import com.timenotclocks.bookcase.ui.main.SearchAdapter.SearchViewHolder
 
 
 class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
@@ -39,12 +32,9 @@ class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
 
         viewHolder.bindTo(current)
         viewHolder.itemView.setOnClickListener {
-            Log.i("BK", "Yanke")
-            val intent = Intent(it.context, BookEditActivity::class.java).apply {
-
+            val intent = Intent(it.context, BookViewActivity::class.java).apply {
                 val book: String = Klaxon().toJsonString(current)
                 putExtra(EXTRA_BOOK, book)
-                putExtra(EXTRA_OPEN_LIBRARY_SEARCH, true)
             }
             it.context.startActivity(intent)
         }
@@ -56,32 +46,26 @@ class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
         private val subView: TextView = itemView.findViewById(R.id.search_sub_view)
         private val bodyView: TextView = itemView.findViewById(R.id.search_body_view)
         private val captionView: TextView = itemView.findViewById(R.id.search_caption_view)
-        private val isbn10View: TextView = itemView.findViewById(R.id.search_isbn10_view)
-        private val isbn13View: TextView = itemView.findViewById(R.id.search_isbn13_view)
 
         fun bindTo(book: Book?) {
             book ?: return
 
             // TODO: doesnt work as expected
+            Log.i(LOG_TAG, book.toString())
+            Log.i(LOG_TAG, book.subtitle.toString())
             mainView.text = book.subtitle?.let{ book.title +  ": $it"} ?: book.title
-
             book.author?.let { subView.text = "by " + it }
 
             book.year?.let { bodyView.text = "$it" }
             book.originalYear?.let { captionView.text = "($it)" }
 
-            book.isbn13?.let {
-                isbn13View.text = it
-                val url = "http://covers.openlibrary.org/b/isbn/$it-S.jpg?default=false?default=false"
-                Picasso.get().load(url).into(coverView)
-            }
-            book.isbn10?.let { isbn10View.text = it }
+            book.cover("M").let{ Picasso.get().load(it).into(coverView)}
         }
 
         companion object {
             fun create(parent: ViewGroup): SearchViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.search_item_row, parent, false)
+                        .inflate(R.layout.search_item_view, parent, false)
                 return SearchViewHolder(view)
             }
         }

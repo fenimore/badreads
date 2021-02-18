@@ -25,6 +25,8 @@ import java.time.LocalDate
 import java.util.*
 
 
+const val RESULT_DELETED = 140
+
 class BookEditActivity : AppCompatActivity() {
 
     private var book: Book? = null
@@ -57,8 +59,17 @@ class BookEditActivity : AppCompatActivity() {
                     observed?.let { books ->
                         Log.i(LOG_TAG, "Found duplicate book entries ${books.size}")
                         if (books.isNotEmpty()) {
-                            val dialog = DuplicateDialogFragment(search, books.first())
+                            val dialog = DuplicateDialogFragment(books.first(), search)
                             dialog.show(supportFragmentManager, LOG_TAG)
+                        } else {
+                            book?.let {
+                                bookViewModel.insert(it)
+                                Snackbar.make(
+                                        findViewById(R.id.book_edit_activity),
+                                        "You've added ${it.title} to your library",
+                                        Snackbar.LENGTH_LONG
+                                ).setAction("Action", null).show()
+                            }
                         }
                     }
                 })
@@ -67,6 +78,7 @@ class BookEditActivity : AppCompatActivity() {
 
         book?.let { current ->
             // current.bookId.let { findViewById<TextView>(R.id.book_edit_id).text = it.toString() }
+            current.cover("L").let{Picasso.get().load(it).into(findViewById<ImageView>(R.id.book_edit_cover_image))}
             current.title.let {
                 val titleEdit = findViewById<EditText>(R.id.book_edit_title)
                 titleEdit.doAfterTextChanged { editable -> current.title = editable.toString() }
@@ -89,9 +101,6 @@ class BookEditActivity : AppCompatActivity() {
                 isbn10Edit.setText(it)
             }
             current.isbn13?.let { isbn ->
-                val url = "https://covers.openlibrary.org/b/isbn/$isbn-L.jpg?default=false"
-                val coverView = findViewById<ImageView>(R.id.book_edit_cover_image)
-                Picasso.get().load(url).into(coverView)
                 val isbn13Edit = findViewById<EditText>(R.id.book_edit_isbn13)
                 isbn13Edit.doAfterTextChanged { editable -> current.isbn13 = editable.toString() }
                 isbn13Edit.setText(isbn)
@@ -145,25 +154,53 @@ class BookEditActivity : AppCompatActivity() {
                 shelfDropdown.text = it
                 shelfDropdown.setOnClickListener { view ->
                     view?.let { v ->
-                        null  //showMenu(v, R.menu.shelf_menu)
+                        val popup = PopupMenu(applicationContext, v)
+                        popup.menuInflater.inflate(R.menu.shelf_menu, popup.menu)
+
+                        popup.setOnMenuItemClickListener { menuItem: MenuItem ->
+                            when(menuItem.itemId) {
+                                R.id.shelf_to_read -> {setShelf("to-read")}
+                                R.id.shelf_currently_reading -> {setShelf("currently-reading")}
+                                R.id.shelf_read -> {setShelf("read")}
+                                else -> {true}
+                            }
+                        }
+                        popup.show()
                     }
                 }
             }
             val ratingBar = findViewById<RatingBar>(R.id.book_edit_rating_bar)
             current.rating?.let { ratingBar.setRating(it.toFloat()) }
-            ratingBar.onRatingBarChangeListener = object : RatingBar.OnRatingBarChangeListener {
-                override fun onRatingChanged(ratingBar: RatingBar?, rating: Float, fromUser: Boolean) {
-                    current.rating = rating.toInt()
-                }
+            // TODO Doesn't work
+            ratingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener {
+                ratingBar, rating, fromUser -> current.rating = rating.toInt()
             }
         }
+    }
 
-
+    private fun setShelf(shelf: String): Boolean {
+        book?.let {
+            if (it.shelf != shelf) {
+                it.shelf = shelf
+                if (shelf == "read") {
+                    it.dateRead = LocalDate.now()
+                }
+                findViewById<Button>(R.id.book_edit_shelf_dropdown).text = shelf
+            }
+        }
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
+                book?.let { bookViewModel.update(it) }
+                val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
+                    book?.let {
+                        putExtra(EXTRA_BOOK, Klaxon().toJsonString(book))
+                    }
+                }
+                setResult(RESULT_CANCELED, intent)
                 finish()
             }
             R.id.menu_delete -> {
@@ -174,7 +211,7 @@ class BookEditActivity : AppCompatActivity() {
                                 // User clicked OK button
                                 book?.let { bookViewModel.delete(it) }
                                 val intent = Intent(applicationContext, BookViewActivity::class.java)
-                                setResult(RESULT_CANCELED, intent)
+                                setResult(RESULT_DELETED, intent)
                                 finish();
                             })
                     setNegativeButton("CANCEL",
@@ -188,26 +225,6 @@ class BookEditActivity : AppCompatActivity() {
             }
             R.id.menu_save -> {
                 Log.i("BK", "Saving Book")
-
-
-                val searchExtra: Boolean = intent.extras?.getBoolean(EXTRA_OPEN_LIBRARY_SEARCH)
-                        ?: false
-                if (searchExtra) {
-                    Log.i("BK", "Got the extra!")
-
-                    book?.let {
-                        //val alike = createIfDoesntExist(it)
-                        //Log.i("BK", alike.toString())
-                        bookViewModel.insert(it)
-                        Snackbar.make(
-                                findViewById(R.id.book_edit_activity),
-                                "You've added ${it.title} to your library",
-                                Snackbar.LENGTH_LONG
-                        ).setAction("Action", null).show()
-                    }
-
-                }
-
                 book?.let { bookViewModel.update(it) }
                 val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
                     book?.let {
