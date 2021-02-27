@@ -45,8 +45,8 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
         return repository.query(term).asLiveData() as MutableLiveData<List<Book>>
     }
 
-    fun findAlike(title: String, isbn10: String?, isbn13: String?): LiveData<List<Book>> {
-        return repository.findAlike(title, isbn10, isbn13).asLiveData()
+    fun findAlike(bookId: Long, title: String, isbn10: String?, isbn13: String?): LiveData<List<Book>> {
+        return repository.findAlike(bookId, title, isbn10, isbn13).asLiveData()
     }
     /**
      *

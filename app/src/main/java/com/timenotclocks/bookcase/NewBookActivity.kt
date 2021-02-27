@@ -30,14 +30,6 @@ class NewBookActivity : AppCompatActivity() {
         BookViewModelFactory((application as BooksApplication).repository)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.new_book_menu, menu)
-
-
-        return super.onCreateOptionsMenu(menu)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_book)
@@ -87,6 +79,10 @@ class NewBookActivity : AppCompatActivity() {
                 finish()
             }
         }
+        val btnCancel = findViewById<MaterialButton>(R.id.new_book_btn_cancel)
+        btnCancel.setOnClickListener {
+            finish()
+        }
         val btnReplace = findViewById<MaterialButton>(R.id.new_book_btn_replace)
         btnReplace.setOnClickListener {
             if (adapter.itemCount > 0) {
@@ -96,12 +92,16 @@ class NewBookActivity : AppCompatActivity() {
         val btnMerge = findViewById<MaterialButton>(R.id.new_book_btn_merge)
         btnMerge.setOnClickListener {
             if (adapter.itemCount > 0) {
-                Log.i(TAG_NEW, adapter.item(0).toString())
+                newBook?.let {
+                    val mergedBooked = mergeBooks(adapter.item(0), it)
+                }
             }
         }
-        val alike = bookViewModel.findAlike("%${newBook?.title}%", newBook?.isbn10, newBook?.isbn13)
+        val alike = newBook?.let {
+            bookViewModel.findAlike(it.bookId, "%${it.title}%", it.isbn10, it.isbn13)
+        }
         progressBar?.visibility = View.VISIBLE
-        alike.observe(this, { observed ->
+        alike?.observe(this, { observed ->
             observed?.let { books ->
                 progressBar?.visibility = View.GONE
                 adapter.submitList(books)
@@ -109,10 +109,10 @@ class NewBookActivity : AppCompatActivity() {
                     findViewById<TextView>(R.id.new_book_duplicates_header).visibility = View.VISIBLE
                     btnReplace.visibility = View.VISIBLE
                     btnMerge.visibility = View.VISIBLE
+                    btnCancel.visibility = View.VISIBLE
                 }
             }
         })
-
     }
 
     private fun showMenu(b: Book, v: View, @MenuRes menuRes: Int) {

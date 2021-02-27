@@ -82,6 +82,7 @@
                 android:paddingBottom="6dp"
                 android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
                 android:textIsSelectable="true"
+                android:hint="Author"
                 card_view:layout_constraintEnd_toStartOf="@+id/new_book_cover_image"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@+id/new_book_title" />
@@ -218,6 +219,19 @@
         android:layout_marginRight="50dp"
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toBottomOf="@id/new_book_btn_replace"
+        android:visibility="gone"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/new_book_btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:textAppearance="@style/TextAppearance.AppTheme.Button"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@id/new_book_btn_merge"
         android:visibility="gone"
         />
 

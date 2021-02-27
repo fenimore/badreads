@@ -55,7 +55,7 @@ class BookEditActivity : AppCompatActivity() {
         val isSearch = intent.getBooleanExtra(EXTRA_OPEN_LIBRARY_SEARCH, false)
         if (isSearch) {
             book?.let { search ->
-                val alike = bookViewModel.findAlike("%${search.title}%", search.isbn10, search.isbn13)
+                val alike = bookViewModel.findAlike(search.bookId,"%${search.title}%", search.isbn10, search.isbn13)
                 alike.observe(this,{ observed ->
                     observed?.let { books ->
                         Log.i(LOG_TAG, "Found duplicate book entries ${books.size}")

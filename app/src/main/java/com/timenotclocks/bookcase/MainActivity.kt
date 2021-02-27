@@ -33,9 +33,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.timenotclocks.bookcase.api.GoodReadImport
 import com.timenotclocks.bookcase.barcodereader.BarcodeActivity
-import com.timenotclocks.bookcase.database.BooksApplication
-import com.timenotclocks.bookcase.database.BookViewModel
-import com.timenotclocks.bookcase.database.BookViewModelFactory
+import com.timenotclocks.bookcase.database.*
 import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
 import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
 
@@ -69,11 +67,11 @@ class MainActivity : AppCompatActivity()  {
         tabs.setupWithViewPager(viewPager)
 
         Log.d(LOG_TAG, "Created Main Activity")
-        val data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null, "dateRead" : null, "isbn10" : "0307970655", "isbn13" : "9780385535595", "notes" : null, "numberPages" : null, "originalYear" : 2016, "publisher" : "Doubleday", "rating" : null, "shelf" : "to-read", "subtitle" : null, "title" : "Dark Money", "year" : 2016}"""
+/*        val data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null, "dateRead" : null, "isbn10" : "0307970655", "isbn13" : "9780385535595", "notes" : null, "numberPages" : null, "originalYear" : 2016, "publisher" : "Doubleday", "rating" : null, "shelf" : "to-read", "subtitle" : null, "title" : "Dark Money", "year" : 2016}"""
         val intent = Intent(applicationContext, NewBookActivity::class.java).apply {
             putExtra(EXTRA_BOOK, data)
         }
-        startActivity(intent)
+        startActivity(intent)*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -126,6 +124,7 @@ class MainActivity : AppCompatActivity()  {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        // TODO: save from new book activity here
         if (requestCode == goodReadsImport && resultCode == RESULT_OK) {
             val uri: Uri? = data?.data
             uri?.let {

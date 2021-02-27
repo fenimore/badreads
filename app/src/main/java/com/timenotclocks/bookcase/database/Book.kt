@@ -106,8 +106,10 @@ inline infix fun <reified T : Any> T.merge(other: T): T {
 }
 
 
-fun mergeBooks(old: Book, new: Book): Book {
-    return old merge new
+fun mergeBooks(first: Book, second: Book): Book {
+    var newBook = first merge second
+    newBook.bookId = second.bookId
+    return newBook
 }
 
 

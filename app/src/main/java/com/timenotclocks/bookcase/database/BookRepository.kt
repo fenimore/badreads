@@ -62,7 +62,7 @@ class BookRepository(private val bookDao: BookDao) {
         return bookDao.fullSearch(term)
     }
 
-    fun findAlike(title: String, isbn10: String?, isbn13: String?): Flow<List<Book>> {
-        return bookDao.findAlike(title, isbn10, isbn13)
+    fun findAlike(bookId: Long, title: String, isbn10: String?, isbn13: String?): Flow<List<Book>> {
+        return bookDao.findAlike(bookId, title, isbn10, isbn13)
     }
 }

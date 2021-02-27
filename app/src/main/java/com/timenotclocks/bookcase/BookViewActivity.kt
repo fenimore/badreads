@@ -57,35 +57,6 @@ class BookViewActivity : AppCompatActivity() {
                 ).setAction("Action", null).show()
             }
         }
-        if (intent.getBooleanExtra(EXTRA_OPEN_LIBRARY_SEARCH, false)) {
-            book?.let { search ->
-                if (search.bookId == 0.toLong()) {
-                    val alike = bookViewModel.findAlike("%${search.title}%", search.isbn10, search.isbn13)
-                    alike.observe(this,{ observed ->
-                        observed?.let { books ->
-                            if (books.isNotEmpty()) {
-                                Log.i(LOG_TAG, "Found duplicate book entries ${books.size}")
-                                val dialog = DuplicateDialogFragment(books.first(), search)
-
-                                dialog.show(supportFragmentManager, LOG_TAG)
-                            } else {
-                                book?.let {
-                                    bookViewModel.insert(it)
-                                    Snackbar.make(
-                                            findViewById(R.id.book_view_activity),
-                                            "You've added ${it.title} to your library",
-                                            Snackbar.LENGTH_LONG
-                                    ).setAction("Action", null).show()
-                                }
-                            }
-                        }
-                    })
-                }
-            }
-        }
-
-        Log.i(LOG_BOOK_VIEW, book.toString())
-
         book?.let { current -> populateViews(current) }
     }
 
