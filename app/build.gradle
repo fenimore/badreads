@@ -49,6 +49,8 @@ dependencies {
     // annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.3'
 
     kapt  "androidx.room:room-compiler:$rootProject.roomVersion"
     kapt "androidx.room:room-testing:$rootProject.roomVersion"

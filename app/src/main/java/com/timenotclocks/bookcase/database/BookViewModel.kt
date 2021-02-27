@@ -37,6 +37,10 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
     val toReadShelf: LiveData<List<Book>> = repository.toReadShelf.asLiveData()
     val currentShelf: LiveData<List<Book>> = repository.currentShelf.asLiveData()
 
+    fun getBook(id: Long): LiveData<Book> {
+        return repository.getBook(id)
+    }
+
     fun query(term: String): LiveData<List<Book>> {
         return repository.query(term).asLiveData() as MutableLiveData<List<Book>>
     }

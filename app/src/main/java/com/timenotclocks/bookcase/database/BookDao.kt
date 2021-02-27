@@ -16,6 +16,7 @@
 
 package com.timenotclocks.bookcase.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
@@ -50,7 +51,7 @@ public interface BookDao {
     fun findAlike(title: String, isbn10: String?, isbn13: String?): Flow<List<Book>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertBook(book: Book)
+    suspend fun insertBook(book: Book): Long
 
     @Delete
     suspend fun delete(book: Book)
@@ -60,6 +61,9 @@ public interface BookDao {
 
     @Update
     suspend fun update(book: Book)
+
+    @Query("SELECT * FROM books WHERE bookId=:id ")
+    fun getBook(id: Long): LiveData<Book>
 
     @Query("SELECT * FROM books")
     fun getBooks(): Flow<List<Book>>

@@ -113,12 +113,33 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.open_library_search_menu, menu)
         val searchItem: MenuItem = menu.findItem(R.id.search_menu_item)
         var searchView = searchItem.actionView as? androidx.appcompat.widget.SearchView
+        searchItem.setOnActionExpandListener(object: MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
+                return true;
+            }
+            override fun onMenuItemActionCollapse(menuItem: MenuItem): Boolean {
+                finish()
+                return true;
+            }
+        })
+
         searchView?.queryHint = "Title, Author, or ISBN"
         searchItem.expandActionView()
+
         val progressBar = findViewById<ProgressBar>(R.id.search_progress_bar)
         val numResultsView = findViewById<TextView>(R.id.num_results_view)
+
         searchOpenLibrary(searchView, progressBar, numResultsView)
+
+        if (intent.getBooleanExtra(EXTRA_SCAN, false)) {
+            val intent = Intent(this, BarcodeCaptureActivity::class.java)
+            intent.putExtra(BarcodeCaptureActivity.AutoFocus, true)
+            intent.putExtra(BarcodeCaptureActivity.UseFlash, false)
+            startActivityForResult(intent, RC_BARCODE_CAPTURE)
+        }
+
         numResultsView.text = "Search OpenLibrary.org for new books"
+
         return true
     }
 

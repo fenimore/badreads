@@ -41,7 +41,6 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
         holder.bind(current)
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, BookViewActivity::class.java).apply {
-
                 val book: String = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).toJsonString(current)
                 Log.i(LOG_BOOK_ADAPTER, book)
                 putExtra(EXTRA_BOOK, book)
@@ -61,9 +60,9 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
                 titleView.setText(b.subtitle?.let{ it -> b.title +  ": $it"} ?: b.title)
                 b.author?.let { authorView.text = "by " + it }
                 b.dateRead?.let {
-                    dateView.text = it.toString()
+                    dateView.text = "Read: $it"
                 } ?: b.dateAdded?.let {
-                    dateView.text = it.toString()
+                    dateView.text = "Added: $it"
                 }
                 b.cover("M").let {Picasso.get().load(it).into(coverView)}
             }

@@ -5,7 +5,31 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.ShelfFragment">
+    tools:context=".ui.main.ShelfFragment"
+    >
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="sort"
+        app:icon="@drawable/ic_sort"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/fragment_sort_button"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="search"
+        app:icon="@drawable/ic_search_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragment_sort_button"
+        android:id="@+id/fragment_search_button"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
@@ -15,7 +39,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_sort_button"
         tools:listitem="@layout/book_view_list_item" />
 
 

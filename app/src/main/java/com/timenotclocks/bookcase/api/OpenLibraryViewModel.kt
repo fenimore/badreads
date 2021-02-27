@@ -11,6 +11,7 @@ import com.android.volley.toolbox.StringRequest
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Klaxon
+import com.timenotclocks.bookcase.LOG_SEARCH
 import com.timenotclocks.bookcase.api.RequestQueueSingleton
 import com.timenotclocks.bookcase.database.Book
 import kotlinx.coroutines.launch
@@ -47,6 +48,7 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                     val results: JsonArray<JsonObject>? = entry["docs"] as? JsonArray<JsonObject>
                     if (results != null && !results.isEmpty()) {
                         val books: List<Book> = serializeSearchResults(results)
+                        Log.i(LOG_SEARCH, "Flattened books: $books")
                         searches.setValue(books.subList(0, min(MAX_SEARCH_RESULTS, books.size)))
                     } else {
                         numResults.value = 0
@@ -69,29 +71,32 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
             val originalYear: Int? = result["first_publish_year"].toString().toIntOrNull()
                     ?: (result["publish_year"] as? JsonArray<Int>)?.minOrNull()
             val isbnArray: JsonArray<String>? = result["isbn"] as? JsonArray<String>
-            val isbn10 = isbnArray?.firstOrNull { it.length <= 10 }?.replace("-", "")
-            val isbn13 = isbnArray?.firstOrNull { it.length == 13 }?.replace("-", "")
-            val secondIsbn13 = isbnArray?.getOrNull(1)
-            Book(
-                    bookId = 0,
-                    title = result["title"].toString(),
-                    subtitle = result["subtitle"] as? String,
-                    isbn10 = isbn10,
-                    isbn13 = isbn13,
-                    author = author,
-                    authorExtras = authorExtras,
-                    publisher = publisher,
-                    year = year,
-                    originalYear = originalYear,
-                    numberPages = null,
-                    rating = null,
-                    shelf = "to-read",
-                    notes = secondIsbn13,
-                    dateAdded = LocalDate.now(),
-                    dateRead = null,
-            )
-        }
+            val bookList = isbnArray?.let {isbns ->
+                isbns.filter { it.length < 13 }.zip(isbns.filter{ it.length >= 13}) {
+                    isbn10, isbn13 ->
+                    Book(
+                            bookId = 0,
+                            title = result["title"].toString(),
+                            subtitle = result["subtitle"] as? String,
+                            isbn10 = isbn10,
+                            isbn13 = isbn13,
+                            author = author,
+                            authorExtras = authorExtras,
+                            publisher = publisher,
+                            year = year,
+                            originalYear = originalYear,
+                            numberPages = null,
+                            rating = null,
+                            shelf = "to-read",
+                            notes = null,
+                            dateAdded = LocalDate.now(),
+                            dateRead = null,
+                            dateStarted = null,
+                    )
+                }
+            }
+            bookList ?: emptyList()
+        }.flatten()
     }
-
 }
 

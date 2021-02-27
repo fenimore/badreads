@@ -41,7 +41,7 @@ import kotlin.reflect.full.primaryConstructor
         tableName = "books",
         indices = arrayOf(Index(value = ["title", "author"], unique = true)),
 )
-data class Book @JvmOverloads constructor(  // TODO: can I remove overloads? i'ts for the converter
+data class Book(  // TODO: can I remove overloads? i'ts for the converter
         @PrimaryKey(autoGenerate = true) var bookId: Long,
         @ColumnInfo(name = "title") var title: String,
         @ColumnInfo(name = "subtitle") var subtitle: String?,
@@ -53,8 +53,9 @@ data class Book @JvmOverloads constructor(  // TODO: can I remove overloads? i't
         @ColumnInfo(name = "year") var year: Int?,
         @ColumnInfo(name = "originalYear") var originalYear: Int?,
         @ColumnInfo(name = "numberPages") var numberPages: Int?,
-        @KlaxonDate @ColumnInfo(name = "dateRead") var dateRead: LocalDate?,
         @KlaxonDate @ColumnInfo(name = "dateAdded") var dateAdded: LocalDate?,
+        @KlaxonDate @ColumnInfo(name = "dateStarted") var dateStarted: LocalDate?,
+        @KlaxonDate @ColumnInfo(name = "dateRead") var dateRead: LocalDate?,
         // create column for every shelf added
         @ColumnInfo(name = "rating") var rating: Int?,
         @ColumnInfo(name = "shelf") var shelf: String,
@@ -134,6 +135,7 @@ fun fakeBook(
             shelf = "currently-reading",
             notes = null,
             dateAdded = LocalDate.now(),
+            dateStarted = null,
             dateRead = null,
     )
 }

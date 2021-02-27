@@ -21,7 +21,6 @@ limitations under the License. -->
     <string name="add_word">Add book</string>
     <string name="app_label">bookcase</string>
     <string name="search_hint">isbn . . .</string>
-    <string name="title_activity_main2">MainActivity2</string>
     <string name="tab_text_1">Reading</string>
     <string name="tab_text_2">Read</string>
     <string name="tab_text_3">To Read</string>
@@ -62,6 +61,7 @@ limitations under the License. -->
     <string name="barcode_success">Barcode read successfully</string>
     <string name="barcode_failure">No barcode captured</string>
     <string name="barcode_error">"Error reading barcode: %1$s"</string>
+    <string name="title_activity_new_book">New Book</string>
 
 
 </resources>

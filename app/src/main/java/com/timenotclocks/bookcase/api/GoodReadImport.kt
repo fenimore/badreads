@@ -46,15 +46,16 @@ class GoodReadImport {
                     rating = row["My Rating"]?.toIntOrNull(),
                     shelf =row.getOrDefault("Exclusive Shelf", "to-read"),
                     notes = row["My Review"],
-                    dateAdded = when(!row["Date Added"].isNullOrEmpty() && row["Date Added"] != "null") {
+                    dateAdded = when(!row["Date Added"].isNullOrEmpty()) {
                         true -> LocalDate.parse(row["Date Added"], formatter)
                         false -> LocalDate.now()
 
                     },
-                    dateRead = when(!row["Date Read"].isNullOrBlank() && row["Date Read"] != "null") {
+                    dateRead = when(!row["Date Read"].isNullOrBlank()) {
                         true -> LocalDate.parse(row["Date Read"], formatter)
                         false -> null
                     },
+                    dateStarted = null,
             )
             imports.add(book)
         }

@@ -1,82 +1,66 @@
-/*Fenimore Love 2021*/
-
 package com.timenotclocks.bookcase.ui.main
 
-import android.content.DialogInterface
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.beust.klaxon.Klaxon
 import com.squareup.picasso.Picasso
-import androidx.activity.viewModels
-import com.timenotclocks.bookcase.*
-import com.timenotclocks.bookcase.ui.main.OpenLibrarySearchAdapter.SearchViewHolder
+import com.timenotclocks.bookcase.R
 import com.timenotclocks.bookcase.database.Book
-import com.timenotclocks.bookcase.database.BookViewModel
-import com.timenotclocks.bookcase.database.BookViewModelFactory
-import com.timenotclocks.bookcase.database.BooksApplication
 
+class DuplicateBookAdapter() : ListAdapter<Book, DuplicateBookAdapter.BookViewHolder>(BOOK_COMPARATOR) {
 
-const val EXTRA_OPEN_LIBRARY_SEARCH = "open_library_search_extra"
-
-
-class OpenLibrarySearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SearchViewHolder {
-        return SearchViewHolder.create(viewGroup)
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): BookViewHolder {
+        return BookViewHolder.create(viewGroup)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(viewHolder: SearchViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: BookViewHolder, position: Int) {
         val current = getItem(position)
 
         viewHolder.bindTo(current)
-
-        viewHolder.itemView.setOnClickListener {
-            val intent = Intent(it.context, NewBookActivity::class.java).apply {
-                val book: String = Klaxon().toJsonString(current)
-                putExtra(EXTRA_BOOK, book)
-            }
-            it.context.startActivity(intent)
-        }
+        viewHolder.itemView.setOnClickListener {}
     }
 
-    class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun item(pos: Int): Book {
+        return getItem(pos)
+    }
+
+    class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val coverView: ImageView = itemView.findViewById(R.id.search_cover_view)
         private val mainView: TextView = itemView.findViewById(R.id.search_main_view)
         private val subView: TextView = itemView.findViewById(R.id.search_sub_view)
         private val captView1: TextView = itemView.findViewById(R.id.search_caption_view_1)
         private val captView2: TextView = itemView.findViewById(R.id.search_caption_view_2)
-        private val captView3: TextView = itemView.findViewById(R.id.search_caption_view_3)
 
         fun bindTo(book: Book?) {
             book ?: return
 
+            // TODO: doesnt work as expected
             mainView.text = book.subtitle?.let{ book.title +  ": $it"} ?: book.title
-            book.author?.let { subView.text = "by $it" }
-            book.year?.let { captView1.text = "Y: $it" }
-            book.isbn13?.let { captView2.text = "ISBN13: $it" }
+            book.author?.let { subView.text = "by " + it }
+
+            book.year?.let { captView1.text = "$it" }
+            book.originalYear?.let { captView2.text = "($it)" }
 
             book.cover("M").let{ Picasso.get().load(it).into(coverView)}
         }
 
         companion object {
-            fun create(parent: ViewGroup): SearchViewHolder {
+            fun create(parent: ViewGroup): BookViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
                         .inflate(R.layout.search_item_view, parent, false)
-                return SearchViewHolder(view)
+                return BookViewHolder(view)
             }
         }
     }
 
     companion object {
-        private val SEARCH_COMPARATOR = object : DiffUtil.ItemCallback<Book>() {
+        private val BOOK_COMPARATOR = object : DiffUtil.ItemCallback<Book>() {
             override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
                 return oldItem === newItem
             }
@@ -95,5 +79,5 @@ class OpenLibrarySearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_CO
             }
         }
     }
-}
 
+}

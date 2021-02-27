@@ -1,5 +1,7 @@
 package com.timenotclocks.bookcase.ui.main
 
+import android.R.attr.data
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,10 +12,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import com.timenotclocks.bookcase.*
-import com.timenotclocks.bookcase.database.BooksApplication
 import com.timenotclocks.bookcase.database.BookViewModel
 import com.timenotclocks.bookcase.database.BookViewModelFactory
+import com.timenotclocks.bookcase.database.BooksApplication
+import java.util.*
+import kotlin.Comparator
 
 
 /**
@@ -40,16 +46,25 @@ class ShelfFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_main, container, false)
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerview)
+        val searchView = root.findViewById<MaterialButton>(R.id.fragment_search_button)
+        val sortView = root.findViewById<MaterialButton>(R.id.fragment_sort_button)
         val adapter = BookListAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        searchView.setOnClickListener {
+            val intent = Intent(context, SearchActivity::class.java)
+            startActivity(intent)
+        }
+        sortView.setOnClickListener {}
 
         when(pageViewModel.getIndex()) {
             1 -> {
                 bookViewModel.currentShelf.observe(viewLifecycleOwner) { books ->
                     // Update the cached copy of the books in the adapter.
-                    books.let { adapter.submitList(it) }
+                    books.let {
+                        adapter.submitList(it)
+                    }
                 }
             }
             2 -> {
@@ -65,7 +80,7 @@ class ShelfFragment : Fragment() {
                 }
             }
             else -> {
-                Log.e("BK","Some random tab was selected woops")
+                Log.e("BK", "Some random tab was selected woops")
             }
         }
 

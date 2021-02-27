@@ -26,6 +26,7 @@ import java.util.*
 
 
 const val RESULT_DELETED = 140
+const val EXTRA_SAVED_BOOK = "book_changes_saved"
 
 class BookEditActivity : AppCompatActivity() {
 
@@ -77,78 +78,68 @@ class BookEditActivity : AppCompatActivity() {
         }
 
         book?.let { current ->
-            // current.bookId.let { findViewById<TextView>(R.id.book_edit_id).text = it.toString() }
-            current.cover("L").let{Picasso.get().load(it).into(findViewById<ImageView>(R.id.book_edit_cover_image))}
-            current.title.let {
-                val titleEdit = findViewById<EditText>(R.id.book_edit_title)
-                titleEdit.doAfterTextChanged { editable -> current.title = editable.toString() }
-                titleEdit.setText(it)
-            }
-            current.subtitle?.let {
-                val subTitleEdit = findViewById<EditText>(R.id.book_edit_subtitle)
-                subTitleEdit.doAfterTextChanged { editable -> current.subtitle = editable.toString() }
-                subTitleEdit.setText(it)
-            }
-            current.author?.let {
-                val authorEdit = findViewById<EditText>(R.id.book_edit_author)
-                authorEdit.doAfterTextChanged { editable -> current.author = editable.toString() }
-                authorEdit.setText(it)
-            }
-            current.authorExtras?.let { findViewById<TextView>(R.id.book_edit_author_extras).text = it }
-            current.isbn10?.let {
-                val isbn10Edit = findViewById<EditText>(R.id.book_edit_isbn10)
-                isbn10Edit.doAfterTextChanged { editable -> current.isbn10 = editable.toString() }
-                isbn10Edit.setText(it)
-            }
-            current.isbn13?.let { isbn ->
-                val isbn13Edit = findViewById<EditText>(R.id.book_edit_isbn13)
-                isbn13Edit.doAfterTextChanged { editable -> current.isbn13 = editable.toString() }
-                isbn13Edit.setText(isbn)
-            }
-            current.publisher?.let {
-                val publisherEdit = findViewById<EditText>(R.id.book_edit_publisher)
-                publisherEdit.doAfterTextChanged { editable -> current.publisher = editable.toString() }
-                publisherEdit.setText(it)
-            }
-            current.year?.let {
-                val yearEdit = findViewById<EditText>(R.id.book_edit_year)
-                yearEdit.doAfterTextChanged { editable ->
-                    editable.toString().toIntOrNull()?.let { year ->
-                        current.year = year
-                    }
+            current.cover("L").let{ Picasso.get().load(it).into(findViewById<ImageView>(R.id.book_edit_cover_image)) }
+
+            val titleEdit = findViewById<EditText>(R.id.book_edit_title)
+            titleEdit.setText(current.title)
+            titleEdit.doAfterTextChanged { editable -> current.title = editable.toString() }
+
+            val subTitleEdit = findViewById<EditText>(R.id.book_edit_subtitle)
+            subTitleEdit.doAfterTextChanged { editable ->current.subtitle = editable.toString().ifEmpty { null }}
+            current.subtitle?.let {subTitleEdit.setText(it)}
+
+            val authorEdit = findViewById<EditText>(R.id.book_edit_author)
+            authorEdit.doAfterTextChanged { editable -> current.author = editable.toString().ifEmpty { null } }
+            current.author?.let {authorEdit.setText(it)}
+
+            val extrasEdit = findViewById<TextView>(R.id.book_edit_author_extras)
+            extrasEdit.doAfterTextChanged { editable -> current.authorExtras = editable.toString().ifEmpty { null } }
+            current.authorExtras?.let {extrasEdit.text = it}
+
+            val isbn10Edit = findViewById<EditText>(R.id.book_edit_isbn10)
+            isbn10Edit.doAfterTextChanged { editable -> current.isbn10 = editable.toString().ifEmpty { null } }
+            current.isbn10?.let {isbn10Edit.setText(it)}
+
+            val isbn13Edit = findViewById<EditText>(R.id.book_edit_isbn13)
+            isbn13Edit.doAfterTextChanged {editable -> current.isbn13 = editable.toString().ifEmpty { null }}
+            current.isbn13?.let { isbn -> isbn13Edit.setText(isbn)}
+
+            val publisherEdit = findViewById<EditText>(R.id.book_edit_publisher)
+            publisherEdit.doAfterTextChanged { editable -> current.publisher = editable.toString().ifEmpty { null } }
+            current.publisher?.let { publisherEdit.setText(it) }
+
+            val yearEdit = findViewById<EditText>(R.id.book_edit_year)
+            yearEdit.doAfterTextChanged { editable -> editable.toString().toIntOrNull()?.let { year -> current.year = year } }
+            current.year?.let { yearEdit.setText(it.toString()) }
+
+            val originalYearEdit = findViewById<EditText>(R.id.book_edit_original_year)
+            originalYearEdit.doAfterTextChanged { editable ->
+                editable.toString().toIntOrNull()?.let { year ->
+                    current.originalYear = year
                 }
-                yearEdit.setText(it.toString())
             }
-            current.originalYear?.let {
-                val originalYearEdit = findViewById<EditText>(R.id.book_edit_original_year)
-                originalYearEdit.doAfterTextChanged { editable ->
-                    editable.toString().toIntOrNull()?.let { year ->
-                        current.originalYear = year
-                    }
-                }
-                originalYearEdit.setText(it.toString())
-            }
+            current.originalYear?.let { originalYearEdit.setText(it.toString()) }
+
+            val dateRead = findViewById<DatePicker>(R.id.book_edit_date_shelved)
             current.dateRead?.let {
-                val dateRead = findViewById<DatePicker>(R.id.book_edit_date_shelved)
                 dateRead.init(it.year, it.monthValue, it.dayOfMonth,  object : DatePicker.OnDateChangedListener {
                     override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
                         current.dateRead = LocalDate.of(year, monthOfYear, dayOfMonth)
                     }
                 })
             }
+            val dateAdded = findViewById<DatePicker>(R.id.book_edit_date_added)
             current.dateAdded?.let {
-                val dateAdded = findViewById<DatePicker>(R.id.book_edit_date_added)
                 dateAdded.init(it.year, it.monthValue, it.dayOfMonth,  object : DatePicker.OnDateChangedListener {
                     override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
                         current.dateAdded = LocalDate.of(year, monthOfYear, dayOfMonth)
                     }
                 })
             }
-            current.notes?.let {
-                val notesEdit = findViewById<EditText>(R.id.book_edit_notes)
-                notesEdit.doAfterTextChanged { editable -> current.notes = editable.toString() }
-                notesEdit.setText(it)
-            }
+            val notesEdit = findViewById<EditText>(R.id.book_edit_notes)
+            current.notes?.let { notesEdit.setText(it) }
+            notesEdit.doAfterTextChanged { editable -> current.notes = editable.toString() }
+
             val shelfDropdown = findViewById<Button>(R.id.book_edit_shelf_dropdown)
             current.shelf.let {
                 shelfDropdown.text = it
@@ -182,8 +173,9 @@ class BookEditActivity : AppCompatActivity() {
         book?.let {
             if (it.shelf != shelf) {
                 it.shelf = shelf
-                if (shelf == "read") {
-                    it.dateRead = LocalDate.now()
+                when(shelf){
+                    "read" -> {it.dateRead = LocalDate.now()}
+                    "currently-reading" -> {it.dateStarted = LocalDate.now()}
                 }
                 findViewById<Button>(R.id.book_edit_shelf_dropdown).text = shelf
             }
@@ -197,7 +189,7 @@ class BookEditActivity : AppCompatActivity() {
                 book?.let { bookViewModel.update(it) }
                 val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
                     book?.let {
-                        putExtra(EXTRA_BOOK, Klaxon().toJsonString(book))
+                        putExtra(EXTRA_BOOK, Klaxon().fieldConverter(KlaxonDate::class, dateConverter).toJsonString(it))
                     }
                 }
                 setResult(RESULT_CANCELED, intent)
@@ -224,11 +216,11 @@ class BookEditActivity : AppCompatActivity() {
                 builder.show()
             }
             R.id.menu_save -> {
-                Log.i("BK", "Saving Book")
+                Log.i("BK", "Saving Book ${book?.title} ${book?.bookId}")
                 book?.let { bookViewModel.update(it) }
                 val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
                     book?.let {
-                        putExtra(EXTRA_BOOK, Klaxon().toJsonString(book))
+                        putExtra(EXTRA_BOOK, Klaxon().fieldConverter(KlaxonDate::class, dateConverter).toJsonString(it))
                     }
                 }
                 setResult(RESULT_OK, intent)

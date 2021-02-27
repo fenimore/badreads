@@ -36,9 +36,11 @@ import com.timenotclocks.bookcase.barcodereader.BarcodeActivity
 import com.timenotclocks.bookcase.database.BooksApplication
 import com.timenotclocks.bookcase.database.BookViewModel
 import com.timenotclocks.bookcase.database.BookViewModelFactory
+import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
 import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
 
 const val LOG_TAG = "Bookshelf"
+const val EXTRA_SCAN = "scan_please"
 
 class MainActivity : AppCompatActivity()  {
 
@@ -67,15 +69,15 @@ class MainActivity : AppCompatActivity()  {
         tabs.setupWithViewPager(viewPager)
 
         Log.d(LOG_TAG, "Created Main Activity")
+        val data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null, "dateRead" : null, "isbn10" : "0307970655", "isbn13" : "9780385535595", "notes" : null, "numberPages" : null, "originalYear" : 2016, "publisher" : "Doubleday", "rating" : null, "shelf" : "to-read", "subtitle" : null, "title" : "Dark Money", "year" : 2016}"""
+        val intent = Intent(applicationContext, NewBookActivity::class.java).apply {
+            putExtra(EXTRA_BOOK, data)
+        }
+        startActivity(intent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu_main_search -> {
-                val intent = Intent(applicationContext, SearchActivity::class.java)
-                startActivity(intent)
-                return true
-            }
             R.id.menu_main_open_library_search -> {
                 val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
                 startActivity(intent)

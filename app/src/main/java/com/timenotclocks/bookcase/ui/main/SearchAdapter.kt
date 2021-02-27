@@ -17,6 +17,8 @@ import com.timenotclocks.bookcase.BookViewActivity
 import com.timenotclocks.bookcase.LOG_TAG
 import com.timenotclocks.bookcase.R
 import com.timenotclocks.bookcase.database.Book
+import com.timenotclocks.bookcase.database.KlaxonDate
+import com.timenotclocks.bookcase.database.dateConverter
 import com.timenotclocks.bookcase.ui.main.SearchAdapter.SearchViewHolder
 
 
@@ -33,31 +35,29 @@ class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
         viewHolder.bindTo(current)
         viewHolder.itemView.setOnClickListener {
             val intent = Intent(it.context, BookViewActivity::class.java).apply {
-                val book: String = Klaxon().toJsonString(current)
+                val book: String = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).toJsonString(current)
                 putExtra(EXTRA_BOOK, book)
             }
             it.context.startActivity(intent)
-        }
+         }
     }
 
     class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val coverView: ImageView = itemView.findViewById(R.id.search_cover_view)
         private val mainView: TextView = itemView.findViewById(R.id.search_main_view)
         private val subView: TextView = itemView.findViewById(R.id.search_sub_view)
-        private val bodyView: TextView = itemView.findViewById(R.id.search_body_view)
-        private val captionView: TextView = itemView.findViewById(R.id.search_caption_view)
+        private val captView1: TextView = itemView.findViewById(R.id.search_caption_view_1)
+        private val captView2: TextView = itemView.findViewById(R.id.search_caption_view_2)
 
         fun bindTo(book: Book?) {
             book ?: return
 
             // TODO: doesnt work as expected
-            Log.i(LOG_TAG, book.toString())
-            Log.i(LOG_TAG, book.subtitle.toString())
             mainView.text = book.subtitle?.let{ book.title +  ": $it"} ?: book.title
             book.author?.let { subView.text = "by " + it }
 
-            book.year?.let { bodyView.text = "$it" }
-            book.originalYear?.let { captionView.text = "($it)" }
+            book.year?.let { captView1.text = "$it" }
+            book.originalYear?.let { captView2.text = "($it)" }
 
             book.cover("M").let{ Picasso.get().load(it).into(coverView)}
         }

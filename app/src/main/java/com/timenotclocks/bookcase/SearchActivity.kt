@@ -10,16 +10,20 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuItemCompat
+import androidx.core.view.MenuItemCompat.OnActionExpandListener
+import androidx.core.view.MenuItemCompat.setOnActionExpandListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.timenotclocks.bookcase.database.BookViewModel
 import com.timenotclocks.bookcase.database.BookViewModelFactory
 import com.timenotclocks.bookcase.database.BooksApplication
-import com.timenotclocks.bookcase.ui.main.OpenLibrarySearchAdapter
 import com.timenotclocks.bookcase.ui.main.SearchAdapter
+
 
 class SearchActivity : AppCompatActivity() {
 
@@ -42,23 +46,27 @@ class SearchActivity : AppCompatActivity() {
     private fun searchLibrary(searchView: SearchView?, progressBar: ProgressBar?, numResultsView: TextView?) {
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Log.i(LOG_SEARCH, "Searching Library: $query?")
-
-                query?.let {
-                    bookViewModel.query("*$it*").observe(this@SearchActivity, { observable ->
-                        progressBar?.visibility = View.GONE
-                        observable?.let{ books -> adapter.submitList(books) }
-                    })
-                }
-                searchView.clearFocus()
-                progressBar?.visibility = View.VISIBLE
+                query?.let { searchQuery(it, searchView, progressBar) }
+                searchView?.clearFocus()
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.length > 5) {
+                    searchQuery(newText, searchView, progressBar)
+                }
                 return true
             }
         })
+    }
+
+    private fun searchQuery(query: String, searchView: SearchView?, progressBar: ProgressBar?) {
+        Log.i(LOG_SEARCH, "Searching Library: $query?")
+        bookViewModel.query("*$query*").observe(this@SearchActivity, { observable ->
+            progressBar?.visibility = View.GONE
+            observable?.let { books -> adapter.submitList(books) }
+        })
+        progressBar?.visibility = View.VISIBLE
     }
 
     override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet): View? {
@@ -69,8 +77,19 @@ class SearchActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.search_menu, menu)
         val searchItem: MenuItem = menu.findItem(R.id.search_menu_item)
         var searchView = searchItem.actionView as? SearchView
-        searchView?.queryHint = "Title, Author, or ISBN"
+        searchItem.setOnActionExpandListener(object: MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
+                return true;
+            }
+            override fun onMenuItemActionCollapse(menuItem: MenuItem): Boolean {
+                finish()
+                return true;
+            }
+        })
         searchItem.expandActionView()
+        searchView?.queryHint = "Title, Author, or ISBN"
+
+
         val progressBar = findViewById<ProgressBar>(R.id.search_progress_bar)
         val numResultsView = findViewById<TextView>(R.id.num_results_view)
         searchLibrary(searchView, progressBar, numResultsView)

@@ -24,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".OpenLibrarySearchActivity"
             android:label="@string/title_search_book_activity" />
@@ -44,22 +43,24 @@
             android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
         <activity
             android:name=".SearchActivity"
-            android:label="@string/title_activity_search">
-        </activity>
+            android:label="@string/title_activity_search"></activity>
         <activity
             android:name=".barcodereader.BarcodeActivity"
-            android:label="Barcode Reader">
-        </activity>
+            android:label="Barcode Reader"></activity>
         <activity
             android:name=".barcodereader.BarcodeCaptureActivity"
-            android:label="Barcode Reader">
-        </activity>
+            android:label="Barcode Reader"></activity>
 
+        <activity
+            android:name=".NewBookActivity"
+            android:label="@string/title_activity_new_book"
+            />
 
-    </application>
+    </application> <!-- for barcode -->
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- for barcode -->
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-permission android:name="android.permission.CAMERA" />
 </manifest>

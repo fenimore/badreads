@@ -16,6 +16,7 @@
 package com.timenotclocks.bookcase.database
 
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import com.timenotclocks.bookcase.database.Book
 import com.timenotclocks.bookcase.database.BookDao
 import kotlinx.coroutines.flow.Flow
@@ -37,8 +38,8 @@ class BookRepository(private val bookDao: BookDao) {
     // implement anything else to ensure we're not doing long running database work
     // off the main thread.
     @WorkerThread
-    suspend fun insertBook(book: Book) {
-        bookDao.insertBook(book)
+    suspend fun insertBook(book: Book): Long {
+        return bookDao.insertBook(book)
     }
     @WorkerThread
     suspend fun delete(book: Book) {
@@ -51,6 +52,10 @@ class BookRepository(private val bookDao: BookDao) {
     @WorkerThread
     suspend fun deleteAll() {
         bookDao.deleteAll()
+    }
+
+    fun getBook(id: Long): LiveData<Book> {
+        return bookDao.getBook(id)
     }
 
     fun query(term: String): Flow<List<Book>> {

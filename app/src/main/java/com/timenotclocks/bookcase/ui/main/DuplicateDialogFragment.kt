@@ -2,6 +2,7 @@ package com.timenotclocks.bookcase.ui.main
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.ComponentName
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -16,9 +17,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.beust.klaxon.Klaxon
 import com.squareup.picasso.Picasso
-import com.timenotclocks.bookcase.BookEditActivity
 import com.timenotclocks.bookcase.BookViewActivity
-import com.timenotclocks.bookcase.LOG_TAG
 import com.timenotclocks.bookcase.R
 import com.timenotclocks.bookcase.database.*
 
@@ -97,30 +96,25 @@ class DuplicateDialogFragment(old: Book, new: Book) : DialogFragment() {
     }
 
     private fun launchView(actionId: Int) {
-        val intent: Intent = when(actionId) {
+        when(actionId) {
             R.id.duplicate_action_replace -> {
                 newBook.bookId = oldBook.bookId
                 bookViewModel.update(newBook)
-                Intent(context, BookViewActivity::class.java).apply {
-                    putExtra(EXTRA_BOOK, serializer.toJsonString(newBook))
-                    putExtra(EXTRA_SAVE, "Replaced book entry with new information")
-                }
             }
             R.id.duplicate_action_merge -> {
-                val merged = mergeBooks(oldBook, newBook)
+                var merged = mergeBooks(oldBook, newBook)
+                merged.shelf = oldBook.shelf
                 bookViewModel.update(merged)
-                Intent(context, BookViewActivity::class.java).apply {
-                    putExtra(EXTRA_BOOK, serializer.toJsonString(merged))
-                    putExtra(EXTRA_SAVE, "Merging new information into existing entry")
-                }
             }
             R.id.duplicate_action_add -> {
                 // Can't launch the book view because I don' know the ID
                 bookViewModel.insert(newBook)
-                null
+            }
+            R.id.duplicate_action_cancel -> {
+                dismiss()
             }
             else -> {null}
-        } ?: return
-        context?.startActivity(intent)
+        }
+        dismiss()
     }
 }

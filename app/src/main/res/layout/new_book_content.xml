@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="0.7dp"
+        card_view:cardMaxElevation="1dp"
+        card_view:cardPreventCornerOverlap="true"
+        card_view:cardUseCompatPadding="true"
+        card_view:contentPadding="10dp"
+        card_view:contentPaddingBottom="16dp"
+        card_view:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/new_book_constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            card_view:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:context=".NewBookActivity">
+
+
+            <ImageView
+                android:id="@+id/new_book_cover_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:scaleType="center"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toEndOf="@+id/new_book_author"
+                card_view:layout_constraintTop_toTopOf="parent"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/new_book_shelf_dropdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toEndOf="@id/new_book_isbn10"
+                android:layout_marginTop="30dp"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                card_view:cornerRadius="15dp"
+                card_view:layout_constraintTop_toBottomOf="@+id/new_book_cover_image"
+
+                android:text="Shelve Book"
+                />
+
+            <TextView
+                android:id="@+id/new_book_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1Bold"
+                android:textIsSelectable="true"
+                android:hint="Title"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/new_book_author"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+                android:textIsSelectable="true"
+                card_view:layout_constraintEnd_toStartOf="@+id/new_book_cover_image"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/new_book_title" />
+
+            <TextView
+                android:id="@+id/new_book_publisher"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+                android:textIsSelectable="true"
+                card_view:layout_constraintEnd_toStartOf="@+id/new_book_cover_image"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/new_book_author" />
+
+            <TextView
+                android:id="@+id/new_book_year"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+                android:textIsSelectable="true"
+                card_view:layout_constraintEnd_toStartOf="@+id/new_book_original_year"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/new_book_publisher" />
+
+            <TextView
+                android:id="@+id/new_book_original_year"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+                android:textIsSelectable="true"
+                card_view:layout_constraintEnd_toStartOf="@+id/new_book_cover_image"
+                card_view:layout_constraintStart_toEndOf="@id/new_book_year"
+                card_view:layout_constraintTop_toBottomOf="@+id/new_book_publisher" />
+
+            <TextView
+                android:id="@+id/new_book_isbn13"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+                android:textIsSelectable="true"
+                card_view:layout_constraintEnd_toStartOf="@+id/new_book_cover_image"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/new_book_year" />
+
+            <TextView
+                android:id="@+id/new_book_isbn10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+                android:textIsSelectable="true"
+                card_view:layout_constraintEnd_toStartOf="@id/new_book_cover_image"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/new_book_isbn13" />
+
+            <TextView
+                android:id="@+id/new_book_id_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="12dp"
+                android:textAppearance="@style/TextAppearance.AppTheme.Body2Light"
+                android:textIsSelectable="true"
+                card_view:layout_constraintEnd_toStartOf="@id/new_book_cover_image"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/new_book_isbn10" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+        <ProgressBar
+            android:id="@+id/duplicate_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/new_book_duplicates_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textAppearance="@style/TextAppearance.AppTheme.Headline6"
+        android:text="Possibly Duplicate Books in Library:"
+        android:visibility="gone"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/new_book_duplicates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        tools:listitem="@layout/search_item_view" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/new_book_btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add New book"
+        android:textAppearance="@style/TextAppearance.AppTheme.Button"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@id/new_book_id_view" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/new_book_btn_replace"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Button"
+        android:text="Replace the duplicate book with new details"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@id/new_book_btn_add"
+        android:visibility="gone"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/new_book_btn_merge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Merge New details into duplicate"
+        android:textAppearance="@style/TextAppearance.AppTheme.Button"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@id/new_book_btn_replace"
+        android:visibility="gone"
+        />
+
+</LinearLayout>

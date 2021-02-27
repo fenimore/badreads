@@ -16,7 +16,9 @@ import com.beust.klaxon.Klaxon
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.database.*
+import com.timenotclocks.bookcase.ui.main.DuplicateDialogFragment
 import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
+import com.timenotclocks.bookcase.ui.main.EXTRA_OPEN_LIBRARY_SEARCH
 import java.time.LocalDate
 
 
@@ -43,45 +45,84 @@ class BookViewActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val bookInfo: String = intent.extras?.get(EXTRA_BOOK).toString()
-
         book = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).parse<Book>(bookInfo)
 
-        Log.i(LOG_BOOK_VIEW, book.toString())
-
-        book?.let { current ->
-            current.title.let { findViewById<TextView>(R.id.book_view_title).text = it }
-            current.cover("L").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.book_view_cover_image)) }
-            current.subtitle?.let { findViewById<TextView>(R.id.book_view_subtitle).text = it }
-            current.author?.let { findViewById<TextView>(R.id.book_view_author).text = it }
-            current.authorExtras?.let { findViewById<TextView>(R.id.book_view_author_extras).text = it }
-            current.isbn10?.let { findViewById<TextView>(R.id.book_view_isbn10).text = it }
-            current.isbn13?.let {  isbn -> findViewById<TextView>(R.id.book_view_isbn13).text = isbn}
-            current.publisher?.let { findViewById<TextView>(R.id.book_view_publisher).text = it }
-            current.year?.let { findViewById<TextView>(R.id.book_view_year).text = it.toString() }
-            current.originalYear?.let { findViewById<TextView>(R.id.book_view_original_year).text = it.toString() }
-            current.dateRead?.let { findViewById<TextView>(R.id.book_view_date_shelved).text = it.toString() }
-            current.dateAdded?.let { findViewById<TextView>(R.id.book_view_date_added).text = it.toString() }
-            current.notes?.let { findViewById<TextView>(R.id.book_view_notes).text = it }
-            val shelfDropdown = findViewById<Button>(R.id.book_view_shelf_dropdown)
-            current.shelf.let {
-                shelfDropdown.text = it
-                shelfDropdown.setOnClickListener { view ->
-                    view?.let { v -> showMenu(v, R.menu.shelf_menu) }
-                }
-            }
-
-            val ratingBar = findViewById<RatingBar>(R.id.book_view_rating_bar)
-            current.rating?.let { ratingBar.rating = it.toFloat() }
-            ratingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener {
-                rateBar, rating, fromUser ->
-                current.rating = rating.toInt()
-                bookViewModel.update(current)
+        if (intent.getBooleanExtra(EXTRA_NEW, false)) {
+            book?.let {
+                bookViewModel.insert(it)
                 Snackbar.make(
                         findViewById(R.id.book_view_activity),
-                        "Your new rating has been recorded",
+                        "You've added ${it.title} to your library",
                         Snackbar.LENGTH_LONG
                 ).setAction("Action", null).show()
             }
+        }
+        if (intent.getBooleanExtra(EXTRA_OPEN_LIBRARY_SEARCH, false)) {
+            book?.let { search ->
+                if (search.bookId == 0.toLong()) {
+                    val alike = bookViewModel.findAlike("%${search.title}%", search.isbn10, search.isbn13)
+                    alike.observe(this,{ observed ->
+                        observed?.let { books ->
+                            if (books.isNotEmpty()) {
+                                Log.i(LOG_TAG, "Found duplicate book entries ${books.size}")
+                                val dialog = DuplicateDialogFragment(books.first(), search)
+
+                                dialog.show(supportFragmentManager, LOG_TAG)
+                            } else {
+                                book?.let {
+                                    bookViewModel.insert(it)
+                                    Snackbar.make(
+                                            findViewById(R.id.book_view_activity),
+                                            "You've added ${it.title} to your library",
+                                            Snackbar.LENGTH_LONG
+                                    ).setAction("Action", null).show()
+                                }
+                            }
+                        }
+                    })
+                }
+            }
+        }
+
+        Log.i(LOG_BOOK_VIEW, book.toString())
+
+        book?.let { current -> populateViews(current) }
+    }
+
+    private fun populateViews(current: Book) {
+        current.title.let { findViewById<TextView>(R.id.book_view_title).text = it }
+        current.cover("L").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.book_view_cover_image)) }
+        current.subtitle?.let { findViewById<TextView>(R.id.book_view_subtitle).text = it }
+        current.author?.let { findViewById<TextView>(R.id.book_view_author).text = it }
+        current.authorExtras?.let { findViewById<TextView>(R.id.book_view_author_extras).text = it }
+        current.isbn10?.let { findViewById<TextView>(R.id.book_view_isbn10).text = it }
+        current.isbn13?.let {  isbn -> findViewById<TextView>(R.id.book_view_isbn13).text = isbn}
+        current.publisher?.let { findViewById<TextView>(R.id.book_view_publisher).text = it }
+        current.year?.let { findViewById<TextView>(R.id.book_view_year).text = it.toString() }
+        current.originalYear?.let { findViewById<TextView>(R.id.book_view_original_year).text = it.toString() }
+        current.dateAdded?.let {findViewById<TextView>(R.id.book_view_date_added).text = it.toString()}
+        current.dateStarted?.let {findViewById<TextView>(R.id.book_view_date_started).text = it.toString()}
+        current.dateRead?.let { findViewById<TextView>(R.id.book_view_date_shelved).text = it.toString() }
+        current.notes?.let { findViewById<TextView>(R.id.book_view_notes).text = it }
+        val shelfDropdown = findViewById<Button>(R.id.book_view_shelf_dropdown)
+        current.shelf.let {
+            shelfDropdown.text = it
+            shelfDropdown.setOnClickListener { view ->
+                view?.let { v -> showMenu(v, R.menu.shelf_menu) }
+            }
+        }
+
+        val ratingBar = findViewById<RatingBar>(R.id.book_view_rating_bar)
+        current.rating?.let { ratingBar.rating = it.toFloat() }
+        ratingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener {
+            rateBar, rating, fromUser ->
+            current.rating = rating.toInt()
+            bookViewModel.update(current)
+            Snackbar.make(
+                    findViewById(R.id.book_view_activity),
+                    "Your new rating has been recorded",
+                    Snackbar.LENGTH_LONG
+            ).setAction("Action", null).show()
         }
     }
 
@@ -93,7 +134,7 @@ class BookViewActivity : AppCompatActivity() {
             R.id.menu_edit -> {
                 val intent = Intent(applicationContext, BookEditActivity::class.java).apply {
                     book?.let {
-                        putExtra(EXTRA_BOOK, Klaxon().toJsonString(book))
+                        putExtra(EXTRA_BOOK, Klaxon().fieldConverter(KlaxonDate::class, dateConverter).toJsonString(it))
                     }
                 }
                 startActivityForResult(intent, 100)
@@ -107,16 +148,16 @@ class BookViewActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when(resultCode) {
             RESULT_OK -> {
+                val bookInfo: String = data?.getStringExtra(EXTRA_SAVED_BOOK).toString()
+                book = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).parse<Book>(bookInfo)
+                book?.let{populateViews(it)}
                 Snackbar.make(
                         findViewById(R.id.book_view_activity),
                         "Book information has been saved", Snackbar.LENGTH_LONG
                 ).setAction("Action", null).show()
             }
             RESULT_DELETED -> {
-                Snackbar.make(
-                        findViewById(R.id.book_view_activity),
-                        "Book information has been deleted. undo", Snackbar.LENGTH_LONG  // TODO: click
-                ).setAction("Action", null).show()
+                finish()
             }
             RESULT_CANCELED -> {}
 
@@ -129,8 +170,9 @@ class BookViewActivity : AppCompatActivity() {
         book?.let {
             if (it.shelf != shelf) {
                 it.shelf = shelf
-                if (shelf == "read") {
-                    it.dateRead = LocalDate.now()
+                when(shelf){
+                    "read" -> {it.dateRead = LocalDate.now()}
+                    "currently-reading" -> {it.dateStarted = LocalDate.now()}
                 }
                 bookViewModel.update(it)
                 findViewById<Button>(R.id.book_view_shelf_dropdown).text = shelf
