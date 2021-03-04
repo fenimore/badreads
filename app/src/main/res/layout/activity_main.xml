@@ -45,7 +45,7 @@ So, we are leaving the template code in. -->
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"

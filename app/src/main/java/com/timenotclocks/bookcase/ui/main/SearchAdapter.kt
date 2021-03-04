@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.beust.klaxon.Klaxon
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.BookViewActivity
+import com.timenotclocks.bookcase.EXTRA_ID
 import com.timenotclocks.bookcase.LOG_TAG
 import com.timenotclocks.bookcase.R
 import com.timenotclocks.bookcase.database.Book
@@ -35,8 +36,7 @@ class SearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_COMPARATOR) {
         viewHolder.bindTo(current)
         viewHolder.itemView.setOnClickListener {
             val intent = Intent(it.context, BookViewActivity::class.java).apply {
-                val book: String = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).toJsonString(current)
-                putExtra(EXTRA_BOOK, book)
+                putExtra(EXTRA_ID, current.bookId)
             }
             it.context.startActivity(intent)
          }

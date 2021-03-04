@@ -38,8 +38,23 @@ public interface BookDao {
     @Query("SELECT * FROM books ORDER BY dateAdded DESC")
     fun allBooks(): Flow<List<Book>>
 
-    @Query("SELECT * FROM books WHERE shelf = 'currently-reading' ORDER BY dateAdded DESC")
+    @Query("SELECT * FROM books WHERE shelf = 'currently-reading' ORDER BY dateAdded ASC")
     fun currentShelf(): Flow<List<Book>>
+
+    @Query("SELECT * FROM books WHERE shelf = :shelf ORDER BY :column DESC")
+    fun sortShelf(shelf: String, column: String): Flow<List<Book>>
+
+    @Query("SELECT * FROM books WHERE shelf = :shelf ORDER BY dateRead DESC")
+    fun dateReadSort(shelf: String): Flow<List<Book>>
+
+    @Query("SELECT * FROM books WHERE shelf = :shelf ORDER BY dateStarted DESC")
+    fun dateStartedSort(shelf: String): Flow<List<Book>>
+
+    @Query("SELECT * FROM books WHERE shelf = :shelf ORDER BY author ASC")
+    fun authorSort(shelf: String): Flow<List<Book>>
+
+    @Query("SELECT * FROM books WHERE shelf = :shelf ORDER BY COALESCE(originalYear, year) ASC")
+    fun yearSort(shelf: String): Flow<List<Book>>
 
     @Query("SELECT * FROM books WHERE shelf = 'read' ORDER BY dateAdded DESC")
     fun readShelf(): Flow<List<Book>>
@@ -67,7 +82,6 @@ public interface BookDao {
 
     @Query("SELECT * FROM books")
     fun getBooks(): Flow<List<Book>>
-
 
     @Query("""
         SELECT * FROM books 

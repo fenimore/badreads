@@ -16,6 +16,7 @@
 
 package com.timenotclocks.bookcase.database
 
+import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -26,16 +27,26 @@ import kotlinx.coroutines.launch
  * an up-to-date list of all words.
  */
 
+const val LOG_SORT = "BookSort"
+
 class BookViewModel(private val repository: BookRepository) : ViewModel() {
 
-    // Using LiveData and caching what allWords returns has several benefits:
-    // - We can put an observer on the data (instead of polling for changes) and only update the
-    //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
     val allBooks: LiveData<List<Book>> = repository.allBooks.asLiveData()
     val readShelf: LiveData<List<Book>> = repository.readShelf.asLiveData()
     val toReadShelf: LiveData<List<Book>> = repository.toReadShelf.asLiveData()
     val currentShelf: LiveData<List<Book>> = repository.currentShelf.asLiveData()
+
+    fun getSortedList(shelfType: ShelfType, sortType: SortColumn): LiveData<List<Book>> {
+        when (sortType) {
+            SortColumn.Author -> {}
+            SortColumn.Title -> {}
+            SortColumn.DateStarted -> {}
+            SortColumn.DateRead -> {}
+            SortColumn.DateAdded -> {}
+        }
+        return repository.currentShelf.asLiveData()
+    }
 
     fun getBook(id: Long): LiveData<Book> {
         return repository.getBook(id)
@@ -48,12 +59,41 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
     fun findAlike(bookId: Long, title: String, isbn10: String?, isbn13: String?): LiveData<List<Book>> {
         return repository.findAlike(bookId, title, isbn10, isbn13).asLiveData()
     }
+
+    fun authorSort(shelfType: ShelfType): LiveData<List<Book>> {
+        return repository.authorSort(shelfType).asLiveData()
+    }
+
+    fun yearSort(shelfType: ShelfType): LiveData<List<Book>> {
+        return repository.yearSort(shelfType).asLiveData()
+    }
+
+    fun dateReadSort(shelfType: ShelfType): LiveData<List<Book>> {
+        return repository.dateReadSort(shelfType).asLiveData()
+    }
+
+    fun dateStartedSort(shelfType: ShelfType): LiveData<List<Book>> {
+        return repository.dateStartedSort(shelfType).asLiveData()
+    }
+
+    fun sortShelf(shelfType: ShelfType, sortColumn: SortColumn): LiveData<List<Book>> {
+        return repository.sortShelf(shelfType, sortColumn).asLiveData()
+    }
     /**
      *
      * Launching a new coroutine to insert the data in a non-blocking way
      */
     fun insert(book: Book) = viewModelScope.launch {
         repository.insertBook(book)
+    }
+
+    fun insertSync(book: Book): LiveData<Long> {
+        val result = MutableLiveData<Long>()
+        viewModelScope.launch {
+            val bookId = repository.insertBook(book)
+            result.postValue(bookId)
+        }
+        return result
     }
 
     fun delete(book: Book) = viewModelScope.launch {

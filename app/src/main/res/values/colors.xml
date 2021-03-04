@@ -11,15 +11,28 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. -->
+limitations under the License.
 
-<resources>
     <color name="primaryColor">#ef5350</color>
     <color name="primaryLightColor">#ff867c</color>
     <color name="primaryDarkColor">#b61827</color>
     <color name="secondaryColor">#ffb74d</color>
     <color name="secondaryLightColor">#ffe97d</color>
     <color name="secondaryDarkColor">#c88719</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#000000</color>
+
+
+    <color name="secondaryTextColor">#ffffff</color>
+-->
+
+<resources>
+    <color name="primaryColor">#00ffff</color>
+    <color name="primaryLightColor">#72ffff</color>
+    <color name="primaryDarkColor">#00cbcc</color>
+    <color name="secondaryColor">#cc016b</color>
+    <color name="secondaryLightColor">#ff5299</color>
+    <color name="secondaryDarkColor">#950041</color>
     <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#000000</color>
 </resources>

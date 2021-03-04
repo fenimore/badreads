@@ -7,7 +7,7 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+    <!--<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />-->
 
     <style name="TextAppearance.AppTheme.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="fontFamily">@font/lato_bold</item>

@@ -41,6 +41,7 @@ class BookRepository(private val bookDao: BookDao) {
     suspend fun insertBook(book: Book): Long {
         return bookDao.insertBook(book)
     }
+
     @WorkerThread
     suspend fun delete(book: Book) {
         bookDao.delete(book)
@@ -60,6 +61,26 @@ class BookRepository(private val bookDao: BookDao) {
 
     fun query(term: String): Flow<List<Book>> {
         return bookDao.fullSearch(term)
+    }
+
+    fun dateStartedSort(shelfType: ShelfType): Flow<List<Book>> {
+        return bookDao.dateStartedSort(shelfType.shelf)
+    }
+
+    fun dateReadSort(shelfType: ShelfType): Flow<List<Book>> {
+        return bookDao.dateReadSort(shelfType.shelf)
+    }
+
+    fun yearSort(shelfType: ShelfType): Flow<List<Book>> {
+        return bookDao.yearSort(shelfType.shelf)
+    }
+
+    fun authorSort(shelfType: ShelfType): Flow<List<Book>> {
+        return bookDao.authorSort(shelfType.shelf)
+    }
+
+    fun sortShelf(shelfType: ShelfType, sortColumn: SortColumn): Flow<List<Book>> {
+        return bookDao.sortShelf(shelfType.shelf, sortColumn.column)
     }
 
     fun findAlike(bookId: Long, title: String, isbn10: String?, isbn13: String?): Flow<List<Book>> {

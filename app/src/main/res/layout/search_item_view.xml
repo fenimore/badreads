@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="4dp"
     card_view:cardMaxElevation="1dp"
-    card_view:cardElevation="0.7dp"
+    card_view:cardElevation="1dp"
     card_view:contentPadding="0dp"
     card_view:contentPaddingBottom="0dp"
     card_view:cardPreventCornerOverlap="true"
@@ -58,6 +58,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+            card_view:layout_constraintBottom_toTopOf="@id/search_caption_view_1"
             card_view:layout_constraintTop_toBottomOf="@+id/search_main_view"
             card_view:layout_constraintStart_toEndOf="@+id/search_cover_view"
             card_view:layout_constraintEnd_toEndOf="parent"
@@ -70,12 +71,13 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:textAppearance="@style/TextAppearance.AppTheme.Caption"
-            card_view:layout_constraintEnd_toStartOf="@+id/search_caption_view_2"
             card_view:layout_constraintHorizontal_bias="0.0"
 
             card_view:layout_constraintStart_toEndOf="@id/search_cover_view"
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/search_sub_view"
+
+            card_view:layout_constraintEnd_toStartOf="@id/search_caption_view_2"
+
             card_view:layout_constraintVertical_bias="1.0"
 
             android:layout_marginStart="8dp"
@@ -95,8 +97,9 @@
 
             card_view:layout_constraintStart_toEndOf="@id/search_caption_view_1"
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/search_sub_view"
+            card_view:layout_constraintEnd_toStartOf="@id/search_caption_view_3"
+
             card_view:layout_constraintVertical_bias="1.0"
 
             android:layout_marginStart="8dp"

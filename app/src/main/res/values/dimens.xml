@@ -33,6 +33,7 @@ limitations under the License. -->
     <dimen name="standard_240">240dp</dimen>
     <dimen name="standard_230">230dp</dimen>
     <dimen name="standard_90">90dp</dimen>
+    <dimen name="list_card_elevation">2dp</dimen>
     <!--
     Because the window insets on round devices are larger than 15dp, this padding only applies
     to square screens.

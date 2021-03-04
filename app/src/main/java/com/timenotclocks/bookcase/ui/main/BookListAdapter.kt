@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.beust.klaxon.Klaxon
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.BookViewActivity
+import com.timenotclocks.bookcase.EXTRA_ID
 import com.timenotclocks.bookcase.LOG_TAG
 import com.timenotclocks.bookcase.R
 import com.timenotclocks.bookcase.database.Book
@@ -41,29 +42,25 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
         holder.bind(current)
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, BookViewActivity::class.java).apply {
-                val book: String = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).toJsonString(current)
-                Log.i(LOG_BOOK_ADAPTER, book)
-                putExtra(EXTRA_BOOK, book)
+                putExtra(EXTRA_ID, current.bookId)
             }
             it.context.startActivity(intent)
         }
     }
 
     class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val titleView: TextView = itemView.findViewById(R.id.book_view_item_title)
-        private val authorView: TextView = itemView.findViewById(R.id.author_view)
-        private val coverView: ImageView = itemView.findViewById(R.id.cover_view)
-        private val dateView: TextView = itemView.findViewById(R.id.date_added_view)
+        private val titleView: TextView = itemView.findViewById(R.id.book_list_main_view)
+        private val authorView: TextView = itemView.findViewById(R.id.book_list_sub_view)
+        private val coverView: ImageView = itemView.findViewById(R.id.book_list_cover_view)
+        private val yearView: TextView = itemView.findViewById(R.id.book_list_caption_view_1)
+        private val dateView: TextView = itemView.findViewById(R.id.book_list_caption_view_2)
 
         fun bind(book: Book?) {
             book?.let{ b ->
                 titleView.setText(b.subtitle?.let{ it -> b.title +  ": $it"} ?: b.title)
                 b.author?.let { authorView.text = "by " + it }
-                b.dateRead?.let {
-                    dateView.text = "Read: $it"
-                } ?: b.dateAdded?.let {
-                    dateView.text = "Added: $it"
-                }
+                b.dateAdded?.let { dateView.text = "$it" }
+                b.yearString()?.let { yearView.text = it }
                 b.cover("M").let {Picasso.get().load(it).into(coverView)}
             }
         }

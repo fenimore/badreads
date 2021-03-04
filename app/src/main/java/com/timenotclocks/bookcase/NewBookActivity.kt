@@ -24,6 +24,7 @@ import java.time.LocalDate
 
 const val TAG_NEW = "BookNew"
 const val EXTRA_NEW = "new_book"
+const val EXTRA_ID = "book_id"
 
 class NewBookActivity : AppCompatActivity() {
     private val bookViewModel: BookViewModel by viewModels {
@@ -44,10 +45,8 @@ class NewBookActivity : AppCompatActivity() {
         val bookId = findViewById<TextView>(R.id.new_book_id_view)
 
         val bookInfo: String = intent.extras?.get(EXTRA_BOOK).toString()
-        Log.i(TAG_NEW, bookInfo)
         val newBook = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).parse<Book>(bookInfo)
-        Log.i(TAG_NEW, newBook.toString())
-        Log.i(TAG_NEW, newBook.toString())
+
         bookId.text = "New Book ${newBook?.bookId}"
         newBook?.let { current ->
             current.cover("L").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.new_book_cover_image)) }
@@ -70,13 +69,22 @@ class NewBookActivity : AppCompatActivity() {
         }
         val btnAdd = findViewById<MaterialButton>(R.id.new_book_btn_add)
         btnAdd.setOnClickListener {
-            newBook?.let {
-                val intent = Intent(this, BookViewActivity::class.java).apply {
-                    putExtra(EXTRA_BOOK, Klaxon().fieldConverter(KlaxonDate::class, dateConverter).toJsonString(it))
-                    putExtra(EXTRA_NEW, true)
-                }
-                startActivity(intent)
-                finish()
+            newBook?.let { bookToAdd ->
+                bookViewModel.insertSync(bookToAdd).observe(this, { observed ->
+                    if (observed > 0) {
+                        bookToAdd.bookId = observed
+                        Log.i(TAG_NEW, "Adding book: $bookToAdd")
+                        val intent = Intent(this, BookViewActivity::class.java).apply {
+                            putExtra(EXTRA_ID, observed)
+                        }
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Log.e(TAG_NEW, "Id was not inserted: $observed")
+                    }
+
+                })
+
             }
         }
         val btnCancel = findViewById<MaterialButton>(R.id.new_book_btn_cancel)
@@ -118,36 +126,22 @@ class NewBookActivity : AppCompatActivity() {
     private fun showMenu(b: Book, v: View, @MenuRes menuRes: Int) {
         val popup = PopupMenu(applicationContext, v)
         popup.menuInflater.inflate(menuRes, popup.menu)
-
+        val btn = findViewById<Button>(R.id.new_book_shelf_dropdown)
         popup.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
                 R.id.shelf_to_read -> {
-                    setShelf(b, "to-read")
+                    b.shelve(ShelfType.ToReadShelf, btn, bookViewModel)
                 }
                 R.id.shelf_currently_reading -> {
-                    setShelf(b, "currently-reading")
+                    b.shelve(ShelfType.CurrentShelf, btn, bookViewModel)
                 }
                 R.id.shelf_read -> {
-                    setShelf(b, "read")
-                }
-                else -> {
-                    true
+                    b.shelve(ShelfType.ReadShelf, btn, bookViewModel)
                 }
             }
+            true
         }
         popup.show()
-    }
-
-    private fun setShelf(book: Book, shelf: String): Boolean {
-        if (book.shelf != shelf) {
-            book.shelf = shelf
-            when(shelf){
-                "read" -> {book.dateRead = LocalDate.now()}
-                "currently-reading" -> {book.dateStarted = LocalDate.now()}
-            }
-            findViewById<Button>(R.id.new_book_shelf_dropdown).text = shelf
-        }
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

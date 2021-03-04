@@ -27,6 +27,7 @@ const val LOG_BOOK_VIEW = "BookView"
 class BookViewActivity : AppCompatActivity() {
 
     private var book: Book? = null
+
     private val bookViewModel: BookViewModel by viewModels {
         BookViewModelFactory((application as BooksApplication).repository)
     }
@@ -44,33 +45,31 @@ class BookViewActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val bookInfo: String = intent.extras?.get(EXTRA_BOOK).toString()
-        book = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).parse<Book>(bookInfo)
-
-        if (intent.getBooleanExtra(EXTRA_NEW, false)) {
-            book?.let {
-                bookViewModel.insert(it)
-                Snackbar.make(
-                        findViewById(R.id.book_view_activity),
-                        "You've added ${it.title} to your library",
-                        Snackbar.LENGTH_LONG
-                ).setAction("Action", null).show()
-            }
+        intent.extras?.getLong(EXTRA_ID)?.let { id ->
+            bookViewModel.getBook(id).observe(this, { observable ->
+                book = observable
+                populateViews(observable)
+            })
         }
-        book?.let { current -> populateViews(current) }
     }
 
     private fun populateViews(current: Book) {
         current.title.let { findViewById<TextView>(R.id.book_view_title).text = it }
-        current.cover("L").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.book_view_cover_image)) }
+        current.cover("L").let {
+            val coverView = findViewById<ImageView>(R.id.book_view_cover_image)
+            Picasso.get().load(it).into(coverView, object: com.squareup.picasso.Callback {
+                override fun onSuccess() { coverView.visibility = View.VISIBLE }
+                override fun onError(e: java.lang.Exception?) { }
+            })
+
+        }
         current.subtitle?.let { findViewById<TextView>(R.id.book_view_subtitle).text = it }
         current.author?.let { findViewById<TextView>(R.id.book_view_author).text = it }
         current.authorExtras?.let { findViewById<TextView>(R.id.book_view_author_extras).text = it }
         current.isbn10?.let { findViewById<TextView>(R.id.book_view_isbn10).text = it }
         current.isbn13?.let {  isbn -> findViewById<TextView>(R.id.book_view_isbn13).text = isbn}
         current.publisher?.let { findViewById<TextView>(R.id.book_view_publisher).text = it }
-        current.year?.let { findViewById<TextView>(R.id.book_view_year).text = it.toString() }
-        current.originalYear?.let { findViewById<TextView>(R.id.book_view_original_year).text = it.toString() }
+        current.yearString()?.let { findViewById<TextView>(R.id.book_view_year).text = it }
         current.dateAdded?.let {findViewById<TextView>(R.id.book_view_date_added).text = it.toString()}
         current.dateStarted?.let {findViewById<TextView>(R.id.book_view_date_started).text = it.toString()}
         current.dateRead?.let { findViewById<TextView>(R.id.book_view_date_shelved).text = it.toString() }
@@ -103,13 +102,14 @@ class BookViewActivity : AppCompatActivity() {
                 finish()
             }
             R.id.menu_edit -> {
-                val intent = Intent(applicationContext, BookEditActivity::class.java).apply {
-                    book?.let {
-                        putExtra(EXTRA_BOOK, Klaxon().fieldConverter(KlaxonDate::class, dateConverter).toJsonString(it))
-                    }
-                }
-                startActivityForResult(intent, 100)
+                Log.i(LOG_BOOK_VIEW, "Editing this book")
 
+                book?.let{ it ->
+                    val intent = Intent(applicationContext, BookEditActivity::class.java).apply {
+                        putExtra(EXTRA_ID, it.bookId)
+                    }
+                    startActivityForResult(intent, 100)
+                }
             }
         }
 
@@ -119,9 +119,11 @@ class BookViewActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when(resultCode) {
             RESULT_OK -> {
-                val bookInfo: String = data?.getStringExtra(EXTRA_SAVED_BOOK).toString()
-                book = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).parse<Book>(bookInfo)
-                book?.let{populateViews(it)}
+                intent.extras?.getLong(EXTRA_ID)?.let { bookId ->
+                    bookViewModel.getBook(bookId).observe(this, { observable ->
+                        populateViews(observable)
+                    })
+                }
                 Snackbar.make(
                         findViewById(R.id.book_view_activity),
                         "Book information has been saved", Snackbar.LENGTH_LONG
@@ -131,30 +133,9 @@ class BookViewActivity : AppCompatActivity() {
                 finish()
             }
             RESULT_CANCELED -> {}
-
         }
 
         super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    private fun setShelf(shelf: String): Boolean {
-        book?.let {
-            if (it.shelf != shelf) {
-                it.shelf = shelf
-                when(shelf){
-                    "read" -> {it.dateRead = LocalDate.now()}
-                    "currently-reading" -> {it.dateStarted = LocalDate.now()}
-                }
-                bookViewModel.update(it)
-                findViewById<Button>(R.id.book_view_shelf_dropdown).text = shelf
-                Snackbar.make(
-                        findViewById(R.id.book_view_activity),
-                        "You've shelved ${it.title}",
-                        Snackbar.LENGTH_LONG
-                ).setAction("Action", null).show()
-            }
-        }
-        return true
     }
 
     private fun showMenu(v: View, @MenuRes menuRes: Int) {
@@ -162,12 +143,19 @@ class BookViewActivity : AppCompatActivity() {
         popup.menuInflater.inflate(menuRes, popup.menu)
 
         popup.setOnMenuItemClickListener { menuItem: MenuItem ->
+            val btn = findViewById<Button>(R.id.book_view_shelf_dropdown)
             when(menuItem.itemId) {
-                R.id.shelf_to_read -> {setShelf("to-read")}
-                R.id.shelf_currently_reading -> {setShelf("currently-reading")}
-                R.id.shelf_read -> {setShelf("read")}
-                else -> {true}
+                R.id.shelf_to_read -> {
+                    book?.let { it.shelve(ShelfType.ToReadShelf, btn, bookViewModel) }
+                }
+                R.id.shelf_currently_reading -> {
+                    book?.let { it.shelve(ShelfType.CurrentShelf, btn, bookViewModel) }
+                }
+                R.id.shelf_read -> {
+                    book?.let { it.shelve(ShelfType.ReadShelf, btn, bookViewModel) }
+                }
             }
+            true
         }
         popup.show()
     }

@@ -57,6 +57,8 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                     }
                 },
                 {
+                    numResults.value = 0
+                    searches.setValue(emptyList<Book>())
                     Log.e("BK", "Volley Error $it")
                 })
         RequestQueueSingleton.getInstance(getApplication()).addToRequestQueue(stringRequest)

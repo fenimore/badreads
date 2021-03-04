@@ -52,7 +52,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.length > 5) {
+                if (newText.length > 4) {
                     searchQuery(newText, searchView, progressBar)
                 }
                 return true

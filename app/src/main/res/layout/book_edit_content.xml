@@ -37,28 +37,41 @@
             android:scaleType="fitCenter"
             />
 
-
-        <EditText
-            android:id="@+id/book_edit_title"
-            android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/book_edit_title_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="title"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:hint="Title"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_cover_image" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_cover_image"
+            >
 
-        <EditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="subtitle"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_title" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_title_layout"
+            ><com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            /></com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -67,7 +80,12 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_subtitle" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_subtitle" >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <EditText
             android:id="@+id/book_edit_author_extras"
@@ -159,6 +177,7 @@
             android:id="@+id/book_edit_rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             card_view:layout_constraintTop_toBottomOf="@id/book_edit_shelf_dropdown"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/menu_main_open_library_search"
         android:title="Search Open Library"
-        android:icon="@drawable/ic_plus"
+        android:icon="@drawable/ic_add_black"
         app:showAsAction="always"
         />
 
@@ -15,7 +15,7 @@
             <item android:id="@+id/menu_export"
                 android:title="Export" />
             <item android:id="@+id/menu_import"
-                android:title="Import" />
+                android:title="Import From Goodreads" />
             <item android:id="@+id/menu_delete"
                 android:title="Delete All Data"/>
         </menu>
@@ -23,12 +23,6 @@
     <item
         android:id="@+id/menu_settings"
         android:title="Settings"
+        android:icon="@drawable/ic_gear_black"
         />
-    <item
-        android:id="@+id/menu_about"
-        android:title="About"
-        />
-
-
-
 </menu>

@@ -20,7 +20,7 @@ limitations under the License. -->
     android:layout_height="wrap_content"
      card_view:cardCornerRadius="4dp"
     card_view:cardMaxElevation="1dp"
-    card_view:cardElevation="0.7dp"
+    card_view:cardElevation="@dimen/list_card_elevation"
     card_view:contentPadding="0dp"
     card_view:contentPaddingBottom="0dp"
     card_view:cardPreventCornerOverlap="true"
@@ -33,7 +33,7 @@ limitations under the License. -->
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/cover_view"
+            android:id="@+id/book_list_cover_view"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintBottom_toBottomOf="parent"
@@ -44,51 +44,75 @@ limitations under the License. -->
             android:layout_height="wrap_content"
             android:minHeight="100dp"
             android:minWidth="70dp"
+
             />
         <TextView
-            android:id="@+id/book_view_item_title"
+            android:id="@+id/book_list_main_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:textAppearance="@style/TextAppearance.AppTheme.Body1"
-            card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            android:lines="3"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1Bold"
             android:ellipsize="end"
-            android:fontFamily=""
-            card_view:layout_constraintStart_toEndOf="@+id/cover_view"
+            android:maxLines="3"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/book_list_cover_view"
+            card_view:layout_constraintEnd_toEndOf="parent"
             />
-
         <TextView
-            android:id="@+id/author_view"
+            android:id="@+id/book_list_sub_view"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:ellipsize="end"
-            android:lines="2"
-            android:paddingTop="6dp"
-            android:textAppearance="@style/TextAppearance.AppTheme.Body2Light"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+            card_view:layout_constraintBottom_toTopOf="@id/book_list_caption_view_1"
+            card_view:layout_constraintTop_toBottomOf="@id/book_list_main_view"
+            card_view:layout_constraintStart_toEndOf="@+id/book_list_cover_view"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.0"
-            card_view:layout_constraintStart_toEndOf="@+id/cover_view"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_item_title" />
+
+            />
 
         <TextView
-            android:id="@+id/date_added_view"
+            android:id="@+id/book_list_caption_view_1"
+            card_view:layout_constraintHorizontal_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppTheme.Body2Light"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="@style/TextAppearance.AppTheme.Caption"
+            card_view:layout_constraintHorizontal_bias="0.0"
 
-            card_view:layout_constraintStart_toEndOf="@id/cover_view"
+            card_view:layout_constraintStart_toEndOf="@id/book_list_cover_view"
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/author_view"
+
+            card_view:layout_constraintEnd_toStartOf="@id/book_list_caption_view_2"
+
             card_view:layout_constraintVertical_bias="1.0"
 
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="12dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            />
+
+        <TextView
+            android:id="@+id/book_list_caption_view_2"
+            android:layout_width="0dp"
+            card_view:layout_constraintHorizontal_weight="1"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Caption"
+
+            card_view:layout_constraintStart_toEndOf="@id/book_list_caption_view_1"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_list_sub_view"
+            card_view:layout_constraintEnd_toEndOf="parent"
+
+            card_view:layout_constraintVertical_bias="1.0"
+
             android:layout_marginTop="8dp"
             android:paddingBottom="12dp"
             android:paddingStart="8dp"

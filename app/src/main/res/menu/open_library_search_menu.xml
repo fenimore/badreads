@@ -10,7 +10,7 @@
         app:showAsAction="always|collapseActionView"
         />
     <item android:id="@+id/search_scan_item"
-        android:icon="@drawable/ic_scanner"
+        android:icon="@drawable/ic_scanner_black"
         android:title="Scan Barcode"
         app:showAsAction="always"
         />
