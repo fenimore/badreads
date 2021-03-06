@@ -3,22 +3,17 @@ package com.timenotclocks.bookcase
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.cardview.widget.CardView
 import com.beust.klaxon.Klaxon
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.database.*
-import com.timenotclocks.bookcase.ui.main.DuplicateBookAdapter
 import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
 import java.time.LocalDate
 
@@ -37,28 +32,20 @@ class NewBookActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val adapter = DuplicateBookAdapter()
-        val recyclerView = findViewById<RecyclerView>(R.id.new_book_duplicates)
-        recyclerView?.adapter = adapter
-        recyclerView?.layoutManager = LinearLayoutManager(applicationContext)
         val progressBar = findViewById<ProgressBar>(R.id.duplicate_progress_bar)
-        val bookId = findViewById<TextView>(R.id.new_book_id_view)
 
         val bookInfo: String = intent.extras?.get(EXTRA_BOOK).toString()
         val newBook = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).parse<Book>(bookInfo)
+        var duplicateBook: Book? = null
 
-        bookId.text = "New Book ${newBook?.bookId}"
         newBook?.let { current ->
             current.cover("L").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.new_book_cover_image)) }
-            current.subtitle?.let {
-                findViewById<TextView>(R.id.new_book_title).text = "$current.title: $it"
-            } ?: run { findViewById<TextView>(R.id.new_book_title).text = current.title }
+            findViewById<TextView>(R.id.new_book_title).text = current.titleString()
             current.author?.let { findViewById<TextView>(R.id.new_book_author).text = it }
             current.isbn10?.let { findViewById<TextView>(R.id.new_book_isbn10).text = it }
             current.isbn13?.let { isbn -> findViewById<TextView>(R.id.new_book_isbn13).text = isbn }
             current.publisher?.let { findViewById<TextView>(R.id.new_book_publisher).text = it }
-            current.year?.let { findViewById<TextView>(R.id.new_book_year).text = it.toString() }
-            current.originalYear?.let { findViewById<TextView>(R.id.new_book_original_year).text = it.toString() }
+            current.yearString()?.let { findViewById<TextView>(R.id.new_book_year).text = it }
             current.dateAdded = LocalDate.now()
 
             val shelfDropdown = findViewById<MaterialButton>(R.id.new_book_shelf_dropdown)
@@ -84,7 +71,6 @@ class NewBookActivity : AppCompatActivity() {
                     }
 
                 })
-
             }
         }
         val btnCancel = findViewById<MaterialButton>(R.id.new_book_btn_cancel)
@@ -93,33 +79,49 @@ class NewBookActivity : AppCompatActivity() {
         }
         val btnReplace = findViewById<MaterialButton>(R.id.new_book_btn_replace)
         btnReplace.setOnClickListener {
-            if (adapter.itemCount > 0) {
-                Log.i(TAG_NEW, adapter.item(0).toString())
-            }
-        }
-        val btnMerge = findViewById<MaterialButton>(R.id.new_book_btn_merge)
-        btnMerge.setOnClickListener {
-            if (adapter.itemCount > 0) {
-                newBook?.let {
-                    val mergedBooked = mergeBooks(adapter.item(0), it)
+            newBook?.let { bookDetails ->
+                duplicateBook?.let{ bookDetails.bookId = it.bookId }
+
+                bookViewModel.update(bookDetails)
+                Log.i(TAG_NEW, "Adding new details old book id: $bookDetails")
+                val intent = Intent(this, BookViewActivity::class.java).apply {
+                    putExtra(EXTRA_ID, bookDetails.bookId)
                 }
+                startActivity(intent)
+                finish()
             }
         }
-        val alike = newBook?.let {
+        newBook?.let {
+            progressBar?.visibility = View.VISIBLE
             bookViewModel.findAlike(it.bookId, "%${it.title}%", it.isbn10, it.isbn13)
-        }
-        progressBar?.visibility = View.VISIBLE
-        alike?.observe(this, { observed ->
-            observed?.let { books ->
-                progressBar?.visibility = View.GONE
-                adapter.submitList(books)
-                if (books.isNotEmpty()) {
-                    findViewById<TextView>(R.id.new_book_duplicates_header).visibility = View.VISIBLE
-                    btnReplace.visibility = View.VISIBLE
-                    btnMerge.visibility = View.VISIBLE
-                    btnCancel.visibility = View.VISIBLE
+        }?.observe(this, { observed ->
+            progressBar?.visibility = View.GONE
+            observed?.let { alike ->
+
+                duplicateBook = alike
+
+                alike.cover("L")?.let {
+                    Picasso.get().load(it).into(findViewById<ImageView>(R.id.duplicate_book_cover_image))
                 }
+                findViewById<TextView>(R.id.duplicate_book_title).text = alike.titleString()
+                alike.author?.let { findViewById<TextView>(R.id.duplicate_book_author).text = it }
+                alike.isbn10?.let { findViewById<TextView>(R.id.duplicate_book_isbn10).text = it }
+                alike.isbn13?.let { isbn -> findViewById<TextView>(R.id.duplicate_book_isbn13).text = isbn }
+                alike.publisher?.let { findViewById<TextView>(R.id.duplicate_book_publisher).text = it }
+                alike.yearString()?.let { findViewById<TextView>(R.id.duplicate_book_year).text = it }
+                alike.dateAdded = LocalDate.now()
+
+                val dupShelfDropdown = findViewById<MaterialButton>(R.id.duplicate_book_shelf_dropdown)
+                dupShelfDropdown.text = alike.shelf
+                dupShelfDropdown.isClickable = false
+
+                findViewById<TextView>(R.id.new_book_duplicates_header).visibility = View.VISIBLE
+                findViewById<CardView>(R.id.duplicate_card_view).visibility = View.VISIBLE
+                btnAdd.visibility = View.GONE
+                btnReplace.visibility = View.VISIBLE
+                btnCancel.visibility = View.VISIBLE
             }
+
         })
     }
 

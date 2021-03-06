@@ -17,6 +17,8 @@ package com.timenotclocks.bookcase.database
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import com.timenotclocks.bookcase.database.Book
 import com.timenotclocks.bookcase.database.BookDao
 import kotlinx.coroutines.flow.Flow
@@ -33,6 +35,24 @@ class BookRepository(private val bookDao: BookDao) {
     val readShelf: Flow<List<Book>> = bookDao.readShelf()
     val toReadShelf: Flow<List<Book>> = bookDao.toReadShelf()
     val currentShelf: Flow<List<Book>> = bookDao.currentShelf()
+
+    val sortedCurrentShelf: Flow<List<Book>> = bookDao.dateStartedSort(ShelfType.CurrentShelf.shelf)
+    val sortedReadShelf: Flow<List<Book>> = bookDao.dateReadSort(ShelfType.ReadShelf.shelf)
+    val sortedToReadShelf: Flow<List<Book>> = bookDao.dateAddedSort(ShelfType.ToReadShelf.shelf)
+
+/*    fun sortBy(sortingColumn: SortColumn, shelfType: ShelfType) {
+        when (sortingColumn) {
+            *//* If you're handling your DB operations with coroutines, this function
+             * should be suspendable and you should set the value to allDecks
+             * with postValue
+             *//*
+            SortColumn.DateStarted -> theShelf.value = bookDao.dateStartedSort(shelfType.shelf)
+            SortColumn.DateRead -> theShelf.value = bookDao.dateReadSort(shelfType.shelf)
+            SortColumn.DateAdded -> theShelf.value = bookDao.sortShelf(shelfType.shelf, sortingColumn.column)
+            SortColumn.Author -> theShelf.value = bookDao.authorSort(shelfType.shelf)
+            SortColumn.Year -> theShelf.value = bookDao.yearSort(shelfType.shelf)
+        }
+    }*/
 
     // By default Room runs suspend queries off the main thread, therefore, we don't need to
     // implement anything else to ensure we're not doing long running database work
@@ -83,7 +103,7 @@ class BookRepository(private val bookDao: BookDao) {
         return bookDao.sortShelf(shelfType.shelf, sortColumn.column)
     }
 
-    fun findAlike(bookId: Long, title: String, isbn10: String?, isbn13: String?): Flow<List<Book>> {
+    fun findAlike(bookId: Long, title: String, isbn10: String?, isbn13: String?): LiveData<Book> {
         return bookDao.findAlike(bookId, title, isbn10, isbn13)
     }
 }

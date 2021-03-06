@@ -55,7 +55,11 @@ class GoodReadImport {
                         true -> LocalDate.parse(row["Date Read"], formatter)
                         false -> null
                     },
-                    dateStarted = null,
+                    dateStarted= when(!row["Date Started"].isNullOrBlank()) {
+                        // Custom column not included by goodreads
+                        true -> LocalDate.parse(row["Date Started"], formatter)
+                        false -> null
+                    },
             )
             imports.add(book)
         }

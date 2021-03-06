@@ -16,7 +16,6 @@ import com.beust.klaxon.Klaxon
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.database.*
-import com.timenotclocks.bookcase.ui.main.DuplicateDialogFragment
 import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
 import com.timenotclocks.bookcase.ui.main.EXTRA_OPEN_LIBRARY_SEARCH
 import java.time.LocalDate

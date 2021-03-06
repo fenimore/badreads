@@ -77,6 +77,11 @@ data class Book(  // TODO: can I remove overloads? i'ts for the converter
         return "https://covers.openlibrary.org/b/isbn/$isbn-$size.jpg?default=false"
     }
 
+    fun titleString(): String {
+        return subtitle?.let {
+            sub -> "$title: $sub"
+        } ?: title
+    }
     fun yearString(): String? {
         if (year != null && originalYear != null) {
             return "$year ($originalYear)"

@@ -44,6 +44,9 @@ public interface BookDao {
     @Query("SELECT * FROM books WHERE shelf = :shelf ORDER BY :column DESC")
     fun sortShelf(shelf: String, column: String): Flow<List<Book>>
 
+    @Query("SELECT * FROM books WHERE shelf = :shelf ORDER BY dateAdded DESC")
+    fun dateAddedSort(shelf: String): Flow<List<Book>>
+
     @Query("SELECT * FROM books WHERE shelf = :shelf ORDER BY dateRead DESC")
     fun dateReadSort(shelf: String): Flow<List<Book>>
 
@@ -62,8 +65,8 @@ public interface BookDao {
     @Query("SELECT * FROM books WHERE shelf = 'to-read' ORDER BY dateAdded DESC")
     fun toReadShelf(): Flow<List<Book>>
 
-    @Query("SELECT * FROM books WHERE (title LIKE :title OR isbn10 LIKE :isbn10 OR isbn13 LIKE :isbn13) AND :bookId != bookId")
-    fun findAlike(bookId: Long, title: String, isbn10: String?, isbn13: String?): Flow<List<Book>>
+    @Query("SELECT * FROM books WHERE (title LIKE :title OR isbn10 LIKE :isbn10 OR isbn13 LIKE :isbn13) AND :bookId != bookId LIMIT 1")
+    fun findAlike(bookId: Long, title: String, isbn10: String?, isbn13: String?): LiveData<Book>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertBook(book: Book): Long

@@ -87,7 +87,8 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_author_extras"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -96,10 +97,16 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_author" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_author" >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_publisher"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -108,9 +115,15 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_author_extras" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_author_extras">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_year"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -119,9 +132,15 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintEnd_toStartOf="@+id/book_edit_original_year"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_publisher" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_publisher" >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_original_year"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -130,9 +149,15 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/book_edit_year"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_publisher" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_publisher">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_isbn13"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -142,9 +167,15 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toStartOf="@+id/book_edit_isbn10"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_original_year" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_original_year">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_isbn10"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -154,7 +185,12 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/book_edit_isbn13"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_original_year" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_original_year">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <com.google.android.material.button.MaterialButton

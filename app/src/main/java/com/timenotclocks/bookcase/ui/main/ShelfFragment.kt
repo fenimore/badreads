@@ -60,7 +60,6 @@ class ShelfFragment : Fragment() {
 
         defaultSortLibrary()?.observe(viewLifecycleOwner) { books ->
             books.let {
-                Log.i(LOG_SHELF, "$it?")
                 adapter.submitList(it)
             }
         }
@@ -69,15 +68,16 @@ class ShelfFragment : Fragment() {
     }
 
     private fun defaultSortLibrary(): LiveData<List<Book>>? {
+        Log.i(LOG_SHELF, "This is the Shelf ${pageViewModel.getIndex()}")
         when (pageViewModel.getIndex()) {
             1 -> {
-                return bookViewModel.dateStartedSort(ShelfType.CurrentShelf)
+                return bookViewModel.currentShelf //bookViewModel.dateStartedSort(ShelfType.CurrentShelf)
             }
             2 -> {
-                return bookViewModel.dateReadSort(ShelfType.ReadShelf)
+                return bookViewModel.readShelf // bookViewModel.dateReadSort(ShelfType.ReadShelf)
             }
             3 -> {
-                return bookViewModel.sortShelf(ShelfType.ToReadShelf, SortColumn.DateAdded)
+                return bookViewModel.toReadShelf //.sortShelf(ShelfType.ToReadShelf, SortColumn.DateAdded)
             }
         }
         return null
@@ -90,7 +90,6 @@ class ShelfFragment : Fragment() {
                 return bookViewModel.sortShelf(ShelfType.CurrentShelf, sortColumn)
             }
             2 -> {
-                // return bookViewModel.authorSort(ShelfType.ReadShelf)
                 return bookViewModel.sortShelf(ShelfType.ReadShelf, sortColumn)
             }
             3 -> {

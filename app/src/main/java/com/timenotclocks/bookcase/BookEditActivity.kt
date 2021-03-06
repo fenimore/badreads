@@ -72,33 +72,33 @@ class BookEditActivity : AppCompatActivity() {
         authorEdit?.doAfterTextChanged { editable -> current.author = editable.toString().ifEmpty { null } }
         current.author?.let { authorEdit?.setText(it) }
 
-        val extrasEdit = findViewById<TextView>(R.id.book_edit_author_extras)
-        extrasEdit.doAfterTextChanged { editable -> current.authorExtras = editable.toString().ifEmpty { null } }
-        current.authorExtras?.let { extrasEdit.text = it }
+        val extrasEdit = findViewById<TextInputLayout>(R.id.book_edit_author_extras).editText
+        extrasEdit?.doAfterTextChanged { editable -> current.authorExtras = editable.toString().ifEmpty { null } }
+        current.authorExtras?.let { extrasEdit?.setText(it) }
 
-        val isbn10Edit = findViewById<EditText>(R.id.book_edit_isbn10)
-        isbn10Edit.doAfterTextChanged { editable -> current.isbn10 = editable.toString().ifEmpty { null } }
-        current.isbn10?.let { isbn10Edit.setText(it) }
+        val isbn10Edit = findViewById<TextInputLayout>(R.id.book_edit_isbn10).editText
+        current.isbn10?.let { isbn10Edit?.setText(it) }
+        isbn10Edit?.doAfterTextChanged { editable -> current.isbn10 = editable.toString().ifEmpty { null } }
 
-        val isbn13Edit = findViewById<EditText>(R.id.book_edit_isbn13)
-        isbn13Edit.doAfterTextChanged { editable -> current.isbn13 = editable.toString().ifEmpty { null } }
-        current.isbn13?.let { isbn -> isbn13Edit.setText(isbn) }
+        val isbn13Edit = findViewById<TextInputLayout>(R.id.book_edit_isbn13).editText
+        current.isbn13?.let { isbn -> isbn13Edit?.setText(isbn) }
+        isbn13Edit?.doAfterTextChanged { editable -> current.isbn13 = editable.toString().ifEmpty { null } }
 
-        val publisherEdit = findViewById<EditText>(R.id.book_edit_publisher)
-        publisherEdit.doAfterTextChanged { editable -> current.publisher = editable.toString().ifEmpty { null } }
-        current.publisher?.let { publisherEdit.setText(it) }
+        val publisherEdit = findViewById<TextInputLayout>(R.id.book_edit_publisher).editText
+        current.publisher?.let { publisherEdit?.setText(it) }
+        publisherEdit?.doAfterTextChanged { editable -> current.publisher = editable.toString().ifEmpty { null } }
 
-        val yearEdit = findViewById<EditText>(R.id.book_edit_year)
-        yearEdit.doAfterTextChanged { editable -> editable.toString().toIntOrNull()?.let { year -> current.year = year } }
-        current.year?.let { yearEdit.setText(it.toString()) }
+        val yearEdit = findViewById<TextInputLayout>(R.id.book_edit_year).editText
+        current.year?.let { yearEdit?.setText(it.toString()) }
+        yearEdit?.doAfterTextChanged { editable -> editable.toString().toIntOrNull()?.let { year -> current.year = year } }
 
-        val originalYearEdit = findViewById<EditText>(R.id.book_edit_original_year)
-        originalYearEdit.doAfterTextChanged { editable ->
+        val originalYearEdit = findViewById<TextInputLayout>(R.id.book_edit_original_year).editText
+        current.originalYear?.let { originalYearEdit?.setText(it.toString()) }
+        originalYearEdit?.doAfterTextChanged { editable ->
             editable.toString().toIntOrNull()?.let { year ->
                 current.originalYear = year
             }
         }
-        current.originalYear?.let { originalYearEdit.setText(it.toString()) }
 
         val dateRead = findViewById<DatePicker>(R.id.book_edit_date_shelved)
         current.dateRead?.let {

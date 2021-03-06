@@ -16,14 +16,11 @@
 
 package com.timenotclocks.bookcase
 
-import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.DocumentsContract
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -31,8 +28,6 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
-
 import androidx.viewpager.widget.ViewPager
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.google.android.material.snackbar.Snackbar
@@ -40,19 +35,14 @@ import com.google.android.material.tabs.TabLayout
 import com.timenotclocks.bookcase.api.Exporter
 import com.timenotclocks.bookcase.api.GoodReadImport
 import com.timenotclocks.bookcase.api.LOG_EXP
-import com.timenotclocks.bookcase.barcodereader.BarcodeActivity
-import com.timenotclocks.bookcase.database.*
-import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
+import com.timenotclocks.bookcase.database.BookViewModel
+import com.timenotclocks.bookcase.database.BookViewModelFactory
+import com.timenotclocks.bookcase.database.BooksApplication
 import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
-import java.io.BufferedOutputStream
-import java.io.File
-import java.io.OutputStream
-import java.io.OutputStreamWriter
-import java.nio.file.FileStore
-import kotlin.math.exp
 
 const val LOG_TAG = "Bookshelf"
 const val EXTRA_SCAN = "scan_please"
+const val REQ_EXP = 9832
 
 class MainActivity : AppCompatActivity()  {
 
@@ -82,67 +72,6 @@ class MainActivity : AppCompatActivity()  {
 
         Log.d(LOG_TAG, "Created Main Activity")
 
-        /*bookViewModel.allBooks.observe(this, {observable ->
-            observable?.let{ allBooks ->
-
-                //Create a new file that points to the root directory, with the given name:
-                //val file = File(getExternalFilesDir(null), "export.csv");
-                val exportFile = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "export_1.csv")
-                //This point and below is responsible for the write operation
-                Exporter().csv(exportFile.outputStream(), allBooks)
-
-                // val rows = csvReader().readAllWithHeader(exportFile.inputStream())
-
-                val fileUri: Uri? = try {
-                    FileProvider.getUriForFile(
-                            this@MainActivity,
-                            "com.timenotclocks.bookcase.fileprovider",
-                            exportFile
-                    )
-                } catch (e: IllegalArgumentException) {
-                    Log.e("File Selector", "The selected file can't be shared: ${exportFile.toPath()}")
-                    null
-                }
-
-                val createIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "text/csv"
-                    putExtra(Intent.EXTRA_TITLE, "export.csv")
-
-                    // Optionally, specify a URI for the directory that should be opened in
-                    // the system file picker before your app creates the document.
-                    Log.i(LOG_EXP, "Going to ${exportFile.toPath()}")
-                    putExtra(
-                            DocumentsContract.EXTRA_INITIAL_URI,
-                            FileProvider.getUriForFile(
-                                    applicationContext,
-                                    BuildConfig.APPLICATION_ID + ".provider",
-                                    exportFile
-                            )
-                    )
-                }
-                startActivityForResult(createIntent, 1)
-
-
-//                startActivity(Intent.createChooser(sendIntent, "Export Library to..."))
-//
-//                val fileUri: Uri? = try {
-//                    FileProvider.getUriForFile(
-//                            this@MainActivity,
-//                            "com.timenotclocks.bookcase.fileprovider",
-//                            exportFile
-//                    )
-//                } catch (e: IllegalArgumentException) {
-//                    Log.e("File Selector", "The selected file can't be shared: ${exportFile.toPath()}")
-//                    null
-//                }
-//                fileUri?.let { uri ->
-//                    Log.i(LOG_EXP, "Bil and ted!")
-//                    Log.i(LOG_EXP, uri.toString())
-//
-//                }
-            }
-        })*/
 
 /*        val data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null, "dateRead" : null, "isbn10" : "0307970655", "isbn13" : "9780385535595", "notes" : null, "numberPages" : null, "originalYear" : 2016, "publisher" : "Doubleday", "rating" : null, "shelf" : "to-read", "subtitle" : null, "title" : "Dark Money", "year" : 2016}"""
         val intent = Intent(applicationContext, NewBookActivity::class.java).apply {
@@ -179,15 +108,12 @@ class MainActivity : AppCompatActivity()  {
                 return true
             }
             R.id.menu_export -> {
-                bookViewModel.allBooks.observe(this, {observable ->
-                    observable?.let{
-                        val outputStream = applicationContext.openFileOutput("export.csv", Context.MODE_PRIVATE)
-                        val output = Exporter().csv(outputStream, it)
-                        Log.i(LOG_EXP, output.toString())
-                        val rows = csvReader().readAllWithHeader(applicationContext.openFileInput("export.csv"))
-                        Log.i(LOG_EXP, rows.toString())
-                    }
-                })
+                val createIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "text/csv"
+                    putExtra(Intent.EXTRA_TITLE, "export.csv")
+                }
+                startActivityForResult(createIntent, REQ_EXP)
                 true
             }
             R.id.menu_delete -> {
@@ -219,8 +145,7 @@ class MainActivity : AppCompatActivity()  {
         if (requestCode == goodReadsImport && resultCode == RESULT_OK) {
             val uri: Uri? = data?.data
             uri?.let {
-                contentResolver.openInputStream(it)?.let {
-                    inputStream ->
+                contentResolver.openInputStream(it)?.let { inputStream ->
                     val imports = GoodReadImport().serialize(inputStream)
                     // TODO: add batch import
                     imports.map { book -> bookViewModel.insert(book)}
@@ -232,6 +157,29 @@ class MainActivity : AppCompatActivity()  {
                 }
             }
         }
+
+
+        if (requestCode == REQ_EXP && resultCode == RESULT_OK) {
+            Log.i(LOG_EXP, "Huh So this is working")
+
+            data?.data?.let { uri ->
+                bookViewModel.allBooks.observe(this, { observable ->
+                    observable?.let { allBooks ->
+                        contentResolver.openOutputStream(uri)?.let { outputStream ->
+                            Exporter().csv(outputStream, allBooks)
+                        }
+                        val sendIntent = Intent(Intent.ACTION_SEND)
+                        sendIntent.type = "text/plain"
+                        sendIntent.putExtra(Intent.EXTRA_STREAM, uri)
+                        // Share the file after saving
+                        startActivity(sendIntent)
+                    }
+                })
+            }
+        }
+
+
+
 
         super.onActivityResult(requestCode, resultCode, data)
     }
