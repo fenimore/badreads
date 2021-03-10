@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
     <item android:id="@+id/menu_main_open_library_search"
         android:title="Search Open Library"
         android:icon="@drawable/ic_add_black"
         app:showAsAction="always"
         />
 
+    <item android:title="Badreads Menu"
+        android:enabled="false"
+        app:showAsAction="never"
+        />
     <item android:id="@+id/menu_export_import"
         android:title="Library export/import"
         >
         <!-- "file" submenu -->
         <menu>
             <item android:id="@+id/menu_export"
-                android:title="Export" />
+                android:title="Export to CSV" />
             <item android:id="@+id/menu_import"
-                android:title="Import From Goodreads" />
+                android:title="Import from CSV" />
             <item android:id="@+id/menu_delete"
                 android:title="Delete All Data"/>
         </menu>
@@ -24,5 +30,9 @@
         android:id="@+id/menu_settings"
         android:title="Settings"
         android:icon="@drawable/ic_gear_black"
+        />
+    <item
+        android:id="@+id/menu_about"
+        android:title="About"
         />
 </menu>

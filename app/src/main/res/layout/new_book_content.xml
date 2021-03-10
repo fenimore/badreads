@@ -49,13 +49,13 @@
                 android:layout_height="wrap_content"
                 card_view:layout_constraintHorizontal_bias="0.5"
                 card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintStart_toEndOf="@id/new_book_isbn10"
-                android:layout_marginTop="30dp"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                card_view:cornerRadius="15dp"
                 card_view:layout_constraintTop_toBottomOf="@+id/new_book_cover_image"
 
+                android:layout_marginTop="30dp"
+
+                card_view:cornerRadius="15dp"
+
+                card_view:icon="@drawable/ic_dropdown_arrow"
                 android:text="Shelve Book"
                 />
 
@@ -68,7 +68,7 @@
                 android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1Bold"
                 android:textIsSelectable="true"
                 android:hint="Title"
-                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintEnd_toStartOf="@id/new_book_cover_image"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent"
                 />
@@ -171,10 +171,11 @@
         android:id="@+id/new_book_duplicates_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:textAppearance="@style/TextAppearance.AppTheme.Headline6"
-        android:text="Possibly Duplicate Books in Library:"
+        android:text="Duplicate book:"
         android:visibility="gone"
         />
 
@@ -222,12 +223,10 @@
                 card_view:layout_constraintHorizontal_bias="0.5"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toEndOf="@id/duplicate_book_isbn10"
-                android:layout_marginTop="30dp"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
                 card_view:cornerRadius="15dp"
+                android:layout_marginTop="30dp"
                 card_view:layout_constraintTop_toBottomOf="@+id/duplicate_book_cover_image"
-
+                card_view:icon="@drawable/ic_dropdown_arrow"
                 android:text="Shelve Book"
                 />
 
@@ -332,6 +331,18 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/new_book_btn_replace"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Button"
+        android:text="Replace the duplicate book with new details"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@id/new_book_id_view"
+        android:visibility="gone"
+        />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/new_book_btn_add"
@@ -342,20 +353,9 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         card_view:layout_constraintStart_toStartOf="parent"
-        card_view:layout_constraintTop_toBottomOf="@id/new_book_id_view" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/new_book_btn_replace"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppTheme.Button"
-        android:text="Replace the duplicate book with new details"
-        card_view:layout_constraintStart_toStartOf="parent"
-        card_view:layout_constraintTop_toBottomOf="@id/new_book_btn_add"
-        android:visibility="gone"
+        card_view:layout_constraintTop_toBottomOf="@id/new_book_btn_replace"
         />
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/new_book_btn_merge"
@@ -380,7 +380,6 @@
         android:layout_marginRight="50dp"
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toBottomOf="@id/new_book_btn_merge"
-        android:visibility="gone"
         />
 
 </LinearLayout>

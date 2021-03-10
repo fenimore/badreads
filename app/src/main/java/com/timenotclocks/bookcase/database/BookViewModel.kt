@@ -37,17 +37,6 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
     val toReadShelf: LiveData<List<Book>> = repository.sortedToReadShelf.asLiveData()
     val currentShelf: LiveData<List<Book>> = repository.sortedCurrentShelf.asLiveData()
 
-    fun getSortedList(shelfType: ShelfType, sortType: SortColumn): LiveData<List<Book>> {
-        when (sortType) {
-            SortColumn.Author -> {}
-            SortColumn.Title -> {}
-            SortColumn.DateStarted -> {}
-            SortColumn.DateRead -> {}
-            SortColumn.DateAdded -> {}
-        }
-        return repository.sortedCurrentShelf.asLiveData()
-    }
-
     fun getBook(id: Long): LiveData<Book> {
         return repository.getBook(id)
     }
@@ -56,8 +45,8 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
         return repository.query(term).asLiveData() as MutableLiveData<List<Book>>
     }
 
-    fun findAlike(bookId: Long, title: String, isbn10: String?, isbn13: String?): LiveData<Book> {
-        return repository.findAlike(bookId, title, isbn10, isbn13)
+    fun findAlike(bookId: Long, title: String, subtitle: String?, isbn10: String?, isbn13: String?): LiveData<Book> {
+        return repository.findAlike(bookId, title, subtitle, isbn10, isbn13)
     }
 
     fun authorSort(shelfType: ShelfType): LiveData<List<Book>> {

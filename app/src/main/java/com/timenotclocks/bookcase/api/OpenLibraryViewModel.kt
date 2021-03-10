@@ -21,7 +21,7 @@ import java.net.URLEncoder.encode
 import java.time.LocalDate
 
 
-const val MAX_SEARCH_RESULTS = 50
+const val MAX_SEARCH_RESULTS = 100
 internal class OpenLibraryViewModel(application: Application) : AndroidViewModel(application) {
 
     private val searches: MutableLiveData<List<Book>> by lazy {

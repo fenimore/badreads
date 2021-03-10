@@ -48,22 +48,30 @@ class OpenLibrarySearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_CO
     }
 
     class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val coverView: ImageView = itemView.findViewById(R.id.search_cover_view)
-        private val mainView: TextView = itemView.findViewById(R.id.search_main_view)
-        private val subView: TextView = itemView.findViewById(R.id.search_sub_view)
-        private val captView1: TextView = itemView.findViewById(R.id.search_caption_view_1)
-        private val captView2: TextView = itemView.findViewById(R.id.search_caption_view_2)
-        private val captView3: TextView = itemView.findViewById(R.id.search_caption_view_3)
+        private val coverView: ImageView = itemView.findViewById(R.id.book_list_cover_view)
+        private val mainView: TextView = itemView.findViewById(R.id.book_list_main_view)
+        private val subView: TextView = itemView.findViewById(R.id.book_list_sub_view)
+        private val captView1: TextView = itemView.findViewById(R.id.book_list_caption_view_1)
+        private val captView2: TextView = itemView.findViewById(R.id.book_list_caption_view_2)
+        private val captView3: TextView = itemView.findViewById(R.id.book_list_caption_view_3)
+        private val captView4: TextView = itemView.findViewById(R.id.book_list_caption_view_4)
+        private val captView5: TextView = itemView.findViewById(R.id.book_list_caption_view_5)
+        private val captView6: TextView = itemView.findViewById(R.id.book_list_caption_view_6)
 
         fun bindTo(book: Book?) {
             book ?: return
 
-            mainView.text = book.subtitle?.let{ book.title +  ": $it"} ?: book.title
-            book.author?.let { subView.text = "by $it" }
-            book.year?.let { captView1.text = "Y: $it" }
-            book.isbn13?.let { captView2.text = "ISBN13: $it" }
-
             book.cover("M").let{ Picasso.get().load(it).into(coverView)}
+            mainView.text = book.titleString()
+            subView.text = book.authorString()
+
+            book.numberPages?.let {captView1.text = "PageeS: $it }
+            book.isbn13?.let {captView2.text = it }
+            book.isbn10?.let {captView3.text = it }
+            book.yearString()?.let { captView6.text = it }
+            book.publisher?.let {captView4.text = it }
+
+
         }
 
         companion object {

@@ -1,13 +1,16 @@
 package com.timenotclocks.bookcase.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
@@ -15,10 +18,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.timenotclocks.bookcase.LOG_SEARCH
 import com.timenotclocks.bookcase.R
-import com.timenotclocks.bookcase.SearchActivity
 import com.timenotclocks.bookcase.database.*
-
 
 
 const val LOG_SHELF = "BookShelf"
@@ -46,23 +48,19 @@ class ShelfFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_main, container, false)
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerview)
-        val searchView = root.findViewById<MaterialButton>(R.id.fragment_search_button)
         val sortView = root.findViewById<MaterialButton>(R.id.fragment_sort_button)
-
+        val searchView = root.findViewById<SearchView>(R.id.fragment_search_view)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        searchView.setOnClickListener {
-            val intent = Intent(context, SearchActivity::class.java)
-            startActivity(intent)
-        }
+
         sortView.setOnClickListener { showMenu(it) }
 
         defaultSortLibrary()?.observe(viewLifecycleOwner) { books ->
-            books.let {
-                adapter.submitList(it)
-            }
+            books?.let { adapter.submitList(it) }
         }
+
+        searchLibrary(searchView, root.findViewById<ProgressBar>(R.id.fragment_progress_bar))
 
         return root
     }
@@ -71,13 +69,13 @@ class ShelfFragment : Fragment() {
         Log.i(LOG_SHELF, "This is the Shelf ${pageViewModel.getIndex()}")
         when (pageViewModel.getIndex()) {
             1 -> {
-                return bookViewModel.currentShelf //bookViewModel.dateStartedSort(ShelfType.CurrentShelf)
+                return bookViewModel.currentShelf
             }
             2 -> {
-                return bookViewModel.readShelf // bookViewModel.dateReadSort(ShelfType.ReadShelf)
+                return bookViewModel.readShelf
             }
             3 -> {
-                return bookViewModel.toReadShelf //.sortShelf(ShelfType.ToReadShelf, SortColumn.DateAdded)
+                return bookViewModel.toReadShelf
             }
         }
         return null
@@ -97,6 +95,39 @@ class ShelfFragment : Fragment() {
             }
         }
         return null
+    }
+
+    private fun searchLibrary(searchView: SearchView?, progressBar: ProgressBar?) {
+
+        searchView?.setOnCloseListener {
+            defaultSortLibrary()?.observe(viewLifecycleOwner) { books ->
+                books?.let { adapter.submitList(it) }
+            }
+            false
+        }
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { searchQuery(it, progressBar) }
+                searchView.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.length > 4) {
+                    searchQuery(newText, progressBar)
+                }
+                return true
+            }
+        })
+    }
+
+    private fun searchQuery(query: String, progressBar: ProgressBar?) {
+        Log.i(LOG_SEARCH, "Searching Library: $query?")
+        bookViewModel.query("*$query*").observe(this, { observable ->
+            progressBar?.visibility = View.GONE
+            observable?.let { books -> adapter.submitList(books) }
+        })
+        progressBar?.visibility = View.VISIBLE
     }
 
     private fun showMenu(v: View) {
@@ -124,25 +155,25 @@ class ShelfFragment : Fragment() {
                 R.id.menu_sort_date -> {
                     sortLibrary(SortColumn.DateAdded)?.observe(viewLifecycleOwner) { books ->
                         books.let {
-                            Log.i(LOG_SORT, "Date Added Book ID: ${menuItem.itemId} ${it.map{it.title}}")
+                            Log.i(LOG_SORT, "Date Added Book ID: ${menuItem.itemId} ${it.map { it.title }}")
                             adapter.submitList(it)
                         }
                     }
                 }
                 R.id.menu_sort_author -> {
                     bookViewModel.authorSort(shelf).observe(viewLifecycleOwner) { books ->
-                    // sortLibrary(SortColumn.Author)?.observe(viewLifecycleOwner) { books ->
+                        // sortLibrary(SortColumn.Author)?.observe(viewLifecycleOwner) { books ->
                         books.let {
-                            Log.i(LOG_SORT, "Author Book ID: ${menuItem.itemId} ${it.map{it.title}}")
+                            Log.i(LOG_SORT, "Author Book ID: ${menuItem.itemId} ${it.map { it.title }}")
                             adapter.submitList(it)
                         }
                     }
                 }
                 R.id.menu_sort_year -> {
                     bookViewModel.yearSort(shelf)?.observe(viewLifecycleOwner) { books ->
-                    // sortLibrary(SortColumn.Title)?.observe(viewLifecycleOwner) { books ->
+                        // sortLibrary(SortColumn.Title)?.observe(viewLifecycleOwner) { books ->
                         books.let {
-                            Log.i(LOG_SORT, "Year ${it.map{it.title}}")
+                            Log.i(LOG_SORT, "Year ${it.map { it.title }}")
                             adapter.submitList(it)
                         }
                     }

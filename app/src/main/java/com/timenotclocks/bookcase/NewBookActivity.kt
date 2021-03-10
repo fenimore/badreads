@@ -41,11 +41,11 @@ class NewBookActivity : AppCompatActivity() {
         newBook?.let { current ->
             current.cover("L").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.new_book_cover_image)) }
             findViewById<TextView>(R.id.new_book_title).text = current.titleString()
-            current.author?.let { findViewById<TextView>(R.id.new_book_author).text = it }
+            findViewById<TextView>(R.id.new_book_author).text = current.authorString()
+            current.yearString()?.let { findViewById<TextView>(R.id.new_book_year).text = it }
             current.isbn10?.let { findViewById<TextView>(R.id.new_book_isbn10).text = it }
             current.isbn13?.let { isbn -> findViewById<TextView>(R.id.new_book_isbn13).text = isbn }
             current.publisher?.let { findViewById<TextView>(R.id.new_book_publisher).text = it }
-            current.yearString()?.let { findViewById<TextView>(R.id.new_book_year).text = it }
             current.dateAdded = LocalDate.now()
 
             val shelfDropdown = findViewById<MaterialButton>(R.id.new_book_shelf_dropdown)
@@ -78,14 +78,22 @@ class NewBookActivity : AppCompatActivity() {
             finish()
         }
         val btnReplace = findViewById<MaterialButton>(R.id.new_book_btn_replace)
-        btnReplace.setOnClickListener {
-            newBook?.let { bookDetails ->
-                duplicateBook?.let{ bookDetails.bookId = it.bookId }
+        btnReplace.setOnClickListener { _ ->
+            newBook?.let { newDetails ->
+                duplicateBook?.let{ oldDetails ->
+                    newDetails.bookId = oldDetails.bookId
+                    newDetails.dateAdded = oldDetails.dateAdded
+                    newDetails.dateStarted = oldDetails.dateStarted
+                    newDetails.dateRead = oldDetails.dateRead
+                    newDetails.rating = oldDetails.rating
+                    newDetails.notes = oldDetails.notes
+                    newDetails.shelf = oldDetails.shelf
+                }
 
-                bookViewModel.update(bookDetails)
-                Log.i(TAG_NEW, "Adding new details old book id: $bookDetails")
+                bookViewModel.update(newDetails)
+                Log.i(TAG_NEW, "Adding new details old book id: $newDetails")
                 val intent = Intent(this, BookViewActivity::class.java).apply {
-                    putExtra(EXTRA_ID, bookDetails.bookId)
+                    putExtra(EXTRA_ID, newDetails.bookId)
                 }
                 startActivity(intent)
                 finish()
@@ -93,7 +101,7 @@ class NewBookActivity : AppCompatActivity() {
         }
         newBook?.let {
             progressBar?.visibility = View.VISIBLE
-            bookViewModel.findAlike(it.bookId, "%${it.title}%", it.isbn10, it.isbn13)
+            bookViewModel.findAlike(it.bookId, it.title, it.subtitle, it.isbn10, it.isbn13)
         }?.observe(this, { observed ->
             progressBar?.visibility = View.GONE
             observed?.let { alike ->
@@ -104,7 +112,7 @@ class NewBookActivity : AppCompatActivity() {
                     Picasso.get().load(it).into(findViewById<ImageView>(R.id.duplicate_book_cover_image))
                 }
                 findViewById<TextView>(R.id.duplicate_book_title).text = alike.titleString()
-                alike.author?.let { findViewById<TextView>(R.id.duplicate_book_author).text = it }
+                findViewById<TextView>(R.id.duplicate_book_author).text = alike.authorString()
                 alike.isbn10?.let { findViewById<TextView>(R.id.duplicate_book_isbn10).text = it }
                 alike.isbn13?.let { isbn -> findViewById<TextView>(R.id.duplicate_book_isbn13).text = isbn }
                 alike.publisher?.let { findViewById<TextView>(R.id.duplicate_book_publisher).text = it }
@@ -117,9 +125,8 @@ class NewBookActivity : AppCompatActivity() {
 
                 findViewById<TextView>(R.id.new_book_duplicates_header).visibility = View.VISIBLE
                 findViewById<CardView>(R.id.duplicate_card_view).visibility = View.VISIBLE
-                btnAdd.visibility = View.GONE
+                btnAdd.text = "Add Anyway"
                 btnReplace.visibility = View.VISIBLE
-                btnCancel.visibility = View.VISIBLE
             }
 
         })

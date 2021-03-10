@@ -82,9 +82,20 @@ data class Book(  // TODO: can I remove overloads? i'ts for the converter
             sub -> "$title: $sub"
         } ?: title
     }
+    fun authorString(): String {
+        if (author != null && !authorExtras.isNullOrEmpty()) {
+            return "$author, $authorExtras"
+        }
+
+        return author ?: ""
+    }
     fun yearString(): String? {
         if (year != null && originalYear != null) {
-            return "$year ($originalYear)"
+            if (year == originalYear) {
+                return year.toString()
+            } else {
+                return "$year ($originalYear)"
+            }
         }
 
         (year ?: originalYear)?.let {
@@ -92,6 +103,23 @@ data class Book(  // TODO: can I remove overloads? i'ts for the converter
         }
 
         return null
+    }
+
+    fun shelfString(): String {
+        return when (shelf) {
+            ShelfType.ReadShelf.shelf -> {
+                "Read"
+            }
+            ShelfType.CurrentShelf.shelf -> {
+                "Currently Reading"
+            }
+            ShelfType.ToReadShelf.shelf -> {
+                "want to read"
+            }
+            else -> {
+                "Unshelved"
+            }
+        }
     }
 
     fun shelve(target: ShelfType, button: Button?, bookViewModel: BookViewModel?): Boolean {

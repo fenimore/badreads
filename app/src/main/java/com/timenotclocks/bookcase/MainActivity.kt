@@ -38,7 +38,10 @@ import com.timenotclocks.bookcase.api.LOG_EXP
 import com.timenotclocks.bookcase.database.BookViewModel
 import com.timenotclocks.bookcase.database.BookViewModelFactory
 import com.timenotclocks.bookcase.database.BooksApplication
+import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
 import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
+import java.time.LocalDate
+import java.util.*
 
 const val LOG_TAG = "Bookshelf"
 const val EXTRA_SCAN = "scan_please"
@@ -73,16 +76,31 @@ class MainActivity : AppCompatActivity()  {
         Log.d(LOG_TAG, "Created Main Activity")
 
 
-/*        val data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null, "dateRead" : null, "isbn10" : "0307970655", "isbn13" : "9780385535595", "notes" : null, "numberPages" : null, "originalYear" : 2016, "publisher" : "Doubleday", "rating" : null, "shelf" : "to-read", "subtitle" : null, "title" : "Dark Money", "year" : 2016}"""
+
+        /*val data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null, "dateRead" : null, "isbn10" : "0307970655", "isbn13" : "9780385535595", "notes" : null, "numberPages" : null, "originalYear" : 2016, "publisher" : "Doubleday", "rating" : null, "shelf" : "to-read", "subtitle" : null, "title" : "Dark Money", "year" : 2016}"""
         val intent = Intent(applicationContext, NewBookActivity::class.java).apply {
             putExtra(EXTRA_BOOK, data)
         }
-        startActivity(intent)*/
+        startActivity(intent)
 
-/*        val intent = Intent(applicationContext, BookEditActivity::class.java).apply {
-            putExtra(EXTRA_ID, 11.toLong())
+        val data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null, "dateRead" : null, "isbn10" : "0307970655", "isbn13" : "9780385535595", "notes" : null, "numberPages" : null, "originalYear" : 2016, "publisher" : "Doubleday", "rating" : null, "shelf" : "to-read", "subtitle" : null, "title" : "Dark Money", "year" : 2016}"""
+        val intent = Intent(applicationContext, NewBookActivity::class.java).apply {
+            putExtra(EXTRA_BOOK, data)
         }
-        startActivity(intent)*/
+        startActivity(intent)
+        */
+        /*val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
+            putExtra(EXTRA_ID, 710.toLong())
+        }
+        startActivity(intent)
+
+        val intent = Intent(applicationContext, AboutActivity::class.java)
+        startActivity(intent)
+        */
+
+        val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
+        startActivity(intent)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -94,6 +112,11 @@ class MainActivity : AppCompatActivity()  {
             }
             R.id.menu_settings -> {
                 val intent = Intent(applicationContext, SettingsActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.menu_about -> {
+                val intent = Intent(applicationContext, AboutActivity::class.java)
                 startActivity(intent)
                 return true
             }
@@ -111,7 +134,8 @@ class MainActivity : AppCompatActivity()  {
                 val createIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "text/csv"
-                    putExtra(Intent.EXTRA_TITLE, "export.csv")
+                    val today = LocalDate.now()
+                    putExtra(Intent.EXTRA_TITLE, "badreads_export_${today.year}_${today.monthValue}_${today.dayOfMonth}.csv")
                 }
                 startActivityForResult(createIntent, REQ_EXP)
                 true

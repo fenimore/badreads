@@ -52,6 +52,7 @@ So, we are leaving the template code in. -->
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabIndicatorColor="@color/secondaryColor"
+            app:tabSelectedTextColor="@color/cyan"
             app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Button"
             />
     </com.google.android.material.appbar.AppBarLayout>

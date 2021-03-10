@@ -8,27 +8,47 @@
     tools:context=".ui.main.ShelfFragment"
     >
 
-    <com.google.android.material.button.MaterialButton
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/fragment_search_view"
+        app:searchIcon="@drawable/ic_search_yellow"
         android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="sort"
-        app:icon="@drawable/ic_sort"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:id="@+id/fragment_sort_button"
+        app:layout_constraintEnd_toStartOf="@id/fragment_sort_button"
+        app:queryHint="Search your library"
+
         />
     <com.google.android.material.button.MaterialButton
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="20dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="search"
-        app:icon="@drawable/ic_search_name"
+        app:icon="@drawable/ic_sort"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fragment_sort_button"
-        android:id="@+id/fragment_search_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/fragment_sort_button"
+        app:iconPadding="0dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:backgroundTint="@color/yellow"
+        />
+
+    <ProgressBar
+        android:id="@+id/fragment_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_sort_button"
         />
 
     <androidx.recyclerview.widget.RecyclerView

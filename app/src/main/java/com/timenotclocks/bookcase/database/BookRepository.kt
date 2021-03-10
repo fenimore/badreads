@@ -103,7 +103,8 @@ class BookRepository(private val bookDao: BookDao) {
         return bookDao.sortShelf(shelfType.shelf, sortColumn.column)
     }
 
-    fun findAlike(bookId: Long, title: String, isbn10: String?, isbn13: String?): LiveData<Book> {
-        return bookDao.findAlike(bookId, title, isbn10, isbn13)
+    fun findAlike(bookId: Long, title: String, subtitle: String?, isbn10: String?, isbn13: String?): LiveData<Book> {
+        // TODO: pass in book more simply..
+        return bookDao.findAlike(bookId, title, subtitle, isbn10, isbn13)
     }
 }

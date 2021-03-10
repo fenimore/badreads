@@ -77,15 +77,15 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
                         numResultsView?.text = "Showing $it results"
                     }
                     it == 0 -> {
-                        numResultsView?.text = ""
+                        numResultsView?.text = "No results"
                     }
                 }
             }
         })
-        openLibraryViewModel?.getSearches().observe(this, Observer<List<Book>> {
+        openLibraryViewModel?.getSearches().observe(this, { books ->
             progressBar?.visibility = View.GONE
-            it?.let {
-                adapter.submitList(ArrayList(it))
+            books?.let {
+                adapter.submitList(it)
             }
         })
 

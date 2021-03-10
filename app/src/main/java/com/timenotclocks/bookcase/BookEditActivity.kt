@@ -46,10 +46,11 @@ class BookEditActivity : AppCompatActivity() {
         setContentView(R.layout.activity_book_edit)
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        Log.i(LOG_EDIT, "Editing a book")
+
         intent.extras?.getLong(EXTRA_ID)?.let { bookId ->
             bookViewModel.getBook(bookId).observe(this, { observable ->
                 observable?.let {
+                    Log.i(LOG_EDIT, "Editing a book $it")
                     book = it
                     populateViews(it)
                 }
@@ -100,51 +101,55 @@ class BookEditActivity : AppCompatActivity() {
             }
         }
 
-        val dateRead = findViewById<DatePicker>(R.id.book_edit_date_shelved)
-        current.dateRead?.let {
-            dateRead.init(it.year, it.monthValue, it.dayOfMonth, object : DatePicker.OnDateChangedListener {
-                override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-                    current.dateRead = LocalDate.of(year, monthOfYear, dayOfMonth)
-                }
-            })
-        }
-        val dateAdded = findViewById<DatePicker>(R.id.book_edit_date_added)
-        current.dateAdded?.let {
-            dateAdded.init(it.year, it.monthValue, it.dayOfMonth, object : DatePicker.OnDateChangedListener {
-                override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-                    current.dateAdded = LocalDate.of(year, monthOfYear, dayOfMonth)
-                }
-            })
-        }
+        val dateAddedView = findViewById<DatePicker>(R.id.book_edit_date_added)
+        val dateAdded = current.dateAdded ?: LocalDate.now()
+        dateAddedView.init(dateAdded.year, dateAdded.monthValue - 1, dateAdded.dayOfMonth, object : DatePicker.OnDateChangedListener {
+            override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+                current.dateAdded = LocalDate.of(year, monthOfYear + 1, dayOfMonth)
+            }
+        })
+        val dateStartedView = findViewById<DatePicker>(R.id.book_edit_date_started)
+        val dateStarted = current.dateStarted ?: LocalDate.now()
+        dateStartedView.init(dateStarted.year, dateStarted.monthValue - 1, dateStarted.dayOfMonth, object : DatePicker.OnDateChangedListener {
+            override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+                current.dateStarted = LocalDate.of(year, monthOfYear + 1, dayOfMonth)
+            }
+        })
+        val dateReadView = findViewById<DatePicker>(R.id.book_edit_date_read)
+        val dateRead = current.dateRead ?: LocalDate.now()
+        dateReadView.init(dateRead.year, dateRead.monthValue - 1, dateRead.dayOfMonth, object : DatePicker.OnDateChangedListener {
+            override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+                current.dateRead = LocalDate.of(year, monthOfYear + 1, dayOfMonth)
+            }
+        })
+
         val notesEdit = findViewById<EditText>(R.id.book_edit_notes)
         current.notes?.let { notesEdit.setText(it) }
         notesEdit.doAfterTextChanged { editable -> current.notes = editable.toString() }
 
         val shelfDropdown = findViewById<Button>(R.id.book_edit_shelf_dropdown)
-        current.shelf.let {
-            shelfDropdown.text = it
-            shelfDropdown.setOnClickListener { view ->
-                view?.let { v ->
-                    val popup = PopupMenu(applicationContext, v)
-                    popup.menuInflater.inflate(R.menu.shelf_menu, popup.menu)
-                    popup.setOnMenuItemClickListener { menuItem: MenuItem ->
-                        when (menuItem.itemId) {
-                            R.id.shelf_to_read -> {
-                                current.shelve(ShelfType.ToReadShelf, shelfDropdown, bookViewModel)
-                            }
-                            R.id.shelf_currently_reading -> {
-                                current.shelve(ShelfType.CurrentShelf, shelfDropdown, bookViewModel)
-                            }
-                            R.id.shelf_read -> {
-                                current.shelve(ShelfType.ReadShelf, shelfDropdown, bookViewModel)
-                            }
-                            else -> {
-                                true
-                            }
+        shelfDropdown.text = current.shelfString()
+        shelfDropdown.setOnClickListener { view ->
+            view?.let { v ->
+                val popup = PopupMenu(applicationContext, v)
+                popup.menuInflater.inflate(R.menu.shelf_menu, popup.menu)
+                popup.setOnMenuItemClickListener { menuItem: MenuItem ->
+                    when (menuItem.itemId) {
+                        R.id.shelf_to_read -> {
+                            current.shelve(ShelfType.ToReadShelf, shelfDropdown, bookViewModel)
+                        }
+                        R.id.shelf_currently_reading -> {
+                            current.shelve(ShelfType.CurrentShelf, shelfDropdown, bookViewModel)
+                        }
+                        R.id.shelf_read -> {
+                            current.shelve(ShelfType.ReadShelf, shelfDropdown, bookViewModel)
+                        }
+                        else -> {
+                            true
                         }
                     }
-                    popup.show()
                 }
+                popup.show()
             }
         }
         val ratingBar = findViewById<RatingBar>(R.id.book_edit_rating_bar)
@@ -192,7 +197,7 @@ class BookEditActivity : AppCompatActivity() {
                 book?.let { bookViewModel.update(it) }
                 val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
                     book?.let {
-                        putExtra(EXTRA_BOOK, Klaxon().fieldConverter(KlaxonDate::class, dateConverter).toJsonString(it))
+                        putExtra(EXTRA_ID, it.bookId)
                     }
                 }
                 setResult(RESULT_OK, intent)

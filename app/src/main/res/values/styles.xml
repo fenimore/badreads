@@ -30,6 +30,13 @@ limitations under the License. -->
         <item name="android:popupBackground">@color/secondaryColor</item>
     </style>
 
+    <style name="AboutText">
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+
+    </style>
+
 
 
 </resources>

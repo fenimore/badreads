@@ -27,12 +27,16 @@ limitations under the License.
 -->
 
 <resources>
-    <color name="primaryColor">#00ffff</color>
+    <color name="primaryColor">#00cbcc</color>
     <color name="primaryLightColor">#72ffff</color>
-    <color name="primaryDarkColor">#00cbcc</color>
+    <color name="primaryDarkColor">#B200CBCC</color>
     <color name="secondaryColor">#cc016b</color>
     <color name="secondaryLightColor">#ff5299</color>
     <color name="secondaryDarkColor">#950041</color>
+    <color name="yellow">#ffff00</color>
+    <color name="magenta">#ff00ff</color>
+    <color name="cyan">#00ffff</color>
+    <color name="dark_cyan">#00cbcc</color>
     <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#000000</color>
 </resources>

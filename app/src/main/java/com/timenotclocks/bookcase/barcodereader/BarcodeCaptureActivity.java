@@ -31,6 +31,7 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -52,6 +53,7 @@ import com.timenotclocks.bookcase.ui.camera.GraphicOverlay;
 import java.io.IOException;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 
 /**
@@ -108,9 +110,19 @@ public final class BarcodeCaptureActivity extends Activity implements BarcodeGra
         gestureDetector = new GestureDetector(this, new CaptureGestureListener());
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
-        Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
-                Snackbar.LENGTH_LONG)
-                .show();
+        Snackbar snackbar = Snackbar.make(
+                mPreview,
+                "Tap to capture. Pinch/Stretch to zoom",
+                Snackbar.LENGTH_INDEFINITE
+        );
+        snackbar.setAction("OK", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                snackbar.dismiss();
+            }
+        });
+
+        snackbar.show();
     }
 
     /**
