@@ -89,7 +89,7 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.1'
 
     implementation 'com.beust:klaxon:5.4'
-        implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.0")
+        implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.1")
 
     implementation "androidx.activity:activity-ktx:1.2.0"
     implementation "androidx.fragment:fragment-ktx:1.1.0"

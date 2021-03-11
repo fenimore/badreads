@@ -30,44 +30,25 @@ class GoodReadImport {
             val isbn10: String? = row["ISBN"]?.removeSurrounding("=\"", "\"")?.ifBlank { null }
             val isbn13: String? = row["ISBN13"]?.removeSurrounding("=\"", "\"")?.ifBlank { null }
 
+            val startString: String? = row.get("Date Started")?.ifBlank { null }
+            val started: LocalDate? = startString?.let { LocalDate.parse(it, csvDateFormatter) }
+            val readString: String? = row.get("Date Read")?.ifBlank { null }
+            val read: LocalDate? = readString?.let { LocalDate.parse(it, csvDateFormatter) }
+            val addedString: String? = row.get("Date Added")?.ifBlank { null }
+            val added: LocalDate = addedString?.let { LocalDate.parse(it, csvDateFormatter) }
+                    ?: LocalDate.now()
+/*
+                if (it.isNotBlank()) {
 
-            Log.i(LOG_EXP, "bkentries ${row.entries}")
-            Log.i(LOG_EXP, "bknull ${row.getOrDefault("Date Started", null)}")
-            Log.i(LOG_EXP, "bkstarted ${row}")
-            Log.i(LOG_EXP, "bkarted ${row["Date Started"]}")
-            Log.i(LOG_EXP, "bkstartedString ${row["Date Started"].toString()}")
-            Log.i(LOG_EXP, "bkstarted ${row["Date Started"] == "null"}")
-            Log.i(LOG_EXP, "blank ${row["Date Started"]?.isBlank()}")
-            Log.i(LOG_EXP, "empty ${row["Date Started"]?.isEmpty()}")
-            Log.i(LOG_EXP, "get ${row.get("Date Started")}")
-            Log.i(LOG_EXP, "ifBlank ${row["Date Started"]?.ifBlank { "Is Blank" }}")
-            val started = row["Date Started"].let {
-                if(it.isNullOrBlank()) { null } else {
-                    if (it == "null") { null } else {
-                        LocalDate.parse(it, csvDateFormatter)
-                    }
+                } else {
+                    Log.i(LOG_EXP, "This shouldn't happen, strange $row")
+                    null
                 }
             }
-            val added: LocalDate? = row["Date Added"].let {
-                if(it.isNullOrBlank()) { null } else {
-                    if (it == "null") {
-                        null
-                    } else {
-                        LocalDate.parse(it, csvDateFormatter)
-                    }
-                }
-            }
-            val read = row["Date Read"].let {
-                if(it.isNullOrBlank()) { null } else {
-                    if (it == "null") {
-                        null
-                    } else {
-                        LocalDate.parse(it, csvDateFormatter)
-                    }
-                }
-            }
+*/
 
 
+            Log.i(LOG_EXP, "Book: $started $read $added")
             val book = Book(
                     bookId = 0,
                     title = title,
