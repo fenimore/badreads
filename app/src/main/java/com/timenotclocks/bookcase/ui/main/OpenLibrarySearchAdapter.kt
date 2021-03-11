@@ -65,7 +65,7 @@ class OpenLibrarySearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_CO
             mainView.text = book.titleString()
             subView.text = book.authorString()
 
-            book.numberPages?.let {captView1.text = "PageeS: $it }
+            book.numberPages?.let {captView1.text = "Pages: $it" }
             book.isbn13?.let {captView2.text = it }
             book.isbn10?.let {captView3.text = it }
             book.yearString()?.let { captView6.text = it }

@@ -40,6 +40,7 @@ import com.timenotclocks.bookcase.database.BookViewModelFactory
 import com.timenotclocks.bookcase.database.BooksApplication
 import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
 import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
+import java.io.FileOutputStream
 import java.time.LocalDate
 import java.util.*
 
@@ -98,8 +99,8 @@ class MainActivity : AppCompatActivity()  {
         startActivity(intent)
         */
 
-        val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
-        startActivity(intent)
+        // val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
+        // startActivity(intent)
 
     }
 

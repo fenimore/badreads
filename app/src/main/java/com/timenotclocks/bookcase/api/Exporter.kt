@@ -1,8 +1,10 @@
 package com.timenotclocks.bookcase.api
 
 import android.util.Log
+import com.github.doyaaaaaken.kotlincsv.dsl.context.WriteQuoteMode
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import com.timenotclocks.bookcase.database.Book
+import com.timenotclocks.bookcase.database.csvDateFormatter
 import java.io.OutputStream
 
 const val LOG_EXP = "BookExport"
@@ -10,24 +12,41 @@ const val LOG_EXP = "BookExport"
 class Exporter {
     fun csv(output: OutputStream, books: List<Book>): OutputStream {
         val headers = listOf(
+                // basic info
                 "Title", "Author", "Additional Authors",
-                "Exclusive Shelf",  "Number of Pages",
+                // more info
                 "ISBN", "ISBN13", "Publisher",
-                "My Rating", "Year Published", "Original Publication Year",
+                "Number of Pages", "Year Published", "Original Publication Year",
+                // dates
                 "Date Read", "Date Added", "Date Started",
-                "My Review",
+                // Library status
+                "My Rating", "My Review", "Exclusive Shelf"
         )  // add the started date
         val rows: List<List<String>> = books.map { book ->
+            Log.i(LOG_EXP, "The book ${book.bookId}: ${book.titleString()}")
             listOf(
-                    book.title, book.author.orEmpty(), book.authorExtras.orEmpty(),
-                    book.shelf, book.numberPages.toString(),
+                    // basic info
+                    book.titleString(),  // Goodreads uses colon separated subtitle
+                    book.author.orEmpty(), book.authorExtras.orEmpty(),
+                    // more info
                     book.isbn10.orEmpty(), book.isbn13.orEmpty(), book.publisher.orEmpty(),
-                    book.rating.toString().ifEmpty { "" }, book.year.toString().ifEmpty { "" }, book.originalYear.toString().ifEmpty { "" },
-                    book.dateRead.toString(), book.dateAdded.toString(), book.dateStarted.toString(),
-                    book.notes.toString(),
+                    book.numberPages?.toString().orEmpty(),
+                    book.year?.toString().orEmpty(),
+                    book.originalYear?.toString().orEmpty(),
+                    // dates
+                    book.dateRead?.format(csvDateFormatter) ?: "",
+                    book.dateAdded?.format(csvDateFormatter) ?: "",
+                    book.dateStarted?.format(csvDateFormatter) ?: "",
+                    // Library status
+                    book.rating?.toString().orEmpty(), book.notes.orEmpty(), book.shelf,
+                    // NOTE: put shelf last because it's non null (no empty string as last value
             )
         }
-        csvWriter().open(output) {
+        csvWriter {
+            quote {
+                mode = WriteQuoteMode.ALL
+            }
+        }.open(output) {
             writeRow(headers)
             writeRows(rows)
         }
