@@ -185,14 +185,17 @@ class MainActivity : AppCompatActivity()  {
 
 
         if (requestCode == REQ_EXP && resultCode == RESULT_OK) {
-            Log.i(LOG_EXP, "Huh So this is working")
-
             data?.data?.let { uri ->
                 bookViewModel.allBooks.observe(this, { observable ->
                     observable?.let { allBooks ->
                         contentResolver.openOutputStream(uri)?.let { outputStream ->
                             Exporter().csv(outputStream, allBooks)
                         }
+/*                        Log.i(LOG_EXP, "Outputs $uri")
+                        contentResolver.openInputStream(uri)?.let { inputStream ->
+                            val ugh = inputStream.bufferedReader().use { it.readText() }
+                            Log.i(LOG_EXP, ugh)
+                        }*/
                         val sendIntent = Intent(Intent.ACTION_SEND)
                         sendIntent.type = "text/plain"
                         sendIntent.putExtra(Intent.EXTRA_STREAM, uri)

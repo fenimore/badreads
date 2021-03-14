@@ -16,6 +16,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.database.*
+import java.time.LocalDate
 
 
 const val LOG_BOOK_VIEW = "BookView"
@@ -72,9 +73,9 @@ class BookViewActivity : AppCompatActivity() {
         current.isbn13?.let { findViewById<TextView>(R.id.book_view_isbn13).text = "ISBN10: $it" }
         current.yearString()?.let { findViewById<TextView>(R.id.book_view_year).text = "$it" }
         current.publisher?.let { findViewById<TextView>(R.id.book_view_publisher).text = "From: $it" }
-        current.dateAdded?.let { findViewById<TextView>(R.id.book_view_date_added).text = it.toString() }
-        current.dateStarted?.let { findViewById<TextView>(R.id.book_view_date_started).text = it.toString() }
-        current.dateRead?.let { findViewById<TextView>(R.id.book_view_date_shelved).text = it.toString() }
+        current.dateAdded?.let { findViewById<TextView>(R.id.book_view_date_added).text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
+        current.dateStarted?.let { findViewById<TextView>(R.id.book_view_date_started).text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
+        current.dateRead?.let { findViewById<TextView>(R.id.book_view_date_shelved).text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
         current.notes?.let { findViewById<TextView>(R.id.book_view_notes).text = it }
         val shelfDropdown = findViewById<Button>(R.id.book_view_shelf_dropdown)
         shelfDropdown.text = current.shelfString()

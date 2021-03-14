@@ -70,6 +70,7 @@
             android:layout_height="wrap_content"
 
             android:textAppearance="@style/TextAppearance.AppTheme.Caption"
+            android:ellipsize="end"
 
             card_view:layout_constraintStart_toEndOf="@id/book_list_cover_view"
             card_view:layout_constraintBottom_toTopOf="@id/book_list_caption_view_4"
@@ -125,6 +126,7 @@
             android:layout_height="wrap_content"
 
             android:textAppearance="@style/TextAppearance.AppTheme.Caption"
+            android:ellipsize="end"
 
             card_view:layout_constraintStart_toEndOf="@id/book_list_cover_view"
             card_view:layout_constraintBottom_toBottomOf="parent"

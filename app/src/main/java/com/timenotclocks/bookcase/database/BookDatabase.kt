@@ -52,7 +52,7 @@ class Converters {
  */
 @Database(entities = [
     Book::class, BooksFts::class
-], version = 4)
+], version = 5)
 @TypeConverters(Converters::class)
 abstract class BookDatabase : RoomDatabase() {
 

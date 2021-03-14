@@ -261,11 +261,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_notes"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:text="Open Library"
+            android:text="OpenLibrary.org"
             />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/book_view_button_greenlight"
@@ -275,18 +274,17 @@
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_button_open_library"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:text="Greenlight"
+            android:text="Greenlight Bookstore"
             />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/book_view_button_bookshop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintStart_toEndOf="@id/book_view_button_greenlight"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_button_open_library"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_button_greenlight"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:text="Bookshop"
+            android:text="Bookshop.org"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

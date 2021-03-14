@@ -61,9 +61,9 @@ data class Book(  // TODO: can I remove overloads? i'ts for the converter
         @ColumnInfo(name = "year") var year: Int?,
         @ColumnInfo(name = "originalYear") var originalYear: Int?,
         @ColumnInfo(name = "numberPages") var numberPages: Int?,
-        @KlaxonDate @ColumnInfo(name = "dateAdded") var dateAdded: LocalDate?,
-        @KlaxonDate @ColumnInfo(name = "dateStarted") var dateStarted: LocalDate?,
-        @KlaxonDate @ColumnInfo(name = "dateRead") var dateRead: LocalDate?,
+        @ColumnInfo(name = "dateAdded") var dateAdded: Long?,
+        @ColumnInfo(name = "dateStarted") var dateStarted: Long?,
+        @ColumnInfo(name = "dateRead") var dateRead: Long?,
         // create column for every shelf added
         @ColumnInfo(name = "rating") var rating: Int?,
         @ColumnInfo(name = "shelf") var shelf: String,
@@ -127,18 +127,18 @@ data class Book(  // TODO: can I remove overloads? i'ts for the converter
             shelf = target.shelf
             when (target) {
                 ShelfType.ReadShelf -> {
-                    dateRead = LocalDate.now()
+                    dateRead = LocalDate.now().toEpochDay()
                 }
                 ShelfType.CurrentShelf -> {
-                    dateStarted = LocalDate.now()
+                    dateStarted = LocalDate.now().toEpochDay()
                 }
             }
             if (dateAdded == null) {
-                dateAdded = LocalDate.now()
+                dateAdded = LocalDate.now().toEpochDay()
             }
             button?.text = shelf
 
-            bookViewModel?.let{ it.update(this) }
+            bookViewModel?.update(this)
         }
         return true
     }
@@ -151,6 +151,7 @@ var csvDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/d
 @Target(AnnotationTarget.FIELD)
 annotation class KlaxonDate
 
+// TODO: remove this
 val dateConverter = object : Converter {
     var defaultLocalDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
@@ -211,7 +212,7 @@ fun fakeBook(
             rating = null,
             shelf = "currently-reading",
             notes = null,
-            dateAdded = LocalDate.now(),
+            dateAdded = LocalDate.now().toEpochDay(),
             dateStarted = null,
             dateRead = null,
     )

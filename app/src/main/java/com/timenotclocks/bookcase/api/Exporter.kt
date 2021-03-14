@@ -6,6 +6,7 @@ import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import com.timenotclocks.bookcase.database.Book
 import com.timenotclocks.bookcase.database.csvDateFormatter
 import java.io.OutputStream
+import java.time.LocalDate
 
 const val LOG_EXP = "BookExport"
 
@@ -34,9 +35,9 @@ class Exporter {
                     book.year?.toString().orEmpty(),
                     book.originalYear?.toString().orEmpty(),
                     // dates
-                    book.dateRead?.format(csvDateFormatter) ?: "",
-                    book.dateAdded?.format(csvDateFormatter) ?: "",
-                    book.dateStarted?.format(csvDateFormatter) ?: "",
+                    book.dateRead?.let {LocalDate.ofEpochDay(it).format(csvDateFormatter)} ?: "",
+                    book.dateAdded?.let {LocalDate.ofEpochDay(it).format(csvDateFormatter)} ?: "",
+                    book.dateStarted?.let {LocalDate.ofEpochDay(it).format(csvDateFormatter)} ?: "",
                     // Library status
                     book.rating?.toString().orEmpty(), book.notes.orEmpty(), book.shelf,
                     // NOTE: put shelf last because it's non null (no empty string as last value

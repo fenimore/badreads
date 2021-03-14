@@ -16,3 +16,4 @@ TODO
 6. Add merge (in addition to replace) for new books
 7. Fix list items views
 8. Add tag/star to books
+9. OpenLibrary book details (publisher/isbn10/subtitle/description?)

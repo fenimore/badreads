@@ -102,24 +102,24 @@ class BookEditActivity : AppCompatActivity() {
         }
 
         val dateAddedView = findViewById<DatePicker>(R.id.book_edit_date_added)
-        val dateAdded = current.dateAdded ?: LocalDate.now()
+        val dateAdded = current.dateAdded?.let{ LocalDate.ofEpochDay(it) } ?: LocalDate.now()
         dateAddedView.init(dateAdded.year, dateAdded.monthValue - 1, dateAdded.dayOfMonth, object : DatePicker.OnDateChangedListener {
             override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-                current.dateAdded = LocalDate.of(year, monthOfYear + 1, dayOfMonth)
+                current.dateAdded = LocalDate.of(year, monthOfYear + 1, dayOfMonth).toEpochDay()
             }
         })
         val dateStartedView = findViewById<DatePicker>(R.id.book_edit_date_started)
-        val dateStarted = current.dateStarted ?: LocalDate.now()
+        val dateStarted = current.dateStarted?.let{ LocalDate.ofEpochDay(it) } ?: LocalDate.now()
         dateStartedView.init(dateStarted.year, dateStarted.monthValue - 1, dateStarted.dayOfMonth, object : DatePicker.OnDateChangedListener {
             override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-                current.dateStarted = LocalDate.of(year, monthOfYear + 1, dayOfMonth)
+                current.dateStarted = LocalDate.of(year, monthOfYear + 1, dayOfMonth).toEpochDay()
             }
         })
         val dateReadView = findViewById<DatePicker>(R.id.book_edit_date_read)
-        val dateRead = current.dateRead ?: LocalDate.now()
+        val dateRead = current.dateRead?.let{ LocalDate.ofEpochDay(it) } ?: LocalDate.now()
         dateReadView.init(dateRead.year, dateRead.monthValue - 1, dateRead.dayOfMonth, object : DatePicker.OnDateChangedListener {
             override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-                current.dateRead = LocalDate.of(year, monthOfYear + 1, dayOfMonth)
+                current.dateRead = LocalDate.of(year, monthOfYear + 1, dayOfMonth).toEpochDay()
             }
         })
 

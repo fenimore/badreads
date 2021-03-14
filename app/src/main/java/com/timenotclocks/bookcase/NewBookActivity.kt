@@ -1,6 +1,7 @@
 package com.timenotclocks.bookcase
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -35,7 +36,7 @@ class NewBookActivity : AppCompatActivity() {
         val progressBar = findViewById<ProgressBar>(R.id.duplicate_progress_bar)
 
         val bookInfo: String = intent.extras?.get(EXTRA_BOOK).toString()
-        val newBook = Klaxon().fieldConverter(KlaxonDate::class, dateConverter).parse<Book>(bookInfo)
+        val newBook = Klaxon().parse<Book>(bookInfo)
         var duplicateBook: Book? = null
 
         newBook?.let { current ->
@@ -44,9 +45,17 @@ class NewBookActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.new_book_author).text = current.authorString()
             current.yearString()?.let { findViewById<TextView>(R.id.new_book_year).text = it }
             current.isbn10?.let { findViewById<TextView>(R.id.new_book_isbn10).text = it }
-            current.isbn13?.let { isbn -> findViewById<TextView>(R.id.new_book_isbn13).text = isbn }
+            current.isbn13?.let { isbn ->
+                findViewById<TextView>(R.id.new_book_isbn13).text = isbn
+                findViewById<MaterialButton>(R.id.new_book_button_open_library).setOnClickListener { view ->
+                    val url = "https://openlibrary.org/isbn/$isbn"
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+            }
             current.publisher?.let { findViewById<TextView>(R.id.new_book_publisher).text = it }
-            current.dateAdded = LocalDate.now()
+            current.dateAdded = LocalDate.now().toEpochDay()
 
             val shelfDropdown = findViewById<MaterialButton>(R.id.new_book_shelf_dropdown)
             shelfDropdown.text = current.shelf
@@ -77,6 +86,7 @@ class NewBookActivity : AppCompatActivity() {
         btnCancel.setOnClickListener {
             finish()
         }
+
         val btnReplace = findViewById<MaterialButton>(R.id.new_book_btn_replace)
         btnReplace.setOnClickListener { _ ->
             newBook?.let { newDetails ->
@@ -117,7 +127,7 @@ class NewBookActivity : AppCompatActivity() {
                 alike.isbn13?.let { isbn -> findViewById<TextView>(R.id.duplicate_book_isbn13).text = isbn }
                 alike.publisher?.let { findViewById<TextView>(R.id.duplicate_book_publisher).text = it }
                 alike.yearString()?.let { findViewById<TextView>(R.id.duplicate_book_year).text = it }
-                alike.dateAdded = LocalDate.now()
+                alike.dateAdded = LocalDate.now().toEpochDay()
 
                 val dupShelfDropdown = findViewById<MaterialButton>(R.id.duplicate_book_shelf_dropdown)
                 dupShelfDropdown.text = alike.shelf

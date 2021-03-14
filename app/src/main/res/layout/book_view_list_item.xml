@@ -115,19 +115,20 @@ limitations under the License. -->
             />
 
 
-        <com.google.android.material.chip.Chip
+        <TextView
             android:id="@+id/book_list_caption_view_3"
             android:layout_width="wrap_content"
             card_view:layout_constraintHorizontal_weight="1"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppTheme.Caption"
-            android:textColor="@color/primaryTextColor"
-            card_view:chipBackgroundColor="@color/cyan"
+
 
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintVertical_bias="1.0"
 
+            android:maxLines="1"
+            android:paddingBottom="12dp"
             android:layout_marginEnd="8dp"
 
             />

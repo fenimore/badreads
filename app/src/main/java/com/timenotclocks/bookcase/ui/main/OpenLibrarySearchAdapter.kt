@@ -54,9 +54,9 @@ class OpenLibrarySearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_CO
         private val captView1: TextView = itemView.findViewById(R.id.book_list_caption_view_1)
         private val captView2: TextView = itemView.findViewById(R.id.book_list_caption_view_2)
         private val captView3: TextView = itemView.findViewById(R.id.book_list_caption_view_3)
-        private val captView4: TextView = itemView.findViewById(R.id.book_list_caption_view_4)
-        private val captView5: TextView = itemView.findViewById(R.id.book_list_caption_view_5)
-        private val captView6: TextView = itemView.findViewById(R.id.book_list_caption_view_6)
+        // private val captView4: TextView = itemView.findViewById(R.id.book_list_caption_view_4)
+        // private val captView5: TextView = itemView.findViewById(R.id.book_list_caption_view_5)
+        // private val captView6: TextView = itemView.findViewById(R.id.book_list_caption_view_6)
 
         fun bindTo(book: Book?) {
             book ?: return
@@ -66,18 +66,14 @@ class OpenLibrarySearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_CO
             subView.text = book.authorString()
 
             book.numberPages?.let {captView1.text = "Pages: $it" }
-            book.isbn13?.let {captView2.text = it }
-            book.isbn10?.let {captView3.text = it }
-            book.yearString()?.let { captView6.text = it }
-            book.publisher?.let {captView4.text = it }
-
-
+            book.isbn13?.let {captView1.text = "ISBN13: $it" }
+            book.yearString()?.let { captView3.text = it }
         }
 
         companion object {
             fun create(parent: ViewGroup): SearchViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.search_item_view, parent, false)
+                        .inflate(R.layout.book_view_list_item , parent, false)
                 return SearchViewHolder(view)
             }
         }

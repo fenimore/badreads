@@ -8,6 +8,7 @@ import java.io.InputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.reflect.typeOf
 
 
 const val LOG_GOOD_READ = "BookGoodRead"
@@ -26,44 +27,32 @@ class GoodReadImport {
                 title = fullTitle.split(":").first().trim()
                 subtitle = fullTitle.split(":")[1].trim()
             }
-            val additionalAuthors = row.get("Additional Authors")
+            val additionalAuthors = row.get("Additional Authors")?.ifBlank { null }
             val isbn10: String? = row["ISBN"]?.removeSurrounding("=\"", "\"")?.ifBlank { null }
             val isbn13: String? = row["ISBN13"]?.removeSurrounding("=\"", "\"")?.ifBlank { null }
 
             val startString: String? = row.get("Date Started")?.ifBlank { null }
-            val started: LocalDate? = startString?.let { LocalDate.parse(it, csvDateFormatter) }
+            val started: Long? = startString?.let { LocalDate.parse(it, csvDateFormatter).toEpochDay() }
             val readString: String? = row.get("Date Read")?.ifBlank { null }
-            val read: LocalDate? = readString?.let { LocalDate.parse(it, csvDateFormatter) }
+            val read: Long? = readString?.let { LocalDate.parse(it, csvDateFormatter).toEpochDay() }
             val addedString: String? = row.get("Date Added")?.ifBlank { null }
-            val added: LocalDate = addedString?.let { LocalDate.parse(it, csvDateFormatter) }
-                    ?: LocalDate.now()
-/*
-                if (it.isNotBlank()) {
-
-                } else {
-                    Log.i(LOG_EXP, "This shouldn't happen, strange $row")
-                    null
-                }
-            }
-*/
-
-
-            Log.i(LOG_EXP, "Book: $started $read $added")
+            val added: Long = addedString?.let { LocalDate.parse(it, csvDateFormatter).toEpochDay() }
+                    ?: LocalDate.now().toEpochDay()
             val book = Book(
                     bookId = 0,
                     title = title,
                     subtitle = subtitle,
                     isbn10 = isbn10,
                     isbn13 = isbn13,
-                    author = row["Author"],
+                    author = row["Author"]?.ifBlank { null },
                     authorExtras = additionalAuthors,
-                    publisher = row["Publisher"],
+                    publisher = row["Publisher"]?.ifBlank { null },
                     year = row["Year Published"]?.toIntOrNull(),
                     originalYear = row["Original Publication Year"]?.toIntOrNull(),
                     numberPages = row["Number of Pages"]?.toIntOrNull(),
                     rating = row["My Rating"]?.toIntOrNull(),
                     shelf = row.getOrDefault("Exclusive Shelf", "to-read"),
-                    notes = row["My Review"],
+                    notes = row["My Review"]?.ifBlank { null },
                     dateAdded = added,
                     dateRead = read,
                     dateStarted = started,

@@ -25,10 +25,8 @@ import com.timenotclocks.bookcase.BookViewActivity
 import com.timenotclocks.bookcase.EXTRA_ID
 import com.timenotclocks.bookcase.LOG_TAG
 import com.timenotclocks.bookcase.R
-import com.timenotclocks.bookcase.database.Book
-import com.timenotclocks.bookcase.database.KlaxonDate
-import com.timenotclocks.bookcase.database.ShelfType
-import com.timenotclocks.bookcase.database.dateConverter
+import com.timenotclocks.bookcase.database.*
+import java.time.LocalDate
 
 
 const val LOG_BOOK_ADAPTER = "BookAdapter"
@@ -59,32 +57,16 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
         private val coverView: ImageView = itemView.findViewById(R.id.book_list_cover_view)
         private val yearView: TextView = itemView.findViewById(R.id.book_list_caption_view_1)
         private val dateView: TextView = itemView.findViewById(R.id.book_list_caption_view_2)
-        private val shelfView: Chip = itemView.findViewById(R.id.book_list_caption_view_3)
+        private val shelfView: TextView = itemView.findViewById(R.id.book_list_caption_view_3)
 
         fun bind(book: Book?) {
             book?.let{ b ->
                 titleView.text = b.subtitle?.let{ it -> b.title +  ": $it"} ?: b.title
                 authorView.text = "by ${b.authorString()}"
-                b.dateAdded?.let { dateView.text = "$it" }
+                b.dateAdded?.let { dateView.text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
                 b.yearString()?.let { yearView.text = it }
                 b.cover("M").let {Picasso.get().load(it).into(coverView)}
-                shelfView.text = when(b.shelf) {
-                    ShelfType.CurrentShelf.shelf -> {
-                        shelfView.chipBackgroundColor = ContextCompat.getColorStateList(itemView.context, R.color.cyan)
-                        "Started"
-                    }
-                    ShelfType.ReadShelf.shelf -> {
-                        shelfView.chipBackgroundColor = ContextCompat.getColorStateList(itemView.context, R.color.secondaryColor)
-                        "Read"
-                    }
-                    ShelfType.ToReadShelf.shelf -> {
-                        shelfView.chipBackgroundColor = ContextCompat.getColorStateList(itemView.context, R.color.yellow)
-                        "To Read"
-                    }
-                    else -> {
-                        "Unshelved"
-                    }
-                }
+                shelfView.text = b.shelfString()
             }
         }
 

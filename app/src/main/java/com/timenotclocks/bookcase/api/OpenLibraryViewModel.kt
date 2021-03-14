@@ -22,6 +22,7 @@ import java.time.LocalDate
 
 
 const val MAX_SEARCH_RESULTS = 100
+
 internal class OpenLibraryViewModel(application: Application) : AndroidViewModel(application) {
 
     private val searches: MutableLiveData<List<Book>> by lazy {
@@ -68,36 +69,40 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
         return results.map { result ->
             val author: String? = (result["author_name"] as? JsonArray<*>)?.removeFirst() as String?
             val authorExtras: String? = (result["author_name"] as? JsonArray<*>)?.joinToString(", ")
-            val publisher: String? = (result["publisher"] as? JsonArray<*>)?.removeFirst() as String?
-            val year: Int? = (result["publish_year"] as? JsonArray<Int>)?.removeFirst()
+            // val publishers: JsonArray<String>? = result["publisher"] as? JsonArray<String>
+            val years: List<Int>? = result["publish_year"] as? JsonArray<Int>
             val originalYear: Int? = result["first_publish_year"].toString().toIntOrNull()
                     ?: (result["publish_year"] as? JsonArray<Int>)?.minOrNull()
             val isbnArray: JsonArray<String>? = result["isbn"] as? JsonArray<String>
-            val bookList = isbnArray?.let {isbns ->
-                isbns.filter { it.length < 13 }.zip(isbns.filter{ it.length >= 13}) {
-                    isbn10, isbn13 ->
+            // NOTE: OpenLibrary Search API just returns a list of ISBNs
+            // and so because I cannot match them one to the other, I'm
+            // just going to ignore ISBN 10
+            // Similarly publishers and publish year are in random order,
+            // so those are left null.
+            val bookList: List<Book>? = isbnArray?.filter { it.length > 10 }?.let { isbn13s ->
+                isbn13s.map { isbn13 ->
                     Book(
                             bookId = 0,
                             title = result["title"].toString(),
                             subtitle = result["subtitle"] as? String,
-                            isbn10 = isbn10,
+                            isbn10 = null,
                             isbn13 = isbn13,
                             author = author,
                             authorExtras = authorExtras,
-                            publisher = publisher,
-                            year = year,
+                            publisher = null,
+                            year = null,
                             originalYear = originalYear,
                             numberPages = null,
                             rating = null,
                             shelf = "to-read",
                             notes = null,
-                            dateAdded = LocalDate.now(),
+                            dateAdded = LocalDate.now().toEpochDay(),
                             dateRead = null,
                             dateStarted = null,
                     )
                 }
             }
-            bookList ?: emptyList()
+            bookList ?: emptyList<Book>()
         }.flatten()
     }
 }

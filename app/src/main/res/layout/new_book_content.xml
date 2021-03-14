@@ -382,4 +382,35 @@
         card_view:layout_constraintTop_toBottomOf="@id/new_book_btn_merge"
         />
 
+    <ImageView
+        android:src="@android:drawable/divider_horizontal_dark"
+        android:id="@+id/new_book_divider"
+        android:layout_marginTop="20dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/new_book_btn_cancel"
+        />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/new_book_button_open_library"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:textAppearance="@style/TextAppearance.AppTheme.Button"
+
+        card_view:layout_constraintStart_toStartOf="@+id/new_book_btn_cancel"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/new_book_divider"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:text="OpenLibrary.org"
+        />
 </LinearLayout>
