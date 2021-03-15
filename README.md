@@ -6,6 +6,8 @@ are stored locally on your phone. Use the search or barcode reader to look up
 new book on [OpenLibrary](https://openlibary.org) and add it to your library. You can
 import and export your library from or to Open Library and Goodreads.
 
+Badreads is very unstable. I recommend backing up with an export before installing updates or changes.
+
 ## License
 
 GPLv3
