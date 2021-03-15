@@ -94,6 +94,7 @@
                 android:layout_marginTop="9dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
+                android:hint="Publisher"
                 android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
                 android:textIsSelectable="true"
                 card_view:layout_constraintEnd_toStartOf="@+id/new_book_cover_image"
@@ -106,20 +107,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+                android:hint="Year"
                 android:textIsSelectable="true"
                 card_view:layout_constraintEnd_toStartOf="@+id/new_book_original_year"
                 card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/new_book_publisher" />
-
-            <TextView
-                android:id="@+id/new_book_original_year"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
-                android:textIsSelectable="true"
-                card_view:layout_constraintEnd_toStartOf="@+id/new_book_cover_image"
-                card_view:layout_constraintStart_toEndOf="@id/new_book_year"
                 card_view:layout_constraintTop_toBottomOf="@+id/new_book_publisher" />
 
             <TextView
@@ -129,6 +120,7 @@
                 android:layout_marginTop="12dp"
                 android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
                 android:textIsSelectable="true"
+                android:hint="isbn 13"
                 card_view:layout_constraintEnd_toStartOf="@+id/new_book_cover_image"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@+id/new_book_year" />
@@ -139,18 +131,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+                android:hint="isbn 10"
                 android:textIsSelectable="true"
                 card_view:layout_constraintEnd_toStartOf="@id/new_book_cover_image"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@+id/new_book_isbn13" />
 
             <TextView
-                android:id="@+id/new_book_id_view"
+                android:id="@+id/new_book_page_numbers"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:layout_marginTop="12dp"
                 android:textAppearance="@style/TextAppearance.AppTheme.Body2Light"
+                android:hint="Page Numbers"
                 android:textIsSelectable="true"
                 card_view:layout_constraintEnd_toStartOf="@id/new_book_cover_image"
                 card_view:layout_constraintStart_toStartOf="parent"
@@ -214,20 +208,6 @@
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toEndOf="@+id/duplicate_book_author"
                 card_view:layout_constraintTop_toTopOf="parent"
-                />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/duplicate_book_shelf_dropdown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                card_view:layout_constraintHorizontal_bias="0.5"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintStart_toEndOf="@id/duplicate_book_isbn10"
-                card_view:cornerRadius="15dp"
-                android:layout_marginTop="30dp"
-                card_view:layout_constraintTop_toBottomOf="@+id/duplicate_book_cover_image"
-                card_view:icon="@drawable/ic_dropdown_arrow"
-                android:text="Shelve Book"
                 />
 
             <TextView
@@ -314,6 +294,18 @@
                 card_view:layout_constraintEnd_toStartOf="@id/duplicate_book_cover_image"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@+id/duplicate_book_isbn13" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/duplicate_book_shelf_dropdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:cornerRadius="15dp"
+                card_view:layout_constraintTop_toBottomOf="@+id/duplicate_book_isbn10"
+                android:textIsSelectable="false"
+                android:text="Shelve Book"
+                />
 
             <TextView
                 android:id="@+id/duplicate_book_id_view"
@@ -338,9 +330,10 @@
         android:layout_marginRight="50dp"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppTheme.Button"
+        android:background="@color/secondaryColor"
         android:text="Replace the duplicate book with new details"
         card_view:layout_constraintStart_toStartOf="parent"
-        card_view:layout_constraintTop_toBottomOf="@id/new_book_id_view"
+        card_view:layout_constraintTop_toBottomOf="@id/new_book_page_numbers"
         android:visibility="gone"
         />
 

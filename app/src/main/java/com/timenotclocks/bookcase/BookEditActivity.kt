@@ -17,6 +17,7 @@ import androidx.core.widget.doAfterTextChanged
 import com.beust.klaxon.Klaxon
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
+import com.timenotclocks.bookcase.api.OpenLibraryViewModel
 import com.timenotclocks.bookcase.database.*
 import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
 import java.time.LocalDate
@@ -29,6 +30,7 @@ const val LOG_EDIT = "BookEdit"
 class BookEditActivity : AppCompatActivity() {
 
     private var book: Book? = null
+    private val openLibraryViewModel: OpenLibraryViewModel by viewModels()
     private val bookViewModel: BookViewModel by viewModels {
         BookViewModelFactory((application as BooksApplication).repository)
     }
@@ -53,9 +55,23 @@ class BookEditActivity : AppCompatActivity() {
                     Log.i(LOG_EDIT, "Editing a book $it")
                     book = it
                     populateViews(it)
+                    book?.isbn13?.let { openLibraryViewModel.getBookDetails(it) }
                 }
             })
         }
+
+        openLibraryViewModel.bookDetails.observe(this) { observable ->
+            observable?.let { details ->
+                book?.isbn13 = details.isbn13 ?: book?.isbn13
+                book?.isbn10 = details.isbn10 ?: book?.isbn10
+                book?.publisher = details.publisher ?: book?.publisher
+                book?.year = details.publishYear ?: book?.year
+                book?.numberPages = details.numberPages ?: book?.numberPages
+                book?.let { populateViews(it) }
+            }
+        }
+
+
     }
 
     private fun populateViews(current: Book) {
@@ -100,23 +116,30 @@ class BookEditActivity : AppCompatActivity() {
                 current.originalYear = year
             }
         }
+        val pageNumbersEdit = findViewById<TextInputLayout>(R.id.book_edit_page_numbers).editText
+        current.numberPages?.let { pageNumbersEdit?.setText(it.toString()) }
+        pageNumbersEdit?.doAfterTextChanged { editable ->
+            editable.toString().toIntOrNull()?.let { pages ->
+                current.numberPages = pages
+            }
+        }
 
         val dateAddedView = findViewById<DatePicker>(R.id.book_edit_date_added)
-        val dateAdded = current.dateAdded?.let{ LocalDate.ofEpochDay(it) } ?: LocalDate.now()
+        val dateAdded = current.dateAdded?.let { LocalDate.ofEpochDay(it) } ?: LocalDate.now()
         dateAddedView.init(dateAdded.year, dateAdded.monthValue - 1, dateAdded.dayOfMonth, object : DatePicker.OnDateChangedListener {
             override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
                 current.dateAdded = LocalDate.of(year, monthOfYear + 1, dayOfMonth).toEpochDay()
             }
         })
         val dateStartedView = findViewById<DatePicker>(R.id.book_edit_date_started)
-        val dateStarted = current.dateStarted?.let{ LocalDate.ofEpochDay(it) } ?: LocalDate.now()
+        val dateStarted = current.dateStarted?.let { LocalDate.ofEpochDay(it) } ?: LocalDate.now()
         dateStartedView.init(dateStarted.year, dateStarted.monthValue - 1, dateStarted.dayOfMonth, object : DatePicker.OnDateChangedListener {
             override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
                 current.dateStarted = LocalDate.of(year, monthOfYear + 1, dayOfMonth).toEpochDay()
             }
         })
         val dateReadView = findViewById<DatePicker>(R.id.book_edit_date_read)
-        val dateRead = current.dateRead?.let{ LocalDate.ofEpochDay(it) } ?: LocalDate.now()
+        val dateRead = current.dateRead?.let { LocalDate.ofEpochDay(it) } ?: LocalDate.now()
         dateReadView.init(dateRead.year, dateRead.monthValue - 1, dateRead.dayOfMonth, object : DatePicker.OnDateChangedListener {
             override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
                 current.dateRead = LocalDate.of(year, monthOfYear + 1, dayOfMonth).toEpochDay()

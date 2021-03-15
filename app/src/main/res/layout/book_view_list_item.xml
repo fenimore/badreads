@@ -129,7 +129,7 @@ limitations under the License. -->
 
             android:maxLines="1"
             android:paddingBottom="12dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="12dp"
 
             />
 

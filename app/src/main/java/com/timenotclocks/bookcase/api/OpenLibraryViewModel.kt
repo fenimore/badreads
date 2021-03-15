@@ -23,20 +23,52 @@ import java.time.LocalDate
 
 const val MAX_SEARCH_RESULTS = 100
 
+const val LOG_LIB = "BookOpenLib"
+
+data class BookDetails(
+        val isbn13: String?,
+        val isbn10: String?,
+        val publisher: String?,
+        val publishYear: Int?,
+        val numberPages: Int?,
+)
+
+
 internal class OpenLibraryViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val searches: MutableLiveData<List<Book>> by lazy {
-        MutableLiveData()
-    }
+    private val base = "openlibrary.org"
 
-    fun getSearches(): LiveData<List<Book>> {
-        return searches
-    }
+    private val searches: MutableLiveData<List<Book>> by lazy { MutableLiveData() }
 
     var numResults: MutableLiveData<Int> = MutableLiveData<Int>(0)
+    var bookDetails: MutableLiveData<BookDetails> = MutableLiveData<BookDetails>()
+
+    fun getSearches(): LiveData<List<Book>> { return searches }
+
+    fun getBookDetails(isbn: String) = viewModelScope.launch {
+        val url = "https://$base/isbn/$isbn.json"
+        val stringRequest = StringRequest(Request.Method.GET, url,
+                { response ->
+
+                    val details = Klaxon().parseJsonObject(StringReader(response))
+
+                    val publisher: String? = (details["publishers"] as JsonArray<String>?)?.firstOrNull()
+                    val isbn13: String? = (details["isbn_13"] as JsonArray<String>?)?.firstOrNull()
+                    val isbn10: String? = (details["isbn_10"] as JsonArray<String>?)?.firstOrNull()
+                    val numPages: Int? = details["number_of_pages"] as? Int
+                    val publishYear: Int? = (details["publish_date"] as? String)?.let {
+                        Regex("""\b\d{4}\b""").find(it)
+                    }?.value?.toIntOrNull()
+                    Log.i(LOG_LIB, "Okay so I've $publisher $isbn10 $isbn13 $numPages $publishYear")
+                    bookDetails.value = BookDetails(isbn13, isbn10, publisher, publishYear, numPages)
+                },
+                {
+                    Log.e("BK", "Volley Error $it")
+                })
+        RequestQueueSingleton.getInstance(getApplication()).addToRequestQueue(stringRequest)
+    }
 
     fun searchOpenLibrary(query: String) = viewModelScope.launch {
-        val base = "openlibrary.org"
         val url = "https://$base/search.json"
         val encodedQuery = encode(query, "utf-8")
         val urlQuery = "$url?q=$encodedQuery"
@@ -70,7 +102,7 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
             val author: String? = (result["author_name"] as? JsonArray<*>)?.removeFirst() as String?
             val authorExtras: String? = (result["author_name"] as? JsonArray<*>)?.joinToString(", ")
             // val publishers: JsonArray<String>? = result["publisher"] as? JsonArray<String>
-            val years: List<Int>? = result["publish_year"] as? JsonArray<Int>
+            // val years: List<Int>? = result["publish_year"] as? JsonArray<Int>
             val originalYear: Int? = result["first_publish_year"].toString().toIntOrNull()
                     ?: (result["publish_year"] as? JsonArray<Int>)?.minOrNull()
             val isbnArray: JsonArray<String>? = result["isbn"] as? JsonArray<String>

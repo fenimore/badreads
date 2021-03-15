@@ -207,6 +207,25 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/book_edit_page_numbers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:hint="Page Numbers"
+            android:inputType="number"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_isbn10"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/book_edit_shelf_dropdown"
@@ -220,7 +239,7 @@
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
             card_view:cornerRadius="15dp"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_isbn10"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_page_numbers"
             android:text="Shelve Book"
             />
 
@@ -258,6 +277,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Date Added"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1Bold"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             card_view:layout_constraintTop_toBottomOf="@+id/book_edit_notes"
             card_view:layout_constraintEnd_toEndOf="parent"
@@ -270,15 +291,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_added_label"
-            card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.5"
+            android:scaleX=".8"
+            android:scaleY=".8"
+
             />
         <TextView
             android:id="@+id/book_edit_date_started_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Date Started"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1Bold"
+            android:layout_marginBottom="10dp"
             card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_added"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
@@ -290,15 +314,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_started_label"
-            card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.5"
+            android:scaleX=".8"
+            android:scaleY=".8"
             />
         <TextView
             android:id="@+id/book_edit_date_shelved_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Date Read"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1Bold"
+            android:layout_marginBottom="10dp"
             card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_started"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
@@ -310,9 +336,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_shelved_label"
-            card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.5"
+            android:scaleX=".8"
+            android:scaleY=".8"
             />
 
 

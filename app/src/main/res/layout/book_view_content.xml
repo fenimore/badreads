@@ -78,6 +78,7 @@
             android:paddingTop="6dp"
             android:paddingBottom="6dp"
             android:textIsSelectable="true"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1Bold"
             card_view:layout_constraintEnd_toEndOf="parent"
 
@@ -255,36 +256,6 @@
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_shelved"
-            />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/book_view_button_open_library"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_notes"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:text="OpenLibrary.org"
-            />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/book_view_button_greenlight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_button_open_library"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:text="Greenlight Bookstore"
-            />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/book_view_button_bookshop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_button_greenlight"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:text="Bookshop.org"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

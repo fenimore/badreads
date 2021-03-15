@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Google Inc.
+ * Copyright (C) 2021 Fenimore Love
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,9 +76,16 @@ class MainActivity : AppCompatActivity()  {
 
         Log.d(LOG_TAG, "Created Main Activity")
 
-
-
         /*val data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null, "dateRead" : null, "isbn10" : "0307970655", "isbn13" : "9780385535595", "notes" : null, "numberPages" : null, "originalYear" : 2016, "publisher" : "Doubleday", "rating" : null, "shelf" : "to-read", "subtitle" : null, "title" : "Dark Money", "year" : 2016}"""
+        val intent = Intent(applicationContext, NewBookActivity::class.java).apply {
+            putExtra(EXTRA_BOOK, data)
+        }
+        startActivity(intent)
+
+        var data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null,
+            | "dateRead" : null, "isbn10" : null, "isbn13" : "9780385535595", "notes" : null, "numberPages" : null,
+            | "originalYear" : 2016, "publisher" : null, "rating" : null, "shelf" : "to-read", "subtitle" : null,
+            |  "title" : "Dark Money", "year" : null}""".trimMargin()
         val intent = Intent(applicationContext, NewBookActivity::class.java).apply {
             putExtra(EXTRA_BOOK, data)
         }
@@ -97,11 +104,20 @@ class MainActivity : AppCompatActivity()  {
 
         val intent = Intent(applicationContext, AboutActivity::class.java)
         startActivity(intent)
+
+        val intent = Intent(applicationContext, BookEditActivity::class.java).apply {
+            putExtra(EXTRA_ID, 550.toLong())
+        }
+        startActivity(intent)
+
+        val intent = Intent(applicationContext, BookEditActivity::class.java).apply {
+            putExtra(EXTRA_ID, 550.toLong())
+        }
+        startActivity(intent)
         */
 
         // val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
         // startActivity(intent)
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -191,11 +207,6 @@ class MainActivity : AppCompatActivity()  {
                         contentResolver.openOutputStream(uri)?.let { outputStream ->
                             Exporter().csv(outputStream, allBooks)
                         }
-/*                        Log.i(LOG_EXP, "Outputs $uri")
-                        contentResolver.openInputStream(uri)?.let { inputStream ->
-                            val ugh = inputStream.bufferedReader().use { it.readText() }
-                            Log.i(LOG_EXP, ugh)
-                        }*/
                         val sendIntent = Intent(Intent.ACTION_SEND)
                         sendIntent.type = "text/plain"
                         sendIntent.putExtra(Intent.EXTRA_STREAM, uri)

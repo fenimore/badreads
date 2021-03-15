@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import com.timenotclocks.bookcase.api.OpenLibraryViewModel
 import com.timenotclocks.bookcase.database.*
 import java.time.LocalDate
 
@@ -41,7 +42,6 @@ class BookViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_book_view)
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         intent.extras?.getLong(EXTRA_ID)?.let { id ->
             bookViewModel.getBook(id).observe(this, { observable ->
                 book = observable
@@ -51,6 +51,7 @@ class BookViewActivity : AppCompatActivity() {
     }
 
     private fun populateViews(current: Book) {
+        supportActionBar?.title = current.title
         current.cover("L").let {
             val coverView = findViewById<ImageView>(R.id.book_view_cover_image)
             Picasso.get().load(it).into(coverView, object : com.squareup.picasso.Callback {
@@ -62,15 +63,15 @@ class BookViewActivity : AppCompatActivity() {
             })
 
         }
-        current.title?.let {findViewById<TextView>(R.id.book_view_title).text = it}
+        current.title.let {findViewById<TextView>(R.id.book_view_title).text = it}
         current.subtitle?.let {
             val subView = findViewById<TextView>(R.id.book_view_subtitle)
             subView.text = it
             subView.visibility = View.VISIBLE
         }
         findViewById<TextView>(R.id.book_view_author).text = "By: ${current.authorString()}"
-        current.isbn10?.let { findViewById<TextView>(R.id.book_view_isbn10).text = "ISBN13: $it" }
-        current.isbn13?.let { findViewById<TextView>(R.id.book_view_isbn13).text = "ISBN10: $it" }
+        current.isbn10?.let { findViewById<TextView>(R.id.book_view_isbn10).text = "ISBN 10: $it" }
+        current.isbn13?.let { findViewById<TextView>(R.id.book_view_isbn13).text = "ISBN 13: $it" }
         current.yearString()?.let { findViewById<TextView>(R.id.book_view_year).text = "$it" }
         current.publisher?.let { findViewById<TextView>(R.id.book_view_publisher).text = "From: $it" }
         current.dateAdded?.let { findViewById<TextView>(R.id.book_view_date_added).text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
@@ -95,28 +96,6 @@ class BookViewActivity : AppCompatActivity() {
             ).setAction("Action", null).show()
         }
 
-        current.isbn13?.let {
-            findViewById<MaterialButton>(R.id.book_view_button_open_library).setOnClickListener { view ->
-                val url = "https://openlibrary.org/isbn/$it"
-                val i = Intent(Intent.ACTION_VIEW)
-                i.data = Uri.parse(url)
-                startActivity(i)
-            }
-            findViewById<MaterialButton>(R.id.book_view_button_greenlight).setOnClickListener { view ->
-                val url = "https://www.greenlightbookstore.com/book/$it"
-                val i = Intent(Intent.ACTION_VIEW)
-                i.data = Uri.parse(url)
-                startActivity(i)
-            }
-            findViewById<MaterialButton>(R.id.book_view_button_bookshop).setOnClickListener { view ->
-                val url = "https://bookshop.org/books?keywords=$it"
-                val i = Intent(Intent.ACTION_VIEW)
-                i.data = Uri.parse(url)
-                startActivity(i)
-            }
-        }
-
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -134,8 +113,32 @@ class BookViewActivity : AppCompatActivity() {
                     startActivityForResult(intent, 100)
                 }
             }
-        }
+            R.id.menu_bookshop -> {
+                book?.isbn13?.let {
+                    val url = "https://bookshop.org/books?keywords=$it"
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+            }
+            R.id.menu_open_library -> {
+                book?.isbn13?.let {
+                    val url = "https://openlibrary.org/isbn/$it"
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+            }
+            R.id.menu_greenlight -> {
+                book?.isbn13?.let {
+                    val url = "https://www.greenlightbookstore.com/book/$it"
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+            }
 
+        }
         return super.onOptionsItemSelected(item)
     }
 
