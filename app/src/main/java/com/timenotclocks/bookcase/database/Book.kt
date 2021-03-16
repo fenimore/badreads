@@ -24,8 +24,6 @@ import com.beust.klaxon.Converter
 import com.beust.klaxon.JsonValue
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import kotlin.reflect.full.declaredMemberProperties
-import kotlin.reflect.full.primaryConstructor
 
 /**
  * TODO: too dumb to figure out how many to many works with Room
@@ -166,25 +164,6 @@ val dateConverter = object : Converter {
     override fun toJson(o: Any): String {
         return """ "$o" """
     }
-}
-
-inline infix fun <reified T : Any> T.merge(other: T): T {
-    val propertiesByName = T::class.declaredMemberProperties.associateBy { it.name }
-    val primaryConstructor = T::class.primaryConstructor
-            ?: throw IllegalArgumentException("merge type must have a primary constructor")
-    val args = primaryConstructor.parameters.associateWith { parameter ->
-        val property = propertiesByName[parameter.name]
-                ?: throw IllegalStateException("no declared member property found with name '${parameter.name}'")
-        (property.get(this) ?: property.get(other))
-    }
-    return primaryConstructor.callBy(args)
-}
-
-
-fun mergeBooks(first: Book, second: Book): Book {
-    var newBook = first merge second
-    newBook.bookId = second.bookId
-    return newBook
 }
 
 fun fakeBook(

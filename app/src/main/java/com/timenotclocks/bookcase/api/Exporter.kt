@@ -39,7 +39,9 @@ class Exporter {
                     book.dateAdded?.let {LocalDate.ofEpochDay(it).format(csvDateFormatter)} ?: "",
                     book.dateStarted?.let {LocalDate.ofEpochDay(it).format(csvDateFormatter)} ?: "",
                     // Library status
-                    book.rating?.toString().orEmpty(), book.notes.orEmpty(), book.shelf,
+                    book.rating?.toString().orEmpty(),
+                    book.notes.orEmpty(),
+                    book.shelf,
                     // NOTE: put shelf last because it's non null (no empty string as last value
             )
         }
@@ -48,6 +50,7 @@ class Exporter {
                 mode = WriteQuoteMode.ALL
             }
         }.open(output) {
+            // TODO: is there an issue here
             writeRow(headers)
             writeRows(rows)
         }

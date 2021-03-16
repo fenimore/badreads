@@ -40,6 +40,7 @@ repositories {
 dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
     implementation "androidx.activity:activity-ktx:$rootProject.activityVersion"
+    implementation "androidx.fragment:fragment-ktx:1.1.0"
 
     // Dependencies for working with Architecture components
     // You'll probably have to update the version numbers in build.gradle (Project)
@@ -52,6 +53,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.3'
 
+    // For Room SQLITE DB
     kapt  "androidx.room:room-compiler:$rootProject.roomVersion"
     kapt "androidx.room:room-testing:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
@@ -65,37 +67,24 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
-
-    // Reflection for being lazy...
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
-
-
     // UI
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
     // Testing
     testImplementation 'junit:junit:4.12'
-    //androidTestImplementation "junit:junit:$rootProject.junitVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
-    androidTestImplementation ("androidx.test.espresso:espresso-core:$rootProject.espressoVersion", {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.androidxJunitVersion"
 
-
-    implementation 'com.squareup.picasso:picasso:2.71828'
-
+    // HTTP client
     implementation 'com.android.volley:volley:1.1.1'
-
+    // Image resolution
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    // JSON
     implementation 'com.beust:klaxon:5.4'
-        implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.1")
-
-    implementation "androidx.activity:activity-ktx:1.2.0"
-    implementation "androidx.fragment:fragment-ktx:1.1.0"
-
+    // CSV
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.1")
     // For barcode reader
-    compile 'com.google.android.gms:play-services-vision:9.4.0+'
-
+    implementation 'com.journeyapps:zxing-android-embedded:4.2.0@aar'
+    implementation 'com.google.zxing:core:3.4.0'
 }
 

@@ -1,0 +1,51 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="#FFFFFF"
+    android:alpha="0.8">
+  <group android:scaleX="0.192"
+      android:scaleY="0.192"
+      android:translateX="2.4">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M77,41.385l7,0l0,42.23l-7,0z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M61,41.385l7,0l0,42.23l-7,0z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M32,41.385l7,0l0,42.23l-7,0z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M16,41.385l7,0l0,42.23l-7,0z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M71,41.385l3,0l0,42.23l-3,0z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M54,41.385l3,0l0,42.23l-3,0z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M42,41.385l3,0l0,42.23l-3,0z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M26,41.385l3,0l0,42.23l-3,0z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M48,41.385l3,0l0,42.23l-3,0z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M27,29.772L7,29.772a2.111,2 90,0 0,-2 2.111l0,21.115a2.111,2 90,0 0,4 0L9,33.995l18,0a2.111,2 90,0 0,0 -4.223z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M27,91.005L9,91.005L9,72.002a2.111,2 90,0 0,-4 0l0,21.115a2.111,2 90,0 0,2 2.111l20,0a2.111,2 90,0 0,0 -4.223z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M93,29.772L73,29.772a2.111,2 90,0 0,0 4.223l18,0l0,19.003a2.111,2 90,0 0,4 0L95,31.884a2.111,2 90,0 0,-2 -2.111z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="m93,69.89a2.111,2 90,0 0,-2 2.111L91,91.005L73,91.005a2.111,2 90,0 0,0 4.223l20,0a2.111,2 90,0 0,2 -2.111L95,72.002a2.111,2 90,0 0,-2 -2.111z"/>
+  </group>
+</vector>

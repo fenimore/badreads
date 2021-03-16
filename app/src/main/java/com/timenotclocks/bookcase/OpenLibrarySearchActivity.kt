@@ -30,13 +30,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.common.api.CommonStatusCodes
-import com.google.android.gms.vision.barcode.Barcode
+import com.google.zxing.integration.android.IntentIntegrator
 import com.timenotclocks.bookcase.api.MAX_SEARCH_RESULTS
 import com.timenotclocks.bookcase.api.OpenLibraryViewModel
-import com.timenotclocks.bookcase.barcodereader.BarcodeActivity.RC_BARCODE_CAPTURE
-import com.timenotclocks.bookcase.barcodereader.BarcodeCaptureActivity
-import com.timenotclocks.bookcase.database.Book
 import com.timenotclocks.bookcase.ui.main.OpenLibrarySearchAdapter
 
 
@@ -132,10 +128,7 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
         searchOpenLibrary(searchView, progressBar, numResultsView)
 
         if (intent.getBooleanExtra(EXTRA_SCAN, false)) {
-            val intent = Intent(this, BarcodeCaptureActivity::class.java)
-            intent.putExtra(BarcodeCaptureActivity.AutoFocus, true)
-            intent.putExtra(BarcodeCaptureActivity.UseFlash, false)
-            startActivityForResult(intent, RC_BARCODE_CAPTURE)
+            // TODO: land on scan
         }
 
         numResultsView.text = "Search OpenLibrary.org for new books"
@@ -150,10 +143,11 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
                 startActivityForResult(myIntent, 0)
             }
             R.id.search_scan_item -> {
-                val intent = Intent(this, BarcodeCaptureActivity::class.java)
-                intent.putExtra(BarcodeCaptureActivity.AutoFocus, true)
-                intent.putExtra(BarcodeCaptureActivity.UseFlash, false)
-                startActivityForResult(intent, RC_BARCODE_CAPTURE)
+                val integrator = IntentIntegrator(this)
+                integrator.setPrompt("Scan your book's barcode");
+                integrator.setBeepEnabled(false);
+                integrator.setOrientationLocked(false)
+                integrator.initiateScan();
             }
         }
 
@@ -161,19 +155,14 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            RC_BARCODE_CAPTURE -> {
-                if (resultCode == CommonStatusCodes.SUCCESS) {
-                    val barcode = data?.getParcelableExtra<Barcode>(BarcodeCaptureActivity.BarcodeObject)
-                    Log.d(LOG_TAG, "Barcode read: " + barcode?.displayValue);
-                    barcode?.displayValue?.let {
-
-                        findViewById<TextView>(R.id.num_results_view)?.text = it
-                        openLibraryViewModel.searchOpenLibrary(it)
-                    }
-                }
-            }
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        result?.contents?.let{ barcode ->
+            Toast.makeText(this, "Found: $barcode", Toast.LENGTH_LONG).show()
+            Log.d(LOG_TAG, "Barcode read: $barcode");
+            findViewById<TextView>(R.id.num_results_view)?.text = barcode
+            openLibraryViewModel.searchOpenLibrary(barcode)
         }
+
         super.onActivityResult(requestCode, resultCode, data)
     }
 }

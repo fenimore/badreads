@@ -16,7 +16,7 @@
 
 package com.timenotclocks.bookcase
 
-import android.content.Context
+import android.R.attr
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
@@ -25,24 +25,22 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
-import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import com.google.zxing.integration.android.IntentIntegrator
 import com.timenotclocks.bookcase.api.Exporter
 import com.timenotclocks.bookcase.api.GoodReadImport
-import com.timenotclocks.bookcase.api.LOG_EXP
 import com.timenotclocks.bookcase.database.BookViewModel
 import com.timenotclocks.bookcase.database.BookViewModelFactory
 import com.timenotclocks.bookcase.database.BooksApplication
-import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
 import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
-import java.io.FileOutputStream
 import java.time.LocalDate
-import java.util.*
+
 
 const val LOG_TAG = "Bookshelf"
 const val EXTRA_SCAN = "scan_please"
@@ -175,6 +173,7 @@ class MainActivity : AppCompatActivity()  {
                 builder.setMessage("Delete all your data? (This cannot be undone)")
                 builder.create()
                 builder.show()
+
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -205,13 +204,15 @@ class MainActivity : AppCompatActivity()  {
                 bookViewModel.allBooks.observe(this, { observable ->
                     observable?.let { allBooks ->
                         contentResolver.openOutputStream(uri)?.let { outputStream ->
-                            Exporter().csv(outputStream, allBooks)
+                            val out = Exporter().csv(outputStream, allBooks)
+                            out.flush()
+                            out.close()
+                            val sendIntent = Intent(Intent.ACTION_SEND)
+                            sendIntent.type = "text/plain"
+                            sendIntent.putExtra(Intent.EXTRA_STREAM, uri)
+                            // Share the file after saving
+                            startActivity(sendIntent)
                         }
-                        val sendIntent = Intent(Intent.ACTION_SEND)
-                        sendIntent.type = "text/plain"
-                        sendIntent.putExtra(Intent.EXTRA_STREAM, uri)
-                        // Share the file after saving
-                        startActivity(sendIntent)
                     }
                 })
             }

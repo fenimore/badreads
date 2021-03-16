@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.timenotclocks.bookcase">
     <!-- for barcode -->
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+
     <application
         android:name=".database.BooksApplication"
         android:allowBackup="true"
@@ -43,17 +46,15 @@
             android:label="@string/title_activity_settings"
             android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
         <activity
-            android:name=".barcodereader.BarcodeActivity"
-            android:label="Barcode Reader" />
-        <activity
-            android:name=".barcodereader.BarcodeCaptureActivity"
-            android:label="Barcode Reader" />
-        <activity
             android:name=".NewBookActivity"
             android:label="@string/title_activity_new_book" />
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about" />
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

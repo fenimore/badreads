@@ -13,6 +13,11 @@ Badreads is very unstable. I recommend backing up with an export before installi
 GPLv3
 Copyright 2021 Fenimore Love
 
+## Bug:
+
+1. Deleting data directly after exporting, and then importing that same csv will break the CSV.
+There seems to be an issue with the first line of the "rows" that are written (after the headers).
+
 ## TODO:
 
 1. Move export and import to settings
