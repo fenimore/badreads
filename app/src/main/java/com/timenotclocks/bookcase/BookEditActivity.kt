@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import com.beust.klaxon.Klaxon
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.api.OpenLibraryViewModel
@@ -62,6 +63,21 @@ class BookEditActivity : AppCompatActivity() {
 
         openLibraryViewModel.bookDetails.observe(this) { observable ->
             observable?.let { details ->
+                if (
+                        book?.isbn13 != details.isbn13 ?: book?.isbn13 ||
+                        book?.isbn10 != details.isbn10 ?: book?.isbn10 ||
+                        book?.publisher != details.publisher ?: book?.publisher ||
+                        book?.year != details.publishYear ?: book?.year ||
+                        book?.numberPages != details.numberPages ?: book?.numberPages
+                ) {
+                    Snackbar.make(
+                            findViewById(R.id.book_edit_activity),
+                            "New details added, click Save (disk) to save.",
+                            Snackbar.LENGTH_INDEFINITE
+                    ).setAction("Ok", null).show()
+                }
+
+
                 book?.isbn13 = details.isbn13 ?: book?.isbn13
                 book?.isbn10 = details.isbn10 ?: book?.isbn10
                 book?.publisher = details.publisher ?: book?.publisher
@@ -70,8 +86,6 @@ class BookEditActivity : AppCompatActivity() {
                 book?.let { populateViews(it) }
             }
         }
-
-
     }
 
     private fun populateViews(current: Book) {

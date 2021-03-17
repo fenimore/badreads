@@ -4,6 +4,16 @@
         <item>Light</item>
         <item>Dark</item>
     </string-array>
+    <string-array name="tab_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="tab_array">
+        <item>Currently Reading</item>
+        <item>Read</item>
+        <item>To Read</item>
+    </string-array>
     <string-array name="shelf_spinner">
         <item>to-read</item>
         <item>currently-reading</item>

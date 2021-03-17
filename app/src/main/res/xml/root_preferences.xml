@@ -1,10 +1,18 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory app:title="user interface">
+    <PreferenceCategory app:title="User Interface">
         <ListPreference
             app:defaultValue="@string/dark_mode_def_value"
             app:entries="@array/dark_mode_entries"
             app:entryValues="@array/dark_mode_values"
-            app:key="@string/dark_mode"
+            app:key="dark_mode"
             app:title="@string/dark_mode" />
+
+        <ListPreference
+            app:dialogTitle="Landing Tab"
+            app:entries="@array/tab_array"
+            app:entryValues="@array/tab_values"
+            app:key="landing_tab"
+            app:title="Landing Page"
+            />
     </PreferenceCategory>
 </PreferenceScreen>

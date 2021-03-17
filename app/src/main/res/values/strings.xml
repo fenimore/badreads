@@ -63,6 +63,19 @@ limitations under the License. -->
     <string name="barcode_error">"Error reading barcode: %1$s"</string>
     <string name="title_activity_new_book">New Book</string>
     <string name="title_activity_about">About</string>
+    <string name="about_adding_books">Click the Plus icon on the Badreads landing screen, then search using Title, Author, or isbn. Alternatively, tap the Barcode icon to open the scanner and scan your book\'s barcode. The results include the original publication year as well as isbn 13 of the editions. If you select a book that is duplicated in your library, you have the option of replacing the duplicated books details with your selection (such as subtitle, isbn, and publisher).</string>
+    <string name="about_adding_books_title">Adding Books</string>
+    <string name="about_shelves">Badreads has three shelves: Currently Reading, Read, and To-Read. When searching or importing, books are added by default to the To-Read shelf.</string>
+    <string name="about_shelves_title">The Shelves</string>
+    <string name="about_openlibrary_btn">Visit: Open Library</string>
+    <string name="about_open_library">The search and book covers are provided by Open Library, whose goal is to have \"one web page for every book ever published\".</string>
+    <string name="about_open_library_title">Open Library</string>
+    <string name="about_badreads">This is a book logger for tracking which books you\'ve read and would like to read. You can import you current library from a CSV (using the goodreads format).</string>
+    <string name="about_source">Badreads is Free and Open Source (GPLv3). You can find the sourcecode hosted on Github.</string>
+    <string name="about_source_string">Source</string>
+    <string name="about_book_covers">Book covers are also provided by OpenLibrary.org. Badreads looks up the covers from OpenLibrary.org using an isbn. Anyone can create an account with OpenLibrary.org and add or modify book covers themselves.</string>
+    <string name="about_source_title">Source Code</string>
+    <string name="about_book_covers_title">Book Covers</string>
 
 
 </resources>

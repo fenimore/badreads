@@ -2,6 +2,7 @@ package com.timenotclocks.bookcase
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -47,11 +48,12 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        val darkModeString = getString(R.string.dark_mode)
-        key?.let {
-            if (it == darkModeString) sharedPreferences?.let { pref ->
+        if (key == null || sharedPreferences == null) return
+        val darkModeString = "dark_mode"  // todo put in string.xml I guess
+        when(key) {
+            darkModeString -> {
                 val darkModeValues = resources.getStringArray(R.array.dark_mode_values)
-                when (pref.getString(darkModeString, darkModeValues[0])) {
+                when (sharedPreferences.getString(darkModeString, darkModeValues[0])) {
                     darkModeValues[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                     darkModeValues[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     darkModeValues[2] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

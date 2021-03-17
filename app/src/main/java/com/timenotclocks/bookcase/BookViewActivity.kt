@@ -72,12 +72,17 @@ class BookViewActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.book_view_author).text = "By: ${current.authorString()}"
         current.isbn10?.let { findViewById<TextView>(R.id.book_view_isbn10).text = "ISBN 10: $it" }
         current.isbn13?.let { findViewById<TextView>(R.id.book_view_isbn13).text = "ISBN 13: $it" }
+        current.numberPages?.let { findViewById<TextView>(R.id.book_view_page_number).text = "Pages: $it" }
         current.yearString()?.let { findViewById<TextView>(R.id.book_view_year).text = "$it" }
         current.publisher?.let { findViewById<TextView>(R.id.book_view_publisher).text = "From: $it" }
         current.dateAdded?.let { findViewById<TextView>(R.id.book_view_date_added).text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
         current.dateStarted?.let { findViewById<TextView>(R.id.book_view_date_started).text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
         current.dateRead?.let { findViewById<TextView>(R.id.book_view_date_shelved).text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
-        current.notes?.let { findViewById<TextView>(R.id.book_view_notes).text = it }
+        current.notes?.let {
+            val notesView = findViewById<TextView>(R.id.book_view_notes)
+            notesView.visibility = View.VISIBLE
+            notesView.text = it
+        }
         val shelfDropdown = findViewById<Button>(R.id.book_view_shelf_dropdown)
         shelfDropdown.text = current.shelfString()
         shelfDropdown.setOnClickListener { view ->
@@ -114,30 +119,36 @@ class BookViewActivity : AppCompatActivity() {
                 }
             }
             R.id.menu_bookshop -> {
-                book?.isbn13?.let {
-                    val url = "https://bookshop.org/books?keywords=$it"
+                book?.let { b ->
+                    val term = b.isbn13 ?: b.title
+                    val url = "https://bookshop.org/books?keywords=$term"
                     val i = Intent(Intent.ACTION_VIEW)
                     i.data = Uri.parse(url)
                     startActivity(i)
                 }
             }
             R.id.menu_open_library -> {
-                book?.isbn13?.let {
-                    val url = "https://openlibrary.org/isbn/$it"
+                book?.let{ b ->
+                    val term = b.isbn13 ?: b.title
+                    val url = "https://openlibrary.org/search?q=$term"
                     val i = Intent(Intent.ACTION_VIEW)
                     i.data = Uri.parse(url)
                     startActivity(i)
                 }
             }
             R.id.menu_greenlight -> {
-                book?.isbn13?.let {
-                    val url = "https://www.greenlightbookstore.com/book/$it"
+                book?.let { b ->
+                    val url: String = b.isbn13?.let {
+                        "https://www.greenlightbookstore.com/book/$it"
+
+                    } ?: run {
+                        "https://www.greenlightbookstore.com/search/site/${b.title.replace(" ", "+")}"
+                    }
                     val i = Intent(Intent.ACTION_VIEW)
                     i.data = Uri.parse(url)
                     startActivity(i)
                 }
             }
-
         }
         return super.onOptionsItemSelected(item)
     }

@@ -148,7 +148,15 @@
             card_view:layout_constraintStart_toEndOf="@+id/book_view_isbn13"
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_publisher"
             />
-
+        <TextView
+            android:id="@+id/book_view_page_number"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Caption"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/book_view_isbn13"
+            />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/book_view_shelf_dropdown"
             android:layout_width="wrap_content"
@@ -161,7 +169,7 @@
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
             card_view:cornerRadius="15dp"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_isbn10"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_page_number"
             android:text="Shelve Book"
             />
 
@@ -179,12 +187,27 @@
             />
 
         <TextView
+            android:id="@+id/book_view_notes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            android:lineSpacingMultiplier="1.5"
+            android:scrollbars="vertical"
+            android:textIsSelectable="true"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_rating_bar"
+            />
+
+        <TextView
             android:id="@+id/book_view_date_added_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:text="Date Added"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_rating_bar"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_notes"
             card_view:layout_constraintEnd_toStartOf="@+id/book_view_date_started_label"
             card_view:layout_constraintStart_toStartOf="parent"
             android:textIsSelectable="true"
@@ -207,7 +230,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:text="Date Started"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_rating_bar"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_notes"
             card_view:layout_constraintEnd_toStartOf="@+id/book_view_date_shelved_label"
             card_view:layout_constraintStart_toEndOf="@id/book_view_date_added_label"
             />
@@ -228,7 +251,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:text="Date Read"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_rating_bar"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_notes"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toEndOf="@id/book_view_date_started_label"
             />
@@ -242,20 +265,6 @@
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/book_view_date_started"
             android:textIsSelectable="true"
-            />
-
-        <TextView
-            android:id="@+id/book_view_notes"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:lineSpacingMultiplier="2"
-            android:scrollbars="vertical"
-            android:textIsSelectable="true"
-            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_shelved"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

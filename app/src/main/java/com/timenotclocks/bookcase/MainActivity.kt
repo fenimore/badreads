@@ -29,6 +29,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
@@ -71,6 +72,10 @@ class MainActivity : AppCompatActivity()  {
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
+        val landingTab = PreferenceManager.getDefaultSharedPreferences(
+                this
+        ).getString("landing_tab", "0")?.toInt() ?: 0
+        viewPager.setCurrentItem(landingTab)
 
         Log.d(LOG_TAG, "Created Main Activity")
 

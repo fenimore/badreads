@@ -5,7 +5,7 @@
 
     <item android:id="@+id/menu_main_open_library_search"
         android:title="Search Open Library"
-        android:icon="@drawable/ic_add_black"
+        android:icon="@drawable/ic_add_circle_black"
         app:showAsAction="always"
         />
 

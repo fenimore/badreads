@@ -29,6 +29,8 @@ There seems to be an issue with the first line of the "rows" that are written (a
 9. OpenLibrary book details button?
 10. Search openlibrary within app
 11. Fetch description
+12. Add setting for default tab
+13. Empty library prompt
 
 ## TODO: sort
 1. Sort a - z
