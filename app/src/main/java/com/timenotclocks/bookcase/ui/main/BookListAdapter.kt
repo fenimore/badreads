@@ -58,22 +58,34 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
         private val yearView: TextView = itemView.findViewById(R.id.book_list_caption_view_1)
         private val dateView: TextView = itemView.findViewById(R.id.book_list_caption_view_2)
         private val shelfView: TextView = itemView.findViewById(R.id.book_list_caption_view_3)
+        private val ratingView: RatingBar = itemView.findViewById(R.id.book_list_rating_bar)
 
         fun bind(book: Book?) {
-            book?.let{ b ->
-                titleView.text = b.subtitle?.let{ it -> b.title +  ": $it"} ?: b.title
+            book?.let { b ->
+                titleView.text = b.subtitle?.let { it -> b.title + ": $it" } ?: b.title
                 authorView.text = "by ${b.authorString()}"
-                b.dateAdded?.let { dateView.text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
+
                 b.yearString()?.let { yearView.text = it }
-                b.cover("M").let {Picasso.get().load(it).into(coverView)}
-                shelfView.text = b.shelfString()
+                b.cover("M").let { Picasso.get().load(it).into(coverView) }
+                when (b.shelf) {
+                    ShelfType.ReadShelf.shelf -> {
+                        b.rating?.let {
+                            ratingView.visibility = View.VISIBLE
+                            ratingView.rating = it.toFloat()
+                        }
+                    }
+                    // shelfView.text = "Currently Reading"
+                    // shelfView.visibility = View.VISIBLE
+                    else -> {
+                    }
+                }
             }
         }
 
         companion object {
             fun create(parent: ViewGroup): BookViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.book_view_list_item, parent, false)
+                        .inflate(R.layout.book_view_list_item, parent, false)
                 return BookViewHolder(view)
             }
         }

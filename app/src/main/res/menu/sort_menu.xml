@@ -6,4 +6,7 @@
         android:title="author" />
     <item android:id="@+id/menu_sort_year"
         android:title="year" />
+    <item android:id="@+id/menu_sort_rating"
+        android:title="rating" />
+
 </menu>

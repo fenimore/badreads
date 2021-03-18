@@ -103,7 +103,7 @@ limitations under the License. -->
             android:textAppearance="@style/TextAppearance.AppTheme.Caption"
 
             card_view:layout_constraintStart_toEndOf="@id/book_list_caption_view_1"
-            card_view:layout_constraintEnd_toStartOf="@+id/book_list_caption_view_3"
+            card_view:layout_constraintEnd_toStartOf="@+id/book_list_rating_bar"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/book_list_sub_view"
 
@@ -115,14 +115,28 @@ limitations under the License. -->
             />
 
 
+        <RatingBar
+            android:id="@+id/book_list_rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintVertical_bias="1.0"
+            android:numStars="5"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_margin="12dp"
+            android:visibility="gone"
+            />
+
         <TextView
             android:id="@+id/book_list_caption_view_3"
             android:layout_width="wrap_content"
             card_view:layout_constraintHorizontal_weight="1"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppTheme.Caption"
-
-
+            android:visibility="gone"
+            card_view:layout_constraintStart_toEndOf="@id/book_list_caption_view_2"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintVertical_bias="1.0"

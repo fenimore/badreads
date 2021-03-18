@@ -195,6 +195,14 @@ class ShelfFragment : Fragment() {
                         }
                     }
                 }
+                R.id.menu_sort_rating -> {
+                    bookViewModel.ratingSort(shelf)?.observe(viewLifecycleOwner) { books ->
+                        books.let {
+                            Log.i(LOG_SORT, "Rating ${it.map { it.title }}")
+                            adapter.submitList(it)
+                        }
+                    }
+                }
             }
             adapter.notifyDataSetChanged()
             true
