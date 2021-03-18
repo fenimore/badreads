@@ -21,14 +21,18 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginEnd
+import androidx.core.view.marginTop
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.snackbar.Snackbar
@@ -39,12 +43,12 @@ import com.timenotclocks.bookcase.api.GoodReadImport
 import com.timenotclocks.bookcase.database.BookViewModel
 import com.timenotclocks.bookcase.database.BookViewModelFactory
 import com.timenotclocks.bookcase.database.BooksApplication
+import com.timenotclocks.bookcase.database.emptyBook
 import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
 import java.time.LocalDate
 
 
 const val LOG_TAG = "Bookshelf"
-const val EXTRA_SCAN = "scan_please"
 const val REQ_EXP = 9832
 
 class MainActivity : AppCompatActivity()  {
@@ -125,6 +129,42 @@ class MainActivity : AppCompatActivity()  {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.menu_main_add_manual -> {
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Manual Book Entry")
+                builder.setMessage("Enter the new book title:")
+
+                val input = EditText(this)
+                input.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
+                builder.setView(input)
+                builder.setPositiveButton("Ok") { dialog, id ->
+                    input.text?.let { editable ->
+                        val newBook = emptyBook(editable.toString(), null)
+                        bookViewModel.insertSync(newBook).observe(this, { observed ->
+                            if (observed > 0) {
+                                Log.i(TAG_NEW, "Added Book Manually: $observed $editable")
+                                val intent = Intent(this, BookEditActivity::class.java).apply {
+                                    putExtra(EXTRA_ID, observed)
+                                }
+                                startActivity(intent)
+                            } else {
+                                Log.e(TAG_NEW, "Manual Book could not be added: $observed $editable")
+                            }
+
+                        })
+                    }
+                }
+                builder.show()
+                return true
+            }
+            R.id.menu_main_barcode -> {
+                val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java).apply {
+                    putExtra(EXTRA_SCAN, true)
+                }
+
+                startActivity(intent)
+                return true
+            }
             R.id.menu_main_open_library_search -> {
                 val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
                 startActivity(intent)

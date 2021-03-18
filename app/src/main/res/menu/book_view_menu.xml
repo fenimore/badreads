@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:title="Edit"
+        android:id="@+id/menu_edit" android:icon="@drawable/ic_edit_pencil"
+        app:showAsAction="always"/>
+    <item android:title="Badreads"
+        android:enabled="false"
+        app:showAsAction="never"
+        />
+    <item android:title="Search with Badreads"
+        android:id="@+id/menu_with_badreads"/>
     <item android:title="External Links"
         android:enabled="false"
         app:showAsAction="never"
         />
-    <item android:title="Edit"
-        android:id="@+id/menu_edit" android:icon="@drawable/ic_edit_pencil"
-        app:showAsAction="always"/>
     <item android:id="@+id/menu_open_library"
         android:title="OpenLibrary.org" />
     <item android:id="@+id/menu_greenlight"

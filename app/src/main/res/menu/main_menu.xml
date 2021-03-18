@@ -8,13 +8,22 @@
         android:icon="@drawable/ic_add_circle_black"
         app:showAsAction="always"
         />
+    <item android:id="@+id/menu_main_barcode"
+        android:icon="@drawable/ic_barcode_black"
+        android:title="Scan Barcode"
+        app:showAsAction="always"
+        />
 
     <item android:title="Badreads Menu"
         android:enabled="false"
         app:showAsAction="never"
         />
+    <item android:id="@+id/menu_main_add_manual"
+        android:title="Manual Book Entry"
+        app:showAsAction="never"
+        />
     <item android:id="@+id/menu_export_import"
-        android:title="Library export/import"
+        android:title="Library Export/Import"
         >
         <!-- "file" submenu -->
         <menu>

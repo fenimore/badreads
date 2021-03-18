@@ -42,7 +42,8 @@ import com.timenotclocks.bookcase.ui.main.OpenLibrarySearchAdapter
 
 
 const val LOG_SEARCH = "BookSearch"
-
+const val EXTRA_SEARCH = "search_open_library_extra"
+const val EXTRA_SCAN = "scan_open_library_extra"
 
 class OpenLibrarySearchActivity : AppCompatActivity() {
 
@@ -62,7 +63,7 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
     }
 
     private fun searchOpenLibrary(searchView: androidx.appcompat.widget.SearchView?, progressBar: ProgressBar?, numResultsView: TextView?) {
-        openLibraryViewModel?.numResults.observe(this, Observer<Int> {
+        openLibraryViewModel.numResults.observe(this, Observer<Int> {
             progressBar?.visibility = View.GONE
             it?.let {
                 when {
@@ -78,7 +79,7 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
                 }
             }
         })
-        openLibraryViewModel?.getSearches().observe(this, { books ->
+        openLibraryViewModel.getSearches().observe(this, { books ->
             progressBar?.visibility = View.GONE
             books?.let {
                 adapter.submitList(it)
@@ -108,7 +109,7 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.open_library_search_menu, menu)
         val searchItem: MenuItem = menu.findItem(R.id.search_menu_item)
-        var searchView = searchItem.actionView as? androidx.appcompat.widget.SearchView
+        val searchView = searchItem.actionView as? androidx.appcompat.widget.SearchView
         searchItem.setOnActionExpandListener(object: MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
                 return true;
@@ -124,14 +125,27 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
 
         val progressBar = findViewById<ProgressBar>(R.id.search_progress_bar)
         val numResultsView = findViewById<TextView>(R.id.num_results_view)
+        numResultsView.text = "Search OpenLibrary.org for new books"
 
         searchOpenLibrary(searchView, progressBar, numResultsView)
 
         if (intent.getBooleanExtra(EXTRA_SCAN, false)) {
-            // TODO: land on scan
+            val integrator = IntentIntegrator(this)
+            integrator.setPrompt("Scan Barcode");
+            integrator.setBeepEnabled(false);
+            integrator.setOrientationLocked(false)
+            integrator.initiateScan();
         }
 
-        numResultsView.text = "Search OpenLibrary.org for new books"
+        val searchIntent = intent.getStringExtra(EXTRA_SEARCH)
+        searchIntent?.let{ query ->
+            Log.i(LOG_SEARCH, "Direct Query $query")
+            openLibraryViewModel.searchOpenLibrary(query)
+            searchView?.clearFocus()
+            progressBar?.visibility = View.VISIBLE
+        }
+
+
 
         return true
     }

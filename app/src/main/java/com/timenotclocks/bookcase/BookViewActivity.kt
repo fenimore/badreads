@@ -108,9 +108,14 @@ class BookViewActivity : AppCompatActivity() {
             android.R.id.home -> {
                 finish()
             }
+            R.id.menu_with_badreads -> {
+                val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java).apply {
+                    putExtra(EXTRA_SEARCH, book?.titleString())
+                }
+                startActivity(intent)
+            }
             R.id.menu_edit -> {
                 Log.i(LOG_BOOK_VIEW, "Editing this book")
-
                 book?.let { it ->
                     val intent = Intent(applicationContext, BookEditActivity::class.java).apply {
                         putExtra(EXTRA_ID, it.bookId)

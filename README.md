@@ -22,15 +22,13 @@ There seems to be an issue with the first line of the "rows" that are written (a
 
 1. Move export and import to settings
 2. Fix settings action bar color
-2. Manual New Book Entry
+13. Empty library prompt
 4. Custom Icons
 5. Multiple Authors/DB Relation
-8. Add tag/star to books
 9. OpenLibrary book details button?
-10. Search openlibrary within app
-11. Fetch description
-12. Add setting for default tab
-13. Empty library prompt
+8. Add tag/star to books
+11. Fetch description **
+
 
 ## TODO: sort
 1. Sort a - z

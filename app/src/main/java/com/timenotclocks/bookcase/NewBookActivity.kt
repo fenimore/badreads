@@ -121,7 +121,7 @@ class NewBookActivity : AppCompatActivity() {
     }
 
     private fun displayNewBook(current: Book) {
-        current.cover("L").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.new_book_cover_image)) }
+        current.cover("M").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.new_book_cover_image)) }
         findViewById<TextView>(R.id.new_book_title).text = current.titleString()
         findViewById<TextView>(R.id.new_book_author).text = current.authorString()
         current.yearString()?.let { findViewById<TextView>(R.id.new_book_year).text = it }
@@ -149,7 +149,7 @@ class NewBookActivity : AppCompatActivity() {
     }
 
     private fun displayDuplicate(alike: Book) {
-        alike.cover("L")?.let {
+        alike.cover("M")?.let {
             Picasso.get().load(it).into(findViewById<ImageView>(R.id.duplicate_book_cover_image))
         }
         findViewById<TextView>(R.id.duplicate_book_title).text = alike.titleString()
@@ -161,13 +161,19 @@ class NewBookActivity : AppCompatActivity() {
         alike.dateAdded = LocalDate.now().toEpochDay()
 
         val dupShelfDropdown = findViewById<MaterialButton>(R.id.duplicate_book_shelf_dropdown)
-        dupShelfDropdown.text = alike.shelf
+        dupShelfDropdown.text = alike.shelfString()
         dupShelfDropdown.isClickable = false
 
         findViewById<TextView>(R.id.new_book_duplicates_header).visibility = View.VISIBLE
         findViewById<CardView>(R.id.duplicate_card_view).visibility = View.VISIBLE
         findViewById<MaterialButton>(R.id.new_book_btn_add).text = "Add Anyway"
         findViewById<MaterialButton>(R.id.new_book_btn_replace).visibility = View.VISIBLE
+        findViewById<MaterialButton>(R.id.duplicate_book_view_book_button).setOnClickListener { view ->
+            val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
+                putExtra(EXTRA_ID, alike.bookId)
+            }
+            startActivity(intent)
+        }
     }
 
     private fun showMenu(b: Book, v: View, @MenuRes menuRes: Int) {

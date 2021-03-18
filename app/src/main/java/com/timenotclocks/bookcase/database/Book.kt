@@ -107,10 +107,10 @@ data class Book(  // TODO: can I remove overloads? i'ts for the converter
                 "Read"
             }
             ShelfType.CurrentShelf.shelf -> {
-                "Currently Reading"
+                "Reading"
             }
             ShelfType.ToReadShelf.shelf -> {
-                "want to read"
+                "To Read"
             }
             else -> {
                 "Unshelved"
@@ -188,6 +188,37 @@ fun fakeBook(
             numberPages = 290,
             rating = null,
             shelf = "currently-reading",
+            notes = null,
+            dateAdded = LocalDate.now().toEpochDay(),
+            dateStarted = null,
+            dateRead = null,
+    )
+}
+
+fun emptyBook(
+        fullTitle: String,
+        author: String?,
+): Book {
+    var title: String = fullTitle
+    var subtitle: String? = null
+    if (fullTitle.contains(":")) {
+        title = fullTitle.split(":").first().trim()
+        subtitle = fullTitle.split(":")[1].trim()
+    }
+    return Book(
+            bookId = 0,
+            title = title,
+            subtitle = subtitle,
+            isbn10 = null,
+            isbn13 = null,
+            author = author,
+            authorExtras = null,
+            publisher = null,
+            year = null,
+            originalYear = null,
+            numberPages = null,
+            rating = null,
+            shelf = "to-read",
             notes = null,
             dateAdded = LocalDate.now().toEpochDay(),
             dateStarted = null,
