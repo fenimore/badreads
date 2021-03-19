@@ -19,8 +19,6 @@
 package com.timenotclocks.bookcase.database
 
 import android.app.Application
-import com.timenotclocks.bookcase.database.BookDatabase
-import com.timenotclocks.bookcase.database.BookRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 

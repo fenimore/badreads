@@ -128,6 +128,7 @@ data class Book(  // TODO: can I remove overloads? i'ts for the converter
                 ShelfType.CurrentShelf -> {
                     dateStarted = LocalDate.now().toEpochDay()
                 }
+                else -> {}
             }
             if (dateAdded == null) {
                 dateAdded = LocalDate.now().toEpochDay()

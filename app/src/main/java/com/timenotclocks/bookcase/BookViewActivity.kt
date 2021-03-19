@@ -12,10 +12,8 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
-import com.timenotclocks.bookcase.api.OpenLibraryViewModel
 import com.timenotclocks.bookcase.database.*
 import java.time.LocalDate
 

@@ -13,12 +13,7 @@ Badreads is very unstable. I recommend backing up with an export before installi
 GPLv3
 Copyright 2021 Fenimore Love
 
-## Bug:
-
-1. Deleting data directly after exporting, and then importing that same csv will break the CSV.
-There seems to be an issue with the first line of the "rows" that are written (after the headers).
-
-## TODO:
+## Todo:
 
 1. Move export and import to settings
 2. Fix settings action bar color
@@ -28,10 +23,11 @@ There seems to be an issue with the first line of the "rows" that are written (a
 9. OpenLibrary book details button?
 8. Add tag/star to books
 11. Fetch description **
-
-
-## TODO: sort
 1. Sort a - z
 2. Sort z - a
 3. Sort page numbers
-4. Sort rating
+
+## Known Bug:
+
+1. Deleting data directly after exporting, and then importing that same csv will break the CSV.
+There seems to be an issue with the first line of the "rows" that are written (after the headers).

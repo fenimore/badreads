@@ -1,14 +1,11 @@
 package com.timenotclocks.bookcase.api
 
-import android.util.Log
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.timenotclocks.bookcase.database.Book
 import com.timenotclocks.bookcase.database.csvDateFormatter
 import java.io.InputStream
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.reflect.typeOf
 
 
 const val LOG_GOOD_READ = "BookGoodRead"

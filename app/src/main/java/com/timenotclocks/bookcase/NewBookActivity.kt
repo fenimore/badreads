@@ -11,7 +11,6 @@ import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import com.beust.klaxon.JsonReader
 import com.beust.klaxon.Klaxon
 import com.google.android.material.button.MaterialButton
 import com.squareup.picasso.Picasso

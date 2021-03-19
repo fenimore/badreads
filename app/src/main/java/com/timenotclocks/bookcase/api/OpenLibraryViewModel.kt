@@ -12,7 +12,6 @@ import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Klaxon
 import com.timenotclocks.bookcase.LOG_SEARCH
-import com.timenotclocks.bookcase.api.RequestQueueSingleton
 import com.timenotclocks.bookcase.database.Book
 import kotlinx.coroutines.launch
 import java.io.StringReader

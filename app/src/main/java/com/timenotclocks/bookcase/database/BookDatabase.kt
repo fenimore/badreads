@@ -19,33 +19,13 @@
 package com.timenotclocks.bookcase.database
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-
-
-class Converters {
-    var formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-
-    @TypeConverter
-    fun fromDateString(value: String?): LocalDate? {
-        if (value != "null" && value != null) {
-            return LocalDate.parse(value, formatter)
-        }
-        return null  // this is dumb
-    }
-
-
-    @TypeConverter
-    fun toDateString(date: LocalDate?): String? {
-        return date.toString()
-    }
-}
 
 
 /**
@@ -55,7 +35,6 @@ class Converters {
 @Database(entities = [
     Book::class, BooksFts::class
 ], version = 5)
-@TypeConverters(Converters::class)
 abstract class BookDatabase : RoomDatabase() {
 
     abstract fun bookDao(): BookDao
@@ -100,17 +79,10 @@ abstract class BookDatabase : RoomDatabase() {
                 // comment out the following line.
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
-                        populateDatabase(database.bookDao())
+                        // populateDatabase(database.bookDao())
                     }
                 }
             }
-        }
-
-        /**
-         * Populate the database in a new coroutine.
-         * If you want to start with more words, just add them.
-         */
-        suspend fun populateDatabase(bookDao: BookDao) {
         }
     }
 }

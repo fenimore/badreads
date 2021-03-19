@@ -16,7 +16,6 @@
 
 package com.timenotclocks.bookcase
 
-import android.R.attr
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
@@ -27,17 +26,13 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginEnd
-import androidx.core.view.marginTop
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
-import com.google.zxing.integration.android.IntentIntegrator
 import com.timenotclocks.bookcase.api.Exporter
 import com.timenotclocks.bookcase.api.GoodReadImport
 import com.timenotclocks.bookcase.database.BookViewModel

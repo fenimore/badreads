@@ -4,29 +4,22 @@
 
 package com.timenotclocks.bookcase.ui.main
 
-import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.beust.klaxon.Klaxon
-import com.google.android.material.chip.Chip
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.BookViewActivity
 import com.timenotclocks.bookcase.EXTRA_ID
-import com.timenotclocks.bookcase.LOG_TAG
 import com.timenotclocks.bookcase.R
-import com.timenotclocks.bookcase.database.*
-import java.time.LocalDate
+import com.timenotclocks.bookcase.database.Book
+import com.timenotclocks.bookcase.database.ShelfType
 
 
 const val LOG_BOOK_ADAPTER = "BookAdapter"

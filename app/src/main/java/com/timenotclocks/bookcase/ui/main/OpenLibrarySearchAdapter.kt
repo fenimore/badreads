@@ -2,26 +2,21 @@
 
 package com.timenotclocks.bookcase.ui.main
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.beust.klaxon.Klaxon
 import com.squareup.picasso.Picasso
-import androidx.activity.viewModels
-import com.timenotclocks.bookcase.*
-import com.timenotclocks.bookcase.ui.main.OpenLibrarySearchAdapter.SearchViewHolder
+import com.timenotclocks.bookcase.NewBookActivity
+import com.timenotclocks.bookcase.R
 import com.timenotclocks.bookcase.database.Book
-import com.timenotclocks.bookcase.database.BookViewModel
-import com.timenotclocks.bookcase.database.BookViewModelFactory
-import com.timenotclocks.bookcase.database.BooksApplication
+import com.timenotclocks.bookcase.ui.main.OpenLibrarySearchAdapter.SearchViewHolder
 
 
 const val EXTRA_OPEN_LIBRARY_SEARCH = "open_library_search_extra"

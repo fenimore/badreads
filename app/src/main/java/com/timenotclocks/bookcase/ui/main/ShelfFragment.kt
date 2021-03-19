@@ -23,8 +23,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
@@ -187,7 +185,7 @@ class ShelfFragment : Fragment() {
                     }
                 }
                 R.id.menu_sort_year -> {
-                    bookViewModel.yearSort(shelf)?.observe(viewLifecycleOwner) { books ->
+                    bookViewModel.yearSort(shelf).observe(viewLifecycleOwner) { books ->
                         // sortLibrary(SortColumn.Title)?.observe(viewLifecycleOwner) { books ->
                         books.let {
                             Log.i(LOG_SORT, "Year ${it.map { it.title }}")
@@ -196,7 +194,7 @@ class ShelfFragment : Fragment() {
                     }
                 }
                 R.id.menu_sort_rating -> {
-                    bookViewModel.ratingSort(shelf)?.observe(viewLifecycleOwner) { books ->
+                    bookViewModel.ratingSort(shelf).observe(viewLifecycleOwner) { books ->
                         books.let {
                             Log.i(LOG_SORT, "Rating ${it.map { it.title }}")
                             adapter.submitList(it)
