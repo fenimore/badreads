@@ -8,6 +8,11 @@ import and export your library from or to Open Library and Goodreads.
 
 Badreads is very unstable. I recommend backing up with an export before installing updates or changes.
 
+## Screenshots
+
+![Book List Screehshot](./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png)
+![Book View Screehshot](./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png)
+
 ## License
 
 GPLv3
