@@ -10,8 +10,7 @@ Badreads is very unstable. I recommend backing up with an export before installi
 
 ## Screenshots
 
-<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="screenshot 1" width="100">
-<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="100">
+<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="screenshot 1" width="200"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="200">
 
 ## License
 
