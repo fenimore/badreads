@@ -201,6 +201,16 @@ class ShelfFragment : Fragment() {
                         }
                     }
                 }
+                R.id.menu_sort_page_num_desc -> {
+                    bookViewModel.pageNumbersSortDesc(shelf).observe(viewLifecycleOwner) { books ->
+                        books.let { adapter.submitList(it) }
+                    }
+                }
+                R.id.menu_sort_page_num_asc -> {
+                    bookViewModel.pageNumbersSortAsc(shelf).observe(viewLifecycleOwner) { books ->
+                        books.let { adapter.submitList(it) }
+                    }
+                }
             }
             adapter.notifyDataSetChanged()
             true

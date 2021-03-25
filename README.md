@@ -30,8 +30,12 @@ Copyright 2021 Fenimore Love
 1. Sort a - z
 2. Sort z - a
 3. Sort page numbers
+1. Form fields must be numbers
+1. Saving notes sometimes fails!?
+9. Fix dark mode colors for light mode (white icon text for button)
 
 ## Known Bug:
 
 1. Deleting data directly after exporting, and then importing that same csv will break the CSV.
 There seems to be an issue with the first line of the "rows" that are written (after the headers).
+2. When writing a review, sometimes it doesn't save...

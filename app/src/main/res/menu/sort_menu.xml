@@ -3,10 +3,14 @@
     <item android:id="@+id/menu_sort_date"
         android:title="date" />
     <item android:id="@+id/menu_sort_author"
-        android:title="author" />
+        android:title="author a-z" />
     <item android:id="@+id/menu_sort_year"
-        android:title="year" />
+        android:title="year earliest-latest" />
     <item android:id="@+id/menu_sort_rating"
         android:title="rating" />
+    <item android:id="@+id/menu_sort_page_num_asc"
+        android:title="pages shortest-longest" />
+    <item android:id="@+id/menu_sort_page_num_desc"
+        android:title="pages longest-shortest" />
 
 </menu>

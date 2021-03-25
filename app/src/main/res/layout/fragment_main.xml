@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/fragment_sort_button"
+        app:layout_constraintStart_toEndOf="@+id/fragment_sort_button"
         app:queryHint="Search your library"
 
         />
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         app:icon="@drawable/ic_sort"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/fragment_sort_button"
         app:iconPadding="0dp"
         android:insetTop="0dp"
@@ -36,7 +36,8 @@
         android:paddingRight="12dp"
         android:minWidth="48dp"
         android:minHeight="48dp"
-        android:backgroundTint="@color/secondaryColor"
+        app:iconTint="#FFF"
+        android:background="@color/zxing_transparent"
         />
 
     <ProgressBar

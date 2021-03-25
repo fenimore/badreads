@@ -64,6 +64,12 @@ public interface BookDao {
     @Query("SELECT * FROM books WHERE shelf = :shelf ORDER BY rating DESC")
     fun ratingSort(shelf: String): Flow<List<Book>>
 
+    @Query("SELECT * FROM books WHERE shelf = :shelf ORDER BY numberPages DESC")
+    fun pageNumbersSortDesc(shelf: String): Flow<List<Book>>
+
+    @Query("SELECT * FROM books WHERE shelf = :shelf ORDER BY numberPages ASC")
+    fun pageNumbersSortAsc(shelf: String): Flow<List<Book>>
+
     @Query("SELECT * FROM books WHERE shelf = 'read' ORDER BY dateAdded DESC")
     fun readShelf(): Flow<List<Book>>
 

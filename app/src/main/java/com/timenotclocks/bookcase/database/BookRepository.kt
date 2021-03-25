@@ -97,6 +97,14 @@ class BookRepository(private val bookDao: BookDao) {
         return bookDao.ratingSort(shelfType.shelf)
     }
 
+    fun pageNumbersSortAsc(shelfType: ShelfType): Flow<List<Book>> {
+        return bookDao.pageNumbersSortAsc(shelfType.shelf)
+    }
+
+    fun pageNumbersSortDesc(shelfType: ShelfType): Flow<List<Book>> {
+        return bookDao.pageNumbersSortDesc(shelfType.shelf)
+    }
+
     fun authorSort(shelfType: ShelfType): Flow<List<Book>> {
         return bookDao.authorSort(shelfType.shelf)
     }

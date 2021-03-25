@@ -60,6 +60,14 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
         return repository.ratingSort(shelfType).asLiveData()
     }
 
+    fun pageNumbersSortAsc(shelfType: ShelfType): LiveData<List<Book>> {
+        return repository.pageNumbersSortAsc(shelfType).asLiveData()
+    }
+
+    fun pageNumbersSortDesc(shelfType: ShelfType): LiveData<List<Book>> {
+        return repository.pageNumbersSortDesc(shelfType).asLiveData()
+    }
+
     fun dateReadSort(shelfType: ShelfType): LiveData<List<Book>> {
         return repository.dateReadSort(shelfType).asLiveData()
     }

@@ -5,6 +5,7 @@
 package com.timenotclocks.bookcase.ui.main
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.BookViewActivity
 import com.timenotclocks.bookcase.EXTRA_ID
@@ -48,6 +50,7 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
         private val titleView: TextView = itemView.findViewById(R.id.book_list_main_view)
         private val authorView: TextView = itemView.findViewById(R.id.book_list_sub_view)
         private val coverView: ImageView = itemView.findViewById(R.id.book_list_cover_view)
+        private val emptyCoverView: TextView = itemView.findViewById(R.id.book_list_empty_cover)
         private val yearView: TextView = itemView.findViewById(R.id.book_list_caption_view_1)
         private val dateView: TextView = itemView.findViewById(R.id.book_list_caption_view_2)
         private val shelfView: TextView = itemView.findViewById(R.id.book_list_caption_view_3)
@@ -55,11 +58,21 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
 
         fun bind(book: Book?) {
             book?.let { b ->
-                titleView.text = b.subtitle?.let { it -> b.title + ": $it" } ?: b.title
+                titleView.text = b.titleString()
                 authorView.text = "by ${b.authorString()}"
-
+                emptyCoverView.text = b.titleString()
                 b.yearString()?.let { yearView.text = it }
-                b.cover("M").let { Picasso.get().load(it).into(coverView) }
+                b.cover("M").let {
+                    Picasso.get().load(it).into(coverView, object : Callback {
+                        override fun onSuccess() {
+                            emptyCoverView.visibility = View.INVISIBLE
+                        }
+                        override fun onError(e: Exception) {}
+                    })
+                }
+                coverView.drawable ?: run {
+                    emptyCoverView.visibility = View.VISIBLE
+                }
                 when (b.shelf) {
                     ShelfType.ReadShelf.shelf -> {
                         b.rating?.let {
