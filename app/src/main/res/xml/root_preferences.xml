@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory app:title="User Interface">
         <ListPreference
             app:defaultValue="@string/dark_mode_def_value"
@@ -15,4 +16,16 @@
             app:title="Landing Page"
             />
     </PreferenceCategory>
+    <PreferenceCategory app:title="Badreads App">
+        <Preference
+            android:key="source"
+            android:title="Source"
+            android:summary="github.com/fenimore/badreads"
+            />
+        <Preference
+            android:key="version"
+            app:title="Version"
+            />
+    </PreferenceCategory>
+
 </PreferenceScreen>

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.beust.klaxon.Klaxon
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.NewBookActivity
 import com.timenotclocks.bookcase.R
@@ -49,6 +50,7 @@ class OpenLibrarySearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_CO
         private val captView1: TextView = itemView.findViewById(R.id.book_list_caption_view_1)
         private val captView2: TextView = itemView.findViewById(R.id.book_list_caption_view_2)
         private val captView3: TextView = itemView.findViewById(R.id.book_list_caption_view_3)
+        private val emptyCoverView: TextView = itemView.findViewById(R.id.book_list_empty_cover)
         // private val captView4: TextView = itemView.findViewById(R.id.book_list_caption_view_4)
         // private val captView5: TextView = itemView.findViewById(R.id.book_list_caption_view_5)
         // private val captView6: TextView = itemView.findViewById(R.id.book_list_caption_view_6)
@@ -56,7 +58,19 @@ class OpenLibrarySearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_CO
         fun bindTo(book: Book?) {
             book ?: return
 
-            book.cover("M").let{ Picasso.get().load(it).into(coverView)}
+            book.cover("M").let {
+                Picasso.get().load(it).into(coverView, object : Callback {
+                    override fun onSuccess() {
+                        emptyCoverView.visibility = View.INVISIBLE
+                    }
+                    override fun onError(e: Exception) {}
+                })
+            }
+            coverView.drawable ?: run {
+                emptyCoverView.visibility = View.VISIBLE
+                emptyCoverView.text = book.titleString()
+            }
+
             mainView.text = book.titleString()
             subView.text = book.authorString()
 

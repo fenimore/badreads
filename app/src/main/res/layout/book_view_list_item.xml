@@ -40,7 +40,7 @@ limitations under the License. -->
             card_view:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/book_list_cover_wrapper"
             android:minHeight="100dp"
-            android:minWidth="70dp"
+            android:minWidth="80dp"
             >
         <ImageView
             android:id="@+id/book_list_cover_view"
@@ -52,21 +52,24 @@ limitations under the License. -->
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="100dp"
-            android:minWidth="70dp"
+            android:minHeight="120dp"
+            android:minWidth="80dp"
 
             />
         <TextView
             android:id="@+id/book_list_empty_cover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="10dp"
             android:width="80dp"
-            android:height="100dp"
+            android:height="120dp"
             android:gravity="center"
+            android:background="@drawable/border"
+            android:textColor="@color/primaryTextColor"
             android:textSize="13dp"
-
-            android:textAppearance="@style/TextAppearance.AppTheme.Body2Light"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.AppTheme.Body2"
+            android:visibility="gone"
             />
         </RelativeLayout>
         <TextView

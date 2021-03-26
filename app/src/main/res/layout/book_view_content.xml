@@ -32,7 +32,7 @@
             android:id="@+id/book_view_cover_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="300dp"
+            android:minHeight="250dp"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
@@ -94,7 +94,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:paddingBottom="2dp"
-            android:paddingTop="2dp"
+            android:paddingTop="16dp"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_isbn10"
@@ -107,7 +107,6 @@
             android:layout_marginTop="10dp"
             android:textIsSelectable="true"
             android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
-            card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_author" />
 
@@ -116,14 +115,14 @@
             android:id="@+id/book_view_publisher"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
             android:textIsSelectable="true"
-            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_year" />
+            card_view:layout_constraintStart_toEndOf="@+id/book_view_year"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_author"
+            />
 
         <TextView
             android:id="@+id/book_view_isbn13"
@@ -201,13 +200,29 @@
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_rating_bar"
             />
 
+        <ImageView
+            android:id="@+id/book_view_date_horizontal"
+            android:src="@android:drawable/divider_horizontal_dark"
+            android:layout_marginTop="20dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="2dp"
+            android:paddingTop="16dp"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_notes"
+            />
+
         <TextView
             android:id="@+id/book_view_date_added_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:text="Date Added"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_notes"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_horizontal"
             card_view:layout_constraintEnd_toStartOf="@+id/book_view_date_started_label"
             card_view:layout_constraintStart_toStartOf="parent"
             android:textIsSelectable="true"
@@ -230,7 +245,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:text="Date Started"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_notes"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_horizontal"
             card_view:layout_constraintEnd_toStartOf="@+id/book_view_date_shelved_label"
             card_view:layout_constraintStart_toEndOf="@id/book_view_date_added_label"
             />
@@ -251,7 +266,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:text="Date Read"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_notes"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_date_horizontal"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toEndOf="@id/book_view_date_started_label"
             />

@@ -33,6 +33,7 @@ Copyright 2021 Fenimore Love
 1. Form fields must be numbers
 1. Saving notes sometimes fails!?
 9. Fix dark mode colors for light mode (white icon text for button)
+10. Add Abe books?
 
 ## Known Bug:
 

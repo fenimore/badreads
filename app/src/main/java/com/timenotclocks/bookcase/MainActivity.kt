@@ -25,6 +25,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -76,7 +77,21 @@ class MainActivity : AppCompatActivity()  {
         ).getString("landing_tab", "0")?.toInt() ?: 0
         viewPager.setCurrentItem(landingTab)
 
+
+
         Log.d(LOG_TAG, "Created Main Activity")
+        /*
+        val fab: View = findViewById(R.id.fab)
+        fab.setOnClickListener { view ->
+            val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
+            startActivity(intent)
+        }
+                val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java).apply {
+                    putExtra(EXTRA_SCAN, true)
+                }
+
+                startActivity(intent)
+                return true*/
 
         /*val data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null, "dateRead" : null, "isbn10" : "0307970655", "isbn13" : "9780385535595", "notes" : null, "numberPages" : null, "originalYear" : 2016, "publisher" : "Doubleday", "rating" : null, "shelf" : "to-read", "subtitle" : null, "title" : "Dark Money", "year" : 2016}"""
         val intent = Intent(applicationContext, NewBookActivity::class.java).apply {
@@ -118,6 +133,8 @@ class MainActivity : AppCompatActivity()  {
         startActivity(intent)
         */
 
+        // val intent = Intent(applicationContext, SettingsActivity::class.java)
+        // startActivity(intent)
         // val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
         // startActivity(intent)
     }

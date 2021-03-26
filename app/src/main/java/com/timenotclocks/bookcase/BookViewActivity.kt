@@ -72,7 +72,7 @@ class BookViewActivity : AppCompatActivity() {
         current.isbn13?.let { findViewById<TextView>(R.id.book_view_isbn13).text = "ISBN 13: $it" }
         current.numberPages?.let { findViewById<TextView>(R.id.book_view_page_number).text = "Pages: $it" }
         current.yearString()?.let { findViewById<TextView>(R.id.book_view_year).text = "$it" }
-        current.publisher?.let { findViewById<TextView>(R.id.book_view_publisher).text = "From: $it" }
+        current.publisher?.let { findViewById<TextView>(R.id.book_view_publisher).text = it }
         current.dateAdded?.let { findViewById<TextView>(R.id.book_view_date_added).text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
         current.dateStarted?.let { findViewById<TextView>(R.id.book_view_date_started).text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
         current.dateRead?.let { findViewById<TextView>(R.id.book_view_date_shelved).text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }

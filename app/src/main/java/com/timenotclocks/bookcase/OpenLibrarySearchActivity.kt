@@ -128,9 +128,9 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
 
         val progressBar = findViewById<ProgressBar>(R.id.search_progress_bar)
         val numResultsView = findViewById<TextView>(R.id.num_results_view)
-        numResultsView.text = "Search OpenLibrary.org for new books"
 
         searchOpenLibrary(searchView, progressBar, numResultsView)
+        numResultsView.text = "Search OpenLibrary.org for new books"
 
         if (intent.getBooleanExtra(EXTRA_SCAN, false)) {
             val integrator = IntentIntegrator(this)
