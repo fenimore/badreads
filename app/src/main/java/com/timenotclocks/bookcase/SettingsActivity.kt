@@ -4,12 +4,32 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.os.storage.StorageManager
+import android.provider.DocumentsContract
+import android.util.Log
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
+import com.google.android.material.snackbar.Snackbar
+import com.timenotclocks.bookcase.api.Exporter
+import com.timenotclocks.bookcase.api.GoodReadImport
+import com.timenotclocks.bookcase.api.LOG_EXP
+import com.timenotclocks.bookcase.database.BookViewModel
+import com.timenotclocks.bookcase.database.BookViewModelFactory
+import com.timenotclocks.bookcase.database.BooksApplication
+import java.time.LocalDate
+
+private const val exportRequest = 1
+private const val importResult = 450
+const val LOG_SET = "BookSettings"
 
 class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
+    private val bookViewModel: BookViewModel by viewModels {
+        BookViewModelFactory((application as BooksApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +73,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> {
                 finish()
             }
@@ -64,7 +84,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == null || sharedPreferences == null) return
         val darkModeString = "dark_mode"  // todo put in string.xml I guess
-        when(key) {
+        when (key) {
             darkModeString -> {
                 val darkModeValues = resources.getStringArray(R.array.dark_mode_values)
                 when (sharedPreferences.getString(darkModeString, darkModeValues[0])) {
@@ -76,4 +96,4 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             }
         }
     }
- }
+}

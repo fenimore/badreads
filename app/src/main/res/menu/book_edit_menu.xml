@@ -3,5 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="Save" android:id="@+id/menu_save" android:icon="@drawable/ic_save_disk" app:showAsAction="always"/>
+    <item android:title="Fill missing fields" android:id="@+id/menu_meta" app:showAsAction="never"/>
     <item android:title="Delete" android:id="@+id/menu_delete" android:icon="@drawable/ic_delete_black" app:showAsAction="never"/>
 </menu>

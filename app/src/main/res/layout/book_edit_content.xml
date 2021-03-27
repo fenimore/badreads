@@ -26,28 +26,80 @@
         tools:context=".BookViewActivity">
 
 
-        <ImageView
-            android:id="@+id/book_edit_cover_image"
-            android:layout_width="match_parent"
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="200dp"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            android:scaleType="fitCenter"
-            />
+            card_view:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/book_edit_cover_wrapper"
+            android:minHeight="200dp"
+            android:minWidth="80dp"
+            >
+
+            <ImageView
+                android:id="@+id/book_edit_cover_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="200dp"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                android:scaleType="fitCenter"
+
+                />
+            <TextView
+                android:id="@+id/book_edit_empty_cover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:width="130dp"
+                android:height="200dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+
+                android:background="@drawable/border"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="17dp"
+                android:ellipsize="end"
+                android:textAppearance="@style/TextAppearance.AppTheme.Body2"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/book_edit_image_help"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppTheme.Caption"
             android:textIsSelectable="true"
-            android:text="Add and manage cover images using ISBN number https://openlibrary.org"
-            card_view:layout_constraintBottom_toTopOf="@id/book_edit_title_layout"
-            card_view:layout_constraintTop_toBottomOf="@id/book_edit_cover_image"
+            android:text="Add and manage cover images using ISBN number: https://openlibrary.org"
+            card_view:layout_constraintTop_toBottomOf="@id/book_edit_cover_wrapper"
             card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toStartOf="@id/book_edit_image_edit"
             android:layout_marginTop="14dp"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="20dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            card_view:icon="@drawable/ic_edit_pencil"
+            card_view:layout_constraintTop_toBottomOf="@id/book_edit_cover_wrapper"
+            card_view:backgroundTint="@color/zxing_transparent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/book_edit_image_edit"
+            card_view:iconPadding="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            style="@style/TextAppearance.AppTheme.SortButton"
+
             />
 
 

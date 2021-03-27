@@ -4,11 +4,13 @@ package com.timenotclocks.bookcase
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -17,6 +19,7 @@ import androidx.core.widget.doAfterTextChanged
 import com.beust.klaxon.Klaxon
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.api.OpenLibraryViewModel
 import com.timenotclocks.bookcase.database.*
@@ -56,7 +59,6 @@ class BookEditActivity : AppCompatActivity() {
                     Log.i(LOG_EDIT, "Editing a book $it")
                     book = it
                     populateViews(it)
-                    book?.isbn13?.let { openLibraryViewModel.getBookDetails(it) }
                 }
             })
         }
@@ -75,21 +77,50 @@ class BookEditActivity : AppCompatActivity() {
                             "New details added, click Save (disk) to save.",
                             Snackbar.LENGTH_INDEFINITE
                     ).setAction("Ok", null).show()
+                    book?.isbn13 = details.isbn13 ?: book?.isbn13
+                    book?.isbn10 = details.isbn10 ?: book?.isbn10
+                    book?.publisher = details.publisher ?: book?.publisher
+                    book?.year = details.publishYear ?: book?.year
+                    book?.numberPages = details.numberPages ?: book?.numberPages
+                    book?.let { populateViews(it) }
+                } else {
+                    Snackbar.make(
+                            findViewById(R.id.book_edit_activity),
+                            "No new details found.",
+                            Snackbar.LENGTH_LONG
+                    ).setAction("Ok", null).show()
                 }
-
-
-                book?.isbn13 = details.isbn13 ?: book?.isbn13
-                book?.isbn10 = details.isbn10 ?: book?.isbn10
-                book?.publisher = details.publisher ?: book?.publisher
-                book?.year = details.publishYear ?: book?.year
-                book?.numberPages = details.numberPages ?: book?.numberPages
-                book?.let { populateViews(it) }
             }
         }
     }
 
     private fun populateViews(current: Book) {
-        current.cover("L").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.book_edit_cover_image)) }
+        val emptyCover = findViewById<TextView>(R.id.book_edit_empty_cover)
+        emptyCover?.text = current.titleString() + "\n\n" + current.authorString()
+        val coverView = findViewById<ImageView>(R.id.book_edit_cover_image)
+        current.cover("L").let {
+            Picasso.get().load(it).into(coverView, object : Callback {
+                override fun onSuccess() {
+                    emptyCover.visibility = View.INVISIBLE
+                }
+                override fun onError(e: Exception) {}
+            })
+        }
+        coverView.drawable ?: run {
+            Log.i(LOG_TAG, "Check is it nulll?")
+            emptyCover.visibility = View.VISIBLE
+        }
+
+        current.cover("L").let {
+            Picasso.get().load(it).into(coverView)
+        }
+        findViewById<Button>(R.id.book_edit_image_edit).setOnClickListener { view ->
+            val term = current.isbn13 ?: current.titleString()
+            val url = "https://openlibrary.org/search?q=$term"
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
+        }
 
         val titleEdit = findViewById<TextInputLayout>(R.id.book_edit_title_layout)?.editText
         titleEdit?.setText(current.title)
@@ -121,19 +152,19 @@ class BookEditActivity : AppCompatActivity() {
 
         val yearEdit = findViewById<TextInputLayout>(R.id.book_edit_year).editText
         current.year?.let { yearEdit?.setText(it.toString()) }
-        yearEdit?.doAfterTextChanged { editable -> editable.toString().toIntOrNull()?.let { year -> current.year = year } }
+        yearEdit?.doAfterTextChanged { editable -> editable.toString().toIntOrNull().let { year -> current.year = year } }
 
         val originalYearEdit = findViewById<TextInputLayout>(R.id.book_edit_original_year).editText
         current.originalYear?.let { originalYearEdit?.setText(it.toString()) }
         originalYearEdit?.doAfterTextChanged { editable ->
-            editable.toString().toIntOrNull()?.let { year ->
+            editable.toString().toIntOrNull().let { year ->
                 current.originalYear = year
             }
         }
         val pageNumbersEdit = findViewById<TextInputLayout>(R.id.book_edit_page_numbers).editText
         current.numberPages?.let { pageNumbersEdit?.setText(it.toString()) }
         pageNumbersEdit?.doAfterTextChanged { editable ->
-            editable.toString().toIntOrNull()?.let { pages ->
+            editable.toString().toIntOrNull().let { pages ->
                 current.numberPages = pages
             }
         }
@@ -162,7 +193,7 @@ class BookEditActivity : AppCompatActivity() {
 
         val notesEdit = findViewById<EditText>(R.id.book_edit_notes)
         current.notes?.let { notesEdit.setText(it) }
-        notesEdit.doAfterTextChanged { editable -> current.notes = editable.toString() }
+        notesEdit.doAfterTextChanged { editable -> current.notes = editable?.toString() }
 
         val shelfDropdown = findViewById<Button>(R.id.book_edit_shelf_dropdown)
         shelfDropdown.text = current.shelfString()
@@ -239,6 +270,9 @@ class BookEditActivity : AppCompatActivity() {
                 }
                 setResult(RESULT_OK, intent)
                 finish();
+            }
+            R.id.menu_meta -> {
+                book?.isbn13?.let { openLibraryViewModel.getBookDetails(it) }
             }
         }
 

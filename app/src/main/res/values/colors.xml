@@ -39,7 +39,7 @@ limitations under the License.
     <color name="dark_cyan">#00cbcc</color>
     <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#000000</color>
-    <color name="emptyBook">#C1C1C1</color>
+    <color name="emptyBook">#EAEAEA</color>
     <color name="cyan50">#E0F7FA</color>
     <color name="cyan100">#B2EBF2</color>
     <color name="cyan200">#80DEEA</color>

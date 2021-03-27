@@ -1,6 +1,7 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory app:title="User Interface">
+    <PreferenceCategory
+        app:title="User Interface">
         <ListPreference
             app:defaultValue="@string/dark_mode_def_value"
             app:entries="@array/dark_mode_entries"
@@ -21,6 +22,11 @@
             android:key="source"
             android:title="Source"
             android:summary="github.com/fenimore/badreads"
+            />
+        <Preference
+            android:key="license"
+            android:title="License"
+            android:summary="GNU Public License v3"
             />
         <Preference
             android:key="version"

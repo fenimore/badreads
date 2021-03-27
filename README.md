@@ -1,5 +1,10 @@
 # Badreads
 
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+    alt="Get it on F-Droid"
+    height="80">](https://f-droid.org/packages/com.timenotclocks.bookcase)
+
+
 Badreads is a book tracking Android application for logging books
 you're reading, read, and want to read. Your library "shelves" (reading, read, and to read)
 are stored locally on your phone. Use the search or barcode reader to look up
@@ -18,25 +23,18 @@ GPLv3
 Copyright 2021 Fenimore Love
 
 ## Todo:
-
-1. Move export and import to settings
-2. Fix settings action bar color
-13. Empty library prompt
-4. Custom Icons
-5. Multiple Authors/DB Relation
-9. OpenLibrary book details button?
-8. Add tag/star to books
-11. Fetch description **
-1. Sort a - z
-2. Sort z - a
-3. Sort page numbers
-1. Form fields must be numbers
-1. Saving notes sometimes fails!?
-9. Fix dark mode colors for light mode (white icon text for button)
-10. Add Abe books?
+1. Fix settings action bar color
+2. Empty library prompt
+3. Multiple Authors/DB Relation
+4. Add tag/star to books
+5. Sort a - z and z - a
+6. Version 2: Bookshelf view
+7. Version 2: Login to OpenLibrary/sync shelves
 
 ## Known Bug:
 
 1. Deleting data directly after exporting, and then importing that same csv will break the CSV.
 There seems to be an issue with the first line of the "rows" that are written (after the headers).
 2. When writing a review, sometimes it doesn't save...
+3. When moving export and import to settings, it doesn't succeed in creating new files
+4. OpenLibrary doesn't provide descriptions

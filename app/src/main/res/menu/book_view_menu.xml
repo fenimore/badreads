@@ -2,10 +2,6 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <item android:title="Edit"
-        android:id="@+id/menu_edit" android:icon="@drawable/ic_edit_pencil"
-        app:showAsAction="always"/>
     <item android:title="Badreads"
         android:enabled="false"
         app:showAsAction="never"
@@ -17,10 +13,17 @@
         app:showAsAction="never"
         />
     <item android:id="@+id/menu_open_library"
-        android:title="OpenLibrary.org" />
+        android:title="OpenLibrary.org"
+        android:icon="@drawable/ic_library"
+        app:showAsAction="always"
+        />
     <item android:id="@+id/menu_greenlight"
         android:title="Greenlight Bookstore" />
     <item android:id="@+id/menu_bookshop"
         android:title="Bookshop.org"/>
+
+    <item android:title="Edit"
+        android:id="@+id/menu_edit" android:icon="@drawable/ic_edit_pencil"
+        app:showAsAction="always"/>
 
 </menu>

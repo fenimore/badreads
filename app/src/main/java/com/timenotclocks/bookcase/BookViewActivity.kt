@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.htmlEncode
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.database.*
@@ -40,6 +41,16 @@ class BookViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_book_view)
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        intent.extras?.getLong(EXTRA_ID)?.let { id ->
+            bookViewModel.getBook(id).observe(this, { observable ->
+                book = observable
+                populateViews(observable)
+            })
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
         intent.extras?.getLong(EXTRA_ID)?.let { id ->
             bookViewModel.getBook(id).observe(this, { observable ->
                 book = observable
@@ -123,7 +134,7 @@ class BookViewActivity : AppCompatActivity() {
             }
             R.id.menu_bookshop -> {
                 book?.let { b ->
-                    val term = b.isbn13 ?: b.title
+                    val term = b.isbn13 ?: b.titleString()
                     val url = "https://bookshop.org/books?keywords=$term"
                     val i = Intent(Intent.ACTION_VIEW)
                     i.data = Uri.parse(url)
@@ -132,7 +143,7 @@ class BookViewActivity : AppCompatActivity() {
             }
             R.id.menu_open_library -> {
                 book?.let{ b ->
-                    val term = b.isbn13 ?: b.title
+                    val term = b.isbn13 ?: b.titleString()
                     val url = "https://openlibrary.org/search?q=$term"
                     val i = Intent(Intent.ACTION_VIEW)
                     i.data = Uri.parse(url)
@@ -145,7 +156,7 @@ class BookViewActivity : AppCompatActivity() {
                         "https://www.greenlightbookstore.com/book/$it"
 
                     } ?: run {
-                        "https://www.greenlightbookstore.com/search/site/${b.title.replace(" ", "+")}"
+                        "https://www.greenlightbookstore.com/search/site/${b.titleString().replace(" ", "+").replace(":", "")}"
                     }
                     val i = Intent(Intent.ACTION_VIEW)
                     i.data = Uri.parse(url)
