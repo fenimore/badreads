@@ -8,7 +8,6 @@
     tools:context=".ui.main.ShelfFragment"
     >
 
-
     <androidx.appcompat.widget.SearchView
         android:id="@+id/fragment_search_view"
         android:minHeight="48dp"

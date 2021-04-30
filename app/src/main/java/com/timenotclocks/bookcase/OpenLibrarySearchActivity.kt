@@ -136,7 +136,7 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
             val integrator = IntentIntegrator(this)
             integrator.setPrompt("Scan Barcode");
             integrator.setBeepEnabled(false);
-            integrator.setOrientationLocked(false)
+            integrator.setOrientationLocked(false);
             integrator.initiateScan();
         }
 

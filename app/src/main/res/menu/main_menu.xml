@@ -29,6 +29,8 @@
         <menu>
             <item android:id="@+id/menu_export"
                 android:title="Export to CSV" />
+            <item android:id="@+id/menu_export_read"
+                android:title="Export Read Books to CSV" />
             <item android:id="@+id/menu_import"
                 android:title="Import from CSV" />
             <item android:id="@+id/menu_delete"

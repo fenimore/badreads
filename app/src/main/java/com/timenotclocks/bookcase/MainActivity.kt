@@ -46,6 +46,7 @@ import java.time.LocalDate
 
 const val LOG_TAG = "Bookshelf"
 const val REQ_EXP = 9832
+const val REQ_EXP_READ = 5833
 
 class MainActivity : AppCompatActivity()  {
 
@@ -217,6 +218,16 @@ class MainActivity : AppCompatActivity()  {
                 startActivityForResult(createIntent, REQ_EXP)
                 true
             }
+            R.id.menu_export_read -> {
+                val createIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "text/csv"
+                    val today = LocalDate.now()
+                    putExtra(Intent.EXTRA_TITLE, "badreads_read_export_${today.year}_${today.monthValue}_${today.dayOfMonth}.csv")
+                }
+                startActivityForResult(createIntent, REQ_EXP_READ)
+                true
+            }
             R.id.menu_delete -> {
                 Log.i(LOG_TAG, "Request deleting all data")
                 val builder: AlertDialog.Builder = AlertDialog.Builder(this)
@@ -260,27 +271,29 @@ class MainActivity : AppCompatActivity()  {
             }
         }
 
-
-        if (requestCode == REQ_EXP && resultCode == RESULT_OK) {
+        if (requestCode == REQ_EXP_READ && resultCode == RESULT_OK) {
             data?.data?.let { uri ->
-                bookViewModel.allBooks.observe(this, { observable ->
+                bookViewModel.readShelf.observe(this, { observable ->
                     observable?.let { allBooks ->
                         contentResolver.openOutputStream(uri)?.let { outputStream ->
-                            val out = Exporter().csv(outputStream, allBooks)
-                            out.flush()
-                            out.close()
-                            val sendIntent = Intent(Intent.ACTION_SEND)
-                            sendIntent.type = "text/plain"
-                            sendIntent.putExtra(Intent.EXTRA_STREAM, uri)
-                            // Share the file after saving
-                            startActivity(sendIntent)
+                            Exporter().csv(outputStream, allBooks)
                         }
                     }
                 })
             }
         }
 
-
+        if (requestCode == REQ_EXP && resultCode == RESULT_OK) {
+            data?.data?.let { uri ->
+                bookViewModel.allBooks.observe(this, { observable ->
+                    observable?.let { allBooks ->
+                        contentResolver.openOutputStream(uri)?.let { outputStream ->
+                            Exporter().csv(outputStream, allBooks)
+                        }
+                    }
+                })
+            }
+        }
 
 
         super.onActivityResult(requestCode, resultCode, data)
