@@ -42,6 +42,11 @@
         app:showAsAction="never"
         />
     <item
+        android:id="@+id/menu_charts"
+        android:title="Summary"
+        android:icon="@drawable/ic_gear_black"
+        />
+    <item
         android:id="@+id/menu_settings"
         android:title="Settings"
         android:icon="@drawable/ic_gear_black"

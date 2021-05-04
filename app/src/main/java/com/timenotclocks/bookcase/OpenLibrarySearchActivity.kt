@@ -78,6 +78,7 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
                     }
                     it == 0 -> {
                         numResultsView?.text = "No results"
+
                     }
                 }
             }

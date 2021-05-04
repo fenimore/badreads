@@ -20,6 +20,7 @@ package com.timenotclocks.bookcase.database
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 /**
  * View Model to keep a reference to the word repository and
@@ -78,6 +79,19 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
 
     fun sortShelf(shelfType: ShelfType, sortColumn: SortColumn): LiveData<List<Book>> {
         return repository.sortShelf(shelfType, sortColumn).asLiveData()
+    }
+
+    fun booksReadAllYear(): LiveData<Int> {
+        return repository.booksReadSince(LocalDate.ofYearDay(LocalDate.now().year, 1).toEpochDay())
+    }
+    fun booksReadAllTime(): LiveData<Int> {
+        return repository.booksReadSince(0.toLong())
+    }
+    fun averagePageNumbersReadAllYear():LiveData<Int> {
+        return repository.averagePageNumbersReadSince(LocalDate.ofYearDay(LocalDate.now().year, 1).toEpochDay())
+    }
+    fun averagePageNumbersReadAllTime():LiveData<Int> {
+        return repository.averagePageNumbersReadSince(0.toLong())
     }
     /**
      *

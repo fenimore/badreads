@@ -143,6 +143,8 @@ class MainActivity : AppCompatActivity()  {
         //putExtra(EXTRA_ID, 2270.toLong())
         //}
         //  startActivity(intent)
+        //val intent = Intent(applicationContext, ChartActivity::class.java)
+        //startActivity(intent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -216,6 +218,11 @@ class MainActivity : AppCompatActivity()  {
                     putExtra(Intent.EXTRA_TITLE, "badreads_export_${today.year}_${today.monthValue}_${today.dayOfMonth}.csv")
                 }
                 startActivityForResult(createIntent, REQ_EXP)
+                true
+            }
+            R.id.menu_charts -> {
+                val chartIntent = Intent(this, ChartActivity::class.java)
+                startActivity(chartIntent)
                 true
             }
             R.id.menu_export_read -> {

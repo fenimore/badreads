@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".OpenLibrarySearchActivity">
+    tools:context=".ChartActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -23,34 +23,20 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-        android:padding="16dp"
-        android:id="@+id/num_results_view"
-        />
     <ProgressBar
-        android:id="@+id/search_progress_bar"
+        android:id="@+id/chart_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_gravity="center"
         />
-    <com.google.android.material.button.MaterialButton
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/search_button_add_manual"
-        style="@style/TextAppearance.AppTheme.Button"
-        />
+        android:id="@+id/chart_books_to_year"
+        android:textAppearance="@style/TextAppearance.AppTheme.Headline6"
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_result_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/big_padding"
-        tools:listitem="@layout/open_library_search_item_row"
         />
 </LinearLayout>
 

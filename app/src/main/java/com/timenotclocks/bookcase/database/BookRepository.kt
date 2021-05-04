@@ -20,6 +20,7 @@ package com.timenotclocks.bookcase.database
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 /**
  * Abstracted Repository as promoted by the Architecture Guide.
@@ -116,5 +117,17 @@ class BookRepository(private val bookDao: BookDao) {
     fun findAlike(bookId: Long, title: String, subtitle: String?, isbn10: String?, isbn13: String?): LiveData<Book> {
         // TODO: pass in book more simply..
         return bookDao.findAlike(bookId, title, subtitle, isbn10, isbn13)
+    }
+
+    fun booksReadSince(since: Long): LiveData<Int> {
+        return bookDao.booksReadSince(since)
+    }
+
+    fun averagePageNumbersReadSince(since: Long): LiveData<Int> {
+        return bookDao.averagePageNumbersReadSince(since)
+    }
+
+    fun sumPageNumbersReadSince(since: Long): LiveData<Int> {
+        return bookDao.sumPageNumbersReadSince(since)
     }
 }

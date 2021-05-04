@@ -104,4 +104,30 @@ public interface BookDao {
         GROUP BY books.bookId
         """ )
     fun fullSearch(term: String): Flow<List<Book>>
+
+
+    @Query("""
+        SELECT COUNT(*) FROM books
+        WHERE shelf = 'read'
+         AND dateRead > :sinceTimeStamp
+        """ )
+    fun booksReadSince(sinceTimeStamp: Long): LiveData<Int>
+
+    @Query("""
+        SELECT AVG(numberPages) FROM books
+        WHERE shelf = 'read'
+         AND dateRead > :sinceTimeStamp        
+    """)
+    fun averagePageNumbersReadSince(sinceTimeStamp: Long): LiveData<Int>
+
+    @Query("""
+        SELECT SUM(numberPages) FROM books
+        WHERE shelf = 'read'
+         AND dateRead > :sinceTimeStamp        
+    """)
+    fun sumPageNumbersReadSince(sinceTimeStamp: Long): LiveData<Int>
+    // Average page numbers
+    // Rate of book per week
+    // Rate of book per day
+    // Average length of time to read
 }

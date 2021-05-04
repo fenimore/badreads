@@ -84,9 +84,9 @@ class BookViewActivity : AppCompatActivity() {
         current.numberPages?.let { findViewById<TextView>(R.id.book_view_page_number).text = "Pages: $it" }
         current.yearString()?.let { findViewById<TextView>(R.id.book_view_year).text = "$it" }
         current.publisher?.let { findViewById<TextView>(R.id.book_view_publisher).text = it }
-        current.dateAdded?.let { findViewById<TextView>(R.id.book_view_date_added).text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
-        current.dateStarted?.let { findViewById<TextView>(R.id.book_view_date_started).text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
-        current.dateRead?.let { findViewById<TextView>(R.id.book_view_date_shelved).text = LocalDate.ofEpochDay(it).format(csvDateFormatter) }
+        current.dateAdded?.let { findViewById<TextView>(R.id.book_view_date_added).text = LocalDate.ofEpochDay(it).format(viewDateFormatter) }
+        current.dateStarted?.let { findViewById<TextView>(R.id.book_view_date_started).text = LocalDate.ofEpochDay(it).format(viewDateFormatter) }
+        current.dateRead?.let { findViewById<TextView>(R.id.book_view_date_shelved).text = LocalDate.ofEpochDay(it).format(viewDateFormatter) }
         current.notes?.let {
             val notesView = findViewById<TextView>(R.id.book_view_notes)
             notesView.visibility = View.VISIBLE
