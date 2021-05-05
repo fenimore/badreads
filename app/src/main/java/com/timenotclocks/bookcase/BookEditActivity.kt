@@ -169,6 +169,14 @@ class BookEditActivity : AppCompatActivity() {
             }
         }
 
+        val progressEdit = findViewById<TextInputLayout>(R.id.book_edit_progress).editText
+        current.progress?.let { progressEdit?.setText(it.toString()) }
+        progressEdit?.doAfterTextChanged { editable ->
+            editable.toString().toIntOrNull().let { progress ->
+                current.progress = progress
+            }
+        }
+
         val dateAddedView = findViewById<DatePicker>(R.id.book_edit_date_added)
         val dateAdded = current.dateAdded?.let { LocalDate.ofEpochDay(it) } ?: LocalDate.now()
         dateAddedView.init(dateAdded.year, dateAdded.monthValue - 1, dateAdded.dayOfMonth, object : DatePicker.OnDateChangedListener {

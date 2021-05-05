@@ -20,8 +20,14 @@ class ChartActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        bookViewModel.booksReadAllTime().observe(this, {observable ->
+        bookViewModel.booksReadAllYear().observe(this, {observable ->
             findViewById<TextView>(R.id.chart_books_to_year).text = "$observable"
+        })
+        bookViewModel.booksReadAllTime().observe(this, {observable ->
+            findViewById<TextView>(R.id.chart_books_all_time).text = "$observable"
+        })
+        bookViewModel.averagePageNumbersReadAllTime().observe(this, {observable ->
+            findViewById<TextView>(R.id.chart_books_average_page).text = "$observable"
         })
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

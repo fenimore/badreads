@@ -150,11 +150,22 @@
         <TextView
             android:id="@+id/book_view_page_number"
             android:layout_marginTop="6dp"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppTheme.Caption"
             card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toStartOf="@+id/book_view_progress"
             card_view:layout_constraintTop_toBottomOf="@id/book_view_isbn13"
+            />
+        <TextView
+            android:id="@+id/book_view_progress"
+            android:layout_marginTop="6dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Caption"
+            card_view:layout_constraintStart_toEndOf="@+id/book_view_page_number"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/book_view_isbn10"
             />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/book_view_shelf_dropdown"

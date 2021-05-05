@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,8 +11,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppToolbar"
-        >
+        android:theme="@style/AppToolbar">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -23,20 +21,75 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
     <ProgressBar
         android:id="@+id/chart_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_gravity="center"
-        />
+        android:visibility="gone" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/chart_books_to_year"
-        android:textAppearance="@style/TextAppearance.AppTheme.Headline6"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/chart_label_books_to_year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Books Read This Year"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/chart_books_to_year"
+            app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/chart_books_to_year"
+            android:hint="Books read this year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/chart_label_books_to_year"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
-        />
+        <TextView
+            android:id="@+id/chart_label_books_all_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Books Read All Time"
+            app:layout_constraintTop_toBottomOf="@+id/chart_label_books_to_year"
+            app:layout_constraintEnd_toStartOf="@+id/chart_books_all_time"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/chart_books_all_time"
+            android:hint="all time read books"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/chart_books_to_year"
+            app:layout_constraintStart_toEndOf="@+id/chart_label_books_to_year"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+
+        <TextView
+            android:id="@+id/chart_label_books_average_page"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Average Num Pages"
+            app:layout_constraintTop_toBottomOf="@+id/chart_label_books_all_time"
+            app:layout_constraintEnd_toStartOf="@+id/chart_books_average_page"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/chart_books_average_page"
+            android:hint="average number of pages"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/chart_books_all_time"
+            app:layout_constraintStart_toEndOf="@+id/chart_label_books_average_page"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
 

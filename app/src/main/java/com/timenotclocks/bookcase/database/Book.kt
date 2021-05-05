@@ -145,7 +145,7 @@ data class Book(  // TODO: can I remove overloads? i'ts for the converter
 
 
 var csvDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-var viewDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("d LLLL uuu")
+var viewDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("LLL d, uuu")
 
 @Target(AnnotationTarget.FIELD)
 annotation class KlaxonDate

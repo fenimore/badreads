@@ -278,8 +278,28 @@
             android:hint="Page Numbers"
             android:inputType="number"
             android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
-            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintEnd_toStartOf="@+id/book_edit_progress"
             card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_isbn10"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/book_edit_progress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:hint="Progress"
+            android:inputType="number"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@id/book_edit_page_numbers"
             card_view:layout_constraintTop_toBottomOf="@+id/book_edit_isbn10"
             >
             <com.google.android.material.textfield.TextInputEditText
