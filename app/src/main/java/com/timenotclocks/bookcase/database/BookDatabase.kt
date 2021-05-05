@@ -22,10 +22,29 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
+
+//Room.databaseBuilder(, BookDatabase.class, "books")
+//.addMigrations(MIGRATION_1_2, MIGRATION_2_3).build();
+/*
+static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+    @Override
+    public void migrate(SupportSQLiteDatabase database) {
+        database.execSQL("CREATE TABLE `Fruit` (`id` INTEGER, `name` TEXT, PRIMARY KEY(`id`))");
+    }
+};
+
+static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+    @Override
+    public void migrate(SupportSQLiteDatabase database) {
+        database.execSQL("ALTER TABLE Book ADD COLUMN pub_year INTEGER");
+    }
+};*/
 
 
 /**
@@ -34,7 +53,7 @@ import kotlinx.coroutines.launch
  */
 @Database(entities = [
     Book::class, BooksFts::class
-], version = 5)
+], version = 6)
 abstract class BookDatabase : RoomDatabase() {
 
     abstract fun bookDao(): BookDao
@@ -50,14 +69,19 @@ abstract class BookDatabase : RoomDatabase() {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
             // context.deleteDatabase("books")  // TODO: delete  # TODO: refresh on load
+            val MIGRATION_5_6 = object : Migration(5, 6) {
+                override fun migrate(database: SupportSQLiteDatabase) {
+                    database.execSQL("ALTER TABLE books ADD COLUMN progress INTEGER")
+                }
+            }
+
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                         context.applicationContext,
                         BookDatabase::class.java,
                         "books"
                 )
-                    // Wipes and rebuilds instead of migrating if no Migration object.
-                    // Migration is not part of this codelab.
+                        .addMigrations(MIGRATION_5_6)
                     .fallbackToDestructiveMigration()
                     .addCallback(BookDatabaseCallback(scope))
                     .build()

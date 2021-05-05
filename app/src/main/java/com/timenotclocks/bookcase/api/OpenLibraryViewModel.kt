@@ -124,6 +124,7 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                             year = null,
                             originalYear = originalYear,
                             numberPages = null,
+                            progress = null,
                             rating = null,
                             shelf = "to-read",
                             notes = null,

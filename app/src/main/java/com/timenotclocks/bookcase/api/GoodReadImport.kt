@@ -47,6 +47,7 @@ class GoodReadImport {
                     year = row["Year Published"]?.toIntOrNull(),
                     originalYear = row["Original Publication Year"]?.toIntOrNull(),
                     numberPages = row["Number of Pages"]?.toIntOrNull(),
+                    progress = row["Progress"]?.toIntOrNull(),
                     rating = row["My Rating"]?.toIntOrNull(),
                     shelf = row.getOrDefault("Exclusive Shelf", "to-read"),
                     notes = row["My Review"]?.ifBlank { null },
