@@ -26,6 +26,11 @@ import java.time.LocalDate
  * Abstracted Repository as promoted by the Architecture Guide.
  * https://developer.android.com/topic/libraries/architecture/guide.html
  */
+
+class PublisherCount (
+    val publisher: String,
+    val count: Int
+)
 class BookRepository(private val bookDao: BookDao) {
 
     // Room executes all queries on a separate thread.
@@ -129,5 +134,9 @@ class BookRepository(private val bookDao: BookDao) {
 
     fun sumPageNumbersReadSince(since: Long): LiveData<Int> {
         return bookDao.sumPageNumbersReadSince(since)
+    }
+
+    fun topPublishers() : Flow<List<PublisherCount>> {
+        return bookDao.topPublishers()
     }
 }

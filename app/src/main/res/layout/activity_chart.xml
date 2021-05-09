@@ -34,21 +34,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/chart_read_shelf_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Read Shelf Summary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/TextAppearance.AppTheme.Headline6"
+            android:paddingLeft="8dp"
+            android:paddingTop="10dp"
+            />
+        <TextView
             android:id="@+id/chart_label_books_to_year"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Books Read This Year"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chart_read_shelf_header"
             app:layout_constraintEnd_toStartOf="@+id/chart_books_to_year"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+            />
         <TextView
             android:id="@+id/chart_books_to_year"
             android:hint="Books read this year"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chart_read_shelf_header"
             app:layout_constraintStart_toEndOf="@+id/chart_label_books_to_year"
             app:layout_constraintEnd_toEndOf="parent"
+            style="@style/TextAppearance.AppTheme.Subtitle1Chart"
             />
 
         <TextView
@@ -58,7 +73,9 @@
             android:text="Books Read All Time"
             app:layout_constraintTop_toBottomOf="@+id/chart_label_books_to_year"
             app:layout_constraintEnd_toStartOf="@+id/chart_books_all_time"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+            />
 
         <TextView
             android:id="@+id/chart_books_all_time"
@@ -68,6 +85,8 @@
             app:layout_constraintTop_toBottomOf="@+id/chart_books_to_year"
             app:layout_constraintStart_toEndOf="@+id/chart_label_books_to_year"
             app:layout_constraintEnd_toEndOf="parent"
+            style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+            android:paddingTop="10dp"
             />
 
 
@@ -75,10 +94,12 @@
             android:id="@+id/chart_label_books_average_page"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Average Num Pages"
+            android:text="Average Pages All Time"
             app:layout_constraintTop_toBottomOf="@+id/chart_label_books_all_time"
             app:layout_constraintEnd_toStartOf="@+id/chart_books_average_page"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+            />
 
         <TextView
             android:id="@+id/chart_books_average_page"
@@ -88,8 +109,54 @@
             app:layout_constraintTop_toBottomOf="@+id/chart_books_all_time"
             app:layout_constraintStart_toEndOf="@+id/chart_label_books_average_page"
             app:layout_constraintEnd_toEndOf="parent"
+            style="@style/TextAppearance.AppTheme.Subtitle1Chart"
             />
 
+
+        <TextView
+            android:id="@+id/chart_label_books_sum_page"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Sum Pages All Time"
+            app:layout_constraintTop_toBottomOf="@+id/chart_label_books_average_page"
+            app:layout_constraintEnd_toStartOf="@+id/chart_books_sum_page"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+            />
+
+        <TextView
+            android:id="@+id/chart_books_sum_page"
+            android:hint="Sum number of pages"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/chart_books_average_page"
+            app:layout_constraintStart_toEndOf="@+id/chart_label_books_sum_page"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+            />
+
+    
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/TextAppearance.AppTheme.Headline6"
+        android:text="Top Publishers"
+        android:padding="8dp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chart_top_publishers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        tools:listitem="@layout/publisher_count_row"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        android:padding="8dp"
+        >
+    </ScrollView>
 </LinearLayout>
 

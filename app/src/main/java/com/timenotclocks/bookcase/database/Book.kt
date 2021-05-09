@@ -202,6 +202,8 @@ fun fakeBook(
 fun emptyBook(
         fullTitle: String,
         author: String?,
+        isbn13: String?,
+        isbn10: String?,
 ): Book {
     var title: String = fullTitle
     var subtitle: String? = null
@@ -213,8 +215,8 @@ fun emptyBook(
             bookId = 0,
             title = title,
             subtitle = subtitle,
-            isbn10 = null,
-            isbn13 = null,
+            isbn10 = isbn10,
+            isbn13 = isbn13,
             author = author,
             authorExtras = null,
             publisher = null,

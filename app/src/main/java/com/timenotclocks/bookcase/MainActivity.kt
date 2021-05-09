@@ -136,8 +136,8 @@ class MainActivity : AppCompatActivity()  {
 
         //val intent = Intent(applicationContext, SettingsActivity::class.java)
         //startActivity(intent)
-        // val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
-        // startActivity(intent)
+        val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
+         startActivity(intent)
         //val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
             //putExtra(EXTRA_ID, 2139.toLong())
         //putExtra(EXTRA_ID, 2270.toLong())
@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity()  {
                 builder.setView(input)
                 builder.setPositiveButton("Ok") { dialog, id ->
                     input.text?.let { editable ->
-                        val newBook = emptyBook(editable.toString(), null)
+                        val newBook = emptyBook(fullTitle = editable.toString(), author = null, isbn13 = null, isbn10 = null)
                         bookViewModel.insertSync(newBook).observe(this, { observed ->
                             if (observed > 0) {
                                 Log.i(TAG_NEW, "Added Book Manually: $observed $editable")

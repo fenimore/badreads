@@ -29,6 +29,12 @@
         <item name="fontFamily">@font/lato_regular</item>
     </style>
 
+    <style name="TextAppearance.AppTheme.Subtitle1Chart" parent="TextAppearance.AppTheme.Subtitle1">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">12dp</item>
+    </style>
+
     <style name="TextAppearance.AppTheme.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/lato_regular</item>
     </style>

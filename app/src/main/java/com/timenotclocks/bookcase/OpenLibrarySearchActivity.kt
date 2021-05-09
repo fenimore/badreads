@@ -19,16 +19,16 @@ package com.timenotclocks.bookcase
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.AttributeSet
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.SearchView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AlertDialog.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +36,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.zxing.integration.android.IntentIntegrator
 import com.timenotclocks.bookcase.api.MAX_SEARCH_RESULTS
 import com.timenotclocks.bookcase.api.OpenLibraryViewModel
+import com.timenotclocks.bookcase.database.BookViewModel
+import com.timenotclocks.bookcase.database.BookViewModelFactory
+import com.timenotclocks.bookcase.database.BooksApplication
+import com.timenotclocks.bookcase.database.emptyBook
 import com.timenotclocks.bookcase.ui.main.OpenLibrarySearchAdapter
 
 
@@ -53,6 +57,9 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
     private val openLibraryViewModel: OpenLibraryViewModel by viewModels()
 
     private val adapter = OpenLibrarySearchAdapter()
+    private val bookViewModel: BookViewModel by viewModels {
+        BookViewModelFactory((application as BooksApplication).repository)
+    }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +70,7 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.search_result_view)
         recyclerView?.adapter = adapter
         recyclerView?.layoutManager = LinearLayoutManager(applicationContext)
+
     }
 
     private fun searchOpenLibrary(searchView: androidx.appcompat.widget.SearchView?, progressBar: ProgressBar?, numResultsView: TextView?) {
@@ -77,8 +85,10 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
                         numResultsView?.text = "Showing $it results"
                     }
                     it == 0 -> {
+                        Log.d(LOG_TAG, "No Reuslt")
                         numResultsView?.text = "No results"
-
+                        val manualBtn = findViewById<Button>(R.id.search_button_add_manual)
+                        manualBtn?.visibility = View.VISIBLE
                     }
                 }
             }
@@ -94,7 +104,10 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Log.i(LOG_SEARCH, "OpenLibrary Query $query?")
 
-                query?.let { openLibraryViewModel.searchOpenLibrary(it) }
+                query?.let {
+                    openLibraryViewModel.searchOpenLibrary(it)
+                    assignManual(false, it)
+                }
                 searchView.clearFocus()
                 progressBar?.visibility = View.VISIBLE
                 return true
@@ -175,12 +188,60 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         result?.contents?.let{ barcode ->
-            Toast.makeText(this, "Found: $barcode", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Barcode: $barcode", Toast.LENGTH_LONG).show()
             Log.d(LOG_TAG, "Barcode read: $barcode");
             findViewById<TextView>(R.id.num_results_view)?.text = barcode
             openLibraryViewModel.searchOpenLibrary(barcode)
+            assignManual(true, barcode)
         }
 
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    fun assignManual(isBarcode: Boolean, value: String?) {
+        val (isbn, isbn13, isbn10) = value?.let {
+            listOf<String?>(
+                    it,
+                    if (it.length > 10) it else null,
+                    if (it.length < 11) it else null
+            )
+        } ?: listOf<String?>(null, null, null)
+
+        val manualBtn = findViewById<Button>(R.id.search_button_add_manual)
+        manualBtn?.setOnClickListener{ view ->
+            val builder = Builder(this)
+            builder.setTitle("Manual Book Entry")
+
+            val input = EditText(this)
+            input.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
+
+            if (isBarcode) {
+                builder.setMessage("Scanned ISBN: $isbn\nEnter new book title:")
+            } else {
+                builder.setMessage("Enter new book title")
+                value?.let {input.setText(it) }
+            }
+
+            builder.setView(input)
+            builder.setPositiveButton("Ok") { dialog, id ->
+                input.text?.let { editable ->
+                    val newBook = emptyBook(
+                            fullTitle=editable.toString(), author=null, isbn10=isbn10, isbn13=isbn13
+                    )
+                    bookViewModel.insertSync(newBook).observe(this, { observed ->
+                        if (observed > 0) {
+                            Log.i(TAG_NEW, "Added Book Manually: $observed $editable")
+                            val intent = Intent(this, BookEditActivity::class.java).apply {
+                                putExtra(EXTRA_ID, observed)
+                            }
+                            startActivity(intent)
+                        } else {
+                            Log.e(TAG_NEW, "Manual Book could not be added: $observed $editable")
+                        }
+                    })
+                }
+            }
+            builder.show()
+        }
     }
 }

@@ -93,6 +93,16 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
     fun averagePageNumbersReadAllTime():LiveData<Int> {
         return repository.averagePageNumbersReadSince(0.toLong())
     }
+    fun sumPageNumbersReadAllYear():LiveData<Int> {
+        return repository.sumPageNumbersReadSince(LocalDate.ofYearDay(LocalDate.now().year, 1).toEpochDay())
+    }
+    fun sumPageNumbersReadAllTime():LiveData<Int> {
+        return repository.sumPageNumbersReadSince(0.toLong())
+    }
+    fun topPublishers() : LiveData<List<PublisherCount>> {
+        return repository.topPublishers().asLiveData()
+    }
+
     /**
      *
      * Launching a new coroutine to insert the data in a non-blocking way

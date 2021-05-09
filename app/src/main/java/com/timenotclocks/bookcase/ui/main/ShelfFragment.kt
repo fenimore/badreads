@@ -68,8 +68,7 @@ class ShelfFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-
-        sortView.setOnClickListener { showMenu(it) }
+        sortView?.setOnClickListener { showMenu(it) }
 
         defaultSortLibrary()?.observe(viewLifecycleOwner) { books ->
             books?.let { adapter.submitList(it) }
