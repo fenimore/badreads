@@ -41,10 +41,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:id="@+id/search_button_add_manual"
         style="@style/TextAppearance.AppTheme.Button"
-        android:text="Add Details"
+        android:text="Add Book"
         />
 
 

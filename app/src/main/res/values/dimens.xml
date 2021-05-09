@@ -13,37 +13,17 @@ See the License for the specific language governing permissions and
 limitations under the License. -->
 
 <resources>
-    <dimen name="small_padding">8dp</dimen>
     <dimen name="big_padding">16dp</dimen>
-    <dimen name="min_height">48dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="standard_21">21dp</dimen>
-    <dimen name="standard_45">45dp</dimen>
-    <dimen name="standard_55">55dp</dimen>
-    <dimen name="standard_105">105dp</dimen>
-    <dimen name="standard_155">155dp</dimen>
-    <dimen name="standard_23">23dp</dimen>
-    <dimen name="standard_75">75dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="appbar_padding">16dp</dimen>
-    <dimen name="appbar_padding_top">8dp</dimen>
-    <dimen name="standard_210">210dp</dimen>
-    <dimen name="standard_240">240dp</dimen>
-    <dimen name="standard_230">230dp</dimen>
-    <dimen name="standard_90">90dp</dimen>
     <dimen name="list_card_elevation">2dp</dimen>
     <!--
     Because the window insets on round devices are larger than 15dp, this padding only applies
     to square screens.
     -->
-    <dimen name="box_inset_layout_padding">0dp</dimen>
 
     <!--
     This padding applies to both square and round screens. The total padding between the buttons
     and the window insets is box_inset_layout_padding (above variable) on square screens and
     inner_frame_layout_padding (below variable) on round screens.
     -->
-    <dimen name="inner_frame_layout_padding">5dp</dimen>
 </resources>

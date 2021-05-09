@@ -27,8 +27,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AlertDialog.*
+import androidx.appcompat.app.AlertDialog.Builder
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -127,13 +126,14 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.open_library_search_menu, menu)
         val searchItem: MenuItem = menu.findItem(R.id.search_menu_item)
         val searchView = searchItem.actionView as? androidx.appcompat.widget.SearchView
-        searchItem.setOnActionExpandListener(object: MenuItem.OnActionExpandListener {
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
-                return true;
+                return true
             }
+
             override fun onMenuItemActionCollapse(menuItem: MenuItem): Boolean {
                 finish()
-                return true;
+                return true
             }
         })
 
@@ -148,14 +148,14 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
 
         if (intent.getBooleanExtra(EXTRA_SCAN, false)) {
             val integrator = IntentIntegrator(this)
-            integrator.setPrompt("Scan Barcode");
-            integrator.setBeepEnabled(false);
-            integrator.setOrientationLocked(false);
-            integrator.initiateScan();
+            integrator.setPrompt("Scan Barcode")
+            integrator.setBeepEnabled(false)
+            integrator.setOrientationLocked(false)
+            integrator.initiateScan()
         }
 
         val searchIntent = intent.getStringExtra(EXTRA_SEARCH)
-        searchIntent?.let{ query ->
+        searchIntent?.let { query ->
             Log.i(LOG_SEARCH, "Direct Query $query")
             openLibraryViewModel.searchOpenLibrary(query)
             searchView?.clearFocus()
@@ -168,17 +168,17 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> {
                 val myIntent = Intent(applicationContext, MainActivity::class.java)
                 startActivityForResult(myIntent, 0)
             }
             R.id.search_scan_item -> {
                 val integrator = IntentIntegrator(this)
-                integrator.setPrompt("Scan your book's barcode");
-                integrator.setBeepEnabled(false);
+                integrator.setPrompt("Scan your book's barcode")
+                integrator.setBeepEnabled(false)
                 integrator.setOrientationLocked(false)
-                integrator.initiateScan();
+                integrator.initiateScan()
             }
         }
 
@@ -187,9 +187,9 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        result?.contents?.let{ barcode ->
+        result?.contents?.let { barcode ->
             Toast.makeText(this, "Barcode: $barcode", Toast.LENGTH_LONG).show()
-            Log.d(LOG_TAG, "Barcode read: $barcode");
+            Log.d(LOG_TAG, "Barcode read: $barcode")
             findViewById<TextView>(R.id.num_results_view)?.text = barcode
             openLibraryViewModel.searchOpenLibrary(barcode)
             assignManual(true, barcode)
@@ -208,25 +208,26 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
         } ?: listOf<String?>(null, null, null)
 
         val manualBtn = findViewById<Button>(R.id.search_button_add_manual)
-        manualBtn?.setOnClickListener{ view ->
+        manualBtn?.setOnClickListener { view ->
             val builder = Builder(this)
             builder.setTitle("Manual Book Entry")
 
             val input = EditText(this)
+            // TODO: input type doesn't work?
             input.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
 
             if (isBarcode) {
                 builder.setMessage("Scanned ISBN: $isbn\nEnter new book title:")
             } else {
                 builder.setMessage("Enter new book title")
-                value?.let {input.setText(it) }
+                value?.let { input.setText(it) }
             }
 
             builder.setView(input)
             builder.setPositiveButton("Ok") { dialog, id ->
                 input.text?.let { editable ->
                     val newBook = emptyBook(
-                            fullTitle=editable.toString(), author=null, isbn10=isbn10, isbn13=isbn13
+                            fullTitle = editable.toString(), author = null, isbn10 = isbn10, isbn13 = isbn13
                     )
                     bookViewModel.insertSync(newBook).observe(this, { observed ->
                         if (observed > 0) {

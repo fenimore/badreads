@@ -1,9 +1,5 @@
 <resources>
     <!-- Reply Preference -->
-    <string-array name="dark_mode">
-        <item>Light</item>
-        <item>Dark</item>
-    </string-array>
     <string-array name="tab_values">
         <item>0</item>
         <item>1</item>
@@ -13,11 +9,6 @@
         <item>Currently Reading</item>
         <item>Read</item>
         <item>To Read</item>
-    </string-array>
-    <string-array name="shelf_spinner">
-        <item>to-read</item>
-        <item>currently-reading</item>
-        <item>read</item>
     </string-array>
     <!-- Dark Mode ListPreference -->
     <string-array name="dark_mode_entries">

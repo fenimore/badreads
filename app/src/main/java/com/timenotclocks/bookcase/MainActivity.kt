@@ -25,7 +25,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -136,10 +135,10 @@ class MainActivity : AppCompatActivity()  {
 
         //val intent = Intent(applicationContext, SettingsActivity::class.java)
         //startActivity(intent)
-        val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
-         startActivity(intent)
+        //val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
+        // startActivity(intent)
         //val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
-            //putExtra(EXTRA_ID, 2139.toLong())
+        //putExtra(EXTRA_ID, 2139.toLong())
         //putExtra(EXTRA_ID, 2270.toLong())
         //}
         //  startActivity(intent)

@@ -14,53 +14,23 @@ limitations under the License. -->
 
 <resources>
     <string name="app_name">Badreads</string>
-    <string name="action_settings">Settings</string>
-    <string name="hint_word">The Bible . . .</string>
-    <string name="button_save">Add</string>
-    <string name="empty_not_saved">Book not saved because of missing fields.</string>
-    <string name="add_word">Add book</string>
-    <string name="app_label">bookcase</string>
-    <string name="search_hint">isbn . . .</string>
     <string name="tab_text_1">Reading</string>
     <string name="tab_text_2">Read</string>
     <string name="tab_text_3">To Read</string>
     <string name="title_activity_book_view">Book Entry</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_search_book_activity">Open Library Search</string>
     <string name="title_activity_book_edit">Edit Book</string>
 
     <string name="title_activity_settings">Settings</string>
-    <string name="library_header">Library</string>
     <!-- Preference Titles -->
-    <string name="library_name_title">Library Name</string>
-    <string name="dark_mode_title">Dark mode</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="dark_mode_def_value">MODE_NIGHT_FOLLOW_SYSTEM</string>
-    <string name="title_activity_search">Search Library</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="hello_world">Hello Square World!</string>
-    <string name="ok">OK</string>
-    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
-    <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
-    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
-    <string name="title_activity_main">Barcode Reader Sample</string>
-    <string name="barcode_header">Click &quot;Read Barcode&quot; to read a barcode</string>
-    <string name="read_barcode">Read Barcode</string>
-    <string name="auto_focus">Auto Focus</string>
-    <string name="use_flash">Use Flash</string>
-    <string name="barcode_success">Barcode read successfully</string>
-    <string name="barcode_failure">No barcode captured</string>
-    <string name="barcode_error">"Error reading barcode: %1$s"</string>
     <string name="title_activity_new_book">New Book</string>
     <string name="title_activity_about">About</string>
     <string name="about_adding_books">Click the Plus icon on the Badreads landing screen, then search using Title, Author, or isbn. Alternatively, tap the Barcode icon to open the scanner and scan your book\'s barcode. The results include the original publication year as well as isbn 13 of the editions. If you select a book that is duplicated in your library, you have the option of replacing the duplicated books details with your selection (such as subtitle, isbn, and publisher).</string>
