@@ -38,3 +38,11 @@ There seems to be an issue with the first line of the "rows" that are written (a
 2. When writing a review, sometimes it doesn't save...
 3. When moving export and import to settings, it doesn't succeed in creating new files
 4. OpenLibrary doesn't provide descriptions
+
+
+```aidl
+        List<String> dataSource = new ArrayList<String>();
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
+        recyclerView.setAdapter(new TextRecyclerAdapter(dataSource));
+        recyclerView.setLayoutManager(gridLayoutManager);
+```
