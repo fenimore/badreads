@@ -135,28 +135,45 @@
             style="@style/TextAppearance.AppTheme.Subtitle1Chart"
             />
 
-    
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         style="@style/TextAppearance.AppTheme.Headline6"
         android:text="Top Publishers"
-        android:padding="8dp"
-        />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chart_top_publishers"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:padding="8dp" />
 
-        tools:listitem="@layout/publisher_count_row"
-        />
-    <ScrollView
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:padding="8dp"
+        android:layout_margin="10dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="0.7dp"
+        card_view:cardMaxElevation="1dp"
+        card_view:cardPreventCornerOverlap="true"
+        card_view:cardUseCompatPadding="true"
+        card_view:contentPadding="10dp"
+        card_view:contentPaddingBottom="16dp"
         >
-    </ScrollView>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scrollbars="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chart_top_publishers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                tools:listitem="@layout/publisher_count_row" />
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>
 

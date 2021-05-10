@@ -241,6 +241,7 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
                     val newBook = emptyBook(
                             fullTitle = editable.toString(), author = null, isbn10 = isbn10, isbn13 = isbn13
                     )
+
                     bookViewModel.insertSync(newBook).observe(this, { observed ->
                         if (observed > 0) {
                             Log.i(TAG_NEW, "Added Book Manually: $observed $editable")

@@ -48,8 +48,8 @@ class ChartActivity : AppCompatActivity() {
         topPubView.layoutManager = LinearLayoutManager(applicationContext)
 
         bookViewModel.topPublishers().observe(this, { observable: List<PublisherCount> ->
-            Log.d(LOG_PUB, "TODO: Doesn't work $observable")
-            observable.let{adapter.submitList(it)}
+            Log.d(LOG_PUB, "Listing the best publishers")
+            adapter.submitList(observable)
         })
 
     }

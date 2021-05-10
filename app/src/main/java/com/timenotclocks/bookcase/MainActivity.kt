@@ -143,8 +143,8 @@ class MainActivity : AppCompatActivity()  {
         //putExtra(EXTRA_ID, 2270.toLong())
         //}
         //  startActivity(intent)
-        //val intent = Intent(applicationContext, ChartActivity::class.java)
-        //startActivity(intent)
+        val intent = Intent(applicationContext, ChartActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
