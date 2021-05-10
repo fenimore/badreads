@@ -41,6 +41,7 @@ import com.timenotclocks.bookcase.database.BooksApplication
 import com.timenotclocks.bookcase.database.emptyBook
 import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 const val LOG_TAG = "Bookshelf"
@@ -135,7 +136,7 @@ class MainActivity : AppCompatActivity()  {
 
         //val intent = Intent(applicationContext, SettingsActivity::class.java)
         //startActivity(intent)
-        //val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
+        // val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
         // startActivity(intent)
         //val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
         //putExtra(EXTRA_ID, 2139.toLong())
@@ -214,7 +215,9 @@ class MainActivity : AppCompatActivity()  {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "text/csv"
                     val today = LocalDate.now()
-                    putExtra(Intent.EXTRA_TITLE, "badreads_export_${today.year}_${today.monthValue}_${today.dayOfMonth}.csv")
+                    var formatter = DateTimeFormatter.ofPattern("yy-MM-dd")
+                    var formattedDate = today.format(formatter)
+                    putExtra(Intent.EXTRA_TITLE, "badreads_export_${formattedDate}.csv")
                 }
                 startActivityForResult(createIntent, REQ_EXP)
                 true
@@ -229,7 +232,9 @@ class MainActivity : AppCompatActivity()  {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "text/csv"
                     val today = LocalDate.now()
-                    putExtra(Intent.EXTRA_TITLE, "badreads_read_export_${today.year}_${today.monthValue}_${today.dayOfMonth}.csv")
+                    var formatter = DateTimeFormatter.ofPattern("yy-MM-dd")
+                    var formattedDate = today.format(formatter)
+                    putExtra(Intent.EXTRA_TITLE, "badreads_read_export_${formattedDate}.csv")
                 }
                 startActivityForResult(createIntent, REQ_EXP_READ)
                 true

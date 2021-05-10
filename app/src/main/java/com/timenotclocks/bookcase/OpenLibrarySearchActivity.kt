@@ -32,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.google.zxing.integration.android.IntentIntegrator
 import com.timenotclocks.bookcase.api.MAX_SEARCH_RESULTS
 import com.timenotclocks.bookcase.api.OpenLibraryViewModel
@@ -69,10 +70,15 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.search_result_view)
         recyclerView?.adapter = adapter
         recyclerView?.layoutManager = LinearLayoutManager(applicationContext)
-
+        findViewById<Button>(R.id.search_button_add_manual)?.visibility = View.GONE
     }
 
-    private fun searchOpenLibrary(searchView: androidx.appcompat.widget.SearchView?, progressBar: ProgressBar?, numResultsView: TextView?) {
+    private fun searchOpenLibrary(
+            searchView: androidx.appcompat.widget.SearchView?,
+            progressBar: ProgressBar?,
+            numResultsView: TextView?,
+            manualBtn: MaterialButton?,
+    ) {
         openLibraryViewModel.numResults.observe(this, Observer<Int> {
             progressBar?.visibility = View.GONE
             it?.let {
@@ -84,9 +90,8 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
                         numResultsView?.text = "Showing $it results"
                     }
                     it == 0 -> {
-                        Log.d(LOG_TAG, "No Reuslt")
+                        Log.d(LOG_TAG, "No Result")
                         numResultsView?.text = "No results"
-                        val manualBtn = findViewById<Button>(R.id.search_button_add_manual)
                         manualBtn?.visibility = View.VISIBLE
                     }
                 }
@@ -142,9 +147,10 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
 
         val progressBar = findViewById<ProgressBar>(R.id.search_progress_bar)
         val numResultsView = findViewById<TextView>(R.id.num_results_view)
-
-        searchOpenLibrary(searchView, progressBar, numResultsView)
-        numResultsView.text = "Search OpenLibrary.org for new books"
+        val manualBtn = findViewById<MaterialButton>(R.id.search_button_add_manual)
+        assignManual(false, null)
+        searchOpenLibrary(searchView, progressBar, numResultsView, manualBtn)
+        numResultsView.text = "Search OpenLibrary.org"
 
         if (intent.getBooleanExtra(EXTRA_SCAN, false)) {
             val integrator = IntentIntegrator(this)
@@ -199,13 +205,19 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
     }
 
     fun assignManual(isBarcode: Boolean, value: String?) {
-        val (isbn, isbn13, isbn10) = value?.let {
-            listOf<String?>(
-                    it,
-                    if (it.length > 10) it else null,
-                    if (it.length < 11) it else null
-            )
-        } ?: listOf<String?>(null, null, null)
+
+        val (isbn, isbn13, isbn10) = if (!isBarcode) {
+            listOf(null, null, null)
+        } else {
+            value?.let {
+                listOf(
+                        it,
+                        if (it.length > 10) it else null,
+                        if (it.length < 11) it else null
+                )
+            } ?: listOf(null, null, null)
+        }
+
 
         val manualBtn = findViewById<Button>(R.id.search_button_add_manual)
         manualBtn?.setOnClickListener { view ->

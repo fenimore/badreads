@@ -74,14 +74,12 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
         val stringRequest = StringRequest(Request.Method.GET, urlQuery,
                 { response ->
                     val entry = Klaxon().parseJsonObject(StringReader(response))
-                    entry["numFound"]?.toString()?.toIntOrNull()?.let {
-                        numResults.setValue(it)
-                    }
                     val results: JsonArray<JsonObject>? = entry["docs"] as? JsonArray<JsonObject>
                     if (results != null && !results.isEmpty()) {
                         val books: List<Book> = serializeSearchResults(results)
                         Log.i(LOG_SEARCH, "Flattened books: $books")
                         searches.setValue(books.subList(0, min(MAX_SEARCH_RESULTS, books.size)))
+                        numResults.value = books.size
                     } else {
                         numResults.value = 0
                         searches.setValue(emptyList<Book>())
