@@ -83,7 +83,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == null || sharedPreferences == null) return
-        val darkModeString = "dark_mode"  // todo put in string.xml I guess
+        val darkModeString = getString(R.string.dark_mode_prerence)
         when (key) {
             darkModeString -> {
                 val darkModeValues = resources.getStringArray(R.array.dark_mode_values)

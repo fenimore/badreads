@@ -46,6 +46,7 @@ limitations under the License. -->
     <string name="about_book_covers">Book covers are also provided by OpenLibrary.org. Badreads looks up the covers from OpenLibrary.org using an isbn. Anyone can create an account with OpenLibrary.org and add or modify book covers themselves.</string>
     <string name="about_source_title">Source Code</string>
     <string name="about_book_covers_title">Book Covers</string>
+    <string name="dark_mode_prerence">dark_mode</string>
 
 
 </resources>

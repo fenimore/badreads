@@ -38,7 +38,6 @@ There seems to be an issue with the first line of the "rows" that are written (a
 2. When writing a review, sometimes it doesn't save...
 3. When moving export and import to settings, it doesn't succeed in creating new files
 4. OpenLibrary doesn't provide descriptions
-5. Dark mode
 6. Chart label colors
 7. Make month labels better
 

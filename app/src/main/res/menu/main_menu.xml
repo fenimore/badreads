@@ -8,12 +8,7 @@
         android:icon="@drawable/ic_add_circle_black"
         app:showAsAction="always"
         />
-    <item
-        android:id="@+id/menu_charts"
-        android:title="Summary"
-        android:icon="@drawable/ic_chart"
-        app:showAsAction="always"
-        />
+
 
     <item android:title="Manage Library"
         android:enabled="false"
@@ -47,7 +42,12 @@
         android:enabled="false"
         app:showAsAction="never"
         />
-
+    <item
+        android:id="@+id/menu_charts"
+        android:title="Summary"
+        android:icon="@drawable/ic_chart"
+        app:showAsAction="ifRoom"
+        />
     <item
         android:id="@+id/menu_settings"
         android:title="Settings"

@@ -29,6 +29,7 @@ import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.snackbar.Snackbar
@@ -145,6 +146,21 @@ class MainActivity : AppCompatActivity()  {
         //  startActivity(intent)
         // val intent = Intent(applicationContext, ChartActivity::class.java)
         // startActivity(intent)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val darkModeValues = resources.getStringArray(R.array.dark_mode_values)
+        val darkPref = prefs.getString(getString(R.string.dark_mode_prerence), darkModeValues[0])
+
+        when (darkPref) {
+            darkModeValues[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            darkModeValues[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            darkModeValues[2] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            darkModeValues[3] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+        }
+        Log.d(
+                LOG_TAG,
+                "Preference " + darkPref
+        )
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
