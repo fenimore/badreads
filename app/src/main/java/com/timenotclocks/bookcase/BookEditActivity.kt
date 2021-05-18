@@ -239,10 +239,9 @@ class BookEditActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                book?.let { bookViewModel.update(it) }
                 val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
                     book?.let {
-                        putExtra(EXTRA_BOOK, Klaxon().fieldConverter(KlaxonDate::class, dateConverter).toJsonString(it))
+                        putExtra(EXTRA_ID, it.bookId)
                     }
                 }
                 setResult(RESULT_CANCELED, intent)

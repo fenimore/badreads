@@ -102,6 +102,9 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
     fun topPublishers() : LiveData<List<PublisherCount>> {
         return repository.topPublishers().asLiveData()
     }
+    fun booksReadLastTwelveMonths() : LiveData<List<ChartResult>> {
+        return repository.booksReadLastTwelveMonths().asLiveData()
+    }
 
     /**
      *

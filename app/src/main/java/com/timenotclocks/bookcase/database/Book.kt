@@ -147,28 +147,6 @@ data class Book(  // TODO: can I remove overloads? i'ts for the converter
 var csvDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
 var viewDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("LLL d, uuu")
 
-@Target(AnnotationTarget.FIELD)
-annotation class KlaxonDate
-
-// TODO: remove this
-val dateConverter = object : Converter {
-    var defaultLocalDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-
-    override fun canConvert(cls: Class<*>) = cls == LocalDate::class.java
-
-    override fun fromJson(jv: JsonValue): LocalDate? {
-        if (jv.string != null) {
-            return LocalDate.parse(jv.string, defaultLocalDateFormatter)
-        } else {
-            return null
-        }
-    }
-
-    override fun toJson(o: Any): String {
-        return """ "$o" """
-    }
-}
-
 fun fakeBook(
         id: Long = 0, title: String = "Dark Money",
         author: String? = "Jane Mayer",

@@ -185,6 +185,11 @@ class BookViewActivity : AppCompatActivity() {
                 finish()
             }
             RESULT_CANCELED -> {
+                intent.extras?.getLong(EXTRA_ID)?.let { bookId ->
+                    bookViewModel.getBook(bookId).observe(this, { observable ->
+                        populateViews(observable)
+                    })
+                }
             }
         }
 

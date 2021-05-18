@@ -31,6 +31,12 @@ class PublisherCount (
     val publisher: String,
     val count: Int
 )
+
+class ChartResult (
+        val label: String,
+        val value: Float
+)
+
 class BookRepository(private val bookDao: BookDao) {
 
     // Room executes all queries on a separate thread.
@@ -138,5 +144,8 @@ class BookRepository(private val bookDao: BookDao) {
 
     fun topPublishers() : Flow<List<PublisherCount>> {
         return bookDao.topPublishers()
+    }
+    fun booksReadLastTwelveMonths(): Flow<List<ChartResult>> {
+        return bookDao.booksReadLastTwelveMonths()
     }
 }

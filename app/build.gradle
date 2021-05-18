@@ -86,5 +86,12 @@ dependencies {
     // For barcode reader
     implementation 'com.journeyapps:zxing-android-embedded:4.2.0@aar'
     implementation 'com.google.zxing:core:3.4.0'
+
+// Williamcharts
+// Charts
+    implementation 'com.diogobernardino:williamchart:3.10.1'
+// Tooltips
+    implementation 'com.diogobernardino.williamchart:tooltip-slider:3.10.1'
+    implementation 'com.diogobernardino.williamchart:tooltip-points:3.10.1'
 }
 

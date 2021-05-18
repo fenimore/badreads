@@ -1,199 +1,329 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ChartActivity">
+    android:scrollbars="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppToolbar">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ChartActivity">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="wrap_content"
+            android:theme="@style/AppToolbar">
 
-    </com.google.android.material.appbar.AppBarLayout>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <ProgressBar
-        android:id="@+id/chart_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/read_shelf_card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="0.7dp"
-        card_view:cardMaxElevation="1dp"
-        card_view:cardPreventCornerOverlap="true"
-        card_view:cardUseCompatPadding="true"
-        card_view:contentPadding="10dp"
-        card_view:contentPaddingBottom="16dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/tableLayout"
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/chart_donut_goal_card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="0.7dp"
+            card_view:cardMaxElevation="1dp"
+            card_view:cardPreventCornerOverlap="true"
+            card_view:cardUseCompatPadding="true"
+            card_view:contentPadding="10dp"
+            card_view:contentPaddingBottom="16dp">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/chart_donut_constraint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/chart_donut_read_header"
+                    style="@style/TextAppearance.AppTheme.Headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="10dp"
+                    android:text="Yearly Goal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.db.williamchart.view.DonutChartView
+                    android:id="@+id/chart_donut_goal"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="20dp"
+                    app:chart_donutRoundCorners="true"
+
+                    app:chart_donutTotal="100"
+
+                    card_view:layout_constraintStart_toStartOf="parent"
+
+                    card_view:layout_constraintTop_toBottomOf="@+id/chart_donut_read_header" />
+
+                <TextView
+                    android:id="@+id/chart_label_books_to_year"
+                    style="@style/TextAppearance.AppTheme.Subtitle1Bold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center"
+                    android:hint="Read this year"
+                    android:lines="2"
+                    app:layout_constraintTop_toBottomOf="@+id/chart_donut_read_header"
+
+                    card_view:layout_constraintEnd_toStartOf="@+id/chart_label_books_to_year_percent"
+                    card_view:layout_constraintStart_toEndOf="@+id/chart_donut_goal" />
+
+                <TextView
+                    android:id="@+id/chart_books_to_year"
+                    style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="0"
+                    app:layout_constraintStart_toEndOf="@+id/chart_donut_goal"
+                    app:layout_constraintTop_toBottomOf="@+id/chart_label_books_to_year"
+                    card_view:layout_constraintEnd_toStartOf="@+id/chart_books_to_year_percent" />
+
+                <TextView
+                    android:id="@+id/chart_label_books_to_year_percent"
+                    style="@style/TextAppearance.AppTheme.Subtitle1Bold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center"
+                    android:hint="Goal Progress"
+                    android:lines="2"
+                    app:layout_constraintTop_toBottomOf="@+id/chart_donut_read_header"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintStart_toEndOf="@+id/chart_label_books_to_year" />
+
+                <TextView
+                    android:id="@+id/chart_books_to_year_percent"
+                    style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="0"
+                    app:layout_constraintStart_toEndOf="@+id/chart_books_to_year"
+                    app:layout_constraintTop_toBottomOf="@+id/chart_label_books_to_year_percent"
+                    card_view:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/bar_chart_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="0.7dp"
+            card_view:cardMaxElevation="1dp"
+            card_view:cardPreventCornerOverlap="true"
+            card_view:cardUseCompatPadding="true"
+            card_view:contentPadding="10dp"
+            card_view:contentPaddingBottom="16dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/chart_bar_constraint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/chart_read_shelf_header"
+                android:id="@+id/chart_bar_header_12"
                 style="@style/TextAppearance.AppTheme.Headline6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:paddingLeft="8dp"
                 android:paddingTop="10dp"
-                android:text="Read Shelf Summary"
+                android:text="Monthly Read"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/chart_label_books_to_year"
-                style="@style/TextAppearance.AppTheme.Subtitle1Chart"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Books Read This Year"
-                app:layout_constraintEnd_toStartOf="@+id/chart_books_to_year"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chart_read_shelf_header"
-                card_view:layout_constraintHorizontal_weight="3" />
+            <com.db.williamchart.view.BarChartView
+                android:id="@+id/chart_bar_monthly_read"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="20dp"
+                app:chart_axis="x"
+                app:chart_barsBackgroundColor="@color/emptyBook"
+                app:chart_barsColor="@color/primaryColor"
+                app:chart_barsRadius="4dp"
+                app:chart_labelsColor="@color/primaryTextColor"
+                app:chart_labelsFont="@font/lato_regular"
+                app:chart_labelsSize="10sp"
+                app:chart_spacing="10dp"
+                card_view:layout_constraintTop_toBottomOf="@+id/chart_bar_header_12"
+                />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/chart_books_to_year"
-                style="@style/TextAppearance.AppTheme.Subtitle1Chart"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/chart_label_books_to_year"
-                app:layout_constraintTop_toBottomOf="@+id/chart_read_shelf_header"
-                card_view:layout_constraintHorizontal_weight="1" />
+        </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/chart_label_books_all_time"
-                style="@style/TextAppearance.AppTheme.Subtitle1Chart"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Books Read All Time"
-                app:layout_constraintEnd_toStartOf="@+id/chart_books_all_time"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chart_label_books_to_year"
-                card_view:layout_constraintHorizontal_weight="3" />
-
-            <TextView
-                android:id="@+id/chart_books_all_time"
-                style="@style/TextAppearance.AppTheme.Subtitle1Chart"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/chart_label_books_to_year"
-                app:layout_constraintTop_toBottomOf="@+id/chart_books_to_year"
-                card_view:layout_constraintHorizontal_weight="1" />
-
-
-            <TextView
-                android:id="@+id/chart_label_books_average_page"
-                style="@style/TextAppearance.AppTheme.Subtitle1Chart"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Average Pages All Time"
-                app:layout_constraintEnd_toStartOf="@+id/chart_books_average_page"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chart_label_books_all_time"
-                card_view:layout_constraintHorizontal_weight="3" />
-
-            <TextView
-                android:id="@+id/chart_books_average_page"
-                style="@style/TextAppearance.AppTheme.Subtitle1Chart"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/chart_label_books_average_page"
-                app:layout_constraintTop_toBottomOf="@+id/chart_books_all_time"
-                card_view:layout_constraintHorizontal_weight="1" />
-
-
-            <TextView
-                android:id="@+id/chart_label_books_sum_page"
-                style="@style/TextAppearance.AppTheme.Subtitle1Chart"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Sum Pages All Time"
-                app:layout_constraintEnd_toStartOf="@+id/chart_books_sum_page"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chart_label_books_average_page"
-                card_view:layout_constraintHorizontal_weight="3" />
-
-            <TextView
-                android:id="@+id/chart_books_sum_page"
-                style="@style/TextAppearance.AppTheme.Subtitle1Chart"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/chart_label_books_sum_page"
-                app:layout_constraintTop_toBottomOf="@+id/chart_books_average_page"
-                card_view:layout_constraintHorizontal_weight="1" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-
-
-    <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-
-        android:id="@+id/top_publishers_card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="0.7dp"
-        card_view:cardMaxElevation="1dp"
-        card_view:cardPreventCornerOverlap="true"
-        card_view:cardUseCompatPadding="true"
-        card_view:contentPadding="10dp"
-        card_view:contentPaddingBottom="16dp">
-
-        <LinearLayout
+        <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/read_shelf_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_margin="10dp"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="0.7dp"
+            card_view:cardMaxElevation="1dp"
+            card_view:cardPreventCornerOverlap="true"
+            card_view:cardUseCompatPadding="true"
+            card_view:contentPadding="10dp"
+            card_view:contentPaddingBottom="16dp">
 
-            <TextView
-                style="@style/TextAppearance.AppTheme.Headline6"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/chart_read_shelf_header"
+                    style="@style/TextAppearance.AppTheme.Headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="10dp"
+                    android:text="Read Shelf Summary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/chart_label_books_all_time"
+                    style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Books Read All Time"
+                    app:layout_constraintEnd_toStartOf="@+id/chart_books_all_time"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chart_read_shelf_header"
+                    card_view:layout_constraintHorizontal_weight="3" />
+
+                <TextView
+                    android:id="@+id/chart_books_all_time"
+                    style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/chart_label_books_all_time"
+                    app:layout_constraintTop_toBottomOf="@+id/chart_read_shelf_header"
+                    android:textAlignment="viewEnd"
+                    card_view:layout_constraintHorizontal_weight="1" />
+
+
+                <TextView
+                    android:id="@+id/chart_label_books_average_page"
+                    style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Average Pages All Time"
+                    app:layout_constraintEnd_toStartOf="@+id/chart_books_average_page"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chart_label_books_all_time"
+                    card_view:layout_constraintHorizontal_weight="3" />
+
+                <TextView
+                    android:id="@+id/chart_books_average_page"
+                    style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/chart_label_books_average_page"
+                    app:layout_constraintTop_toBottomOf="@+id/chart_books_all_time"
+                    card_view:layout_constraintHorizontal_weight="1"
+                    android:textAlignment="viewEnd"
+                    />
+
+
+                <TextView
+                    android:id="@+id/chart_label_books_sum_page"
+                    style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Sum Pages All Time"
+                    app:layout_constraintEnd_toStartOf="@+id/chart_books_sum_page"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chart_label_books_average_page"
+                    card_view:layout_constraintHorizontal_weight="3" />
+
+                <TextView
+                    android:id="@+id/chart_books_sum_page"
+                    style="@style/TextAppearance.AppTheme.Subtitle1Chart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/chart_label_books_sum_page"
+                    app:layout_constraintTop_toBottomOf="@+id/chart_books_average_page"
+                    card_view:layout_constraintHorizontal_weight="1"
+                    android:textAlignment="viewEnd"
+                    />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/top_publishers_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="0.7dp"
+            card_view:cardMaxElevation="1dp"
+            card_view:cardPreventCornerOverlap="true"
+            card_view:cardUseCompatPadding="true"
+            card_view:contentPadding="10dp"
+            card_view:contentPaddingBottom="16dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="Top Publishers" />
+                android:orientation="vertical">
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scrollbars="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/chart_top_publishers"
+                <TextView
+                    style="@style/TextAppearance.AppTheme.Headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Top Publishers" />
 
-                    tools:listitem="@layout/publisher_count_row" />
-            </ScrollView>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scrollbars="vertical">
 
-</LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/chart_top_publishers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
 
+                        tools:listitem="@layout/publisher_count_row" />
+                </androidx.core.widget.NestedScrollView>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</ScrollView>

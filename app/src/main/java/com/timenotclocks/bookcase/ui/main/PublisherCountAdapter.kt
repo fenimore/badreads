@@ -33,10 +33,11 @@ class PublisherCountAdapter : ListAdapter<PublisherCount, PublisherCountAdapter.
         Log.d(LOG_PUB, "Position $position")
         val current = getItem(position)
         holder.bind(current)
-        holder.itemView.setOnClickListener {
-            val intent = Intent(it.context, ChartActivity::class.java)
-            it.context.startActivity(intent)
-        }
+        // TODO: intent for activity with the books with this publisher listed
+        // holder.itemView.setOnClickListener {
+        //val intent = Intent(it.context, ChartActivity::class.java)
+        //it.context.startActivity(intent)
+        //}
 
     }
 

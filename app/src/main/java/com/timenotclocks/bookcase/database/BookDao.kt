@@ -132,6 +132,19 @@ public interface BookDao {
         GROUP BY publisher ORDER BY count DESC
     """)
     fun topPublishers() : Flow<List<PublisherCount>>
+
+    @Query("""
+        SELECT 
+          strftime('%m', dateRead * 86400, 'unixepoch') AS label, 
+          CAST(count(*) AS FLOAT) AS value 
+        FROM books 
+        WHERE dateRead IS NOT NULL AND shelf = 'read'
+         AND datetime(dateRead * 86400, 'unixepoch') > datetime('now' , 'start of month', '-12 months') 
+        GROUP BY strftime('%Y-%m', dateRead * 86400, 'unixepoch') 
+        ORDER BY strftime('%Y-%m', dateRead * 86400, 'unixepoch') 
+    """)
+    fun booksReadLastTwelveMonths() : Flow<List<ChartResult>>
+
     // Average page numbers
     // Rate of book per week
     // Rate of book per day
