@@ -52,8 +52,15 @@ class ChartActivity : AppCompatActivity() {
 
         bookViewModel.booksReadLastTwelveMonths().observe(this, { observable: List<ChartResult> ->
             Log.d(LOG_TAG, "Charting last twelve months")
+            val mapLabels: Map<String, String> = mapOf(
+                    "01" to "Jan", "02" to "Feb", "03" to "Mar", "04" to "Apr", "05" to "May",
+                    "06" to "Jun", "07" to "Jul", "08" to "Aug", "09" to "Sept", "10" to "Oct",
+                    "11" to "Nov", "12" to "Jan"
+            )
             findViewById<BarChartView>(R.id.chart_bar_monthly_read)?.show(observable.map{
-                Pair<String, Float>(it.label, it.value)
+                Log.d(LOG_TAG, mapLabels.toString() + mapLabels["01"])
+                val label: String = mapLabels[it.label].orEmpty()
+                Pair<String, Float>(label, it.value )
             })
         })
 
