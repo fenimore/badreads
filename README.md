@@ -40,6 +40,7 @@ There seems to be an issue with the first line of the "rows" that are written (a
 4. OpenLibrary doesn't provide descriptions
 6. Chart label colors
 7. Make month labels better
+8. Make publishers fuzzy match duplicates
 
 
 ```aidl

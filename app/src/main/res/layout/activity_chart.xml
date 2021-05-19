@@ -152,27 +152,39 @@
                 android:paddingLeft="8dp"
                 android:paddingTop="10dp"
                 android:text="Monthly Read"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.db.williamchart.view.BarChartView
-                android:id="@+id/chart_bar_monthly_read"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="20dp"
-                app:chart_axis="x"
-                app:chart_barsBackgroundColor="@color/emptyBook"
-                app:chart_barsColor="@color/primaryColor"
-                app:chart_barsRadius="4dp"
-                app:chart_labelsColor="@color/primaryTextColor"
-                app:chart_labelsFont="@font/lato_regular"
-                app:chart_labelsSize="10sp"
-                app:chart_spacing="10dp"
-                card_view:layout_constraintTop_toBottomOf="@+id/chart_bar_header_12"
-                />
+                <TextView
+                    android:id="@+id/chart_bar_years_subtitle"
+                    style="@style/TextAppearance.AppTheme.Subtitle1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:hint="years"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintBottom_toBottomOf="@+id/chart_bar_header_12"
+                    card_view:layout_constraintStart_toEndOf="@+id/chart_bar_header_12" />
+
+
+                <com.db.williamchart.view.BarChartView
+                    android:id="@+id/chart_bar_monthly_read"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="8dp"
+                    app:chart_axis="x"
+                    app:chart_barsBackgroundColor="@color/emptyBook"
+                    app:chart_barsColor="@color/primaryColor"
+                    app:chart_barsRadius="4dp"
+                    app:chart_labelsColor="?android:attr/textColorPrimary"
+                    app:chart_labelsFont="@font/lato_regular"
+                    app:chart_labelsSize="10sp"
+                    app:chart_spacing="10dp"
+                    card_view:layout_constraintTop_toBottomOf="@+id/chart_bar_header_12" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
@@ -204,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:paddingTop="10dp"
-                    android:text="Read Shelf Summary"
+                    android:text="All Time"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -306,21 +318,26 @@
                     style="@style/TextAppearance.AppTheme.Headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
                     android:text="Top Publishers" />
 
-                <androidx.core.widget.NestedScrollView
+                <com.db.williamchart.view.HorizontalBarChartView
+                    android:id="@+id/chart_publishers_horizontal_bar"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scrollbars="vertical">
+                    android:layout_height="500dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="8dp"
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/chart_top_publishers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                    app:chart_axis="y"
+                    app:chart_barsColor="@color/primaryColor"
+                    app:chart_barsRadius="4dp"
+                    app:chart_labelsColor="?android:attr/textColorPrimary"
+                    app:chart_labelsFont="@font/lato_light"
+                    app:chart_labelsSize="15sp"
+                    app:chart_spacing="15dp" />
 
-                        tools:listitem="@layout/publisher_count_row" />
-                </androidx.core.widget.NestedScrollView>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

@@ -126,10 +126,13 @@ public interface BookDao {
          AND dateRead > :sinceTimeStamp        
     """)
     fun sumPageNumbersReadSince(sinceTimeStamp: Long): LiveData<Int>
+
     @Query("""
         SELECT publisher, count(*) AS 'count' FROM books
-        WHERE publisher IS NOT NULL 
-        GROUP BY publisher ORDER BY count DESC
+        WHERE publisher IS NOT NULL
+        GROUP BY publisher
+        HAVING count(*) > 1
+        ORDER BY count DESC
     """)
     fun topPublishers() : Flow<List<PublisherCount>>
 
