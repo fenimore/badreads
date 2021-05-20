@@ -43,8 +43,8 @@ class ChartActivity : AppCompatActivity() {
         bookViewModel.topPublishers().observe(this, { observable: List<PublisherCount> ->
             Log.d(LOG_TAG, "Listing the best publishers")
             val horizontalBarSet = observable.map{
-                val ellipsed = if (it.publisher.length > 18) it.publisher.take(18) + "..." else it.publisher
-                Pair<String, Float>("${ellipsed} ${it.count}", it.count.toFloat())
+                val ellipsed = if (it.publisher.length > 20) it.publisher.take(20) + "..." else it.publisher
+                Pair<String, Float>("${ellipsed}", it.count.toFloat())
             }.reversed()
             val horizontalBarChart = findViewById<HorizontalBarChartView>(R.id.chart_publishers_horizontal_bar)
 

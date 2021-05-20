@@ -133,6 +133,7 @@ public interface BookDao {
         GROUP BY publisher
         HAVING count(*) > 1
         ORDER BY count DESC
+        LIMIT 20
     """)
     fun topPublishers() : Flow<List<PublisherCount>>
 
@@ -144,7 +145,7 @@ public interface BookDao {
         WHERE dateRead IS NOT NULL AND shelf = 'read'
          AND datetime(dateRead * 86400, 'unixepoch') > datetime('now' , 'start of month', '-12 months') 
         GROUP BY strftime('%Y-%m', dateRead * 86400, 'unixepoch') 
-        ORDER BY strftime('%Y-%m', dateRead * 86400, 'unixepoch') 
+        ORDER BY strftime('%Y-%m', dateRead * 86400, 'unixepoch')
     """)
     fun booksReadLastTwelveMonths() : Flow<List<ChartResult>>
 

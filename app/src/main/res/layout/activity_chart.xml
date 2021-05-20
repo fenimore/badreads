@@ -151,7 +151,7 @@
                 android:layout_marginLeft="8dp"
                 android:paddingLeft="8dp"
                 android:paddingTop="10dp"
-                android:text="Monthly Read"
+                android:text="Monthly"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -216,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:paddingTop="10dp"
-                    android:text="All Time"
+                    android:text="Overview"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -226,7 +226,8 @@
                     style="@style/TextAppearance.AppTheme.Subtitle1Chart"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Books Read All Time"
+                    android:layout_marginTop="5dp"
+                    android:text="Books Read"
                     app:layout_constraintEnd_toStartOf="@+id/chart_books_all_time"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chart_read_shelf_header"
@@ -240,7 +241,7 @@
                     android:paddingTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/chart_label_books_all_time"
-                    app:layout_constraintTop_toBottomOf="@+id/chart_read_shelf_header"
+                    card_view:layout_constraintTop_toTopOf="@+id/chart_label_books_all_time"
                     android:textAlignment="viewEnd"
                     card_view:layout_constraintHorizontal_weight="1" />
 
@@ -250,7 +251,7 @@
                     style="@style/TextAppearance.AppTheme.Subtitle1Chart"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Average Pages All Time"
+                    android:text="Average Number of Pages"
                     app:layout_constraintEnd_toStartOf="@+id/chart_books_average_page"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chart_label_books_all_time"
@@ -274,7 +275,7 @@
                     style="@style/TextAppearance.AppTheme.Subtitle1Chart"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Sum Pages All Time"
+                    android:text="Total Pages Read"
                     app:layout_constraintEnd_toStartOf="@+id/chart_books_sum_page"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chart_label_books_average_page"
@@ -326,10 +327,9 @@
                     android:id="@+id/chart_publishers_horizontal_bar"
                     android:layout_width="match_parent"
                     android:layout_height="500dp"
+                    android:paddingLeft="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginLeft="8dp"
-
                     app:chart_axis="y"
                     app:chart_barsColor="@color/primaryColor"
                     app:chart_barsRadius="4dp"

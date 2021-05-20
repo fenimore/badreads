@@ -17,13 +17,17 @@
 
 package com.timenotclocks.bookcase.ui.main
 
+import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ProgressBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -33,8 +37,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
-import com.timenotclocks.bookcase.LOG_SEARCH
-import com.timenotclocks.bookcase.R
+import com.timenotclocks.bookcase.*
 import com.timenotclocks.bookcase.database.*
 
 
@@ -65,16 +68,72 @@ class ShelfFragment : Fragment() {
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerview)
         val sortView = root.findViewById<MaterialButton>(R.id.fragment_sort_button)
         val searchView = root.findViewById<SearchView>(R.id.fragment_search_view)
+        val manual = root.findViewById<MaterialButton>(R.id.fragment_manual_button)
+        val scan = root.findViewById<MaterialButton>(R.id.fragment_scan_button)
+        val search = root.findViewById<MaterialButton>(R.id.fragment_search_open_library_button)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         sortView?.setOnClickListener { showMenu(it) }
 
+
         defaultSortLibrary()?.observe(viewLifecycleOwner) { books ->
-            books?.let { adapter.submitList(it) }
+            books.let { adapter.submitList(it) }
+            if (books.isEmpty()) {
+                manual.visibility = View.VISIBLE
+                manual.setOnClickListener {
+                    val builder = context?.let { it1 -> AlertDialog.Builder(it1) }
+                    builder?.setTitle("Manual Book Entry")
+                    builder?.setMessage("Enter the new book title:")
+
+                    val input = EditText(context)
+                    input.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
+                    builder?.setView(input)
+                    builder?.setPositiveButton("Ok") { dialog, id ->
+                        input.text?.let { editable ->
+                            val newBook = emptyBook(fullTitle = editable.toString(), author = null, isbn13 = null, isbn10 = null)
+                            bookViewModel.insertSync(newBook).observe(viewLifecycleOwner, { observed ->
+                                if (observed > 0) {
+                                    Log.i(TAG_NEW, "Added Book Manually: $observed $editable")
+                                    val intent = Intent(context, BookEditActivity::class.java).apply {
+                                        putExtra(EXTRA_ID, observed)
+                                    }
+                                    startActivity(intent)
+                                } else {
+                                    Log.e(TAG_NEW, "Manual Book could not be added: $observed $editable")
+                                }
+
+                            })
+                        }
+                    }
+                    builder?.show()
+                }
+                scan.visibility = View.VISIBLE
+                scan.setOnClickListener {
+                    val intent = Intent(context, OpenLibrarySearchActivity::class.java).apply {
+                        putExtra(EXTRA_SCAN, true)
+                    }
+                    startActivity(intent)
+                }
+                search.visibility = View.VISIBLE
+                search.setOnClickListener {
+                    val intent = Intent(context, OpenLibrarySearchActivity::class.java)
+                    startActivity(intent)
+                }
+            } else {
+                search.visibility = View.GONE
+                manual.visibility = View.GONE
+                scan.visibility = View.GONE
+            }
         }
 
-        searchLibrary(searchView, root.findViewById<ProgressBar>(R.id.fragment_progress_bar))
+        searchLibrary(
+                searchView,
+                root.findViewById<ProgressBar>(R.id.fragment_progress_bar),
+                scan,
+                search,
+                manual
+        )
 
         return root
     }
@@ -111,7 +170,10 @@ class ShelfFragment : Fragment() {
         return null
     }
 
-    private fun searchLibrary(searchView: SearchView?, progressBar: ProgressBar?) {
+    private fun searchLibrary(
+            searchView: SearchView?, progressBar: ProgressBar?,
+            scan: MaterialButton?, search: MaterialButton?, manual: MaterialButton?
+    ) {
 
         searchView?.setOnCloseListener {
             defaultSortLibrary()?.observe(viewLifecycleOwner) { books ->
@@ -121,24 +183,27 @@ class ShelfFragment : Fragment() {
         }
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { searchQuery(it, progressBar) }
+                query?.let { searchQuery(it, progressBar, scan, search, manual) }
                 searchView.clearFocus()
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.length > 4) {
-                    searchQuery(newText, progressBar)
+                    searchQuery(newText, progressBar, scan, search, manual)
                 }
                 return true
             }
         })
     }
 
-    private fun searchQuery(query: String, progressBar: ProgressBar?) {
+    private fun searchQuery(query: String, progressBar: ProgressBar?, scan: MaterialButton?, search: MaterialButton?, manual: MaterialButton?) {
         Log.i(LOG_SEARCH, "Searching Library: $query?")
         bookViewModel.query("*$query*").observe(this, { observable ->
             progressBar?.visibility = View.GONE
+            search?.visibility = View.GONE
+            manual?.visibility = View.GONE
+            scan?.visibility = View.GONE
             observable?.let { books -> adapter.submitList(books) }
         })
         progressBar?.visibility = View.VISIBLE

@@ -61,4 +61,76 @@
         tools:listitem="@layout/book_view_list_item" />
 
 
+    <com.google.android.material.button.MaterialButton
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_barcode_black"
+        android:text=" Scan Barcode"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_sort_button"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/fragment_scan_button"
+        app:iconPadding="0dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+
+        app:cornerRadius="15dp"
+        android:visibility="gone"
+        />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_magnify_glass"
+        android:text=" Open Library"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_scan_button"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/fragment_search_open_library_button"
+        app:iconPadding="0dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        app:cornerRadius="15dp"
+        android:visibility="gone"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_plus"
+        android:text=" Manual Entry"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_search_open_library_button"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/fragment_manual_button"
+        app:iconPadding="0dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        app:cornerRadius="15dp"
+        android:visibility="gone"
+
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

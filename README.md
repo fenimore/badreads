@@ -41,6 +41,7 @@ There seems to be an issue with the first line of the "rows" that are written (a
 6. Chart label colors
 7. Make month labels better
 8. Make publishers fuzzy match duplicates
+9. Import/Export Progress
 
 
 ```aidl
