@@ -16,6 +16,7 @@ Badreads is very unstable. I recommend backing up with an export before installi
 ## Screenshots
 
 <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="screenshot 1" width="200"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="200">
+<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" alt="screenshot 3" width="200"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="200">
 
 ## License
 
@@ -24,24 +25,21 @@ Copyright 2021 Fenimore Love
 
 ## Todo:
 1. Fix settings action bar color
-2. Empty library prompt
-3. Multiple Authors/DB Relation
-4. Add tag/star to books
-5. Sort a - z and z - a
-6. Version 2: Bookshelf view
-7. Version 2: Login to OpenLibrary/sync shelves
+2. Multiple Authors/DB Relation
+3. Add tag/star to books
+4. Provide descriptions
+5. Include numbers in bar charts
+6. Make publishers fuzzy match duplicates in Summary of publishers
+7. Import/Export Progress field
+8. Version 2: Bookshelf view
+9. Version 2: Login to OpenLibrary/sync shelves
 
 ## Known Bug:
 
 1. Deleting data directly after exporting, and then importing that same csv will break the CSV.
 There seems to be an issue with the first line of the "rows" that are written (after the headers).
-2. When writing a review, sometimes it doesn't save...
 3. When moving export and import to settings, it doesn't succeed in creating new files
-4. OpenLibrary doesn't provide descriptions
-6. Chart label colors
-7. Make month labels better
-8. Make publishers fuzzy match duplicates
-9. Import/Export Progress
+
 
 
 ```aidl

@@ -242,7 +242,7 @@ class MainActivity : AppCompatActivity()  {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "text/csv"
                     val today = LocalDate.now()
-                    var formatter = DateTimeFormatter.ofPattern("yy-MM-dd")
+                    var formatter = DateTimeFormatter.ofPattern("yy_MM_dd")
                     var formattedDate = today.format(formatter)
                     putExtra(Intent.EXTRA_TITLE, "badreads_read_export_${formattedDate}.csv")
                 }
