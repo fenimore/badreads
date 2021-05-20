@@ -1,0 +1,5 @@
+This app does not use, store, or transmit your data in any way.
+
+The Camera permission is used in order to scan book ISBN barcodes.
+
+All user data is stored locally in an SQLite database.
