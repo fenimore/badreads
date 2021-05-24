@@ -57,7 +57,7 @@ class ChartActivity : AppCompatActivity() {
             val mapLabels: Map<String, String> = mapOf(
                     "01" to "Jan", "02" to "Feb", "03" to "Mar", "04" to "Apr", "05" to "May",
                     "06" to "Jun", "07" to "Jul", "08" to "Aug", "09" to "Sept", "10" to "Oct",
-                    "11" to "Nov", "12" to "Jan"
+                    "11" to "Nov", "12" to "Dec"
             )
             val monthlyBar = findViewById<BarChartView>(R.id.chart_bar_monthly_read)
             monthlyBar.animation.duration = animationDuration
