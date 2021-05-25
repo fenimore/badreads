@@ -3,6 +3,9 @@
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
     alt="Get it on F-Droid"
     height="80">](https://f-droid.org/packages/com.timenotclocks.bookcase)
+[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+      alt="Get it on Google Play"
+      height="80">](https://play.google.com/store/apps/details?id=com.timenotclocks.bookcase)
 
 
 Badreads is a book tracking Android application for logging books
@@ -11,7 +14,7 @@ are stored locally on your phone. Use the search or barcode reader to look up
 new book on [OpenLibrary](https://openlibrary.org) and add it to your library. You can
 import and export your library from or to Open Library and Goodreads.
 
-Badreads is very unstable. I recommend backing up with an export before installing updates or changes.
+Badreads is unstable. I recommend backing up with an export before installing updates or changes.
 
 ## Screenshots
 
@@ -32,6 +35,9 @@ Copyright 2021 Fenimore Love
 5. Include numbers in bar charts
 6. Make publishers fuzzy match duplicates in Summary of publishers
 7. Import/Export Progress field
+8. Add ProgressBar in OpenLibrary Search
+9. Find the min minSDK
+10. Batch Scan!
 8. Version 2: Bookshelf view
 9. Version 2: Login to OpenLibrary/sync shelves
 
@@ -42,6 +48,7 @@ There seems to be an issue with the first line of the "rows" that are written (a
 3. When moving export and import to settings, it doesn't succeed in creating new files
 
 
+Gridlayout example:
 
 ```aidl
         List<String> dataSource = new ArrayList<String>();
