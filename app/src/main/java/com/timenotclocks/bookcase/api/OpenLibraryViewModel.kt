@@ -11,7 +11,9 @@ import com.android.volley.toolbox.StringRequest
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Klaxon
+import com.timenotclocks.bookcase.LOG_EDIT
 import com.timenotclocks.bookcase.LOG_SEARCH
+import com.timenotclocks.bookcase.TAG_NEW
 import com.timenotclocks.bookcase.database.Book
 import kotlinx.coroutines.launch
 import java.io.StringReader
@@ -45,20 +47,29 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
     fun getSearches(): LiveData<List<Book>> { return searches }
 
     fun getBookDetails(isbn: String) = viewModelScope.launch {
-        val url = "https://$base/isbn/$isbn.json"
+        //val url = "https://$base/isbn/$isbn.json"
+        val url = "https://$base/api/books?bibkeys=ISBN:$isbn&jscmd=details&format=json"
+        Log.i(LOG_EDIT, "Searching with API $url")
         val stringRequest = StringRequest(Request.Method.GET, url,
                 { response ->
 
-                    val details = Klaxon().parseJsonObject(StringReader(response))
+                    val result = Klaxon().parseJsonObject(StringReader(response))
+                    Log.i(TAG_NEW, "Found some JSON ${result.keys.firstOrNull()}")
+                    Log.i(TAG_NEW, result.toJsonString())
 
-                    val publisher: String? = (details["publishers"] as JsonArray<String>?)?.firstOrNull()
-                    val isbn13: String? = (details["isbn_13"] as JsonArray<String>?)?.firstOrNull()
-                    val isbn10: String? = (details["isbn_10"] as JsonArray<String>?)?.firstOrNull()
-                    val numPages: Int? = details["number_of_pages"] as? Int
-                    val publishYear: Int? = (details["publish_date"] as? String)?.let {
+                    val details: JsonObject? = result.keys.firstOrNull()?.let { key ->
+                        result.getOrDefault(key, JsonObject()) as JsonObject
+                    }?.getOrDefault("details", JsonObject()) as JsonObject
+                    val publisher: String? = (details?.get("publishers") as JsonArray<String>?)?.firstOrNull()
+                    val isbn13: String? = (details?.get("isbn_13") as JsonArray<String>?)?.firstOrNull()
+                    val isbn10: String? = (details?.get("isbn_10") as JsonArray<String>?)?.firstOrNull()
+                    val description: String? = (details?.get("description")) as? String
+                    val numPages: Int? = details?.get("number_of_pages") as? Int
+                    val publishYear: Int? = (details?.get("publish_date") as? String)?.let {
                         Regex("""\b\d{4}\b""").find(it)
                     }?.value?.toIntOrNull()
                     Log.i(LOG_LIB, "Okay so I've $publisher $isbn10 $isbn13 $numPages $publishYear")
+                    Log.i(LOG_LIB, "Description: $description")
                     bookDetails.value = BookDetails(isbn13, isbn10, publisher, publishYear, numPages)
                 },
                 {

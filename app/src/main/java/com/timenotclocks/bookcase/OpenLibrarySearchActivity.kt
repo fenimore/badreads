@@ -172,8 +172,6 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
             manualBtn?.visibility = View.INVISIBLE
         }
 
-
-
         return true
     }
 
