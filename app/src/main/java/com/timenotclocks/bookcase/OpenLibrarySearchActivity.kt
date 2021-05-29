@@ -91,7 +91,7 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
                     }
                     it == 0 -> {
                         Log.d(LOG_TAG, "No Result")
-                        numResultsView?.text = "No results"
+                        // numResultsView?.text = "Not found"
                         manualBtn?.visibility = View.VISIBLE
                     }
                 }
@@ -109,11 +109,13 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
                 Log.i(LOG_SEARCH, "OpenLibrary Query $query?")
 
                 query?.let {
+                    numResultsView?.text = "Searching $it"
                     openLibraryViewModel.searchOpenLibrary(it)
                     assignManual(false, it)
                 }
                 searchView.clearFocus()
                 progressBar?.visibility = View.VISIBLE
+                manualBtn?.visibility = View.INVISIBLE
                 return true
             }
 
@@ -163,9 +165,11 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
         val searchIntent = intent.getStringExtra(EXTRA_SEARCH)
         searchIntent?.let { query ->
             Log.i(LOG_SEARCH, "Direct Query $query")
+            numResultsView.text = "Searching $query"
             openLibraryViewModel.searchOpenLibrary(query)
             searchView?.clearFocus()
             progressBar?.visibility = View.VISIBLE
+            manualBtn?.visibility = View.INVISIBLE
         }
 
 
@@ -196,7 +200,7 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
         result?.contents?.let { barcode ->
             Toast.makeText(this, "Barcode: $barcode", Toast.LENGTH_LONG).show()
             Log.d(LOG_TAG, "Barcode read: $barcode")
-            findViewById<TextView>(R.id.num_results_view)?.text = barcode
+            findViewById<TextView>(R.id.num_results_view)?.text = "Scanned: $barcode"
             openLibraryViewModel.searchOpenLibrary(barcode)
             assignManual(true, barcode)
         }

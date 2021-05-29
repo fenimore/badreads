@@ -91,6 +91,8 @@ class MainActivity : AppCompatActivity()  {
         }
 
         Log.d(LOG_TAG, "Created Main Activity")
+        val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
+        startActivity(intent)
         /*
         val fab: View = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
