@@ -61,17 +61,23 @@ class BookViewActivity : AppCompatActivity() {
 
     private fun populateViews(current: Book) {
         supportActionBar?.title = current.title
+        val coverView = findViewById<ImageView>(R.id.book_view_cover_image)
+        val emptyCoverView = findViewById<TextView>(R.id.book_view_empty_cover)
         current.cover("L").let {
-            val coverView = findViewById<ImageView>(R.id.book_view_cover_image)
             Picasso.get().load(it).into(coverView, object : com.squareup.picasso.Callback {
                 override fun onSuccess() {
-                    coverView.visibility = View.VISIBLE
+                    emptyCoverView.visibility = View.INVISIBLE
+                    //coverView.visibility = View.VISIBLE
                 }
 
                 override fun onError(e: java.lang.Exception?) {}
             })
-
         }
+        emptyCoverView.text = current.titleString()
+        coverView.drawable ?: run {
+            emptyCoverView.visibility = View.VISIBLE
+        }
+
         current.title.let {findViewById<TextView>(R.id.book_view_title).text = it}
         current.subtitle?.let {
             val subView = findViewById<TextView>(R.id.book_view_subtitle)
@@ -93,7 +99,13 @@ class BookViewActivity : AppCompatActivity() {
             notesView.visibility = View.VISIBLE
             notesView.text = it
         }
-        findViewById<TextView>(R.id.book_view_description).text = current.description
+        current.description?.let {
+            val desc = findViewById<TextView>(R.id.book_view_description)
+            findViewById<ImageView>(R.id.book_view_desc_horizontal).visibility = View.VISIBLE
+            desc.visibility = View.VISIBLE
+            desc.text = current.description
+        }
+
         val shelfDropdown = findViewById<Button>(R.id.book_view_shelf_dropdown)
         shelfDropdown.text = current.shelfString()
         shelfDropdown.setOnClickListener { view ->

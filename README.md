@@ -31,12 +31,9 @@ Copyright 2021 Fenimore Love
 1. Fix settings action bar color
 2. Multiple Authors/DB Relation
 3. Add tag/star to books
-4. Provide descriptions
 5. Include numbers in bar charts
 6. Make publishers fuzzy match duplicates in Summary of publishers
 7. Import/Export Progress field
-8. Add ProgressBar in OpenLibrary Search
-9. Find the min minSDK
 10. Batch Scan!
 8. Version 2: Bookshelf view
 9. Version 2: Login to OpenLibrary/sync shelves

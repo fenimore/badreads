@@ -27,18 +27,46 @@
     android:padding="15dp"
     >
 
-
-        <ImageView
-            android:id="@+id/book_view_cover_image"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="250dp"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            android:scaleType="fitCenter"
-            android:visibility="gone"
-            />
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/book_view_cover_wrapper"
+            android:minHeight="250dp"
+            >
+                <ImageView
+                    android:id="@+id/book_view_cover_image"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    android:minHeight="250dp"
+                    android:scaleType="fitCenter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+                <TextView
+                    android:id="@+id/book_view_empty_cover"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:height="240dp"
+                    android:width="170dp"
+                    android:background="@drawable/border"
+                    android:textColor="@color/primaryTextColor"
+                    android:paddingTop="40dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:textAlignment="center"
+                    android:textSize="13dp"
+                    android:ellipsize="end"
+                    android:hint="Title"
+                    android:textAppearance="@style/TextAppearance.AppTheme.Body1Bold"
+                    android:visibility="visible"
+                    />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/book_view_title"
@@ -52,7 +80,7 @@
             android:textAppearance="@style/TextAppearance.AppTheme.Headline5"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_cover_image"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_cover_wrapper"
                 />
         <TextView
             android:id="@+id/book_view_subtitle"
@@ -222,6 +250,7 @@
             android:paddingRight="5dp"
             android:paddingBottom="2dp"
             android:paddingTop="16dp"
+            android:visibility="gone"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_notes"
@@ -232,7 +261,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:visibility="visible"
+            android:visibility="gone"
             android:lineSpacingMultiplier="1.5"
             android:scrollbars="vertical"
             android:textIsSelectable="true"
