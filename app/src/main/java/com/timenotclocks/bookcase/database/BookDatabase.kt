@@ -84,8 +84,7 @@ abstract class BookDatabase : RoomDatabase() {
                         context.applicationContext,
                         BookDatabase::class.java,
                         "books"
-                ).addMigrations(MIGRATION_5_6).addMigrations(MIGRATION_6_7)
-                    .fallbackToDestructiveMigration()
+                ).addMigrations(MIGRATION_5_6, MIGRATION_6_7)
                     .addCallback(BookDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
