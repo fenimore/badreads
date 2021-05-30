@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity()  {
         }
 
         Log.d(LOG_TAG, "Created Main Activity")
+
         //val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
         //startActivity(intent)
         /*
@@ -137,20 +138,10 @@ class MainActivity : AppCompatActivity()  {
         val intent = Intent(applicationContext, AboutActivity::class.java)
         startActivity(intent)
         */
-        //        val intent = Intent(applicationContext, BookEditActivity::class.java).apply {
-        //putExtra(EXTRA_ID, 262.toLong())
-        //          }
-        //startActivity(intent)
-
+        // Dark Money
+        //val intent = Intent(applicationContext, BookViewActivity::class.java).apply {putExtra(EXTRA_ID, 262.toLong())}
         //val intent = Intent(applicationContext, SettingsActivity::class.java)
-        //startActivity(intent)
         // val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
-        // startActivity(intent)
-        //val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
-        //putExtra(EXTRA_ID, 2139.toLong())
-        //putExtra(EXTRA_ID, 2270.toLong())
-        //}
-        //  startActivity(intent)
         // val intent = Intent(applicationContext, ChartActivity::class.java)
         //startActivity(intent)
     }

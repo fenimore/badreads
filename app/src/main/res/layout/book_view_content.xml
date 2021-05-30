@@ -205,14 +205,14 @@
             android:lineSpacingMultiplier="1.5"
             android:scrollbars="vertical"
             android:textIsSelectable="true"
-            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+            android:textAppearance="@style/TextAppearance.AppTheme.Body2"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_rating_bar"
             />
 
         <ImageView
-            android:id="@+id/book_view_date_horizontal"
+            android:id="@+id/book_view_desc_horizontal"
             android:src="@android:drawable/divider_horizontal_dark"
             android:layout_marginTop="20dp"
             android:layout_width="fill_parent"
@@ -227,6 +227,35 @@
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_notes"
             />
 
+        <TextView
+            android:id="@+id/book_view_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:visibility="visible"
+            android:lineSpacingMultiplier="1.5"
+            android:scrollbars="vertical"
+            android:textIsSelectable="true"
+            android:textAppearance="@style/TextAppearance.AppTheme.Body2Light"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_desc_horizontal"
+            />
+        <ImageView
+            android:id="@+id/book_view_date_horizontal"
+            android:src="@android:drawable/divider_horizontal_dark"
+            android:layout_marginTop="20dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="2dp"
+            android:paddingTop="16dp"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_description"
+            />
         <TextView
             android:id="@+id/book_view_date_added_label"
             android:layout_width="0dp"

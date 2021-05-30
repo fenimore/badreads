@@ -93,6 +93,7 @@ class BookViewActivity : AppCompatActivity() {
             notesView.visibility = View.VISIBLE
             notesView.text = it
         }
+        findViewById<TextView>(R.id.book_view_description).text = current.description
         val shelfDropdown = findViewById<Button>(R.id.book_view_shelf_dropdown)
         shelfDropdown.text = current.shelfString()
         shelfDropdown.setOnClickListener { view ->

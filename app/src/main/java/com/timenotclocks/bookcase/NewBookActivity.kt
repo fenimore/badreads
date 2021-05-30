@@ -124,6 +124,7 @@ class NewBookActivity : AppCompatActivity() {
         current.cover("M").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.new_book_cover_image)) }
         findViewById<TextView>(R.id.new_book_title).text = current.titleString()
         findViewById<TextView>(R.id.new_book_author).text = current.authorString()
+        findViewById<TextView>(R.id.new_book_description).text = current.description
         current.yearString()?.let { findViewById<TextView>(R.id.new_book_year).text = it }
         current.isbn10?.let {
             findViewById<TextView>(R.id.new_book_isbn10).text = it
@@ -139,7 +140,7 @@ class NewBookActivity : AppCompatActivity() {
         }
         current.publisher?.let { findViewById<TextView>(R.id.new_book_publisher).text = it }
         current.dateAdded = LocalDate.now().toEpochDay()
-        findViewById<TextView>(R.id.new_book_page_numbers).text = current.numberPages?.toString()
+        findViewById<TextView>(R.id.new_book_page_numbers).text = current.numberPages.let {"Pages: $it"}
 
         val shelfDropdown = findViewById<MaterialButton>(R.id.new_book_shelf_dropdown)
         shelfDropdown.text = current.shelf
