@@ -50,6 +50,7 @@ class GoodReadImport {
                     progress = row["Progress"]?.toIntOrNull(),
                     rating = row["My Rating"]?.toIntOrNull(),
                     shelf = row.getOrDefault("Exclusive Shelf", "to-read"),
+                    description = row["Description"]?.ifBlank { null },
                     notes = row["My Review"]?.ifBlank { null },
                     dateAdded = added,
                     dateRead = read,

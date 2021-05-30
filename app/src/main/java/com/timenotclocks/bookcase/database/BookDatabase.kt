@@ -53,7 +53,7 @@ static final Migration MIGRATION_2_3 = new Migration(2, 3) {
  */
 @Database(entities = [
     Book::class, BooksFts::class
-], version = 6)
+], version = 7)
 abstract class BookDatabase : RoomDatabase() {
 
     abstract fun bookDao(): BookDao
@@ -74,13 +74,17 @@ abstract class BookDatabase : RoomDatabase() {
                     database.execSQL("ALTER TABLE books ADD COLUMN progress INTEGER")
                 }
             }
-
+            val MIGRATION_6_7 = object : Migration(5, 6) {
+                override fun migrate(database: SupportSQLiteDatabase) {
+                    database.execSQL("ALTER TABLE books ADD COLUMN description TEXT")
+                }
+            }
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                         context.applicationContext,
                         BookDatabase::class.java,
                         "books"
-                ).addMigrations(MIGRATION_5_6)
+                ).addMigrations(MIGRATION_5_6).addMigrations(MIGRATION_6_7)
                     .fallbackToDestructiveMigration()
                     .addCallback(BookDatabaseCallback(scope))
                     .build()

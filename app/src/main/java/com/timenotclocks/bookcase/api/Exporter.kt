@@ -18,6 +18,7 @@ class Exporter {
                 // more info
                 "ISBN", "ISBN13", "Publisher",
                 "Number of Pages", "Year Published", "Original Publication Year",
+                "Progress",
                 // dates
                 "Date Read", "Date Added", "Date Started",
                 // Library status
@@ -34,6 +35,7 @@ class Exporter {
                     book.numberPages?.toString().orEmpty(),
                     book.year?.toString().orEmpty(),
                     book.originalYear?.toString().orEmpty(),
+                    book.progress?.toString().orEmpty(),
                     // dates
                     book.dateRead?.let {LocalDate.ofEpochDay(it).format(csvDateFormatter)} ?: "",
                     book.dateAdded?.let {LocalDate.ofEpochDay(it).format(csvDateFormatter)} ?: "",

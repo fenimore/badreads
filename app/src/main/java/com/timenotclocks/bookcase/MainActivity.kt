@@ -40,6 +40,7 @@ import com.timenotclocks.bookcase.database.BookViewModel
 import com.timenotclocks.bookcase.database.BookViewModelFactory
 import com.timenotclocks.bookcase.database.BooksApplication
 import com.timenotclocks.bookcase.database.emptyBook
+import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
 import com.timenotclocks.bookcase.ui.main.SectionsPagerAdapter
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -91,8 +92,8 @@ class MainActivity : AppCompatActivity()  {
         }
 
         Log.d(LOG_TAG, "Created Main Activity")
-        val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
-        startActivity(intent)
+        //val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
+        //startActivity(intent)
         /*
         val fab: View = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
@@ -106,7 +107,8 @@ class MainActivity : AppCompatActivity()  {
                 startActivity(intent)
                 return true*/
 
-        /*val data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null, "dateRead" : null, "isbn10" : "0307970655", "isbn13" : "9780385535595", "notes" : null, "numberPages" : null, "originalYear" : 2016, "publisher" : "Doubleday", "rating" : null, "shelf" : "to-read", "subtitle" : null, "title" : "Dark Money", "year" : 2016}"""
+        /*
+        val data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null, "dateRead" : null, "isbn10" : "0307970655", "isbn13" : "9780385535595", "notes" : null, "numberPages" : null, "originalYear" : 2016, "publisher" : "Doubleday", "rating" : null, "shelf" : "to-read", "subtitle" : null, "title" : "Dark Money", "year" : 2016}"""
         val intent = Intent(applicationContext, NewBookActivity::class.java).apply {
             putExtra(EXTRA_BOOK, data)
         }
@@ -134,17 +136,11 @@ class MainActivity : AppCompatActivity()  {
 
         val intent = Intent(applicationContext, AboutActivity::class.java)
         startActivity(intent)
-
-        val intent = Intent(applicationContext, BookEditActivity::class.java).apply {
-            putExtra(EXTRA_ID, 550.toLong())
-        }
-        startActivity(intent)
-
-        val intent = Intent(applicationContext, BookEditActivity::class.java).apply {
-            putExtra(EXTRA_ID, 550.toLong())
-        }
-        startActivity(intent)
         */
+        //        val intent = Intent(applicationContext, BookEditActivity::class.java).apply {
+        //putExtra(EXTRA_ID, 262.toLong())
+        //          }
+        //startActivity(intent)
 
         //val intent = Intent(applicationContext, SettingsActivity::class.java)
         //startActivity(intent)

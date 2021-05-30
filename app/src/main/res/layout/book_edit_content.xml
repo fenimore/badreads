@@ -6,6 +6,7 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
     card_view:cardCornerRadius="4dp"
     card_view:cardElevation="0.7dp"
     card_view:cardMaxElevation="1dp"
@@ -13,7 +14,6 @@
     card_view:cardUseCompatPadding="true"
     card_view:contentPadding="10dp"
     card_view:contentPaddingBottom="16dp"
-    android:layout_margin="10dp"
     card_view:layout_constraintTop_toBottomOf="@+id/toolbar"
 
     >
@@ -26,45 +26,43 @@
         tools:context=".BookViewActivity">
 
 
-
         <RelativeLayout
+            android:id="@+id/book_edit_cover_wrapper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/book_edit_cover_wrapper"
-            android:minHeight="200dp"
             android:minWidth="80dp"
-            >
+            android:minHeight="200dp"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/book_edit_cover_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="200dp"
+                android:scaleType="fitCenter"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent"
-                android:scaleType="fitCenter"
 
                 />
+
             <TextView
                 android:id="@+id/book_edit_empty_cover"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:layout_centerHorizontal="true"
                 android:width="130dp"
                 android:height="200dp"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-
                 android:background="@drawable/border"
+                android:ellipsize="end"
+
+                android:gravity="center"
+                android:padding="5dp"
+                android:textAppearance="@style/TextAppearance.AppTheme.Body2"
                 android:textColor="@color/primaryTextColor"
                 android:textSize="17dp"
-                android:ellipsize="end"
-                android:textAppearance="@style/TextAppearance.AppTheme.Body2"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
         </RelativeLayout>
 
 
@@ -72,47 +70,46 @@
             android:id="@+id/book_edit_image_help"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="Add and manage cover images using ISBN number: https://openlibrary.org"
             android:textAppearance="@style/TextAppearance.AppTheme.Caption"
             android:textIsSelectable="true"
-            android:text="Add and manage cover images using ISBN number: https://openlibrary.org"
-            card_view:layout_constraintTop_toBottomOf="@id/book_edit_cover_wrapper"
-            card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintEnd_toStartOf="@id/book_edit_image_edit"
-            android:layout_marginTop="14dp"
-            />
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/book_edit_cover_wrapper" />
 
         <com.google.android.material.button.MaterialButton
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="20dp"
+            android:id="@+id/book_edit_image_edit"
+            style="@style/TextAppearance.AppTheme.SortButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            card_view:icon="@drawable/ic_edit_pencil"
-            card_view:layout_constraintTop_toBottomOf="@id/book_edit_cover_wrapper"
-            card_view:backgroundTint="@color/zxing_transparent"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/book_edit_image_edit"
-            card_view:iconPadding="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="20dp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
             android:minWidth="48dp"
             android:minHeight="48dp"
-            style="@style/TextAppearance.AppTheme.SortButton"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            card_view:backgroundTint="@color/zxing_transparent"
+            card_view:icon="@drawable/ic_edit_pencil"
+            card_view:iconPadding="0dp"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/book_edit_cover_wrapper"
 
             />
 
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_title_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
             android:hint="Title"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/book_edit_image_help"
-            android:layout_marginTop="14dp"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -125,10 +122,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_subtitle"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="subtitle"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:textAppearance="@style/TextAppearance.AppTheme.Headline6"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
@@ -140,8 +137,8 @@
             /></com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_author"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -158,8 +155,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_author_extras"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
@@ -177,8 +174,8 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_publisher"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -195,15 +192,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_year"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
             android:hint="publication year"
             android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
-            card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintEnd_toStartOf="@+id/book_edit_original_year"
+            card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/book_edit_publisher" >
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -213,8 +210,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_original_year"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -231,8 +228,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_isbn13"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -250,8 +247,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_isbn10"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -270,8 +267,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_page_numbers"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -290,8 +287,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/book_edit_progress"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -312,117 +309,156 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/book_edit_shelf_dropdown"
-            card_view:icon="@drawable/ic_dropdown_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintHorizontal_bias="0.5"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="30dp"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
-            card_view:cornerRadius="15dp"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_page_numbers"
             android:text="Shelve Book"
-            />
+            card_view:cornerRadius="15dp"
+            card_view:icon="@drawable/ic_dropdown_arrow"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.5"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_page_numbers" />
 
 
         <RatingBar
             android:id="@+id/book_edit_rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintTop_toBottomOf="@id/book_edit_shelf_dropdown"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.5"
             android:layout_marginTop="24dp"
             android:numStars="5"
             android:stepSize="1"
-            />
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.5"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/book_edit_shelf_dropdown" />
 
-        <EditText
-            android:id="@+id/book_edit_notes"
-            android:hint="Thoughts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:lineSpacingMultiplier="2"
-            android:scrollbars="vertical"
-            android:inputType="textCapSentences|textMultiLine"
-            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/book_edit_description_scroll"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_rating_bar"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_rating_bar">
 
-            />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/book_edit_description"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:scrollbars="vertical"
+                android:hint="Description"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@id/book_edit_rating_bar">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences|textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/book_edit_notes_scroll"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:scrollbars="vertical"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_description_scroll">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/book_edit_notes"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:scrollbars="vertical"
+                android:hint="Thoughts"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@id/book_edit_description_scroll">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences|textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
         <TextView
             android:id="@+id/book_edit_date_added_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="Date Added"
             android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1Bold"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_notes"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_notes_scroll" />
+
         <DatePicker
             android:id="@+id/book_edit_date_added"
-            android:datePickerMode="spinner"
-            android:calendarViewShown="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_added_label"
-            card_view:layout_constraintStart_toStartOf="parent"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
             android:scaleX=".8"
             android:scaleY=".8"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_added_label"
 
             />
         <TextView
             android:id="@+id/book_edit_date_started_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:text="Date Started"
             android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1Bold"
-            android:layout_marginBottom="10dp"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_added"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_added"
             />
+
         <DatePicker
             android:id="@+id/book_edit_date_started"
-            android:datePickerMode="spinner"
-            android:calendarViewShown="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_started_label"
-            card_view:layout_constraintStart_toStartOf="parent"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
             android:scaleX=".8"
             android:scaleY=".8"
-            />
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_started_label" />
         <TextView
             android:id="@+id/book_edit_date_shelved_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:text="Date Read"
             android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1Bold"
-            android:layout_marginBottom="10dp"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_started"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_started"
             />
+
         <DatePicker
             android:id="@+id/book_edit_date_read"
-            android:datePickerMode="spinner"
-            android:calendarViewShown="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_shelved_label"
-            card_view:layout_constraintStart_toStartOf="parent"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
             android:scaleX=".8"
             android:scaleY=".8"
-            />
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_date_shelved_label" />
 
 
 

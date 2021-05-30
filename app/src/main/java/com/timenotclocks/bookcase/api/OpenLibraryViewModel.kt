@@ -32,6 +32,7 @@ data class BookDetails(
         val publisher: String?,
         val publishYear: Int?,
         val numberPages: Int?,
+        val description: String?,
 )
 
 
@@ -70,7 +71,7 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                     }?.value?.toIntOrNull()
                     Log.i(LOG_LIB, "Okay so I've $publisher $isbn10 $isbn13 $numPages $publishYear")
                     Log.i(LOG_LIB, "Description: $description")
-                    bookDetails.value = BookDetails(isbn13, isbn10, publisher, publishYear, numPages)
+                    bookDetails.value = BookDetails(isbn13, isbn10, publisher, publishYear, numPages, description)
                 },
                 {
                     Log.e("BK", "Volley Error $it")
@@ -137,6 +138,7 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                             rating = null,
                             shelf = "to-read",
                             notes = null,
+                            description = null,
                             dateAdded = LocalDate.now().toEpochDay(),
                             dateRead = null,
                             dateStarted = null,

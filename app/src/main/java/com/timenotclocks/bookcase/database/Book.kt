@@ -45,7 +45,7 @@ enum class SortColumn(val column: String) {
         tableName = "books",
         indices = arrayOf(Index(value = ["title", "author"], unique = true)),
 )
-data class Book(  // TODO: can I remove overloads? i'ts for the converter
+data class Book(
         @PrimaryKey(autoGenerate = true) var bookId: Long,
         @ColumnInfo(name = "title") var title: String,
         @ColumnInfo(name = "subtitle") var subtitle: String?,
@@ -64,6 +64,7 @@ data class Book(  // TODO: can I remove overloads? i'ts for the converter
         // create column for every shelf added
         @ColumnInfo(name = "rating") var rating: Int?,
         @ColumnInfo(name = "shelf") var shelf: String,
+        @ColumnInfo(name = "description") var description: String?,
         @ColumnInfo(name = "notes") var notes: String?
 ) {
     fun cover(size: String = "M"): String? {
@@ -170,6 +171,7 @@ fun fakeBook(
             progress = null,
             rating = null,
             shelf = "currently-reading",
+            description = null,
             notes = null,
             dateAdded = LocalDate.now().toEpochDay(),
             dateStarted = null,
@@ -204,6 +206,7 @@ fun emptyBook(
             progress = null,
             rating = null,
             shelf = "to-read",
+            description = null,
             notes = null,
             dateAdded = LocalDate.now().toEpochDay(),
             dateStarted = null,

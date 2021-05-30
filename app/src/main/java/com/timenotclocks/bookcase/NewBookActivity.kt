@@ -49,6 +49,7 @@ class NewBookActivity : AppCompatActivity() {
                 newBook?.publisher = details.publisher ?: newBook?.publisher
                 newBook?.year = details.publishYear ?: newBook?.year
                 newBook?.numberPages = details.numberPages ?: newBook?.numberPages
+                newBook?.description = details.description ?: newBook?.description
                 newBook?.let{ displayNewBook(it) }
             }
         })

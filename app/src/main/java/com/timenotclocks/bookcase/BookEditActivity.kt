@@ -70,8 +70,9 @@ class BookEditActivity : AppCompatActivity() {
                         book?.isbn10 != details.isbn10 ?: book?.isbn10 ||
                         book?.publisher != details.publisher ?: book?.publisher ||
                         book?.year != details.publishYear ?: book?.year ||
-                        book?.numberPages != details.numberPages ?: book?.numberPages
-                ) {
+                        book?.numberPages != details.numberPages ?: book?.numberPages ||
+                        book?.description != details.description ?: book?.description
+                        ) {
                     Snackbar.make(
                             findViewById(R.id.book_edit_activity),
                             "New details added, click Save (disk) to save.",
@@ -82,6 +83,7 @@ class BookEditActivity : AppCompatActivity() {
                     book?.publisher = details.publisher ?: book?.publisher
                     book?.year = details.publishYear ?: book?.year
                     book?.numberPages = details.numberPages ?: book?.numberPages
+                    book?.description = details.description ?: book?.description
                     book?.let { populateViews(it) }
                 } else {
                     Snackbar.make(
@@ -199,9 +201,13 @@ class BookEditActivity : AppCompatActivity() {
             }
         })
 
-        val notesEdit = findViewById<EditText>(R.id.book_edit_notes)
-        current.notes?.let { notesEdit.setText(it) }
-        notesEdit.doAfterTextChanged { editable -> current.notes = editable?.toString() }
+        val descEdit = findViewById<TextInputLayout>(R.id.book_edit_description)?.editText
+        current.description?.let { descEdit?.setText(it) }
+        descEdit?.doAfterTextChanged { editable -> current.description = editable?.toString()?.ifEmpty { null } }
+
+        val notesEdit = findViewById<TextInputLayout>(R.id.book_edit_notes).editText
+        current.notes?.let { notesEdit?.setText(it) }
+        notesEdit?.doAfterTextChanged { editable -> current.notes = editable?.toString() }
 
         val shelfDropdown = findViewById<Button>(R.id.book_edit_shelf_dropdown)
         shelfDropdown.text = current.shelfString()
