@@ -74,7 +74,7 @@ abstract class BookDatabase : RoomDatabase() {
                     database.execSQL("ALTER TABLE books ADD COLUMN progress INTEGER")
                 }
             }
-            val MIGRATION_6_7 = object : Migration(5, 6) {
+            val MIGRATION_6_7 = object : Migration(6, 7) {
                 override fun migrate(database: SupportSQLiteDatabase) {
                     database.execSQL("ALTER TABLE books ADD COLUMN description TEXT")
                 }
