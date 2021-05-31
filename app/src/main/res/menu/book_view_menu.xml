@@ -2,28 +2,36 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Badreads"
-        android:enabled="false"
-        app:showAsAction="never"
-        />
-    <item android:title="Search with Badreads"
-        android:id="@+id/menu_with_badreads"/>
-    <item android:title="External Links"
-        android:enabled="false"
-        app:showAsAction="never"
-        />
     <item android:id="@+id/menu_open_library"
         android:title="OpenLibrary.org"
         android:icon="@drawable/ic_library"
         app:showAsAction="always"
         />
-    <item android:id="@+id/menu_greenlight"
-        android:title="Greenlight Bookstore" />
-    <item android:id="@+id/menu_bookshop"
-        android:title="Bookshop.org"/>
-
+    <item android:title="Badreads"
+        android:enabled="false"
+        app:showAsAction="never"
+        />
     <item android:title="Edit"
         android:id="@+id/menu_edit" android:icon="@drawable/ic_edit_pencil"
         app:showAsAction="always"/>
+    <item android:title="Edit"
+        android:id="@+id/menu_edit_text"
+        app:showAsAction="never"/>
+
+    <item android:title="Search"
+        android:id="@+id/menu_with_badreads"/>
+    <item android:title="Delete" android:id="@+id/menu_delete" android:icon="@drawable/ic_delete_black" app:showAsAction="never"/>
+    <item android:title="External Links"
+        android:enabled="false"
+        app:showAsAction="never"
+        />
+
+    <item android:id="@+id/menu_open_library_text"
+        android:title="OpenLibrary.org"
+        app:showAsAction="never"
+        />
+
+    <item android:id="@+id/menu_greenlight"
+        android:title="Greenlight Bookstore" />
 
 </menu>

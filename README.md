@@ -33,7 +33,6 @@ Copyright 2021 Fenimore Love
 3. Add tag/star to books
 5. Include numbers in bar charts
 6. Make publishers fuzzy match duplicates in Summary of publishers
-7. Import/Export Progress field
 10. Batch Scan!
 8. Version 2: Bookshelf view
 9. Version 2: Login to OpenLibrary/sync shelves

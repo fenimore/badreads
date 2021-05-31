@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -71,7 +72,10 @@ class ChartActivity : AppCompatActivity() {
         // Goals: Year to date read
         findViewById<TextView>(R.id.chart_label_books_to_year).text = "Books ${LocalDate.now().year}:"
         findViewById<TextView>(R.id.chart_bar_years_subtitle).text = "${LocalDate.now().year - 1} - ${LocalDate.now().year}"
-        val yearlyGoal = 52.0.toFloat()
+        val yearlyGoal = (
+                PreferenceManager.getDefaultSharedPreferences(this).getString(
+                        "yearly_goal", "52")?.toInt() ?: 52
+                ).toFloat()
         val goalDonut = findViewById<DonutChartView>(R.id.chart_donut_goal)
         goalDonut.donutColors = intArrayOf(
                 Color.parseColor("#00cbcc"),

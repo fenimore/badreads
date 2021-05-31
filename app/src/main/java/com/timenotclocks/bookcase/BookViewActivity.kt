@@ -1,5 +1,6 @@
 package com.timenotclocks.bookcase
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.annotation.MenuRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.htmlEncode
 import com.google.android.material.snackbar.Snackbar
@@ -67,13 +69,12 @@ class BookViewActivity : AppCompatActivity() {
             Picasso.get().load(it).into(coverView, object : com.squareup.picasso.Callback {
                 override fun onSuccess() {
                     emptyCoverView.visibility = View.INVISIBLE
-                    //coverView.visibility = View.VISIBLE
                 }
 
                 override fun onError(e: java.lang.Exception?) {}
             })
         }
-        emptyCoverView.text = current.titleString()
+        emptyCoverView?.text = current.titleString() + "\n\n" + current.authorString()
         coverView.drawable ?: run {
             emptyCoverView.visibility = View.VISIBLE
         }
@@ -137,7 +138,7 @@ class BookViewActivity : AppCompatActivity() {
                 }
                 startActivity(intent)
             }
-            R.id.menu_edit -> {
+            R.id.menu_edit, R.id.menu_edit_text -> {
                 Log.i(LOG_BOOK_VIEW, "Editing this book")
                 book?.let { it ->
                     val intent = Intent(applicationContext, BookEditActivity::class.java).apply {
@@ -146,16 +147,7 @@ class BookViewActivity : AppCompatActivity() {
                     startActivityForResult(intent, 100)
                 }
             }
-            R.id.menu_bookshop -> {
-                book?.let { b ->
-                    val term = b.isbn13 ?: b.titleString()
-                    val url = "https://bookshop.org/books?keywords=$term"
-                    val i = Intent(Intent.ACTION_VIEW)
-                    i.data = Uri.parse(url)
-                    startActivity(i)
-                }
-            }
-            R.id.menu_open_library -> {
+            R.id.menu_open_library, R.id.menu_open_library_text -> {
                 book?.let{ b ->
                     val term = b.isbn13 ?: b.titleString()
                     val url = "https://openlibrary.org/search?q=$term"
@@ -163,6 +155,26 @@ class BookViewActivity : AppCompatActivity() {
                     i.data = Uri.parse(url)
                     startActivity(i)
                 }
+            }
+            R.id.menu_delete -> {
+                val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                builder.apply {
+                    setPositiveButton("OK",
+                            DialogInterface.OnClickListener { dialog, id ->
+                                // User clicked OK button
+                                book?.let { bookViewModel.delete(it) }
+                                val intent = Intent(applicationContext, BookViewActivity::class.java)
+                                setResult(RESULT_DELETED, intent)
+                                finish();
+                            })
+                    setNegativeButton("CANCEL",
+                            DialogInterface.OnClickListener { dialog, id ->
+                                // User cancelled the dialog
+                            })
+                }
+                builder.setMessage("Delete this book?")
+                builder.create()
+                builder.show()
             }
             R.id.menu_greenlight -> {
                 book?.let { b ->

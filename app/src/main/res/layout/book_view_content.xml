@@ -60,10 +60,9 @@
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
                     android:textAlignment="center"
-                    android:textSize="13dp"
                     android:ellipsize="end"
                     android:hint="Title"
-                    android:textAppearance="@style/TextAppearance.AppTheme.Body1Bold"
+                    android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
                     android:visibility="visible"
                     />
         </RelativeLayout>

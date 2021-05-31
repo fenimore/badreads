@@ -1,6 +1,17 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
+        app:title="Library Settings">
+        <EditTextPreference
+            app:title="Yearly Goal"
+            app:summary="Goal for books read this year"
+            android:inputType="number"
+            app:defaultValue="52"
+            app:dialogTitle="Set Yearly Goal"
+            app:key="yearly_goal"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory
         app:title="User Interface">
         <ListPreference
             app:defaultValue="@string/dark_mode_def_value"

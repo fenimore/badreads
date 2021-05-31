@@ -335,13 +335,13 @@
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@id/book_edit_shelf_dropdown" />
 
-        <androidx.core.widget.NestedScrollView
+<!--        <androidx.core.widget.NestedScrollView
             android:id="@+id/book_edit_description_scroll"
             android:layout_width="0dp"
             android:layout_height="180dp"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_rating_bar">
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_rating_bar">-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/book_edit_description"
@@ -358,19 +358,20 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:lines="5"
+                    android:nestedScrollingEnabled="true"
                     android:textAppearance="@style/TextAppearance.AppTheme.Body2"
                     android:inputType="textCapSentences|textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
-        </androidx.core.widget.NestedScrollView>
-
-        <androidx.core.widget.NestedScrollView
+<!--        <androidx.core.widget.NestedScrollView
             android:id="@+id/book_edit_notes_scroll"
             android:layout_width="0dp"
-            android:layout_height="180dp"
+            android:layout_height="wrap_content"
+            android:maxHeight="180dp"
             android:scrollbars="vertical"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_description_scroll">
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_description_scroll">-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/book_edit_notes"
@@ -383,16 +384,16 @@
                 android:hint="Thoughts"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@id/book_edit_description_scroll">
+                card_view:layout_constraintTop_toBottomOf="@id/book_edit_description">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:lines="5"
+                    android:nestedScrollingEnabled="true"
                     android:textAppearance="@style/TextAppearance.AppTheme.Body2"
                     android:inputType="textCapSentences|textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
-        </androidx.core.widget.NestedScrollView>
-
 
         <TextView
             android:id="@+id/book_edit_date_added_label"
@@ -404,7 +405,7 @@
             android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1Bold"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_notes_scroll" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_notes" />
 
         <DatePicker
             android:id="@+id/book_edit_date_added"
