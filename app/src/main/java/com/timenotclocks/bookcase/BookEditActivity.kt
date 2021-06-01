@@ -237,7 +237,7 @@ class BookEditActivity : AppCompatActivity() {
         val ratingBar = findViewById<RatingBar>(R.id.book_edit_rating_bar)
         current.rating?.let { ratingBar.setRating(it.toFloat()) }
         // TODO Doesn't work
-        ratingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { ratingBar, rating, fromUser ->
+        ratingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { bar, rating, fromUser ->
             current.rating = rating.toInt()
         }
     }

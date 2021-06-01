@@ -46,12 +46,22 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             dark?.summary = dark?.entry
             val tab: ListPreference? = findPreference("landing_tab")
             tab?.summary = tab?.entry
+            tab?.setOnPreferenceChangeListener { preference, newValue ->
+                val tabArray = resources.getStringArray(R.array.tab_array)
+                preference.summary = "${tabArray.get(newValue.toString().toInt())}"
+                true
+            }
 
             val yearlyGoal: EditTextPreference? = findPreference("yearly_goal")
             yearlyGoal?.setOnBindEditTextListener { edit ->
                 edit.inputType = InputType.TYPE_CLASS_NUMBER
             }
             yearlyGoal?.summary = "Goal to read this year: ${yearlyGoal?.text}"
+            yearlyGoal?.setOnPreferenceChangeListener { preference, newValue ->
+                preference.summary = "Goal to read this year: ${newValue}"
+                true
+            }
+
         }
     }
 
