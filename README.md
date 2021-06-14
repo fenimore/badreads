@@ -56,5 +56,7 @@ There seems to be an issue with the first line of the "rows" that are written (a
 
 I hope you enjoy using Badreads for free, ad free, tracking free, and with free software and services.
 Please open an issue if you find a bug, think of a feature, or just want to say something!
+I apologize in advance if my response or implementation is not prompt! But I'd like to get through everything at some point.
 
-If you'd like to support with money, you can buy a tasty beverage for the developer, [@fenimore](https://github.com/fenimore), with **[PayPal](https://www.paypal.com/paypalme/timenotclocks)** or **Venmo** at `@timenotclocks`
+If you'd like to support with money, maybe buy a tasty beverage for the developer, [@fenimore](https://github.com/fenimore),
+you can send it with **[PayPal](https://www.paypal.com/paypalme/timenotclocks)** or **Venmo** at `@timenotclocks`, thank you!
