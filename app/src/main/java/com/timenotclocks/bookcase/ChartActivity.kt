@@ -4,14 +4,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.widget.ArrayAdapter
+import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.db.williamchart.view.BarChartView
 import com.db.williamchart.view.DonutChartView
 import com.db.williamchart.view.HorizontalBarChartView
@@ -32,15 +31,26 @@ class ChartActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         bookViewModel.booksReadAllTime().observe(this, { observable ->
-            findViewById<TextView>(R.id.chart_books_all_time).text = String.format("%,d", observable)
+            findViewById<TextView>(R.id.chart_books_all_time).text = observable?.let {
+                String.format("%,d", it)
+            } ?: "0"
         })
         bookViewModel.averagePageNumbersReadAllTime().observe(this, { observable ->
-            findViewById<TextView>(R.id.chart_books_average_page).text = String.format("%,d", observable)
+            findViewById<TextView>(R.id.chart_books_average_page).text = observable?.let {
+                String.format("%,d", it)
+            } ?: "0"
         })
         bookViewModel.sumPageNumbersReadAllTime().observe(this, { observable ->
-            findViewById<TextView>(R.id.chart_books_sum_page).text = String.format("%,d", observable)
+            findViewById<TextView>(R.id.chart_books_sum_page).text =
+                    observable?.let {
+                        String.format("%,d", it)
+                    } ?: "0"
         })
 
+        val readPubBtn = findViewById<Button>(R.id.chart_button_read_publishers)
+        readPubBtn.setOnClickListener { view ->
+
+        }
         bookViewModel.topPublishers().observe(this, { observable: List<PublisherCount> ->
             Log.d(LOG_TAG, "Listing the best publishers")
             val horizontalBarSet = observable.map{
@@ -62,11 +72,15 @@ class ChartActivity : AppCompatActivity() {
             )
             val monthlyBar = findViewById<BarChartView>(R.id.chart_bar_monthly_read)
             monthlyBar.animation.duration = animationDuration
-            monthlyBar.animate(observable.map{
-                Log.d(LOG_TAG, mapLabels.toString() + mapLabels["01"])
-                val label: String = mapLabels[it.label].orEmpty()
-                Pair<String, Float>(label, it.value )
-            })
+            val filledMonths = observable.map { it.label to it.value }.toMap()
+            val oneYearAgo = LocalDate.now().minusMonths(12)
+
+            val monthlyData = (1..12).map {
+                val label = oneYearAgo.plusMonths(it.toLong()).monthValue.toString().padStart(2, '0')
+                val value = filledMonths.getOrDefault(label, 0F)
+                Pair(mapLabels[label].orEmpty(), value)
+            }
+            monthlyBar.animate(monthlyData)
         })
 
         // Goals: Year to date read
@@ -91,6 +105,7 @@ class ChartActivity : AppCompatActivity() {
             goalDonut.animate(listOf(percentComplete, 100F))
         })
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -99,5 +114,4 @@ class ChartActivity : AppCompatActivity() {
         }
         return true
     }
-
 }

@@ -204,6 +204,7 @@
             card_view:contentPadding="10dp"
             card_view:contentPaddingBottom="16dp">
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/tableLayout"
                 android:layout_width="match_parent"
@@ -214,12 +215,31 @@
                     style="@style/TextAppearance.AppTheme.Headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:paddingLeft="8dp"
                     android:paddingTop="10dp"
                     android:text="Overview"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_weight="1"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/chart_button_read_publishers"
+                    android:text="Read"
+                    app:iconPadding="0dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minWidth="36dp"
+                    android:minHeight="36dp"
+                    app:cornerRadius="15dp"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    />
 
                 <TextView
                     android:id="@+id/chart_label_books_all_time"
@@ -313,15 +333,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <TextView
                     style="@style/TextAppearance.AppTheme.Headline6"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
-                    android:text="Top Publishers" />
+                    android:text="Top Publishers"
+                    android:layout_weight="1"/>
+
 
                 <com.db.williamchart.view.HorizontalBarChartView
                     android:id="@+id/chart_publishers_horizontal_bar"
@@ -329,7 +352,7 @@
                     android:layout_height="500dp"
                     android:paddingLeft="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="12dp"
                     app:chart_axis="y"
                     app:chart_barsColor="@color/primaryColor"
                     app:chart_barsRadius="4dp"

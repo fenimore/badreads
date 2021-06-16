@@ -34,6 +34,7 @@ Copyright 2021 Fenimore Love
 5. Include numbers in bar charts
 6. Make publishers fuzzy match duplicates in Summary of publishers
 10. Batch Scan!
+11. Long press the chart to set goal
 8. Version 2: Bookshelf view
 9. Version 2: Login to OpenLibrary/sync shelves
 
