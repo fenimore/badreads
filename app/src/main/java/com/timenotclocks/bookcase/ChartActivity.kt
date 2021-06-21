@@ -4,12 +4,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.PopupMenu
 import androidx.preference.PreferenceManager
 import com.db.williamchart.view.BarChartView
 import com.db.williamchart.view.DonutChartView
@@ -47,10 +44,6 @@ class ChartActivity : AppCompatActivity() {
                     } ?: "0"
         })
 
-        val readPubBtn = findViewById<Button>(R.id.chart_button_read_publishers)
-        readPubBtn.setOnClickListener { view ->
-
-        }
         bookViewModel.topPublishers().observe(this, { observable: List<PublisherCount> ->
             Log.d(LOG_TAG, "Listing the best publishers")
             val horizontalBarSet = observable.map{
@@ -78,7 +71,8 @@ class ChartActivity : AppCompatActivity() {
             val monthlyData = (1..12).map {
                 val label = oneYearAgo.plusMonths(it.toLong()).monthValue.toString().padStart(2, '0')
                 val value = filledMonths.getOrDefault(label, 0F)
-                Pair(mapLabels[label].orEmpty(), value)
+                val mapLabel = mapLabels[label].orEmpty()
+                Pair(mapLabel, value)
             }
             monthlyBar.animate(monthlyData)
         })

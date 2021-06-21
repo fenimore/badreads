@@ -222,25 +222,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:layout_weight="1"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_gravity="right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/chart_button_read_publishers"
-                    android:text="Read"
-                    app:iconPadding="0dp"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:minWidth="36dp"
-                    android:minHeight="36dp"
-                    app:cornerRadius="15dp"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintTop_toTopOf="parent"
-                    />
-
                 <TextView
                     android:id="@+id/chart_label_books_all_time"
                     style="@style/TextAppearance.AppTheme.Subtitle1Chart"
@@ -271,7 +252,7 @@
                     style="@style/TextAppearance.AppTheme.Subtitle1Chart"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Average Number of Pages"
+                    android:text="Average Pages"
                     app:layout_constraintEnd_toStartOf="@+id/chart_books_average_page"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chart_label_books_all_time"
@@ -295,7 +276,7 @@
                     style="@style/TextAppearance.AppTheme.Subtitle1Chart"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Total Pages Read"
+                    android:text="Total Pages"
                     app:layout_constraintEnd_toStartOf="@+id/chart_books_sum_page"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chart_label_books_average_page"
@@ -343,8 +324,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:text="Top Publishers"
-                    android:layout_weight="1"/>
-
+                    android:layout_weight="1" />
 
                 <com.db.williamchart.view.HorizontalBarChartView
                     android:id="@+id/chart_publishers_horizontal_bar"

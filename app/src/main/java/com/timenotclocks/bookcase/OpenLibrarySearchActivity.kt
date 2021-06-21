@@ -78,16 +78,19 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
             progressBar: ProgressBar?,
             numResultsView: TextView?,
             manualBtn: MaterialButton?,
+            recyclerView: RecyclerView?,
     ) {
         openLibraryViewModel.numResults.observe(this, Observer<Int> {
             progressBar?.visibility = View.GONE
+            recyclerView?.visibility = View.VISIBLE
             it?.let {
+                val searchHeader = numResultsView?.text
                 when {
                     it > MAX_SEARCH_RESULTS -> {
-                        numResultsView?.text = "Showing $MAX_SEARCH_RESULTS results of $it"
+                        numResultsView?.text = "$searchHeader ($MAX_SEARCH_RESULTS results of $it)"
                     }
                     it > 0 -> {
-                        numResultsView?.text = "Showing $it results"
+                        numResultsView?.text = "$searchHeader ($it results)"
                     }
                     it == 0 -> {
                         Log.d(LOG_TAG, "No Result")
@@ -114,6 +117,7 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
                     assignManual(false, it)
                 }
                 searchView.clearFocus()
+                recyclerView?.visibility = View.GONE
                 progressBar?.visibility = View.VISIBLE
                 manualBtn?.visibility = View.INVISIBLE
                 return true
@@ -150,8 +154,9 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
         val progressBar = findViewById<ProgressBar>(R.id.search_progress_bar)
         val numResultsView = findViewById<TextView>(R.id.num_results_view)
         val manualBtn = findViewById<MaterialButton>(R.id.search_button_add_manual)
+        val recyclerView = findViewById<RecyclerView>(R.id.search_result_view)
         assignManual(false, null)
-        searchOpenLibrary(searchView, progressBar, numResultsView, manualBtn)
+        searchOpenLibrary(searchView, progressBar, numResultsView, manualBtn, recyclerView)
         numResultsView.text = "Search OpenLibrary.org"
 
         if (intent.getBooleanExtra(EXTRA_SCAN, false)) {
@@ -202,6 +207,7 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
             openLibraryViewModel.searchOpenLibrary(barcode)
             findViewById<ProgressBar>(R.id.search_progress_bar)?.visibility = View.VISIBLE
             findViewById<MaterialButton>(R.id.search_button_add_manual)?.visibility = View.INVISIBLE
+            findViewById<RecyclerView>(R.id.search_result_view)?.visibility = View.INVISIBLE
             assignManual(true, barcode)
         }
 
