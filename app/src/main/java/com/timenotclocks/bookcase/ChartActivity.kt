@@ -75,6 +75,7 @@ class ChartActivity : AppCompatActivity() {
                 Pair(mapLabel, value)
             }
             monthlyBar.animate(monthlyData)
+            Log.i("BookChart", filledMonths.toString())
         })
 
         // Goals: Year to date read

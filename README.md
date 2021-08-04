@@ -49,9 +49,7 @@ Copyright 2021 Fenimore Love
 
 ## Known Bugs:
 
-1. Deleting data directly after exporting, and then importing that same csv will break the CSV.
-There seems to be an issue with the first line of the "rows" that are written (after the headers).
-3. When moving export and import to settings, it doesn't succeed in creating new files
+1. When moving export and import to settings, it doesn't succeed in creating new files
 
 ## Support Badreads
 
