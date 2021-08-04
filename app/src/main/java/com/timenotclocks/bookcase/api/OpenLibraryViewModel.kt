@@ -53,7 +53,7 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
         Log.i(LOG_EDIT, "Searching with API $url")
         val stringRequest = StringRequest(Request.Method.GET, url,
                 { response ->
-
+                    Log.i(TAG_NEW, response.toString())
                     val result = Klaxon().parseJsonObject(StringReader(response))
                     Log.i(TAG_NEW, "Found some JSON ${result.keys.firstOrNull()}")
                     Log.i(TAG_NEW, result.toJsonString())

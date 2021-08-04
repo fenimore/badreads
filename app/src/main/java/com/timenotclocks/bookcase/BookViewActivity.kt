@@ -14,7 +14,6 @@ import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.htmlEncode
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.database.*
@@ -45,8 +44,10 @@ class BookViewActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         intent.extras?.getLong(EXTRA_ID)?.let { id ->
             bookViewModel.getBook(id).observe(this, { observable ->
-                book = observable
-                populateViews(observable)
+                observable?.let {
+                    book = it
+                    populateViews(it)
+                }
             })
         }
     }
@@ -55,8 +56,10 @@ class BookViewActivity : AppCompatActivity() {
         super.onResume()
         intent.extras?.getLong(EXTRA_ID)?.let { id ->
             bookViewModel.getBook(id).observe(this, { observable ->
-                book = observable
-                populateViews(observable)
+                observable?.let {
+                    book = it
+                    populateViews(it)
+                }
             })
         }
     }
@@ -163,7 +166,7 @@ class BookViewActivity : AppCompatActivity() {
                             DialogInterface.OnClickListener { dialog, id ->
                                 // User clicked OK button
                                 book?.let { bookViewModel.delete(it) }
-                                val intent = Intent(applicationContext, BookViewActivity::class.java)
+                                val intent = Intent(applicationContext, MainActivity::class.java)
                                 setResult(RESULT_DELETED, intent)
                                 finish();
                             })
@@ -198,7 +201,7 @@ class BookViewActivity : AppCompatActivity() {
             RESULT_OK -> {
                 intent.extras?.getLong(EXTRA_ID)?.let { bookId ->
                     bookViewModel.getBook(bookId).observe(this, { observable ->
-                        populateViews(observable)
+                        observable?.let{populateViews(it)}
                     })
                 }
                 Snackbar.make(
@@ -206,13 +209,10 @@ class BookViewActivity : AppCompatActivity() {
                         "Book information has been saved", Snackbar.LENGTH_LONG
                 ).setAction("Action", null).show()
             }
-            RESULT_DELETED -> {
-                finish()
-            }
             RESULT_CANCELED -> {
                 intent.extras?.getLong(EXTRA_ID)?.let { bookId ->
                     bookViewModel.getBook(bookId).observe(this, { observable ->
-                        populateViews(observable)
+                        observable?.let{populateViews(it)}
                     })
                 }
             }

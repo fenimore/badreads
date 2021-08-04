@@ -260,7 +260,7 @@ class BookEditActivity : AppCompatActivity() {
                             DialogInterface.OnClickListener { dialog, id ->
                                 // User clicked OK button
                                 book?.let { bookViewModel.delete(it) }
-                                val intent = Intent(applicationContext, BookViewActivity::class.java)
+                                val intent = Intent(applicationContext, MainActivity::class.java)
                                 setResult(RESULT_DELETED, intent)
                                 finish();
                             })
