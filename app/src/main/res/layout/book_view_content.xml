@@ -112,20 +112,6 @@
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/book_view_subtitle" />
 
-        <ImageView
-            android:src="@android:drawable/divider_horizontal_dark"
-            android:layout_marginTop="20dp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingBottom="2dp"
-            android:paddingTop="16dp"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_isbn10"
-            />
 
         <TextView
             android:id="@+id/book_view_year"
@@ -194,6 +180,42 @@
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toBottomOf="@id/book_view_isbn10"
             />
+        <TextView
+            android:id="@+id/book_view_series"
+            android:layout_marginTop="6dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Caption"
+            card_view:layout_constraintStart_toEndOf="@+id/book_view_language"
+            card_view:layout_constraintEnd_toEndOf="parent"
+
+            card_view:layout_constraintTop_toBottomOf="@id/book_view_progress"
+            />
+
+        <TextView
+            android:id="@+id/book_view_language"
+            android:layout_marginTop="6dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Caption"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toStartOf="@+id/book_view_series"
+            card_view:layout_constraintTop_toBottomOf="@id/book_view_page_number" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="16dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="2dp"
+            android:scaleType="fitXY"
+            android:src="@android:drawable/divider_horizontal_dark"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_language" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/book_view_shelf_dropdown"
             android:layout_width="wrap_content"
@@ -206,7 +228,7 @@
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
             card_view:cornerRadius="15dp"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_page_number"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_language"
             android:text="Shelve Book"
             />
 

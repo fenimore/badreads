@@ -71,7 +71,9 @@ class BookEditActivity : AppCompatActivity() {
                         book?.publisher != details.publisher ?: book?.publisher ||
                         book?.year != details.publishYear ?: book?.year ||
                         book?.numberPages != details.numberPages ?: book?.numberPages ||
-                        book?.description != details.description ?: book?.description
+                        book?.description != details.description ?: book?.description ||
+                        book?.series != details.series ?: book?.series ||
+                        book?.language != details.language ?: book?.language
                         ) {
                     Snackbar.make(
                             findViewById(R.id.book_edit_activity),
@@ -84,6 +86,8 @@ class BookEditActivity : AppCompatActivity() {
                     book?.year = details.publishYear ?: book?.year
                     book?.numberPages = details.numberPages ?: book?.numberPages
                     book?.description = details.description ?: book?.description
+                    book?.series = details.series ?: book?.series
+                    book?.language = details.language ?: book?.language
                     book?.let { populateViews(it) }
                 } else {
                     Snackbar.make(
@@ -179,6 +183,14 @@ class BookEditActivity : AppCompatActivity() {
             }
         }
 
+        val seriesEdit = findViewById<TextInputLayout>(R.id.book_edit_series).editText
+        current.series?.let { seriesEdit?.setText(it) }
+        seriesEdit?.doAfterTextChanged { editable -> current.series = editable.toString().ifEmpty { null } }
+
+        val languageEdit = findViewById<TextInputLayout>(R.id.book_edit_language).editText
+        current.language?.let { languageEdit?.setText(it) }
+        languageEdit?.doAfterTextChanged { editable -> current.language = editable.toString().ifEmpty { null } }
+        
         val dateAddedView = findViewById<DatePicker>(R.id.book_edit_date_added)
         val dateAdded = current.dateAdded?.let { LocalDate.ofEpochDay(it) } ?: LocalDate.now()
         dateAddedView.init(dateAdded.year, dateAdded.monthValue - 1, dateAdded.dayOfMonth, object : DatePicker.OnDateChangedListener {

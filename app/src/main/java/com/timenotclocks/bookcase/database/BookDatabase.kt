@@ -51,9 +51,11 @@ static final Migration MIGRATION_2_3 = new Migration(2, 3) {
  * This is the backend. The database. This used to be done by the OpenHelper.
  * The fact that this has very few comments emphasizes its coolness.
  */
-@Database(entities = [
-    Book::class, BooksFts::class
-], version = 7)
+@Database(
+    entities = [
+        Book::class, BooksFts::class
+    ], version = 8
+)
 abstract class BookDatabase : RoomDatabase() {
 
     abstract fun bookDao(): BookDao
@@ -79,14 +81,26 @@ abstract class BookDatabase : RoomDatabase() {
                     database.execSQL("ALTER TABLE books ADD COLUMN description TEXT")
                 }
             }
+            val MIGRATION_7_8 = object : Migration(7, 8) {
+                override fun migrate(database: SupportSQLiteDatabase) {
+                    database.execSQL(
+                        "ALTER TABLE books ADD COLUMN series TEXT;"
+                    )
+                    database.execSQL(
+                        "ALTER TABLE books ADD COLUMN language TEXT;"
+                    )
+                }
+            }
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        BookDatabase::class.java,
-                        "books"
-                ).addMigrations(MIGRATION_5_6, MIGRATION_6_7)
-                    .addCallback(BookDatabaseCallback(scope))
-                    .build()
+                    context.applicationContext,
+                    BookDatabase::class.java,
+                    "books"
+                ).addMigrations(
+                    MIGRATION_5_6,
+                    MIGRATION_6_7,
+                    MIGRATION_7_8
+                ).addCallback(BookDatabaseCallback(scope)).build()
                 INSTANCE = instance
                 // return instance
                 instance

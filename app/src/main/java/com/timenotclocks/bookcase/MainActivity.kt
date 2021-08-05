@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity()  {
         startActivity(intent)
         */
         // Dark Money
-        //val intent = Intent(applicationContext, BookViewActivity::class.java).apply {putExtra(EXTRA_ID, 262.toLong())}
+        // val intent = Intent(applicationContext, BookViewActivity::class.java).apply {putExtra(EXTRA_ID, 683.toLong())}
         //val intent = Intent(applicationContext, SettingsActivity::class.java)
         // val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
         //val intent = Intent(applicationContext, ChartActivity::class.java)

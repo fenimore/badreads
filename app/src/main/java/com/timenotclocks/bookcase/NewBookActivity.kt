@@ -50,6 +50,8 @@ class NewBookActivity : AppCompatActivity() {
                 newBook?.year = details.publishYear ?: newBook?.year
                 newBook?.numberPages = details.numberPages ?: newBook?.numberPages
                 newBook?.description = details.description ?: newBook?.description
+                newBook?.series = details.series ?: newBook?.series
+                newBook?.language = details.language ?: newBook?.language
                 newBook?.let{ displayNewBook(it) }
             }
         })
@@ -141,6 +143,8 @@ class NewBookActivity : AppCompatActivity() {
         current.publisher?.let { findViewById<TextView>(R.id.new_book_publisher).text = it }
         current.dateAdded = LocalDate.now().toEpochDay()
         findViewById<TextView>(R.id.new_book_page_numbers).text = current.numberPages.let {"Pages: $it"}
+        findViewById<TextView>(R.id.new_book_series).text = current.series?.let {  "Series: $it" }
+        findViewById<TextView>(R.id.new_book_language).text = current.language?.let {  "Language: $it" }
 
         val shelfDropdown = findViewById<MaterialButton>(R.id.new_book_shelf_dropdown)
         shelfDropdown.text = current.shelf

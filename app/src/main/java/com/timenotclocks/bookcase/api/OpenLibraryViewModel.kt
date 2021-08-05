@@ -27,12 +27,14 @@ const val MAX_SEARCH_RESULTS = 100
 const val LOG_LIB = "BookOpenLib"
 
 data class BookDetails(
-        val isbn13: String?,
-        val isbn10: String?,
-        val publisher: String?,
-        val publishYear: Int?,
-        val numberPages: Int?,
-        val description: String?,
+    val isbn13: String?,
+    val isbn10: String?,
+    val publisher: String?,
+    val publishYear: Int?,
+    val numberPages: Int?,
+    val description: String?,
+    val series: String?,
+    val language: String?,
 )
 
 
@@ -61,17 +63,33 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                     val details: JsonObject? = result.keys.firstOrNull()?.let { key ->
                         result.getOrDefault(key, JsonObject()) as JsonObject
                     }?.getOrDefault("details", JsonObject()) as JsonObject
-                    val publisher: String? = (details?.get("publishers") as JsonArray<String>?)?.firstOrNull()
-                    val isbn13: String? = (details?.get("isbn_13") as JsonArray<String>?)?.firstOrNull()
-                    val isbn10: String? = (details?.get("isbn_10") as JsonArray<String>?)?.firstOrNull()
+                    val publisher: String? =
+                        (details?.get("publishers") as JsonArray<String>?)?.firstOrNull()
+                    val isbn13: String? =
+                        (details?.get("isbn_13") as JsonArray<String>?)?.firstOrNull()
+                    val isbn10: String? =
+                        (details?.get("isbn_10") as JsonArray<String>?)?.firstOrNull()
                     val description: String? = (details?.get("description")) as? String
                     val numPages: Int? = details?.get("number_of_pages") as? Int
                     val publishYear: Int? = (details?.get("publish_date") as? String)?.let {
                         Regex("""\b\d{4}\b""").find(it)
                     }?.value?.toIntOrNull()
+                    val series: String? =
+                        (details?.get("series") as JsonArray<String>?)?.firstOrNull()
+                    val language: String? = (details?.get("languages") as JsonArray<JsonObject>?)?.firstOrNull()?.get("key") as? String
+                    // TODO: make human friendly https://openlibrary.org/languages
                     Log.i(LOG_LIB, "Okay so I've $publisher $isbn10 $isbn13 $numPages $publishYear")
                     Log.i(LOG_LIB, "Description: $description")
-                    bookDetails.value = BookDetails(isbn13, isbn10, publisher, publishYear, numPages, description)
+                    bookDetails.value = BookDetails(
+                        isbn13,
+                        isbn10,
+                        publisher,
+                        publishYear,
+                        numPages,
+                        description,
+                        series,
+                        language?.replace("/languages/", "")?.capitalize(),
+                    )
                 },
                 {
                     Log.e("BK", "Volley Error $it")
@@ -123,25 +141,27 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
             val bookList: List<Book>? = isbnArray?.filter { it.length > 10 }?.let { isbn13s ->
                 isbn13s.map { isbn13 ->
                     Book(
-                            bookId = 0,
-                            title = result["title"].toString(),
-                            subtitle = result["subtitle"] as? String,
-                            isbn10 = null,
-                            isbn13 = isbn13,
-                            author = author,
-                            authorExtras = authorExtras,
-                            publisher = null,
-                            year = null,
-                            originalYear = originalYear,
-                            numberPages = null,
-                            progress = null,
-                            rating = null,
-                            shelf = "to-read",
-                            notes = null,
-                            description = null,
-                            dateAdded = LocalDate.now().toEpochDay(),
-                            dateRead = null,
-                            dateStarted = null,
+                        bookId = 0,
+                        title = result["title"].toString(),
+                        subtitle = result["subtitle"] as? String,
+                        isbn10 = null,
+                        isbn13 = isbn13,
+                        author = author,
+                        authorExtras = authorExtras,
+                        publisher = null,
+                        year = null,
+                        originalYear = originalYear,
+                        numberPages = null,
+                        progress = null,
+                        series = null,
+                        language = null,
+                        rating = null,
+                        shelf = "to-read",
+                        notes = null,
+                        description = null,
+                        dateAdded = LocalDate.now().toEpochDay(),
+                        dateRead = null,
+                        dateStarted = null,
                     )
                 }
             }
