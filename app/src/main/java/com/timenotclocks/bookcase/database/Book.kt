@@ -20,8 +20,6 @@ package com.timenotclocks.bookcase.database
 
 import android.widget.Button
 import androidx.room.*
-import com.beust.klaxon.Converter
-import com.beust.klaxon.JsonValue
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -46,26 +44,26 @@ enum class SortColumn(val column: String) {
         indices = arrayOf(Index(value = ["title", "author"], unique = true)),
 )
 data class Book(
-        @PrimaryKey(autoGenerate = true) var bookId: Long,
-        @ColumnInfo(name = "title") var title: String,
-        @ColumnInfo(name = "subtitle") var subtitle: String?,
-        @ColumnInfo(name = "isbn10") var isbn10: String?,
-        @ColumnInfo(name = "isbn13") var isbn13: String?,
-        @ColumnInfo(name = "author") var author: String?,
-        @ColumnInfo(name = "authorExtras") var authorExtras: String?,
-        @ColumnInfo(name = "publisher") var publisher: String?,
-        @ColumnInfo(name = "year") var year: Int?,
-        @ColumnInfo(name = "originalYear") var originalYear: Int?,
-        @ColumnInfo(name = "numberPages") var numberPages: Int?,
-        @ColumnInfo(name = "progress") var progress: Int?,
-        @ColumnInfo(name = "dateAdded") var dateAdded: Long?,
-        @ColumnInfo(name = "dateStarted") var dateStarted: Long?,
-        @ColumnInfo(name = "dateRead") var dateRead: Long?,
-        // create column for every shelf added
-        @ColumnInfo(name = "rating") var rating: Int?,
-        @ColumnInfo(name = "shelf") var shelf: String,
-        @ColumnInfo(name = "description") var description: String?,
-        @ColumnInfo(name = "notes") var notes: String?
+    @PrimaryKey(autoGenerate = true) var bookId: Long,
+    @ColumnInfo(name = "title") var title: String,
+    @ColumnInfo(name = "subtitle") var subtitle: String?,
+    @ColumnInfo(name = "isbn10") var isbn10: String?,
+    @ColumnInfo(name = "isbn13") var isbn13: String?,
+    @ColumnInfo(name = "author") var author: String?,
+    @ColumnInfo(name = "authorExtras") var authorExtras: String?,
+    @ColumnInfo(name = "publisher") var publisher: String?,
+    @ColumnInfo(name = "year") var year: Int?,
+    @ColumnInfo(name = "originalYear") var originalYear: Int?,
+    @ColumnInfo(name = "numberPages") var numberPages: Int?,
+    @ColumnInfo(name = "progress") var progress: Int?,
+    @ColumnInfo(name = "dateAdded") var dateAdded: Long?,
+    @ColumnInfo(name = "dateStarted") var dateStarted: Long?,
+    @ColumnInfo(name = "dateRead") var dateRead: Long?,
+    // create column for every shelf added
+    @ColumnInfo(name = "rating") var rating: Int?,
+    @ColumnInfo(name = "shelf") var shelf: String,
+    @ColumnInfo(name = "description") var description: String?,
+    @ColumnInfo(name = "notes") var notes: String?
 ) {
     fun cover(size: String = "M"): String? {
         val isbn = isbn13 ?: isbn10
@@ -157,25 +155,25 @@ fun fakeBook(
         publisher: String? = null,
 ): Book {
     return Book(
-            bookId = id,
-            title = title,
-            subtitle = "How Subs Change Books",
-            isbn10 = "0123456789",
-            isbn13 = isbn13,
-            author = author,
-            authorExtras = authorExtras,
-            publisher = publisher,
-            year = year,
-            originalYear = 2010,
-            numberPages = 290,
-            progress = null,
-            rating = null,
-            shelf = "currently-reading",
-            description = null,
-            notes = null,
-            dateAdded = LocalDate.now().toEpochDay(),
-            dateStarted = null,
-            dateRead = null,
+        bookId = id,
+        title = title,
+        subtitle = "How Subs Change Books",
+        isbn10 = "0123456789",
+        isbn13 = isbn13,
+        author = author,
+        authorExtras = authorExtras,
+        publisher = publisher,
+        year = year,
+        originalYear = 2010,
+        numberPages = 290,
+        progress = null,
+        rating = null,
+        shelf = "currently-reading",
+        description = null,
+        notes = null,
+        dateAdded = LocalDate.now().toEpochDay(),
+        dateStarted = null,
+        dateRead = null,
     )
 }
 
