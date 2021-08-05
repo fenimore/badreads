@@ -287,7 +287,11 @@ class MainActivity : AppCompatActivity()  {
                     observable?.let { allBooks ->
                         contentResolver.openOutputStream(uri)?.let { outputStream ->
                             Exporter().csv(outputStream, allBooks)
-                            // toast
+                            Snackbar.make(
+                                findViewById(R.id.activity_main_layout),
+                                "Library Exported to Downloads Folder",
+                                Snackbar.LENGTH_LONG
+                            ).show()  // TODO: share action? .setAction("Action", null)
                         }
                     }
                 })
