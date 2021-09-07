@@ -211,6 +211,11 @@ class BookViewActivity : AppCompatActivity() {
                         "Book information has been saved", Snackbar.LENGTH_LONG
                 ).setAction("Action", null).show()
             }
+            RESULT_DELETED -> {
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                setResult(RESULT_DELETED, intent)
+                finish()
+            }
             RESULT_CANCELED -> {
                 intent.extras?.getLong(EXTRA_ID)?.let { bookId ->
                     bookViewModel.getBook(bookId).observe(this, { observable ->

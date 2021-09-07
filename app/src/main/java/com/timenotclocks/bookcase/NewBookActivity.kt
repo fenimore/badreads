@@ -142,7 +142,7 @@ class NewBookActivity : AppCompatActivity() {
         }
         current.publisher?.let { findViewById<TextView>(R.id.new_book_publisher).text = it }
         current.dateAdded = LocalDate.now().toEpochDay()
-        findViewById<TextView>(R.id.new_book_page_numbers).text = current.numberPages.let {"Pages: $it"}
+        findViewById<TextView>(R.id.new_book_page_numbers).text = current.numberPages?.let {"Pages: $it"}
         findViewById<TextView>(R.id.new_book_series).text = current.series?.let {  "Series: $it" }
         findViewById<TextView>(R.id.new_book_language).text = current.language?.let {  "Language: $it" }
 

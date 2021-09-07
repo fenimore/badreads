@@ -140,7 +140,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
                 android:hint="Description"
-                android:textAppearance="@style/TextAppearance.AppTheme.Body1"
+                android:textAppearance="@style/TextAppearance.AppTheme.Caption"
                 android:textIsSelectable="true"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
@@ -155,6 +155,7 @@
                 android:hint="Page Numbers"
                 android:textAppearance="@style/TextAppearance.AppTheme.Caption"
                 android:textIsSelectable="true"
+                card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@id/new_book_description" />
 
@@ -167,6 +168,7 @@
                 android:hint="Series"
                 android:textAppearance="@style/TextAppearance.AppTheme.Caption"
                 android:textIsSelectable="true"
+                card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="@id/new_book_page_numbers"
                 card_view:layout_constraintTop_toBottomOf="@+id/new_book_page_numbers" />
 
@@ -180,8 +182,8 @@
                 android:textAppearance="@style/TextAppearance.AppTheme.Caption"
                 android:textIsSelectable="true"
                 card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintStart_toEndOf="@id/new_book_series"
-                card_view:layout_constraintTop_toBottomOf="@id/new_book_page_numbers" />
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@id/new_book_series" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
