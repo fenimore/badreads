@@ -20,6 +20,7 @@ class GoodReadImport {
             val fullTitle = row.get("Title") ?: continue  // TODO Add subtitle
             var title: String = fullTitle
             var subtitle: String? = null
+            var cover: String? = null
             if (title.contains(":")) {
                 title = fullTitle.split(":").first().trim()
                 subtitle = fullTitle.split(":")[1].trim()
@@ -39,6 +40,7 @@ class GoodReadImport {
                 bookId = 0,
                 title = title,
                 subtitle = subtitle,
+                cover = "",
                 isbn10 = isbn10,
                 isbn13 = isbn13,
                 selfLink = null,

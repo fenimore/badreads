@@ -1,10 +1,13 @@
 package com.timenotclocks.bookcase
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.util.Size
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -12,8 +15,10 @@ import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.annotation.MenuRes
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.database.*
@@ -37,6 +42,7 @@ class BookViewActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_view)
@@ -52,6 +58,7 @@ class BookViewActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onResume() {
         super.onResume()
         intent.extras?.getLong(EXTRA_ID)?.let { id ->
@@ -64,18 +71,25 @@ class BookViewActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun populateViews(current: Book) {
         supportActionBar?.title = current.title
         val coverView = findViewById<ImageView>(R.id.book_view_cover_image)
         val emptyCoverView = findViewById<TextView>(R.id.book_view_empty_cover)
         current.cover("L").let {
-            Picasso.get().load(it).into(coverView, object : com.squareup.picasso.Callback {
-                override fun onSuccess() {
-                    emptyCoverView.visibility = View.INVISIBLE
-                }
+            val itUri = it?.toUri()
+            val thumbnail =
+                itUri?.let { it1 -> (this as Context).contentResolver.loadThumbnail(it1, Size(180, 180), null) }
 
-                override fun onError(e: java.lang.Exception?) {}
-            })
+            coverView.setImageBitmap(thumbnail)
+            emptyCoverView.visibility = View.INVISIBLE
+
+//            Picasso.get().load(it).into(coverView, object : com.squareup.picasso.Callback {
+//                override fun onSuccess() {
+//                    emptyCoverView.visibility = View.INVISIBLE
+//                }
+//                override fun onError(e: java.lang.Exception?) {}
+//            })
         }
         emptyCoverView?.text = current.titleString() + "\n\n" + current.authorString()
         coverView.drawable ?: run {
@@ -199,6 +213,7 @@ class BookViewActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.i(TAG_NEW, "FFF BookViewActivity onActivityResult data: $data")
         when (resultCode) {
             RESULT_OK -> {
                 intent.extras?.getLong(EXTRA_ID)?.let { bookId ->

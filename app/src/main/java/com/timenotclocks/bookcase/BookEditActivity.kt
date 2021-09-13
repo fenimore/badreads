@@ -4,7 +4,6 @@ package com.timenotclocks.bookcase
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -16,15 +15,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
-import com.beust.klaxon.Klaxon
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.api.OpenLibraryViewModel
 import com.timenotclocks.bookcase.database.*
-import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
 import java.time.LocalDate
 
 
@@ -336,5 +332,14 @@ class BookEditActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == 100) {
+            Log.i(TAG_NEW, "FFF BookEditActivity onActivityResult data: $data")
+            Log.i(TAG_NEW, "FFF BookEditActivity onActivityResult data.data: $data.data")
+//            doSomeOperations()
+        }
     }
 }

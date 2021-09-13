@@ -18,7 +18,14 @@
 
 package com.timenotclocks.bookcase.database
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Build
+import android.util.Size
 import android.widget.Button
+import androidx.annotation.RequiresApi
+import androidx.core.net.toUri
 import androidx.room.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -47,6 +54,7 @@ data class Book(
     @PrimaryKey(autoGenerate = true) var bookId: Long,
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "subtitle") var subtitle: String?,
+    @ColumnInfo(name = "cover") var cover: String?,
     @ColumnInfo(name = "isbn10") var isbn10: String?,
     @ColumnInfo(name = "isbn13") var isbn13: String?,
     @ColumnInfo(name = "selfLink") var selfLink: String?,
@@ -68,12 +76,20 @@ data class Book(
     @ColumnInfo(name = "description") var description: String?,
     @ColumnInfo(name = "notes") var notes: String?
 ) {
-    fun cover(size: String = "M"): String? {
-        val isbn = isbn13 ?: isbn10
-        if (isbn.isNullOrBlank()) {
-            return null
+    fun cover(size: String = "thumbnail"): String? {
+////        val isbn = isbn13 ?: isbn10
+//        if (size == "thumbnail") {
+//            // Load thumbnail of a specific media item.
+//            val coverUri = cover?.toUri()
+//            val thumbnail = getContentResolver().loadThumbnail(coverUri, Size(480, 480), null)
+//            return thumbnail
+//        }
+        if (cover.isNullOrBlank()) run {
+            cover = "content://com.timenotclocks.bookcase.fileprovider/book_cover_images/Android/data/com.timenotclocks.bookcase/files/Pictures/BookCoverPhoto-20210913_220545.jpg"
         }
-        return "https://covers.openlibrary.org/b/isbn/$isbn-$size.jpg?default=false"
+        return cover
+//        return "content://com.timenotclocks.bookcase.fileprovider/my_images/Android/data/com.timenotclocks.bookcase/cache/My_Captured_Photo.jpg"
+//        return "https://covers.openlibrary.org/b/isbn/$isbn-$size.jpg?default=false"
     }
 
     fun titleString(): String {
@@ -161,6 +177,7 @@ fun fakeBook(
         bookId = id,
         title = title,
         subtitle = "How Subs Change Books",
+        cover = "content://com.timenotclocks.bookcase.fileprovider/my_images/Android/data/com.timenotclocks.bookcase/cache/My_Captured_Photo.jpg",
         isbn10 = "0123456789",
         isbn13 = isbn13,
         selfLink = "https://www.googleapis.com/books/v1/volumes/IAmWzgEACAAJ",
@@ -199,6 +216,7 @@ fun emptyBook(
         bookId = 0,
         title = title,
         subtitle = subtitle,
+        cover = "",
         isbn10 = isbn10,
         isbn13 = isbn13,
         selfLink = null,

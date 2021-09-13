@@ -37,10 +37,20 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import java.io.File
 
+import android.os.Environment
+import java.text.SimpleDateFormat
+import java.util.*
 
 const val LOG_BOOK_PHOTO_VIEW = "BookPhoto"
 
 class BookPhotoActivity : AppCompatActivity() {
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.book_edit_menu, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
 
     private val bookViewModel: BookViewModel by viewModels {
         BookViewModelFactory((application as BooksApplication).repository)
@@ -68,7 +78,11 @@ class BookPhotoActivity : AppCompatActivity() {
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
     }
     private fun capturePhoto(){
-        val capturedImage = File(externalCacheDir, "My_Captured_Photo.jpg")
+
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+//        val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
+        val capturedImage = File( getExternalFilesDir(Environment.DIRECTORY_PICTURES)  , "BookCoverPhoto-$timeStamp.jpg")
         if(capturedImage.exists()) {
             capturedImage.delete()
         }
@@ -85,6 +99,8 @@ class BookPhotoActivity : AppCompatActivity() {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri)
         startActivityForResult(intent, OPERATION_CAPTURE_PHOTO)
     }
+
+
     private fun openGallery(){
         val intent = Intent("android.intent.action.GET_CONTENT")
         intent.type = "image/*"
@@ -99,6 +115,7 @@ class BookPhotoActivity : AppCompatActivity() {
             show("ImagePath is null")
         }
     }
+
     private fun getImagePath(uri: Uri, selection: String?): String {
         var path: String? = null
         val cursor = contentResolver.query(uri, null, selection, null, null )
@@ -223,6 +240,20 @@ class BookPhotoActivity : AppCompatActivity() {
                 }
                 setResult(RESULT_CANCELED, intent)
                 finish()
+            }
+            R.id.menu_save -> {
+                Log.i("BookPhoto", "Saving Photo ${book?.title} ${book?.bookId}")
+
+                book?.cover = mUri.toString()
+                book?.let { bookViewModel.update(it) }
+                val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
+                    book?.let {
+                        putExtra(EXTRA_ID, it.bookId)
+                    }
+                }
+                Log.i("BookPhoto", "Saving Photo ${book}")
+                setResult(RESULT_OK, intent)
+                finish();
             }
         }
 

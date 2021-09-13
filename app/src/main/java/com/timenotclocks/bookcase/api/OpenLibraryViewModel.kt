@@ -256,6 +256,7 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                         bookId = 0,
                         title = result["title"].toString(),
                         subtitle = result["subtitle"] as? String,
+                        cover = "",
                         isbn10 = null,
                         isbn13 = isbn13,
                         selfLink = selfLink,

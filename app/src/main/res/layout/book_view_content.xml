@@ -34,14 +34,14 @@
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/book_view_cover_wrapper"
-            android:minHeight="250dp"
+            android:maxHeight="250dp"
             >
                 <ImageView
                     android:id="@+id/book_view_cover_image"
                     card_view:layout_constraintTop_toTopOf="parent"
                     card_view:layout_constraintStart_toStartOf="parent"
                     card_view:layout_constraintBottom_toBottomOf="parent"
-                    android:minHeight="250dp"
+                    android:maxHeight="250dp"
                     android:scaleType="fitCenter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

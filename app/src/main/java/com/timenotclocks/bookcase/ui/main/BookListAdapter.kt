@@ -4,14 +4,17 @@
 
 package com.timenotclocks.bookcase.ui.main
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +23,7 @@ import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.BookViewActivity
 import com.timenotclocks.bookcase.EXTRA_ID
 import com.timenotclocks.bookcase.R
+import com.timenotclocks.bookcase.TAG_NEW
 import com.timenotclocks.bookcase.database.Book
 import com.timenotclocks.bookcase.database.ShelfType
 
@@ -63,12 +67,21 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
                 emptyCoverView.text = b.titleString()
                 b.yearString()?.let { yearView.text = it }
                 b.cover("M").let {
-                    Picasso.get().load(it).into(coverView, object : Callback {
-                        override fun onSuccess() {
-                            emptyCoverView.visibility = View.INVISIBLE
-                        }
-                        override fun onError(e: Exception) {}
-                    })
+                     val test_context = this.coverView.context
+                    Log.i(TAG_NEW, "FFF BookViewHolder, test_context $test_context")
+                    val itUri = it?.toUri()
+                    val thumbnail =
+                        itUri?.let { it1 -> test_context.contentResolver.loadThumbnail(it1, Size(80, 80), null) }
+
+                    coverView.setImageBitmap(thumbnail)
+                    emptyCoverView.visibility = View.INVISIBLE
+
+//                    Picasso.get().load(it).into(coverView, object : Callback {
+//                        override fun onSuccess() {
+//                            emptyCoverView.visibility = View.INVISIBLE
+//                        }
+//                        override fun onError(e: Exception) {}
+//                    })
                 }
                 coverView.drawable ?: run {
                     emptyCoverView.visibility = View.VISIBLE
