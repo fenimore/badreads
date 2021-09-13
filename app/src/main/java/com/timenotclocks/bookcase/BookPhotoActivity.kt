@@ -41,6 +41,11 @@ import java.io.File
 const val LOG_BOOK_PHOTO_VIEW = "BookPhoto"
 
 class BookPhotoActivity : AppCompatActivity() {
+
+    private val bookViewModel: BookViewModel by viewModels {
+        BookViewModelFactory((application as BooksApplication).repository)
+    }
+
     //Our variables
     private var mImageView: ImageView? = null
     private var mUri: Uri? = null
@@ -51,9 +56,9 @@ class BookPhotoActivity : AppCompatActivity() {
     private val OPERATION_CAPTURE_PHOTO = 1
     private val OPERATION_CHOOSE_PHOTO = 2
 
+    private var book: Book? = null
 
     private fun initializeWidgets() {
-
         mImageView = findViewById(R.id.mImageView)
         btnCapture = findViewById(R.id.book_btn_capture)
         btnChoose = findViewById(R.id.book_btn_choose)
@@ -68,6 +73,7 @@ class BookPhotoActivity : AppCompatActivity() {
             capturedImage.delete()
         }
         capturedImage.createNewFile()
+
         mUri = if(Build.VERSION.SDK_INT >= 26){
             FileProvider.getUriForFile(this, "com.timenotclocks.bookcase.fileprovider",
                 capturedImage)
@@ -148,9 +154,12 @@ class BookPhotoActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.i(TAG_NEW, "FFF onActivityResult, requestCode - data: $requestCode $data")
         when(requestCode){
             OPERATION_CAPTURE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
+                    Log.i(TAG_NEW, "FFF onActivityResult OPERATION_CAPTURE_PHOTO")
+                    Log.i(TAG_NEW, "FFF onActivityResult mUri: $mUri")
                     val mmUri = mUri as Uri
                     val bitmap = BitmapFactory.decodeStream(
                         getContentResolver().openInputStream(mmUri))
@@ -158,6 +167,7 @@ class BookPhotoActivity : AppCompatActivity() {
                 }
             OPERATION_CHOOSE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
+                    Log.i(TAG_NEW, "FFF onActivityResult OPERATION_CHOOSE_PHOTO")
                     if (Build.VERSION.SDK_INT >= 19) {
                         handleImageOnKitkat(data)
                     }
@@ -168,17 +178,24 @@ class BookPhotoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_photo)
+        val RidToolbar = R.id.toolbar
+        Log.i(TAG_NEW, "FFF BookPhotoActiviti mUri: $RidToolbar")
         setSupportActionBar(findViewById(R.id.toolbar))
+        supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_book_photo)
+        intent.extras?.getLong(EXTRA_ID)?.let { bookId ->
+            bookViewModel.getBook(bookId).observe(this, { observable ->
+                observable?.let {
+                    Log.i(LOG_EDIT, "Editing a book $it")
+                    book = it
+//                    populateViews(it)
+                }
+            })
+        }
 
-//        initializeWidgets()
 
-        mImageView = findViewById(R.id.mImageView)
-        btnCapture = findViewById(R.id.book_btn_capture)
-        btnChoose = findViewById(R.id.book_btn_choose)
+        initializeWidgets()
 
         btnCapture.setOnClickListener{capturePhoto()}
         btnChoose.setOnClickListener{
@@ -195,4 +212,21 @@ class BookPhotoActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
+                    book?.let {
+                        putExtra(EXTRA_ID, it.bookId)
+                    }
+                }
+                setResult(RESULT_CANCELED, intent)
+                finish()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
 }

@@ -51,7 +51,11 @@ class BookEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_edit)
+//        val Rid = R.id
+        val RidToolbar = R.id.toolbar
+        Log.i(TAG_NEW, "FFF BookEditActiviti mUri: $RidToolbar")
         setSupportActionBar(findViewById(R.id.toolbar))
+        supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         intent.extras?.getLong(EXTRA_ID)?.let { bookId ->
@@ -137,22 +141,24 @@ class BookEditActivity : AppCompatActivity() {
 //            i.data = Uri.parse(url)
 //            startActivity(i)
 
-            Log.i(LOG_BOOK_VIEW, "Taking photo of this book")
-            val intent = Intent(applicationContext, BookPhotoActivity::class.java).apply {
-                putExtra(EXTRA_SCAN, true)
-            }
-            startActivity(intent)
 
-//            book?.let { it ->
-//
-//                val intent = Intent(applicationContext, BookPhotoActivity::class.java).apply {
-//                    Log.i(LOG_BOOK_VIEW, "Taking photo of this book 2 $it")
-//                    putExtra(EXTRA_ID, it.bookId)
-//                }
-////                startActivity(intent)
-//                startActivityForResult(intent, 100)
-//
+//            Log.i(LOG_BOOK_VIEW, "Taking photo of this book")
+//            val intent = Intent(applicationContext, BookPhotoActivity::class.java).apply {
+//                putExtra(EXTRA_SCAN, true)
 //            }
+////            startActivity(intent)
+//            startActivityForResult(intent, 100)
+
+            book?.let { it ->
+
+                val intent = Intent(applicationContext, BookPhotoActivity::class.java).apply {
+                    Log.i(LOG_BOOK_VIEW, "Taking photo of this book 2 $it")
+                    putExtra(EXTRA_ID, it.bookId)
+                }
+//                startActivity(intent)
+                startActivityForResult(intent, 100)
+//
+            }
 
         }
 
