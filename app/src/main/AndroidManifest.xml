@@ -5,6 +5,7 @@
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".database.BooksApplication"
@@ -37,6 +38,9 @@
             android:name=".BookEditActivity"
             android:label="@string/title_activity_book_edit" />
         <activity
+            android:name=".BookPhotoActivity"
+            android:label="Book Cover Photo" />
+        <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
@@ -50,6 +54,16 @@
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
+
+        <provider
+            android:authorities="${applicationId}.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

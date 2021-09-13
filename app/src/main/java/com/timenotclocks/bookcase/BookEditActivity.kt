@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import com.beust.klaxon.Klaxon
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Callback
@@ -120,12 +121,39 @@ class BookEditActivity : AppCompatActivity() {
         current.cover("L").let {
             Picasso.get().load(it).into(coverView)
         }
+
+
+//        val scan = root.findViewById<MaterialButton>(R.id.fragment_scan_button)
+//        scan.setOnClickListener {
+//            val intent = Intent(context, OpenLibrarySearchActivity::class.java).apply {
+//                putExtra(EXTRA_SCAN, true)
+//            }
+//            startActivity(intent)
+//        }
         findViewById<Button>(R.id.book_edit_image_edit).setOnClickListener { view ->
-            val term = current.isbn13 ?: current.titleString()
-            val url = "https://openlibrary.org/search?q=$term"
-            val i = Intent(Intent.ACTION_VIEW)
-            i.data = Uri.parse(url)
-            startActivity(i)
+//            val term = current.isbn13 ?: current.titleString()
+//            val url = "https://openlibrary.org/search?q=$term"
+//            val i = Intent(Intent.ACTION_VIEW)
+//            i.data = Uri.parse(url)
+//            startActivity(i)
+
+            Log.i(LOG_BOOK_VIEW, "Taking photo of this book")
+            val intent = Intent(applicationContext, BookPhotoActivity::class.java).apply {
+                putExtra(EXTRA_SCAN, true)
+            }
+            startActivity(intent)
+
+//            book?.let { it ->
+//
+//                val intent = Intent(applicationContext, BookPhotoActivity::class.java).apply {
+//                    Log.i(LOG_BOOK_VIEW, "Taking photo of this book 2 $it")
+//                    putExtra(EXTRA_ID, it.bookId)
+//                }
+////                startActivity(intent)
+//                startActivityForResult(intent, 100)
+//
+//            }
+
         }
 
         val titleEdit = findViewById<TextInputLayout>(R.id.book_edit_title_layout)?.editText
