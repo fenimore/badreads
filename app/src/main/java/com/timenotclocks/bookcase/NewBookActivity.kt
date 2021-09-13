@@ -52,14 +52,20 @@ class NewBookActivity : AppCompatActivity() {
                 newBook?.description = details.description ?: newBook?.description
                 newBook?.series = details.series ?: newBook?.series
                 newBook?.language = details.language ?: newBook?.language
+                newBook?.selfLink = details.selfLink ?: newBook?.selfLink
                 newBook?.let{ displayNewBook(it) }
             }
         })
 
         newBook?.let {
-            it.isbn13?.let {
-                openLibraryViewModel.getBookDetails(it)
+
+            it.selfLink?.let {
+                openLibraryViewModel.getGoogleBookDetails(it)
             }
+
+//            it.isbn13?.let {
+//                openLibraryViewModel.getBookDetails(it)
+//            }
             displayNewBook(it)
         }
 

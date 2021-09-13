@@ -41,6 +41,7 @@ class GoodReadImport {
                 subtitle = subtitle,
                 isbn10 = isbn10,
                 isbn13 = isbn13,
+                selfLink = null,
                 author = row["Author"]?.ifBlank { null },
                 authorExtras = additionalAuthors,
                 publisher = row["Publisher"]?.ifBlank { null },

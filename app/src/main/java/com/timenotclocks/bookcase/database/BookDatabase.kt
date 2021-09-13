@@ -54,7 +54,7 @@ static final Migration MIGRATION_2_3 = new Migration(2, 3) {
 @Database(
     entities = [
         Book::class, BooksFts::class
-    ], version = 8
+    ], version = 9
 )
 abstract class BookDatabase : RoomDatabase() {
 
@@ -91,6 +91,13 @@ abstract class BookDatabase : RoomDatabase() {
                     )
                 }
             }
+
+            val MIGRATION_8_9 = object : Migration(8, 9) {
+                override fun migrate(database: SupportSQLiteDatabase) {
+                    database.execSQL("ALTER TABLE books ADD COLUMN selfLink TEXT")
+                }
+            }
+
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
@@ -99,7 +106,8 @@ abstract class BookDatabase : RoomDatabase() {
                 ).addMigrations(
                     MIGRATION_5_6,
                     MIGRATION_6_7,
-                    MIGRATION_7_8
+                    MIGRATION_7_8,
+                    MIGRATION_8_9
                 ).addCallback(BookDatabaseCallback(scope)).build()
                 INSTANCE = instance
                 // return instance
