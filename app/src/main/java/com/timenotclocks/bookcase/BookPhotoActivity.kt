@@ -1,45 +1,39 @@
 package com.timenotclocks.bookcase
 
-import android.content.DialogInterface
+
+import android.R.attr
+import android.annotation.TargetApi
+import android.app.Activity
+import android.content.ContentUris
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
-import android.widget.*
-import androidx.activity.viewModels
-import androidx.annotation.MenuRes
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
-import com.squareup.picasso.Picasso
-import com.timenotclocks.bookcase.database.*
-import java.time.LocalDate
-
-
-import android.annotation.TargetApi
-import android.app.Activity
-import android.content.ContentUris
-import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
-
-import android.os.Build
-import android.provider.DocumentsContract
-import android.provider.MediaStore
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.timenotclocks.bookcase.database.Book
+import com.timenotclocks.bookcase.database.BookViewModel
+import com.timenotclocks.bookcase.database.BookViewModelFactory
+import com.timenotclocks.bookcase.database.BooksApplication
 import java.io.File
-
-import android.os.Environment
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 const val LOG_BOOK_PHOTO_VIEW = "BookPhoto"
 
@@ -102,9 +96,16 @@ class BookPhotoActivity : AppCompatActivity() {
 
 
     private fun openGallery(){
-        val intent = Intent("android.intent.action.GET_CONTENT")
+
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+//        val intent = Intent("android.intent.action.ACTION_OPEN_DOCUMENT")
         intent.type = "image/*"
+//        mUri =
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri)
         startActivityForResult(intent, OPERATION_CHOOSE_PHOTO)
+
+
+
     }
     private fun renderImage(imagePath: String?){
         if (imagePath != null) {
@@ -129,6 +130,9 @@ class BookPhotoActivity : AppCompatActivity() {
     }
     @TargetApi(19)
     private fun handleImageOnKitkat(data: Intent?) {
+
+
+
         var imagePath: String? = null
         val uri = data!!.data as Uri
         //DocumentsContract defines the contract between a documents provider and the platform.
@@ -184,7 +188,21 @@ class BookPhotoActivity : AppCompatActivity() {
                 }
             OPERATION_CHOOSE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
+                    val data_test = data
+                    mUri = data?.data
+                    val mmUri = mUri as Uri
+                    val bitmap = BitmapFactory.decodeStream(
+                        getContentResolver().openInputStream(mmUri))
+                    mImageView!!.setImageBitmap(bitmap)
                     Log.i(TAG_NEW, "FFF onActivityResult OPERATION_CHOOSE_PHOTO")
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        getContentResolver().takePersistableUriPermission(
+                            mmUri,
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        )
+                    }
+
                     if (Build.VERSION.SDK_INT >= 19) {
                         handleImageOnKitkat(data)
                     }
@@ -258,6 +276,21 @@ class BookPhotoActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    fun getRealPathFromURI(contentURI: Uri?, context: Activity): String? {
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = context.managedQuery(
+            contentURI, projection, null,
+            null, null
+        ) ?: return null
+        val column_index = cursor
+            .getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        return if (cursor.moveToFirst()) {
+            // cursor.close();
+            cursor.getString(column_index)
+        } else null
+        // cursor.close();
     }
 
 }

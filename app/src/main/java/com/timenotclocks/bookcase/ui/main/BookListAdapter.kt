@@ -67,14 +67,22 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
                 emptyCoverView.text = b.titleString()
                 b.yearString()?.let { yearView.text = it }
                 b.cover("M").let {
-                     val test_context = this.coverView.context
+                    val test_context = this.coverView.context
                     Log.i(TAG_NEW, "FFF BookViewHolder, test_context $test_context")
-                    val itUri = it?.toUri()
-                    val thumbnail =
-                        itUri?.let { it1 -> test_context.contentResolver.loadThumbnail(it1, Size(80, 80), null) }
+                    if (it?.isNullOrBlank() != true) run {
+                        val itUri = it?.toUri()
+                        val thumbnail =
+                            itUri?.let { it1 ->
+                                test_context.contentResolver.loadThumbnail(
+                                    it1,
+                                    Size(80, 80),
+                                    null
+                                )
+                            }
 
-                    coverView.setImageBitmap(thumbnail)
-                    emptyCoverView.visibility = View.INVISIBLE
+                        coverView.setImageBitmap(thumbnail)
+                        emptyCoverView.visibility = View.INVISIBLE
+                    }
 
 //                    Picasso.get().load(it).into(coverView, object : Callback {
 //                        override fun onSuccess() {
