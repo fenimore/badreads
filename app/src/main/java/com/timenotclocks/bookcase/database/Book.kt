@@ -86,6 +86,7 @@ data class Book(
 //        }
         if (cover.isNullOrBlank()) run {
             cover = "content://com.timenotclocks.bookcase.fileprovider/book_cover_images/Android/data/com.timenotclocks.bookcase/files/Pictures/BookCoverPhoto-20210913_220545.jpg"
+//            cover = ""
         }
         return cover
 //        return "content://com.timenotclocks.bookcase.fileprovider/my_images/Android/data/com.timenotclocks.bookcase/cache/My_Captured_Photo.jpg"
@@ -111,6 +112,10 @@ data class Book(
             } else {
                 return "$year ($originalYear)"
             }
+        }
+
+        if (year == null && originalYear != null) {
+            return "$originalYear"
         }
 
         (year ?: originalYear)?.let {

@@ -3,6 +3,7 @@
 package com.timenotclocks.bookcase.ui.main
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.NewBookActivity
 import com.timenotclocks.bookcase.R
+import com.timenotclocks.bookcase.TAG_NEW
 import com.timenotclocks.bookcase.database.Book
 import com.timenotclocks.bookcase.ui.main.OpenLibrarySearchAdapter.SearchViewHolder
 
@@ -58,14 +60,14 @@ class OpenLibrarySearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_CO
         fun bindTo(book: Book?) {
             book ?: return
 
-            book.cover("M").let {
-                Picasso.get().load(it).into(coverView, object : Callback {
-                    override fun onSuccess() {
-                        emptyCoverView.visibility = View.INVISIBLE
-                    }
-                    override fun onError(e: Exception) {}
-                })
-            }
+//            book.cover("M").let {
+//                Picasso.get().load(it).into(coverView, object : Callback {
+//                    override fun onSuccess() {
+//                        emptyCoverView.visibility = View.VISIBLE
+//                    }
+//                    override fun onError(e: Exception) {}
+//                })
+//            }
             coverView.drawable ?: run {
                 emptyCoverView.visibility = View.VISIBLE
                 emptyCoverView.text = book.titleString()
@@ -75,7 +77,8 @@ class OpenLibrarySearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_CO
             subView.text = book.authorString()
 
             book.isbn13?.let {captView1.text = "$it" }
-            book.yearString()?.let { captView3.text = "$it" }
+            Log.i(TAG_NEW, "FFF bindTo book: $book")
+            book.yearString()?.let { captView2.text = "$it" }
         }
 
         companion object {

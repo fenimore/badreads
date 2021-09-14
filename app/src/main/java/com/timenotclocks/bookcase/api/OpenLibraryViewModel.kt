@@ -91,7 +91,8 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                     it.get("type") == "ISBN_13"
                 }
                 println("isbn13Array  isbn13Array: $isbn13Array")
-                val isbn13: String? =  isbn13Array?.firstOrNull()?.get("identifier") as String
+                val isbn13: String? = isbn13Array?.let { it.firstOrNull()?.get("identifier") as String }
+//                val isbn13: String? =  isbn13Array?.firstOrNull()?.get("identifier") as String
 //                val isbn13: String? =
 //                    (details?.get("industryIdentifiers") as JsonArray<String>?)?.firstOrNull()
                 val isbn10 = null
@@ -186,7 +187,8 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
 //        val url = "https://$base/search.json"
         val url = "https://$base/books/v1/volumes"
         val encodedQuery = encode(query, "utf-8")
-        val urlQuery = "$url?q=isbn:$encodedQuery"
+//        val urlQuery = "$url?q=isbn:$encodedQuery"
+        val urlQuery = "$url?q=$encodedQuery"
 //        val urlQuery = "$url?q=isbn:$encodedQuery"
         Log.i(LOG_EDIT, "urlQuery $urlQuery ")
         val stringRequest = StringRequest(Request.Method.GET, urlQuery,

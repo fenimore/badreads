@@ -129,7 +129,7 @@ class NewBookActivity : AppCompatActivity() {
     }
 
     private fun displayNewBook(current: Book) {
-        current.cover("M").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.new_book_cover_image)) }
+//        current.cover("M").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.new_book_cover_image)) }
         findViewById<TextView>(R.id.new_book_title).text = current.titleString()
         findViewById<TextView>(R.id.new_book_author).text = current.authorString()
         findViewById<TextView>(R.id.new_book_description).text = current.description
