@@ -16,10 +16,16 @@ import com.timenotclocks.bookcase.LOG_SEARCH
 import com.timenotclocks.bookcase.TAG_NEW
 import com.timenotclocks.bookcase.database.Book
 import kotlinx.coroutines.launch
+import org.jsoup.Connection
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.select.Elements
+import java.io.IOException
 import java.io.StringReader
 import java.lang.Integer.min
 import java.net.URLEncoder.encode
 import java.time.LocalDate
+
 
 
 const val MAX_SEARCH_RESULTS = 100
@@ -181,24 +187,72 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
         RequestQueueSingleton.getInstance(getApplication()).addToRequestQueue(stringRequest)
     }
 
+    private fun getHtmlFromWeb() {
+        Thread(Runnable {
+            val stringBuilder = StringBuilder()
+            try {
+
+                val url = "https://plus.sr.cobiss.net/opac7/bib/search/expert?c=bn%3D86-7346-451-X&db=cobib&mat=allmaterials"
+                val url_book = "https://plus.sr.cobiss.net/opac7/bib/risCit"
+                val doc: Document = Jsoup.connect(url).get()
+                val title: String = doc.title()
+                val links: Elements = doc.select("tr[data-cobiss-id]")
+                stringBuilder.append(title).append("\n")
+                for (link in links) {
+                    val book_bib = link.attr("data-cobiss-id")
+                    println("getHtmlFromWeb link: ${book_bib}")
+                    val url_book = "https://plus.sr.cobiss.net/opac7/bib/risCit/$book_bib"
+
+                    try {
+//                        val book = Jsoup.connect(url_book).get()
+                        val book = with(Jsoup.connect(url_book)) {
+                            header("Content-Type", "text/plain")
+//                            userAgent("Mozilla")
+//                            method(Connection.Method.POST)
+//                             'Content-type: application/json; charset=utf-8'
+//                            data("[\"bib/120688908\"]")
+//                            requestBody("[\"bib/120688908\"]")
+//                            ignoreContentType(true)
+//                            data("bib/120688908")
+//                            post()
+//                            execute()
+                            get()
+                        }
+                        val book_text = book.wholeText()
+                        risToBook(book_text)
+                        val book_text_newline = book_text.replace("OK##", "")
+//                        book.text()
+                        println("getHtmlFromWeb book_text: ${book_text}")
+                        println("getHtmlFromWeb book_text: ${book_text_newline}")
+
+//                        println("getHtmlFromWeb book_text_newline: ${book_text_newline}")
+
+                    } catch (e: IOException) {
+                        println("getHtmlFromWeb Error: ${e.message}")
+                            stringBuilder.append("Error : ").append(e.message).append("\n")
+                        }
+//                    stringBuilder.append("\n").append("Link :").append(link.attr("href")).append("\n").append("Text : ").append(link.text())
+                }
+            } catch (e: IOException) {
+                stringBuilder.append("Error : ").append(e.message).append("\n")
+            }
+//            runOnUiThread { textView.text = stringBuilder.toString() }
+        }).start()
+    }
+
     fun searchOpenLibrary(query: String) = viewModelScope.launch {
-        Log.i(LOG_EDIT, "FFF searchOpenLibrary $query")
-        Log.i(LOG_EDIT, "Searching with string $query ")
-//        val url = "https://$base/search.json"
+        getHtmlFromWeb()
+
         val url = "https://$base/books/v1/volumes"
         val encodedQuery = encode(query, "utf-8")
-//        val urlQuery = "$url?q=isbn:$encodedQuery"
         val urlQuery = "$url?q=$encodedQuery"
-//        val urlQuery = "$url?q=isbn:$encodedQuery"
         Log.i(LOG_EDIT, "urlQuery $urlQuery ")
         val stringRequest = StringRequest(Request.Method.GET, urlQuery,
                 { response ->
                     val entry = Klaxon().parseJsonObject(StringReader(response))
-//                    val results: JsonArray<JsonObject>? = entry["docs"] as? JsonArray<JsonObject>
                     val results: JsonArray<JsonObject>? = entry["items"] as? JsonArray<JsonObject>
                     if (results != null && !results.isEmpty()) {
                         val books: List<Book> = serializeSearchResults(results)
-                        Log.i(LOG_SEARCH, "Flattened books: $books")
                         searches.setValue(books.subList(0, min(MAX_SEARCH_RESULTS, books.size)))
                         numResults.value = books.size
                     } else {
@@ -215,43 +269,71 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
         RequestQueueSingleton.getInstance(getApplication()).addToRequestQueue(stringRequest)
     }
 
+    private fun parseRisField(regex_string: String, ris_string: String): String {
+        val regex = "$regex_string".toRegex()
+        val matchResults = regex.find(ris_string)!!
+        val (field) = matchResults.groupValues
+        println("risToBook book title: $field ")
+
+        return field
+    }
+
+    private fun risToBook(book: String): Book {
+
+        val title       = parseRisField("(?:.*TI.*)-\\s(.*)", book)
+        val author      = parseRisField("(?:.*AU.*)-\\s(.*)", book)
+        val publishYear = parseRisField("(?:.*PY.*)-\\s(.*)", book)
+        val publisher   = parseRisField("(?:.*PB.*)-\\s(.*)", book)
+        val isbn10      = parseRisField("(?:.*SN.*)-\\s(.*)", book)
+        val numberPages = parseRisField("(?:.*SP.*)-\\s(.*)", book)
+
+        val book: Book = Book(
+            bookId = 0,
+            title = title,
+            subtitle = "",
+            cover = "",
+            isbn10 = isbn10,
+            isbn13 = null,
+            selfLink = "",
+            author = author,
+            authorExtras = null,
+            publisher = publisher,
+            year = publishYear.toInt(),
+            originalYear = null,
+            numberPages = numberPages.toInt(),
+            progress = null,
+            series = null,
+            language = null,
+            rating = null,
+            shelf = "to-read",
+            notes = null,
+            description = null,
+            dateAdded = LocalDate.now().toEpochDay(),
+            dateRead = null,
+            dateStarted = null,
+        )
+
+        return book
+    }
+
     private fun serializeSearchResults(results: JsonArray<JsonObject>): List<Book> {
-        Log.i(LOG_EDIT, "FFF serializeSearchResults $results")
-        println("results results results: ${results.toString()}")
+
         return results.map { result ->
-            Log.i(LOG_EDIT, "FFF serializeSearchResults 2 result 1 $result")
             val selfLink: String = result["selfLink"] as String
             val result: JsonObject = result["volumeInfo"] as JsonObject
-            Log.i(LOG_EDIT, "FFF serializeSearchResults 3 result 2 $result")
-//            val author: String? = (result["author_name"] as? JsonArray<*>)?.removeFirst() as String?
-//            val authorExtras: String? = (result["author_name"] as? JsonArray<*>)?.joinToString(", ")
+
             val author: String? = (result["authors"] as? JsonArray<*>)?.removeFirst() as String?
             val authorExtras: String? = (result["authors"] as? JsonArray<*>)?.joinToString(", ")
-            Log.i(LOG_EDIT, "FFF serializeSearchResults  author $author")
-            // val publishers: JsonArray<String>? = result["publisher"] as? JsonArray<String>
-            // val years: List<Int>? = result["publish_year"] as? JsonArray<Int>
-//            val originalYear: Int? = result["first_publish_year"].toString().toIntOrNull()
-//                    ?: (result["publish_year"] as? JsonArray<Int>)?.minOrNull()
-//            val isbnArray: JsonArray<String>? = result["isbn"] as? JsonArray<String>
+
             val industryIdentifiers: Any? = result["industryIdentifiers"]
-            Log.i(LOG_EDIT, "FFF serializeSearchResults  industryIdentifiers $industryIdentifiers")
             val originalYear: Int? = result["publishedDate"].toString().take(4).toIntOrNull()
                 ?: (result["publishedDate"] as? JsonArray<Int>)?.minOrNull()
-            Log.i(LOG_EDIT, "FFF serializeSearchResults  originalYear $originalYear")
 
             val isbnArray: JsonArray<String>? = result["industryIdentifiers"] as? JsonArray<String>
             val isbnObject: JsonObject? = result["industryIdentifiers"] as? JsonObject
-//            val isbnString: JsonArray<Long?>? = isbnArray?.long("identifier")
+
             val isbnArray2 = isbnArray?.get("identifier") as? JsonArray<String>
-            println("isbnObject: ${isbnObject.toString()}")
-            println("isbnArray: ${isbnArray?.toJsonString(true)}")
-//            println("isbnString: ${isbnString.toString()}")
-            Log.i(LOG_EDIT, "FFF serializeSearchResults  isbnString $isbnArray2")
-            // NOTE: OpenLibrary Search API just returns a list of ISBNs
-            // and so because I cannot match them one to the other, I'm
-            // just going to ignore ISBN 10
-            // Similarly publishers and publish year are in random order,
-            // so those are left null.
+
             val bookList: List<Book>? = isbnArray2?.filter { it.length > 10 }?.let { isbn13s ->
                 isbn13s.map { isbn13 ->
                     Book(

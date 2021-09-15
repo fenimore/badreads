@@ -73,6 +73,9 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
         findViewById<Button>(R.id.search_button_add_manual)?.visibility = View.GONE
     }
 
+
+
+
     private fun searchOpenLibrary(
             searchView: androidx.appcompat.widget.SearchView?,
             progressBar: ProgressBar?,
