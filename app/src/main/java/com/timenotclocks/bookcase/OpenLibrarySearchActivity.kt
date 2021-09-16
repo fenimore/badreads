@@ -207,7 +207,7 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
             Toast.makeText(this, "Barcode: $barcode", Toast.LENGTH_LONG).show()
             Log.d(LOG_TAG, "Barcode read: $barcode")
             findViewById<TextView>(R.id.num_results_view)?.text = "Scanned: $barcode"
-            openLibraryViewModel.searchOpenLibrary(barcode)
+            openLibraryViewModel.searchOpenLibrary(barcode, true)
             findViewById<ProgressBar>(R.id.search_progress_bar)?.visibility = View.VISIBLE
             findViewById<MaterialButton>(R.id.search_button_add_manual)?.visibility = View.INVISIBLE
             findViewById<RecyclerView>(R.id.search_result_view)?.visibility = View.INVISIBLE
