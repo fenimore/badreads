@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import java.io.IOException
 import java.io.StringReader
@@ -135,6 +136,46 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
         RequestQueueSingleton.getInstance(getApplication()).addToRequestQueue(stringRequest)
     }
 
+    fun getCobissBookDetails(selfLink: String) =  viewModelScope.launch {
+//      val url_book = "https://plus.sr.cobiss.net/opac7/bib/risCit/$book_bib"
+        val url_book = selfLink
+        val stringRequestBook = StringRequest(Request.Method.GET, url_book,
+            { response2 ->
+                val book_text = response2
+                val book_object: Book = risToBook(book_text)
+                println("getCobissBookDetails book_object: ${book_object}")
+                val isbn13 = book_object.isbn13
+                val isbn10 = book_object.isbn10
+                val selfLink = book_object.selfLink
+                val publisher = book_object.publisher
+                val publishYear = book_object.year
+                val numPages = book_object.numberPages
+                val description = book_object.description
+                val series = book_object.series
+                val language = book_object.language
+
+                bookDetails.value = BookDetails(
+                    isbn13,
+                    isbn10,
+                    selfLink,
+                    publisher,
+                    publishYear,
+                    numPages,
+                    description,
+                    series,
+                    language?.replace("/languages/", "")?.capitalize(),
+                )
+
+            },
+            {
+                println("volleyError! $it")
+                Log.e("BK", "Volley Error $it")
+            })
+
+        RequestQueueSingleton.getInstance(getApplication()).addToRequestQueue(stringRequestBook)
+    }
+
+
     fun getBookDetails(isbn: String) = viewModelScope.launch {
         Log.i(LOG_EDIT, "FFF getBookDetails $isbn")
         //val url = "https://$base/isbn/$isbn.json"
@@ -191,7 +232,6 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
 
     fun searchOpenLibrary(query: String, is_barcode: Boolean = false) = viewModelScope.launch {
 
-
         val url = "https://$base/books/v1/volumes"
         val barcode_code = if (is_barcode) "isbn:" else ""
         val encodedQuery = encode(query, "utf-8")
@@ -199,15 +239,10 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
         Log.i(LOG_EDIT, "urlQuery $urlQuery ")
         val stringRequest = StringRequest(Request.Method.GET, urlQuery,
                 { response ->
-                    val bookListCobbiss: List<Book> = getBookFromCobiss(query,is_barcode)
                     val entry = Klaxon().parseJsonObject(StringReader(response))
                     val results: JsonArray<JsonObject>? = entry["items"] as? JsonArray<JsonObject>
                     if (results != null && !results.isEmpty()) {
-                        val books_from_google: List<Book> = serializeSearchResults(results)
-//                        val books = bookListCobbiss.plus(books_from_google)
-//                        val books = bookListCobbiss
-                        val tmp_searches = searches.getValue()
-                        val books = bookListCobbiss + books_from_google
+                        val books: List<Book> = serializeSearchResults(results)
                         searches.setValue(books.subList(0, min(MAX_SEARCH_RESULTS, books.size)))
                         numResults.value = books.size
                     } else {
@@ -276,59 +311,42 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
     }
 
 
-    private fun getBookFromCobiss(query: String, is_barcode: Boolean): List<Book> {
+    fun searchCobiss(query: String, is_barcode: Boolean = false) = viewModelScope.launch {
 
         val bookList = mutableListOf<Book>()
+        val barcode_code = if (is_barcode) "bn%3D" else ""
+        val url = "https://plus.sr.cobiss.net/opac7/bib/search/expert?c=$barcode_code$query&db=cobib&mat=allmaterials&tyf=1_knj_tskknj"
+//        val url_book = "https://plus.sr.cobiss.net/opac7/bib/risCit"
 
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            { response ->
 
-        Thread(Runnable {
-            val stringBuilder = StringBuilder()
-            try {
-                val barcode_code = if (is_barcode) "bn%3D" else ""
-                val url = "https://plus.sr.cobiss.net/opac7/bib/search/expert?c=$barcode_code$query&db=cobib&mat=allmaterials"
-                val url_book = "https://plus.sr.cobiss.net/opac7/bib/risCit"
-
-                val doc: Document = Jsoup.connect(url).get()
-                val title: String = doc.title()
+                val doc: Document = Jsoup.parse(response)
                 val links: Elements = doc.select("tr[data-cobiss-id]")
-                stringBuilder.append(title).append("\n")
-                for (link in links) {
-                    val book_bib = link.attr("data-cobiss-id")
-                    println("getBookFromCobiss link: ${book_bib}")
-                    val url_book = "https://plus.sr.cobiss.net/opac7/bib/risCit/$book_bib"
 
-                    try {
-                        val book = with(Jsoup.connect(url_book)) {
-                            header("Content-Type", "text/plain")
-                            get()
-                        }
-
-                        val book_text = book.wholeText()
-                        val book_object: Book = risToBook(book_text)
-
+                if (!links.isEmpty()) {
+                    for (link in links) {
+                        val book_object: Book = tableDataToBook(link)
                         bookList.add(book_object)
-
-                        println("getBookFromCobiss book_object: ${book_object}")
-
-                    } catch (e: IOException) {
-                        println("getBookFromCobiss Error: ${e.message}")
-                        stringBuilder.append("Error : ").append(e.message).append("\n")
                     }
-//                    stringBuilder.append("\n").append("Link :").append(link.attr("href")).append("\n").append("Text : ").append(link.text())
+
+                    searches.setValue(bookList.subList(0, min(MAX_SEARCH_RESULTS, bookList.size)))
+                    numResults.value = bookList.size
+                } else {
+                    numResults.value = 0
+                    searches.setValue(emptyList<Book>())
+                    Log.e("BK", "No results :(")
                 }
-            } catch (e: IOException) {
-                stringBuilder.append("Error : ").append(e.message).append("\n")
-            }
-//            runOnUiThread { textView.text = stringBuilder.toString() }
-        }).start()
-
-//        val tmp_searches = searches.getValue()
-//        bookList.plus(tmp_searches)
-//        searches.setValue(bookList.subList(0, min(MAX_SEARCH_RESULTS, bookList.size)))
-//        numResults.value = bookList.size
-
-        return bookList
+            },
+            {
+                numResults.value = 0
+                searches.setValue(emptyList<Book>())
+                Log.e("BK", "Volley Error $it")
+            })
+        RequestQueueSingleton.getInstance(getApplication()).addToRequestQueue(stringRequest)
+        
     }
+
 
     private fun parseRisField(regex_string: String, ris_string: String): String {
         val regex = "$regex_string".toRegex()
@@ -339,10 +357,50 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
             return field
         } catch (e: NullPointerException) {
             println("parseRisField Error: ${e.message}")
+            return ""
         }
 
         return ""
     }
+
+    private fun tableDataToBook(link: Element): Book {
+
+        val book_bib = link.attr("data-cobiss-id")
+        val title = link.attr("data-title")
+        val author = link.select("span.author").first().text()
+        val year = link.select("span.publishDate-data").first().text()
+        val url_book = "https://plus.sr.cobiss.net/opac7/bib/risCit/$book_bib"
+
+        val book: Book = Book(
+            bookId = 0,
+            title = title,
+            subtitle = "",
+            cover = "",
+            isbn10 = null,
+            isbn13 = null,
+            selfLink = url_book,
+            author = author,
+            authorExtras = null,
+            publisher = null,
+//            year = publishYear as? Int,
+            year = year?.toInt(),
+            originalYear = null,
+//            numberPages = numberPages as? Int,
+            numberPages = 111,
+            progress = null,
+            series = null,
+            language = null,
+            rating = null,
+            shelf = "to-read",
+            notes = null,
+            description = null,
+            dateAdded = LocalDate.now().toEpochDay(),
+            dateRead = null,
+            dateStarted = null,
+        )
+        return book
+    }
+
 
     private fun risToBook(book: String): Book {
 

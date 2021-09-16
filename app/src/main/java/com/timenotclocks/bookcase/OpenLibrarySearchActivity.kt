@@ -116,7 +116,8 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
 
                 query?.let {
                     numResultsView?.text = "Searching $it"
-                    openLibraryViewModel.searchOpenLibrary(it)
+                    openLibraryViewModel.searchCobiss(it, false)
+//                    openLibraryViewModel.searchOpenLibrary(it)
                     assignManual(false, it)
                 }
                 searchView.clearFocus()
@@ -174,7 +175,8 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
         searchIntent?.let { query ->
             Log.i(LOG_SEARCH, "Direct Query $query")
             numResultsView.text = "Searching $query"
-            openLibraryViewModel.searchOpenLibrary(query)
+            openLibraryViewModel.searchCobiss(query)
+//            openLibraryViewModel.searchOpenLibrary(query)
             searchView?.clearFocus()
             progressBar?.visibility = View.VISIBLE
             manualBtn?.visibility = View.INVISIBLE
@@ -207,7 +209,8 @@ class OpenLibrarySearchActivity : AppCompatActivity() {
             Toast.makeText(this, "Barcode: $barcode", Toast.LENGTH_LONG).show()
             Log.d(LOG_TAG, "Barcode read: $barcode")
             findViewById<TextView>(R.id.num_results_view)?.text = "Scanned: $barcode"
-            openLibraryViewModel.searchOpenLibrary(barcode, true)
+            openLibraryViewModel.searchCobiss(barcode, true)
+//            openLibraryViewModel.searchOpenLibrary(barcode, true)
             findViewById<ProgressBar>(R.id.search_progress_bar)?.visibility = View.VISIBLE
             findViewById<MaterialButton>(R.id.search_button_add_manual)?.visibility = View.INVISIBLE
             findViewById<RecyclerView>(R.id.search_result_view)?.visibility = View.INVISIBLE

@@ -60,7 +60,8 @@ class NewBookActivity : AppCompatActivity() {
         newBook?.let {
 
             it.selfLink?.let {
-                openLibraryViewModel.getGoogleBookDetails(it)
+                openLibraryViewModel.getCobissBookDetails(it)
+//                openLibraryViewModel.getGoogleBookDetails(it)
             }
 
 //            it.isbn13?.let {
