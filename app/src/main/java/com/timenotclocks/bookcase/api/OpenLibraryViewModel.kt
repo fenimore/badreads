@@ -46,7 +46,18 @@ data class BookDetails(
     val language: String?,
 )
 
-
+/**
+ * Main class for searching books
+ * should be separated for openlibrary, google books and cobiss
+ *
+ *
+ * @param application Application.
+ * @property base Base url to search
+ * @property searches search results to show
+ * @property numResults number of search results to show
+ * @property bookDetails book details to show in list
+ * @constructor Creates an empty group.
+ */
 internal class OpenLibraryViewModel(application: Application) : AndroidViewModel(application) {
 
 //    private val base = "openlibrary.org"
@@ -58,8 +69,18 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
     var numResults: MutableLiveData<Int> = MutableLiveData<Int>(0)
     var bookDetails: MutableLiveData<BookDetails> = MutableLiveData<BookDetails>()
 
+    /**
+     * get search results live data list if Book.
+     * @return return search results
+     */
     fun getSearches(): LiveData<List<Book>> { return searches }
 
+    /**
+     * Search Google Books for data
+     *
+     * get search results live data list if Book.
+     * @param selfLink permanent link to requested Book
+     */
     fun getGoogleBookDetails(selfLink: String) =  viewModelScope.launch {
         Log.i(LOG_EDIT, "FFF getBookDetails $selfLink")
         //val url = "https://$base/isbn/$isbn.json"
@@ -136,8 +157,15 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
         RequestQueueSingleton.getInstance(getApplication()).addToRequestQueue(stringRequest)
     }
 
+    /**
+     * Search COBISS site for data on book
+     * endpoint is https://plus.sr.cobiss.net/opac7/bib/risCit/$book_bib
+     *
+     * get search results live data list if Book.
+     * @param selfLink permanent link to requested Book
+     */
     fun getCobissBookDetails(selfLink: String) =  viewModelScope.launch {
-//      val url_book = "https://plus.sr.cobiss.net/opac7/bib/risCit/$book_bib"
+
         val url_book = selfLink
         val stringRequestBook = StringRequest(Request.Method.GET, url_book,
             { response2 ->
@@ -165,7 +193,6 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                     series,
                     language?.replace("/languages/", "")?.capitalize(),
                 )
-
             },
             {
                 println("volleyError! $it")
@@ -175,7 +202,12 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
         RequestQueueSingleton.getInstance(getApplication()).addToRequestQueue(stringRequestBook)
     }
 
-
+    /**
+     * Search Google Books by ISBN for data on book
+     * endpoint is https://plus.sr.cobiss.net/opac7/bib/risCit/$book_bib
+     *
+     * @param isbn scanned ISBN number to search
+     */
     fun getBookDetails(isbn: String) = viewModelScope.launch {
         Log.i(LOG_EDIT, "FFF getBookDetails $isbn")
         //val url = "https://$base/isbn/$isbn.json"
@@ -229,7 +261,13 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
         RequestQueueSingleton.getInstance(getApplication()).addToRequestQueue(stringRequest)
     }
 
-
+    /**
+     * Search Google Books by keyword or ISBN for list of books
+     * endpoint is https://plus.sr.cobiss.net/opac7/bib/risCit/$book_bib
+     *
+     * @param query search terms
+     * @param is_barcode if search should be just by ISBN
+     */
     fun searchOpenLibrary(query: String, is_barcode: Boolean = false) = viewModelScope.launch {
 
         val url = "https://$base/books/v1/volumes"
@@ -310,7 +348,14 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
         }.flatten()
     }
 
-
+    /**
+     * Search COBISS by keyword or ISBN for list of books
+     * endpoint is
+     * ttps://plus.sr.cobiss.net/opac7/bib/search/expert?c=$barcode_code$query&db=cobib&mat=allmaterials&tyf=1_knj_tskknj
+     *
+     * @param query search terms
+     * @param is_barcode if search should be just by ISBN
+     */
     fun searchCobiss(query: String, is_barcode: Boolean = false) = viewModelScope.launch {
 
         val bookList = mutableListOf<Book>()
@@ -344,10 +389,27 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                 Log.e("BK", "Volley Error $it")
             })
         RequestQueueSingleton.getInstance(getApplication()).addToRequestQueue(stringRequest)
-        
+
     }
 
-
+    /**
+     * Parse line of RIS output (like bibtex) from COBISS
+     *
+     * RIS example:
+     *   TY  - BOOK
+     *   ID  - 120688908
+     *   TI  - Ljudsko, suviše ljudsko : knjiga za slobodne duhove
+     *   AU  - Nietzsche, Friedrich
+     *   AU  - Ниче, Фридрих
+     *   PY  - 2005
+     *   SP  - 554
+     *   CY  - Beograd
+     *   PB  - Dereta
+     *   SN  - 86-7346-451-X
+     *
+     * @param regex_string regex string for wanted field
+     * @param ris_string RIS from COBISS
+     */
     private fun parseRisField(regex_string: String, ris_string: String): String {
         val regex = "$regex_string".toRegex()
         try {
@@ -363,13 +425,19 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
         return ""
     }
 
+    /**
+     * Convert COBISS table row of list of results to Book
+     *
+     * @param link Element from jsoup
+     * @return Book object
+     */
     private fun tableDataToBook(link: Element): Book {
 
         val book_bib = link.attr("data-cobiss-id")
         val title = link.attr("data-title")
         val author = link.select("span.author").first().text()
         val year = link.select("span.publishDate-data").first().text()
-        val url_book = "https://plus.sr.cobiss.net/opac7/bib/risCit/$book_bib"
+        val selfLink = "https://plus.sr.cobiss.net/opac7/bib/risCit/$book_bib"
 
         val book: Book = Book(
             bookId = 0,
@@ -378,7 +446,7 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
             cover = "",
             isbn10 = null,
             isbn13 = null,
-            selfLink = url_book,
+            selfLink = selfLink,
             author = author,
             authorExtras = null,
             publisher = null,
@@ -401,7 +469,12 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
         return book
     }
 
-
+    /**
+     * Convert RIS file from COBISS to Book
+     *
+     * @param book RIS string
+     * @return Book object
+     */
     private fun risToBook(book: String): Book {
 
         val title       = parseRisField("(?:.*TI.*)-\\s(.*)", book)
