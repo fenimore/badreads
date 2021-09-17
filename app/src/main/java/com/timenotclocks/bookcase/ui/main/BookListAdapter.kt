@@ -4,8 +4,13 @@
 
 package com.timenotclocks.bookcase.ui.main
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import android.util.Size
 import android.view.LayoutInflater
@@ -14,11 +19,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.BookViewActivity
 import com.timenotclocks.bookcase.EXTRA_ID
@@ -67,29 +73,14 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
                 emptyCoverView.text = b.titleString()
                 b.yearString()?.let { yearView.text = it }
                 b.cover("M").let {
-                    val test_context = this.coverView.context
-                    Log.i(TAG_NEW, "FFF BookViewHolder, test_context $test_context")
-                    if (it?.isNullOrBlank() != true) run {
-                        val itUri = it?.toUri()
-                        val thumbnail =
-                            itUri?.let { it1 ->
-                                test_context.contentResolver.loadThumbnail(
-                                    it1,
-                                    Size(80, 80),
-                                    null
-                                )
-                            }
-
-                        coverView.setImageBitmap(thumbnail)
-                        emptyCoverView.visibility = View.INVISIBLE
-                    }
-
-//                    Picasso.get().load(it).into(coverView, object : Callback {
-//                        override fun onSuccess() {
-//                            emptyCoverView.visibility = View.INVISIBLE
-//                        }
-//                        override fun onError(e: Exception) {}
-//                    })
+                    Picasso.get().load(it).fit().centerCrop().into(coverView, object : com.squareup.picasso.Callback {
+                        override fun onSuccess() {
+                            emptyCoverView.visibility = View.INVISIBLE
+                        }
+                        override fun onError(e: Exception) {
+                            Log.e("Picasso failed Book List Activity", "onError")
+                        }
+                    })
                 }
                 coverView.drawable ?: run {
                     emptyCoverView.visibility = View.VISIBLE

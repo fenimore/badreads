@@ -82,9 +82,8 @@ class BookPhotoActivity : AppCompatActivity() {
         }
         capturedImage.createNewFile()
 
-        mUri = if(Build.VERSION.SDK_INT >= 26){
-            FileProvider.getUriForFile(this, "com.timenotclocks.bookcase.fileprovider",
-                capturedImage)
+        mUri = if(Build.VERSION.SDK_INT >= 24){
+            FileProvider.getUriForFile(this, "com.timenotclocks.bookcase.fileprovider", capturedImage)
         } else {
             Uri.fromFile(capturedImage)
         }
@@ -159,8 +158,7 @@ class BookPhotoActivity : AppCompatActivity() {
         renderImage(imagePath)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>
-                                            , grantedResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantedResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantedResults)
         when(requestCode){
             1 ->
