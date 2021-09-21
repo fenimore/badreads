@@ -4,7 +4,10 @@ package com.timenotclocks.bookcase
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -14,13 +17,24 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
+import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.api.OpenLibraryViewModel
 import com.timenotclocks.bookcase.database.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.time.LocalDate
 
 
@@ -157,6 +171,18 @@ class BookEditActivity : AppCompatActivity() {
             }
 
         }
+
+        findViewById<Button>(R.id.book_upload_book).setOnClickListener { view ->
+            book?.let { it ->
+                Thread(Runnable {
+                    postBlog(it)
+                }).start()
+            }
+
+            println("sync book:  $book")
+
+        }
+
 
         val titleEdit = findViewById<TextInputLayout>(R.id.book_edit_title_layout)?.editText
         titleEdit?.setText(current.title)
@@ -340,6 +366,83 @@ class BookEditActivity : AppCompatActivity() {
             Log.i(TAG_NEW, "FFF BookEditActivity onActivityResult data: $data")
             Log.i(TAG_NEW, "FFF BookEditActivity onActivityResult data.data: $data.data")
 //            doSomeOperations()
+        }
+    }
+
+    /**
+     * Post book to WebBookList
+     *
+     * @param book Book object of currently viewd book
+     */
+    fun postBlog(book: Book){
+
+
+        val urlDev = "http://10.0.2.2:8000/api/blogpost"
+
+        val url = (
+                PreferenceManager.getDefaultSharedPreferences(this).getString(
+                    "remote_url", urlDev)?.toUri() ?: urlDev
+                ).toString()
+
+        val picasoBitmap = Picasso.get().load(book.cover).get()
+        val fileObject = bitmapToFile(picasoBitmap, "temp_file.jpg")!!
+
+
+        val client = OkHttpClient()
+
+        val JSONObjectString_2 = "{\"title\": \"${book.title}\", \"shortDescription\": \"${book.author}\", \"body\": \"${book.isbn13}\"}"
+        val MEDIA_TYPE_JPG = "image/jpeg".toMediaType()
+        val fileUri = Uri.parse(book.cover)
+        val fileName = fileUri.lastPathSegment
+
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("metadata", JSONObjectString_2)
+            .addFormDataPart("file", fileName, fileObject.asRequestBody(MEDIA_TYPE_JPG))
+            .build()
+
+        val request = Request.Builder()
+            .header("X-AUTH-TOKEN", "marko1112@droopia.net")
+            .url(url)
+            .post(requestBody)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+            println(response)
+        }
+    }
+
+    /**
+     * Convert Picasso loaded bitmap to File object
+     * need File object to post it via .addFormDataPart on okhttp request
+     * and this was most reliable way to get the image.
+     *
+     * @param bitmap Bitmap loaded with picasso
+     * @param fileNameToSave String to save this temporary file
+     */
+    fun bitmapToFile(bitmap: Bitmap, fileNameToSave: String): File? { // File name like "image.png"
+        //create a file to write bitmap data
+        var file: File? = null
+        return try {
+            file = File(Environment.getExternalStorageDirectory().toString() + File.separator + fileNameToSave)
+            file.createNewFile()
+
+            //Convert bitmap to byte array
+            val bos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos) // YOU can also save it in JPEG
+            val bitmapdata = bos.toByteArray()
+
+            //write the bytes in file
+            val fos = FileOutputStream(file)
+            fos.write(bitmapdata)
+            fos.flush()
+            fos.close()
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            file // it will return null
         }
     }
 }

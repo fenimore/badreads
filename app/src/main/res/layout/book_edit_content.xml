@@ -66,16 +66,39 @@
         </RelativeLayout>
 
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/book_upload_book"
+            style="@style/TextAppearance.AppTheme.SortButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="200dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            card_view:backgroundTint="@color/zxing_transparent"
+            card_view:icon="@drawable/ic_plus"
+            card_view:iconPadding="0dp"
+            card_view:layout_constraintEnd_toStartOf="@id/book_edit_image_edit"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/book_edit_cover_wrapper"
+            />
+
+
         <TextView
             android:id="@+id/book_edit_image_help"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:text="Add and manage cover images using ISBN number: https://openlibrary.org"
+            android:minWidth="88dp"
+            android:text="Plus to uploat to website, pencil to edit image"
             android:textAppearance="@style/TextAppearance.AppTheme.Caption"
             android:textIsSelectable="true"
             card_view:layout_constraintEnd_toStartOf="@id/book_edit_image_edit"
-            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintStart_toEndOf="@id/book_upload_book"
             card_view:layout_constraintTop_toBottomOf="@id/book_edit_cover_wrapper" />
 
         <com.google.android.material.button.MaterialButton
