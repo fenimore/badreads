@@ -18,6 +18,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.database.*
 import java.time.LocalDate
@@ -90,6 +93,9 @@ class BookViewActivity : AppCompatActivity() {
                 }
             })
         }
+
+
+
         emptyCoverView?.text = current.titleString() + "\n\n" + current.authorString()
         coverView.drawable ?: run {
             emptyCoverView.visibility = View.VISIBLE

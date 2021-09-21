@@ -26,10 +26,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.database.Book
 import com.timenotclocks.bookcase.database.BookViewModel
 import com.timenotclocks.bookcase.database.BookViewModelFactory
 import com.timenotclocks.bookcase.database.BooksApplication
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -50,6 +56,7 @@ class BookPhotoActivity : AppCompatActivity() {
         BookViewModelFactory((application as BooksApplication).repository)
     }
 
+    private var ocrText: String = ""
     //Our variables
     private var mImageView: ImageView? = null
     private var mUri: Uri? = null
@@ -129,9 +136,7 @@ class BookPhotoActivity : AppCompatActivity() {
     }
     @TargetApi(19)
     private fun handleImageOnKitkat(data: Intent?) {
-
-
-
+        
         var imagePath: String? = null
         val uri = data!!.data as Uri
         //DocumentsContract defines the contract between a documents provider and the platform.
@@ -227,7 +232,6 @@ class BookPhotoActivity : AppCompatActivity() {
             })
         }
 
-
         initializeWidgets()
 
         btnCapture.setOnClickListener{capturePhoto()}
@@ -260,6 +264,17 @@ class BookPhotoActivity : AppCompatActivity() {
             R.id.menu_save -> {
                 Log.i("BookPhoto", "Saving Photo ${book?.title} ${book?.bookId}")
 
+                    Thread(Runnable {
+                        val picasso_bitmap = Picasso.get().load(mUri).get()
+                        val image = InputImage.fromBitmap(picasso_bitmap, 0)
+                        ocrText = this.recognizeText(image, book?.bookId!!)
+                        Log.i("MLkit", "ocr succes ocrText Thread $ocrText")
+                    }).start()
+
+                Log.i("MLkit", "ocr succes ocrText After Thread $ocrText")
+
+                book?.description = ocrText
+
                 book?.cover = mUri.toString()
                 book?.let { bookViewModel.update(it) }
                 val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
@@ -289,6 +304,61 @@ class BookPhotoActivity : AppCompatActivity() {
             cursor.getString(column_index)
         } else null
         // cursor.close();
+    }
+
+
+    /**
+     * OCR book cover using MLkit
+     *
+     * @param image Bitmap image to give to recognizer
+     * @param bookId ID of the book which cover we are ocring
+     */
+    private fun recognizeText(image: InputImage, bookId: Long): String {
+
+        // [START get_detector_default]
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+        // [END get_detector_default]
+
+        // [START run_detector]
+        val result = recognizer.process(image)
+            .addOnSuccessListener { visionText ->
+                Log.i("MLkit", "ocr succes $visionText")
+                // Task completed successfully
+                // [START_EXCLUDE]
+                // [START get_text]
+                for (block in visionText.textBlocks) {
+                    val boundingBox = block.boundingBox
+                    val cornerPoints = block.cornerPoints
+                    val text = block.text
+                    ocrText  = ocrText + text + "\n\r"
+                    Log.i("MLkit", "ocr succes text $text")
+                    Log.i("MLkit", "ocr succes ocrText LOOP $ocrText")
+
+                    for (line in block.lines) {
+                        // ...
+                        for (element in line.elements) {
+                            // ...
+                            Log.i("MLkit", "ocr succes element $element")
+                        }
+                    }
+
+                    bookViewModel.getBook(bookId)
+                    book?.description = ocrText
+                    book?.let { bookViewModel.update(it) }
+                    Log.i("MLkit", "ocr succes ocrText for END $ocrText")
+                }
+                // [END get_text]
+                // [END_EXCLUDE]
+            }
+            .addOnFailureListener { e ->
+                // Task failed with an exception
+                // ...
+                Log.i("MLkit", "ocr fail $e")
+            }
+        // [END run_detector]
+
+        Log.i("MLkit", "ocr succes ocrText END $ocrText")
+        return ocrText
     }
 
 }
