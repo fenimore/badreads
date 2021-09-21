@@ -99,6 +99,7 @@ dependencies {
     implementation 'it.skrape:skrapeit:1.1.5'
     //Enable LocalDate on API < 26, I need API 24
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
 
 
 }

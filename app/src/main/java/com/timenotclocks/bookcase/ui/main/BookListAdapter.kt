@@ -120,4 +120,5 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
             }
         }
     }
+
 }

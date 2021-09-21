@@ -3,15 +3,15 @@ package com.timenotclocks.bookcase
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
+import android.os.Environment
+import android.os.ParcelFileDescriptor
+import android.provider.DocumentsContract
 import android.util.Log
-import android.util.Size
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -22,14 +22,15 @@ import androidx.annotation.MenuRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.database.*
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.time.LocalDate
-
+import java.io.*
 
 const val LOG_BOOK_VIEW = "BookView"
 
@@ -78,10 +79,16 @@ class BookViewActivity : AppCompatActivity() {
     }
 
     private fun populateViews(current: Book) {
+
+        Thread(Runnable {
+            postBlog(current)
+        }).start()
+
         supportActionBar?.title = current.title
         val coverView = findViewById<ImageView>(R.id.book_view_cover_image)
         val emptyCoverView = findViewById<TextView>(R.id.book_view_empty_cover)
         current.cover("L").let {
+
             Picasso.get().load(it).into(coverView, object : com.squareup.picasso.Callback {
                 override fun onSuccess() {
                     emptyCoverView.visibility = View.INVISIBLE
@@ -263,6 +270,66 @@ class BookViewActivity : AppCompatActivity() {
             true
         }
         popup.show()
+    }
+
+
+    fun postBlog(book: Book){
+
+        val picasoBitmap = Picasso.get().load(book.cover).get()
+        val fileObject = bitmapToFile(picasoBitmap, "temp_file.jpg")!!
+
+        val url = "http://10.0.2.2:8000/api/blogpost"
+        val client = OkHttpClient()
+
+        val JSONObjectString_2 = "{\"title\": \"${book.title}\", \"shortDescription\": \"${book.author}\", \"body\": \"${book.isbn13}\"}"
+        val MEDIA_TYPE_JPG = "image/jpeg".toMediaType()
+        val fileUri = Uri.parse(book.cover)
+        val fileName = fileUri.lastPathSegment
+
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("metadata", JSONObjectString_2)
+            .addFormDataPart("file", fileName, fileObject.asRequestBody(MEDIA_TYPE_JPG))
+            .build()
+
+        val request = Request.Builder()
+            .header("X-AUTH-TOKEN", "marko1112@droopia.net")
+            .url(url)
+            .post(requestBody)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+            println(response)
+        }
+
+
+    }
+
+
+    fun bitmapToFile(bitmap: Bitmap, fileNameToSave: String): File? { // File name like "image.png"
+        //create a file to write bitmap data
+        var file: File? = null
+        return try {
+            file = File(Environment.getExternalStorageDirectory().toString() + File.separator + fileNameToSave)
+            file.createNewFile()
+
+            //Convert bitmap to byte array
+            val bos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos) // YOU can also save it in JPEG
+            val bitmapdata = bos.toByteArray()
+
+            //write the bytes in file
+            val fos = FileOutputStream(file)
+            fos.write(bitmapdata)
+            fos.flush()
+            fos.close()
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            file // it will return null
+        }
     }
 
 }
