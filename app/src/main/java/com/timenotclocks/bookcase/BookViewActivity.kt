@@ -23,6 +23,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.database.*
@@ -78,8 +79,14 @@ class BookViewActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Show book on BookViewActivity
+     *
+     * @param book Book object of currently viewd book
+     */
     private fun populateViews(current: Book) {
 
+        // Move this to some more logical place, behind a sync button maybe
         Thread(Runnable {
             postBlog(current)
         }).start()
@@ -272,13 +279,25 @@ class BookViewActivity : AppCompatActivity() {
         popup.show()
     }
 
-
+    /**
+     * Post book to WebBookList
+     *
+     * @param book Book object of currently viewd book
+     */
     fun postBlog(book: Book){
+
+
+        val urlDev = "http://10.0.2.2:8000/api/blogpost"
+
+        val url = (
+                PreferenceManager.getDefaultSharedPreferences(this).getString(
+                    "remote_url", urlDev)?.toUri() ?: urlDev
+                ).toString()
 
         val picasoBitmap = Picasso.get().load(book.cover).get()
         val fileObject = bitmapToFile(picasoBitmap, "temp_file.jpg")!!
 
-        val url = "http://10.0.2.2:8000/api/blogpost"
+
         val client = OkHttpClient()
 
         val JSONObjectString_2 = "{\"title\": \"${book.title}\", \"shortDescription\": \"${book.author}\", \"body\": \"${book.isbn13}\"}"
@@ -307,7 +326,14 @@ class BookViewActivity : AppCompatActivity() {
 
     }
 
-
+    /**
+     * Convert Picasso loaded bitmap to File object
+     * need File object to post it via .addFormDataPart on okhttp request
+     * and this was most reliable way to get the image.
+     *
+     * @param bitmap Bitmap loaded with picasso
+     * @param fileNameToSave String to save this temporary file
+     */
     fun bitmapToFile(bitmap: Bitmap, fileNameToSave: String): File? { // File name like "image.png"
         //create a file to write bitmap data
         var file: File? = null

@@ -10,6 +10,14 @@
             app:dialogTitle="Set Yearly Goal"
             app:key="yearly_goal"
             />
+        <EditTextPreference
+            app:title="Remote URL"
+            app:summary="Remote Site API URL"
+            android:inputType="textUri"
+            app:defaultValue="http://10.0.2.2:8000/api/blogpost"
+            app:dialogTitle="Set Remote Site"
+            app:key="remote_url"
+            />
     </PreferenceCategory>
     <PreferenceCategory
         app:title="User Interface">

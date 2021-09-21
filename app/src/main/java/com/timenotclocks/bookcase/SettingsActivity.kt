@@ -62,6 +62,17 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                 true
             }
 
+
+            val remoteUrl: EditTextPreference? = findPreference("remote_url")
+            remoteUrl?.setOnBindEditTextListener { edit ->
+                edit.inputType = InputType.TYPE_TEXT_VARIATION_URI
+            }
+            remoteUrl?.summary = "API URL: ${remoteUrl?.text}"
+            remoteUrl?.setOnPreferenceChangeListener { preference, newValue ->
+                preference.summary = "API URL: ${newValue}"
+                true
+            }
+
         }
     }
 
@@ -85,6 +96,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         when (key) {
             "landing_tab" -> {}
             "yearly_goal" -> {}
+            "remote_url" -> {}
             darkModeString -> {
                 val darkModeValues = resources.getStringArray(R.array.dark_mode_values)
                 when (sharedPreferences.getString(darkModeString, darkModeValues[0])) {
