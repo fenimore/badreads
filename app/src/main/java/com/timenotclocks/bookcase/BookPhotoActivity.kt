@@ -136,7 +136,7 @@ class BookPhotoActivity : AppCompatActivity() {
     }
     @TargetApi(19)
     private fun handleImageOnKitkat(data: Intent?) {
-        
+
         var imagePath: String? = null
         val uri = data!!.data as Uri
         //DocumentsContract defines the contract between a documents provider and the platform.

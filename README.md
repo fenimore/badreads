@@ -1,3 +1,13 @@
+# Changes from forking
+
+- support for Google Books Search (thou not in use currently)
+- support for Cobiss library search, since openlibrary does not have a lot of Serbian Books
+- Book cover chooser photo/galery
+- OCR book cover on cover save
+- Rest api sync to web app https://github.com/homoludens/BookListWebApp (work in progress, obviously)
+
+
+
 # Badreads
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
