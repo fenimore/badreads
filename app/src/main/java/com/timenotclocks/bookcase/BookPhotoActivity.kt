@@ -26,14 +26,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.lifecycle.LiveData
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import com.timenotclocks.bookcase.api.OpenLibraryViewModel
 import com.timenotclocks.bookcase.database.Book
 import com.timenotclocks.bookcase.database.BookViewModel
 import com.timenotclocks.bookcase.database.BookViewModelFactory
 import com.timenotclocks.bookcase.database.BooksApplication
+import com.timenotclocks.bookcase.ui.main.EXTRA_BOOK
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import java.io.File
@@ -222,17 +226,32 @@ class BookPhotoActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+
+        initializeWidgets()
+
+        val bookId: Long? = intent.extras?.getLong(EXTRA_ID)
+
         intent.extras?.getLong(EXTRA_ID)?.let { bookId ->
             bookViewModel.getBook(bookId).observe(this, { observable ->
                 observable?.let {
                     Log.i(LOG_EDIT, "Editing a book $it")
                     book = it
-//                    populateViews(it)
+                    val bookCover = it.cover
+
+                    if(bookCover?.isNotEmpty() == true) {
+                        Picasso.get().load(book?.cover).into(mImageView, object : Callback {
+                            override fun onSuccess() {
+                                println("cover loaded")
+                            }
+
+                            override fun onError(e: Exception) {
+                                println("cover loaded")
+                            }
+                        })
+                    }
                 }
             })
         }
-
-        initializeWidgets()
 
         btnCapture.setOnClickListener{capturePhoto()}
         btnChoose.setOnClickListener{
