@@ -94,8 +94,6 @@ class BookViewActivity : AppCompatActivity() {
             })
         }
 
-
-
         emptyCoverView?.text = current.titleString() + "\n\n" + current.authorString()
         coverView.drawable ?: run {
             emptyCoverView.visibility = View.VISIBLE

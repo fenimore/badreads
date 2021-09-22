@@ -50,6 +50,8 @@ limitations under the License. -->
     <string name="our_image">Our Image</string>
     <string name="capture">Capture</string>
     <string name="choose">Choose</string>
+    <string name="crop">Crop</string>
+    <string name="ocr">OCR</string>
 
 
 </resources>

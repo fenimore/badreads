@@ -45,7 +45,35 @@
                 android:background="#ff0000"
                 android:text="@string/choose"
                 android:textColor="@android:color/black"/>
+
+            <Button
+                android:id="@+id/book_btn_crop"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_weight="0.5"
+                android:background="#ff0000"
+                android:text="@string/crop"
+                android:textColor="@android:color/black"/>
+
+            <Button
+                android:id="@+id/book_btn_ocr"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_weight="0.5"
+                android:background="#ff0000"
+                android:text="@string/ocr"
+                android:textColor="@android:color/black"/>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/book_ocr_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+
+            android:text="OCRed text"
+            android:textAppearance="@style/TextAppearance.AppTheme.Headline5"
+            android:textIsSelectable="true" />
 
 
     </LinearLayout>
