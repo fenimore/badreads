@@ -148,14 +148,18 @@ class BookPhotoActivity : AppCompatActivity() {
             observable?.let {
                 val book  = it
 
-                Thread(Runnable {
-                    val picasso_bitmap = Picasso.get().load(book.cover).get()
-                    ScannerConstants.selectedImageBitmap = picasso_bitmap
-                    startActivityForResult(
-                        Intent(this, ImageCropActivity::class.java),
-                        OPERATION_CROP_PHOTO
-                    )
-                }).start()
+                if (it.cover?.isNotEmpty() == true) {
+                    Thread(Runnable {
+                        val picasso_bitmap = Picasso.get().load(book.cover).get()
+                        ScannerConstants.selectedImageBitmap = picasso_bitmap
+                        startActivityForResult(
+                            Intent(this, ImageCropActivity::class.java),
+                            OPERATION_CROP_PHOTO
+                        )
+                    }).start()
+                } else {
+                    Log.i("cropPhoto","book has no cover")
+                }
             }
         })
     }
@@ -168,69 +172,74 @@ class BookPhotoActivity : AppCompatActivity() {
             observable?.let {
                 val book  = it
 
-                Thread(Runnable {
-                    val picasso_bitmap = Picasso.get().load(book.cover).get()
-                    val image = InputImage.fromBitmap(picasso_bitmap, 0)
-                    ocrText = recognizeText(image, book.bookId)
-//                    textViewBookOcr.text  = ocrText
-                    book.description = ocrText
+                if (it.cover?.isNotEmpty() == true) {
+                    Thread(Runnable {
+                        val picasso_bitmap = Picasso.get().load(book.cover).get()
+                        val image = InputImage.fromBitmap(picasso_bitmap, 0)
+                        ocrText = recognizeText(image, book.bookId)
+    //                    textViewBookOcr.text  = ocrText
+                        book.description = ocrText
 
-                    book.let { bookViewModel.update(it) }
+                        book.let { bookViewModel.update(it) }
 
-                }).start()
+                    }).start()
+                } else {
+                    Log.i("ocrPhoto","book has no cover")
+                }
             }
         })
     }
 
-    private fun renderImage(imagePath: String?){
-        if (imagePath != null) {
-            val bitmap = BitmapFactory.decodeFile(imagePath)
-            mImageView?.setImageBitmap(bitmap)
-        }
-        else {
-            show("ImagePath is null")
-        }
-    }
+//    private fun renderImage(imagePath: String?){
+//        if (imagePath != null) {
+//            val bitmap = BitmapFactory.decodeFile(imagePath)
+//            mImageView?.setImageBitmap(bitmap)
+//        }
+//        else {
+//            show("ImagePath is null")
+//        }
+//    }
 
-    private fun getImagePath(uri: Uri, selection: String?): String {
-        var path: String? = null
-        val cursor = contentResolver.query(uri, null, selection, null, null )
-        if (cursor != null){
-            if (cursor.moveToFirst()) {
-                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
-            }
-            cursor.close()
-        }
-        return path!!
-    }
-    @TargetApi(19)
-    private fun handleImageOnKitkat(data: Intent?) {
+//    private fun getImagePath(uri: Uri, selection: String?): String {
+//        var path: String? = null
+//        val cursor = contentResolver.query(uri, null, selection, null, null )
+//        if (cursor != null){
+//            if (cursor.moveToFirst()) {
+//                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
+//            }
+//            cursor.close()
+//        }
+//        return path!!
+//    }
 
-        var imagePath: String? = null
-        val uri = data!!.data as Uri
-        //DocumentsContract defines the contract between a documents provider and the platform.
-        if (DocumentsContract.isDocumentUri(this, uri)){
-            val docId = DocumentsContract.getDocumentId(uri)
-            if ("com.android.providers.media.documents" == uri?.authority){
-                val id = docId.split(":")[1]
-                val selsetion = MediaStore.Images.Media._ID + "=" + id
-                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    selsetion)
-            }
-            else if ("com.android.providers.downloads.documents" == uri.authority){
-                val contentUri = ContentUris.withAppendedId(Uri.parse(
-                    "content://downloads/public_downloads"), java.lang.Long.valueOf(docId))
-                imagePath = getImagePath(contentUri, null)
-            }
-        }
-        else if ("content".equals(uri?.scheme, ignoreCase = true)){
-            imagePath = getImagePath(uri, null)
-        }
-        else if ("file".equals(uri?.scheme, ignoreCase = true)){
-            imagePath = uri?.path
-        }
-        renderImage(imagePath)
-    }
+//    @TargetApi(19)
+//    private fun handleImageOnKitkat(data: Intent?) {
+//
+//        var imagePath: String? = null
+//        val uri = data!!.data as Uri
+//        //DocumentsContract defines the contract between a documents provider and the platform.
+//        if (DocumentsContract.isDocumentUri(this, uri)){
+//            val docId = DocumentsContract.getDocumentId(uri)
+//            if ("com.android.providers.media.documents" == uri?.authority){
+//                val id = docId.split(":")[1]
+//                val selsetion = MediaStore.Images.Media._ID + "=" + id
+//                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//                    selsetion)
+//            }
+//            else if ("com.android.providers.downloads.documents" == uri.authority){
+//                val contentUri = ContentUris.withAppendedId(Uri.parse(
+//                    "content://downloads/public_downloads"), java.lang.Long.valueOf(docId))
+//                imagePath = getImagePath(contentUri, null)
+//            }
+//        }
+//        else if ("content".equals(uri?.scheme, ignoreCase = true)){
+//            imagePath = getImagePath(uri, null)
+//        }
+//        else if ("file".equals(uri?.scheme, ignoreCase = true)){
+//            imagePath = uri?.path
+//        }
+//        renderImage(imagePath)
+//    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantedResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantedResults)
@@ -326,6 +335,7 @@ class BookPhotoActivity : AppCompatActivity() {
                     val bookCover = it.cover
 
                     if(bookCover?.isNotEmpty() == true) {
+                        mUri = bookCover.toUri()
                         Picasso.get().load(book?.cover).into(mImageView, object : Callback {
                             override fun onSuccess() {
                                 println("cover loaded")
