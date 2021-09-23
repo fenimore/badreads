@@ -94,6 +94,9 @@ public interface BookDao {
     @Query("SELECT * FROM books WHERE bookId=:id ")
     fun getBook(id: Long): LiveData<Book>
 
+    @Query("SELECT * FROM books WHERE bookId=:id ")
+    fun getBookOnce(id: Long): Book
+
     @Query("SELECT * FROM books")
     fun getBooks(): Flow<List<Book>>
 

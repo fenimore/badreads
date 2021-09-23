@@ -132,11 +132,6 @@ class BookEditActivity : AppCompatActivity() {
             emptyCover.visibility = View.VISIBLE
         }
 
-        current.cover("L").let {
-            Picasso.get().load(it).into(coverView)
-        }
-
-
 //        val scan = root.findViewById<MaterialButton>(R.id.fragment_scan_button)
 //        scan.setOnClickListener {
 //            val intent = Intent(context, OpenLibrarySearchActivity::class.java).apply {
@@ -159,7 +154,7 @@ class BookEditActivity : AppCompatActivity() {
 ////            startActivity(intent)
 //            startActivityForResult(intent, 100)
 
-            book?.let { it ->
+            current.let { it ->
 
                 val intent = Intent(applicationContext, BookPhotoActivity::class.java).apply {
                     Log.i(LOG_BOOK_VIEW, "Taking photo of this book 2 $it")
@@ -173,14 +168,13 @@ class BookEditActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.book_upload_book).setOnClickListener { view ->
-            book?.let { it ->
+            current.let { it ->
                 Thread(Runnable {
                     postBlog(it)
                 }).start()
             }
 
             println("sync book:  $book")
-
         }
 
 
@@ -374,7 +368,7 @@ class BookEditActivity : AppCompatActivity() {
      *
      * @param book Book object of currently viewd book
      */
-    fun postBlog(book: Book){
+    fun postBlog(current: Book){
 
 
         val urlDev = "http://10.0.2.2:8000/api/blogpost"
@@ -384,15 +378,14 @@ class BookEditActivity : AppCompatActivity() {
                     "remote_url", urlDev)?.toUri() ?: urlDev
                 ).toString()
 
-        val picasoBitmap = Picasso.get().load(book.cover).get()
+        val picasoBitmap = Picasso.get().load(current.cover).get()
         val fileObject = bitmapToFile(picasoBitmap, "temp_file.jpg")!!
-
 
         val client = OkHttpClient()
 
-        val JSONObjectString_2 = "{\"title\": \"${book.title}\", \"shortDescription\": \"${book.author}\", \"body\": \"${book.isbn13}\"}"
+        val JSONObjectString_2 = "{\"title\": \"${current.title}\", \"shortDescription\": \"${current.author}\", \"body\": \"${current.isbn13}\"}"
         val MEDIA_TYPE_JPG = "image/jpeg".toMediaType()
-        val fileUri = Uri.parse(book.cover)
+        val fileUri = Uri.parse(current.cover)
         val fileName = fileUri.lastPathSegment
 
         val requestBody = MultipartBody.Builder()

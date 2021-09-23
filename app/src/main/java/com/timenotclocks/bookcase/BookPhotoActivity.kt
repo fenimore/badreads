@@ -144,50 +144,117 @@ class BookPhotoActivity : AppCompatActivity() {
     }
 
     private fun cropPhoto(bookId: Long) {
-        bookViewModel.getBook(bookId).observe(this, { observable ->
-            observable?.let {
-                val book  = it
 
-                if (it.cover?.isNotEmpty() == true) {
-                    Thread(Runnable {
-                        val picasso_bitmap = Picasso.get().load(book.cover).get()
-                        ScannerConstants.selectedImageBitmap = picasso_bitmap
-                        startActivityForResult(
-                            Intent(this, ImageCropActivity::class.java),
-                            OPERATION_CROP_PHOTO
-                        )
-                    }).start()
-                } else {
-                    Log.i("cropPhoto","book has no cover")
-                }
+        //without observer and w/o livedata but not updating book
+        Thread(Runnable {
+
+            val book = bookViewModel.getBookOnce(bookId)
+            if (book.cover?.isNotEmpty() == true) {
+                val picasso_bitmap = Picasso.get().load(book.cover).get()
+                ScannerConstants.selectedImageBitmap = picasso_bitmap
+                startActivityForResult(
+                    Intent(this, ImageCropActivity::class.java),
+                    OPERATION_CROP_PHOTO
+                )
+            } else {
+                Log.i("cropPhoto", "book has no cover")
             }
-        })
+        }).start()
+
+
+// This is with observer, and is geting into the loop
+//        bookViewModel.getBook(bookId).observe(this, { observable ->
+//            observable?.let {
+//                val book  = it
+//
+//                if (it.cover?.isNotEmpty() == true) {
+//                    Thread(Runnable {
+//                        val picasso_bitmap = Picasso.get().load(book.cover).get()
+//                        ScannerConstants.selectedImageBitmap = picasso_bitmap
+//                        startActivityForResult(
+//                            Intent(this, ImageCropActivity::class.java),
+//                            OPERATION_CROP_PHOTO
+//                        )
+//                    }).start()
+//                } else {
+//                    Log.i("cropPhoto","book has no cover")
+//                }
+//            }
+//        })
     }
 
     private fun ocrPhoto(bookId: Long) {
+        val test = book
+        Thread(Runnable {
+            val currentBook = bookViewModel.getBookOnce(bookId)
+            if (currentBook.cover?.isNotEmpty() == true) {
+                val picasso_bitmap = Picasso.get().load(currentBook?.cover).get()
+                val image = InputImage.fromBitmap(picasso_bitmap, 0)
+                ocrText = recognizeText(image, currentBook?.bookId!!)
 
-        val book = bookViewModel.getBook(bookId)
+                currentBook.description = ocrText
+                currentBook.let { bookViewModel.update(it) }
 
-        bookViewModel.getBook(bookId).observe(this, { observable ->
-            observable?.let {
-                val book  = it
+                this.runOnUiThread(Runnable {
+                    textViewBookOcr.text = ocrText
+                })
 
-                if (it.cover?.isNotEmpty() == true) {
-                    Thread(Runnable {
-                        val picasso_bitmap = Picasso.get().load(book.cover).get()
-                        val image = InputImage.fromBitmap(picasso_bitmap, 0)
-                        ocrText = recognizeText(image, book.bookId)
-    //                    textViewBookOcr.text  = ocrText
-                        book.description = ocrText
 
-                        book.let { bookViewModel.update(it) }
-
-                    }).start()
-                } else {
-                    Log.i("ocrPhoto","book has no cover")
-                }
+            } else {
+                Log.i("ocrPhoto", "book has no cover")
             }
-        })
+        }).start()
+
+
+
+
+
+//        val bookLive = bookViewModel.getBook(bookId)
+
+//        bookLive.observeOnce(this, { observable ->
+//            observable?.let {
+//                book  = it}
+//            )
+
+//        val liveData = bookViewModel.getBook(bookId)
+//        liveData.observe(this, object: Observer<Book> {
+//            override fun onChanged(book: Book?) {
+//                liveData.removeObserver(this)
+//            }
+//        })
+
+
+//        bookLive.observe(this, { observable ->
+//
+//            observable?.let {
+//                book  = it
+//
+////                bookLive.removeObserver(this)
+//                if (book?.cover?.isNotEmpty() == true) {
+//                    Thread(Runnable {
+//                        val picasso_bitmap = Picasso.get().load(book?.cover).get()
+//                        val image = InputImage.fromBitmap(picasso_bitmap, 0)
+//                        ocrText = recognizeText(image, book?.bookId!!)
+//
+//                        this.runOnUiThread(Runnable {
+//                            textViewBookOcr.text  = ocrText
+//                        })
+//
+//                        book?.description = ocrText
+//                        book.let { bookViewModel.update(it!!) }
+//
+//
+//                    }).start()
+//
+//                    book.description = ocrText
+//                    book.let { bookViewModel.update(it) }
+//
+//                } else {
+//                    Log.i("ocrPhoto","book has no cover")
+//                }
+//            }
+//        })
+
     }
 
 //    private fun renderImage(imagePath: String?){
@@ -440,7 +507,7 @@ class BookPhotoActivity : AppCompatActivity() {
                     val text = block.text
                     ocrText  = ocrText + text + "\n\r"
 //                    Log.i("MLkit", "ocr succes text $text")
-                    Log.i("MLkit", "ocr succes ocrText LOOP $ocrText")
+//                    Log.i("MLkit", "ocr succes ocrText LOOP $ocrText")
 
                     for (line in block.lines) {
                         // ...
@@ -503,6 +570,12 @@ class BookPhotoActivity : AppCompatActivity() {
         return mmUri
     }
 
+
+    /**
+     * Taken from https://handyopinion.com/ask-runtime-permission-in-kotlin-android/
+     *
+     * @param requestedPermission android permission we need to check
+     */
     fun isPermissionsAllowed(requestedPermission: String): Boolean {
 //        val permission_1 = Manifest.permission.CAMERA
 //        val permission_2 = Manifest.permission.READ_EXTERNAL_STORAGE
@@ -511,10 +584,12 @@ class BookPhotoActivity : AppCompatActivity() {
         } else true
     }
 
+    /**
+     * Taken from https://handyopinion.com/ask-runtime-permission-in-kotlin-android/
+     *
+     * @param requestedPermission android permission we need to ask for
+     */
     fun askForPermissions(requestedPermission: String): Boolean {
-
-//        val permission_1 = Manifest.permission.CAMERA
-//        val permission_2 = Manifest.permission.READ_EXTERNAL_STORAGE
 
         if (!isPermissionsAllowed(requestedPermission)) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this as Activity, requestedPermission)) {
@@ -527,7 +602,10 @@ class BookPhotoActivity : AppCompatActivity() {
         return true
     }
 
-
+    /**
+     * Taken from https://handyopinion.com/ask-runtime-permission-in-kotlin-android/
+     *
+     */
     private fun showPermissionDeniedDialog() {
         AlertDialog.Builder(this)
             .setTitle("Permission Denied")

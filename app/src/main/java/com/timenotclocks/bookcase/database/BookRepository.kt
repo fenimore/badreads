@@ -89,6 +89,10 @@ class BookRepository(private val bookDao: BookDao) {
         return bookDao.getBook(id)
     }
 
+    fun getBookOnce(id: Long): Book {
+        return bookDao.getBookOnce(id)
+    }
+
     fun query(term: String): Flow<List<Book>> {
         return bookDao.fullSearch(term)
     }

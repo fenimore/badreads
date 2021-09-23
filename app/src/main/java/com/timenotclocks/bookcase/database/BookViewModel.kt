@@ -41,6 +41,10 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
         return repository.getBook(id)
     }
 
+    fun getBookOnce(id: Long): Book {
+        return repository.getBookOnce(id)
+    }
+
     fun query(term: String): LiveData<List<Book>> {
         return repository.query(term).asLiveData() as MutableLiveData<List<Book>>
     }
