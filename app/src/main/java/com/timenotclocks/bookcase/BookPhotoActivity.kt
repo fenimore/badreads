@@ -145,7 +145,6 @@ class BookPhotoActivity : AppCompatActivity() {
 
     private fun cropPhoto(bookId: Long) {
 
-        //without observer and w/o livedata but not updating book
         Thread(Runnable {
 
             val book = bookViewModel.getBookOnce(bookId)
@@ -162,7 +161,7 @@ class BookPhotoActivity : AppCompatActivity() {
         }).start()
 
 
-// This is with observer, and is geting into the loop
+
 //        bookViewModel.getBook(bookId).observe(this, { observable ->
 //            observable?.let {
 //                val book  = it
@@ -185,21 +184,27 @@ class BookPhotoActivity : AppCompatActivity() {
 
     private fun ocrPhoto(bookId: Long) {
         val test = book
+
+        println("ocrPhoto before thread $test")
+        //without observer and w/o livedata but not updating book
         Thread(Runnable {
+            println("ocrPhoto in thread $test")
             val currentBook = bookViewModel.getBookOnce(bookId)
             if (currentBook.cover?.isNotEmpty() == true) {
                 val picasso_bitmap = Picasso.get().load(currentBook?.cover).get()
                 val image = InputImage.fromBitmap(picasso_bitmap, 0)
                 ocrText = recognizeText(image, currentBook?.bookId!!)
 
-                currentBook.description = ocrText
-                currentBook.let { bookViewModel.update(it) }
+//                currentBook.description = ocrText
+//                currentBook.let { bookViewModel.update(it) }
 
-                this.runOnUiThread(Runnable {
-                    textViewBookOcr.text = ocrText
-                })
+//                this.runOnUiThread(Runnable {
+//                    textViewBookOcr.text = ocrText
+//                })
 
 
+                println("ocrPhoto END of thread test $test")
+                println("ocrPhoto END of thread currentBook $currentBook")
             } else {
                 Log.i("ocrPhoto", "book has no cover")
             }
@@ -209,45 +214,29 @@ class BookPhotoActivity : AppCompatActivity() {
 
 
 
+// This is with observer, and is geting into the loop
 //        val bookLive = bookViewModel.getBook(bookId)
-
-//        bookLive.observeOnce(this, { observable ->
-//            observable?.let {
-//                book  = it}
-//            )
-
-//        val liveData = bookViewModel.getBook(bookId)
-//        liveData.observe(this, object: Observer<Book> {
-//            override fun onChanged(book: Book?) {
-//                liveData.removeObserver(this)
-//            }
-//        })
-
-
+//
 //        bookLive.observe(this, { observable ->
 //
 //            observable?.let {
-//                book  = it
+//                val currentBook  = it
 //
 ////                bookLive.removeObserver(this)
-//                if (book?.cover?.isNotEmpty() == true) {
+//                if (currentBook?.cover?.isNotEmpty() == true) {
 //                    Thread(Runnable {
-//                        val picasso_bitmap = Picasso.get().load(book?.cover).get()
+//                        val picasso_bitmap = Picasso.get().load(currentBook?.cover).get()
 //                        val image = InputImage.fromBitmap(picasso_bitmap, 0)
-//                        ocrText = recognizeText(image, book?.bookId!!)
+//                        ocrText = recognizeText(image, currentBook?.bookId!!)
 //
 //                        this.runOnUiThread(Runnable {
 //                            textViewBookOcr.text  = ocrText
 //                        })
 //
-//                        book?.description = ocrText
-//                        book.let { bookViewModel.update(it!!) }
-//
+//                        currentBook?.description = ocrText
+//                        currentBook.let { bookViewModel.update(it!!) }
 //
 //                    }).start()
-//
-//                    book.description = ocrText
-//                    book.let { bookViewModel.update(it) }
 //
 //                } else {
 //                    Log.i("ocrPhoto","book has no cover")
@@ -490,6 +479,7 @@ class BookPhotoActivity : AppCompatActivity() {
      */
     private fun recognizeText(image: InputImage, bookId: Long): String {
 
+        val currentBook = bookViewModel.getBookOnce(bookId)
         // [START get_detector_default]
         val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
         // [END get_detector_default]
@@ -517,6 +507,7 @@ class BookPhotoActivity : AppCompatActivity() {
                         }
                     }
 
+
 //                    bookViewModel.getBook(bookId)
 //                    book?.description = ocrText
 //                    book?.let { bookViewModel.update(it) }
@@ -524,6 +515,13 @@ class BookPhotoActivity : AppCompatActivity() {
                 }
                 // [END get_text]
                 // [END_EXCLUDE]
+                currentBook.description = ocrText
+                currentBook.let { bookViewModel.update(it) }
+
+                this.runOnUiThread(Runnable {
+                    textViewBookOcr.text = ocrText
+                })
+
             }
             .addOnFailureListener { e ->
                 // Task failed with an exception
