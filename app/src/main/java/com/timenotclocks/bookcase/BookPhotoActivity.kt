@@ -202,6 +202,9 @@ class BookPhotoActivity : AppCompatActivity() {
                     val bitmap = BitmapFactory.decodeStream(
                         getContentResolver().openInputStream(mmUri))
                     mImageView!!.setImageBitmap(bitmap)
+                    book?.cover = mUri.toString()
+                    book?.let { bookViewModel.update(it) }
+
                 }
             OPERATION_CHOOSE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
@@ -210,6 +213,10 @@ class BookPhotoActivity : AppCompatActivity() {
                     val mmUri = mUri as Uri
                     val bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mmUri))
                     mImageView!!.setImageBitmap(bitmap)
+
+                    book?.cover = mUri.toString()
+                    book?.let { bookViewModel.update(it) }
+
                     Log.i(TAG_NEW, "FFF onActivityResult OPERATION_CHOOSE_PHOTO")
 
 //                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -232,6 +239,8 @@ class BookPhotoActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(this, "Not OK", Toast.LENGTH_LONG).show()
                     }
+                    book?.cover = mUri.toString()
+                    book?.let { bookViewModel.update(it) }
                 }
         }
     }
