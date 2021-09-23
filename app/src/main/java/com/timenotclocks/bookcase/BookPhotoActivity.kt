@@ -159,143 +159,22 @@ class BookPhotoActivity : AppCompatActivity() {
                 Log.i("cropPhoto", "book has no cover")
             }
         }).start()
-
-
-
-//        bookViewModel.getBook(bookId).observe(this, { observable ->
-//            observable?.let {
-//                val book  = it
-//
-//                if (it.cover?.isNotEmpty() == true) {
-//                    Thread(Runnable {
-//                        val picasso_bitmap = Picasso.get().load(book.cover).get()
-//                        ScannerConstants.selectedImageBitmap = picasso_bitmap
-//                        startActivityForResult(
-//                            Intent(this, ImageCropActivity::class.java),
-//                            OPERATION_CROP_PHOTO
-//                        )
-//                    }).start()
-//                } else {
-//                    Log.i("cropPhoto","book has no cover")
-//                }
-//            }
-//        })
     }
 
     private fun ocrPhoto(bookId: Long) {
-        val test = book
 
-        println("ocrPhoto before thread $test")
-        //without observer and w/o livedata but not updating book
         Thread(Runnable {
-            println("ocrPhoto in thread $test")
             val currentBook = bookViewModel.getBookOnce(bookId)
             if (currentBook.cover?.isNotEmpty() == true) {
                 val picasso_bitmap = Picasso.get().load(currentBook?.cover).get()
                 val image = InputImage.fromBitmap(picasso_bitmap, 0)
                 ocrText = recognizeText(image, currentBook?.bookId!!)
-
-//                currentBook.description = ocrText
-//                currentBook.let { bookViewModel.update(it) }
-
-//                this.runOnUiThread(Runnable {
-//                    textViewBookOcr.text = ocrText
-//                })
-
-
-                println("ocrPhoto END of thread test $test")
-                println("ocrPhoto END of thread currentBook $currentBook")
             } else {
                 Log.i("ocrPhoto", "book has no cover")
             }
         }).start()
-
-
-
-
-
-// This is with observer, and is geting into the loop
-//        val bookLive = bookViewModel.getBook(bookId)
-//
-//        bookLive.observe(this, { observable ->
-//
-//            observable?.let {
-//                val currentBook  = it
-//
-////                bookLive.removeObserver(this)
-//                if (currentBook?.cover?.isNotEmpty() == true) {
-//                    Thread(Runnable {
-//                        val picasso_bitmap = Picasso.get().load(currentBook?.cover).get()
-//                        val image = InputImage.fromBitmap(picasso_bitmap, 0)
-//                        ocrText = recognizeText(image, currentBook?.bookId!!)
-//
-//                        this.runOnUiThread(Runnable {
-//                            textViewBookOcr.text  = ocrText
-//                        })
-//
-//                        currentBook?.description = ocrText
-//                        currentBook.let { bookViewModel.update(it!!) }
-//
-//                    }).start()
-//
-//                } else {
-//                    Log.i("ocrPhoto","book has no cover")
-//                }
-//            }
-//        })
-
     }
 
-//    private fun renderImage(imagePath: String?){
-//        if (imagePath != null) {
-//            val bitmap = BitmapFactory.decodeFile(imagePath)
-//            mImageView?.setImageBitmap(bitmap)
-//        }
-//        else {
-//            show("ImagePath is null")
-//        }
-//    }
-
-//    private fun getImagePath(uri: Uri, selection: String?): String {
-//        var path: String? = null
-//        val cursor = contentResolver.query(uri, null, selection, null, null )
-//        if (cursor != null){
-//            if (cursor.moveToFirst()) {
-//                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
-//            }
-//            cursor.close()
-//        }
-//        return path!!
-//    }
-
-//    @TargetApi(19)
-//    private fun handleImageOnKitkat(data: Intent?) {
-//
-//        var imagePath: String? = null
-//        val uri = data!!.data as Uri
-//        //DocumentsContract defines the contract between a documents provider and the platform.
-//        if (DocumentsContract.isDocumentUri(this, uri)){
-//            val docId = DocumentsContract.getDocumentId(uri)
-//            if ("com.android.providers.media.documents" == uri?.authority){
-//                val id = docId.split(":")[1]
-//                val selsetion = MediaStore.Images.Media._ID + "=" + id
-//                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//                    selsetion)
-//            }
-//            else if ("com.android.providers.downloads.documents" == uri.authority){
-//                val contentUri = ContentUris.withAppendedId(Uri.parse(
-//                    "content://downloads/public_downloads"), java.lang.Long.valueOf(docId))
-//                imagePath = getImagePath(contentUri, null)
-//            }
-//        }
-//        else if ("content".equals(uri?.scheme, ignoreCase = true)){
-//            imagePath = getImagePath(uri, null)
-//        }
-//        else if ("file".equals(uri?.scheme, ignoreCase = true)){
-//            imagePath = uri?.path
-//        }
-//        renderImage(imagePath)
-//    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantedResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantedResults)
@@ -310,19 +189,6 @@ class BookPhotoActivity : AppCompatActivity() {
         }
     }
 
-//    override fun onRequestPermissionsResult(requestCode: Int,permissions: Array<String>,grantResults: IntArray) {
-//        when (requestCode) {
-//            REQUEST_CODE -> {
-//                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    // permission is granted, you can perform your operation here
-//                } else {
-//                    // permission is denied, you can ask for permission again, if you want
-//                    //  askForPermissions()
-//                }
-//                return
-//            }
-//        }
-//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -455,22 +321,6 @@ class BookPhotoActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun getRealPathFromURI(contentURI: Uri?, context: Activity): String? {
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = context.managedQuery(
-            contentURI, projection, null,
-            null, null
-        ) ?: return null
-        val column_index = cursor
-            .getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        return if (cursor.moveToFirst()) {
-            // cursor.close();
-            cursor.getString(column_index)
-        } else null
-        // cursor.close();
-    }
-
-
     /**
      * OCR book cover using MLkit
      *
@@ -496,8 +346,6 @@ class BookPhotoActivity : AppCompatActivity() {
                     val cornerPoints = block.cornerPoints
                     val text = block.text
                     ocrText  = ocrText + text + "\n\r"
-//                    Log.i("MLkit", "ocr succes text $text")
-//                    Log.i("MLkit", "ocr succes ocrText LOOP $ocrText")
 
                     for (line in block.lines) {
                         // ...
@@ -506,12 +354,6 @@ class BookPhotoActivity : AppCompatActivity() {
                             Log.i("MLkit", "ocr succes element $element")
                         }
                     }
-
-
-//                    bookViewModel.getBook(bookId)
-//                    book?.description = ocrText
-//                    book?.let { bookViewModel.update(it) }
-//                    Log.i("MLkit", "ocr succes ocrText for END $ocrText")
                 }
                 // [END get_text]
                 // [END_EXCLUDE]
@@ -534,6 +376,12 @@ class BookPhotoActivity : AppCompatActivity() {
         return ocrText
     }
 
+    /**
+     * Save loaded bitmap to file
+     *
+     * @param img Bitmap image to save
+     * @return Uri of the new file
+     */
     fun saveImage(img: Bitmap): Uri? {
 
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
@@ -562,12 +410,10 @@ class BookPhotoActivity : AppCompatActivity() {
                     } else {
                         Uri.fromFile(imgFile)
                     }
-
         }
 
         return mmUri
     }
-
 
     /**
      * Taken from https://handyopinion.com/ask-runtime-permission-in-kotlin-android/
@@ -575,8 +421,6 @@ class BookPhotoActivity : AppCompatActivity() {
      * @param requestedPermission android permission we need to check
      */
     fun isPermissionsAllowed(requestedPermission: String): Boolean {
-//        val permission_1 = Manifest.permission.CAMERA
-//        val permission_2 = Manifest.permission.READ_EXTERNAL_STORAGE
         return if (ContextCompat.checkSelfPermission(this, requestedPermission) != PackageManager.PERMISSION_GRANTED) {
             false
         } else true
@@ -621,4 +465,76 @@ class BookPhotoActivity : AppCompatActivity() {
             .show()
     }
 
+    /**
+     * TODO: Remove this one and all bellow
+     * Trying to get real path, complete failure
+     *
+     * @param contentURI image uri
+     * @param context Activity
+     */
+    fun getRealPathFromURI(contentURI: Uri?, context: Activity): String? {
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = context.managedQuery(
+            contentURI, projection, null,
+            null, null
+        ) ?: return null
+        val column_index = cursor
+            .getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        return if (cursor.moveToFirst()) {
+            // cursor.close();
+            cursor.getString(column_index)
+        } else null
+        // cursor.close();
+    }
+
+//    private fun renderImage(imagePath: String?){
+//        if (imagePath != null) {
+//            val bitmap = BitmapFactory.decodeFile(imagePath)
+//            mImageView?.setImageBitmap(bitmap)
+//        }
+//        else {
+//            show("ImagePath is null")
+//        }
+//    }
+
+//    private fun getImagePath(uri: Uri, selection: String?): String {
+//        var path: String? = null
+//        val cursor = contentResolver.query(uri, null, selection, null, null )
+//        if (cursor != null){
+//            if (cursor.moveToFirst()) {
+//                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
+//            }
+//            cursor.close()
+//        }
+//        return path!!
+//    }
+
+//    @TargetApi(19)
+//    private fun handleImageOnKitkat(data: Intent?) {
+//
+//        var imagePath: String? = null
+//        val uri = data!!.data as Uri
+//        //DocumentsContract defines the contract between a documents provider and the platform.
+//        if (DocumentsContract.isDocumentUri(this, uri)){
+//            val docId = DocumentsContract.getDocumentId(uri)
+//            if ("com.android.providers.media.documents" == uri?.authority){
+//                val id = docId.split(":")[1]
+//                val selsetion = MediaStore.Images.Media._ID + "=" + id
+//                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//                    selsetion)
+//            }
+//            else if ("com.android.providers.downloads.documents" == uri.authority){
+//                val contentUri = ContentUris.withAppendedId(Uri.parse(
+//                    "content://downloads/public_downloads"), java.lang.Long.valueOf(docId))
+//                imagePath = getImagePath(contentUri, null)
+//            }
+//        }
+//        else if ("content".equals(uri?.scheme, ignoreCase = true)){
+//            imagePath = getImagePath(uri, null)
+//        }
+//        else if ("file".equals(uri?.scheme, ignoreCase = true)){
+//            imagePath = uri?.path
+//        }
+//        renderImage(imagePath)
+//    }
 }
