@@ -88,7 +88,7 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                         numPages,
                         description,
                         series,
-                        language?.replace("/languages/", "")?.capitalize(),
+                        language?.replace("/languages/", ""),
                     )
                 },
                 {
@@ -138,6 +138,8 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
             // just going to ignore ISBN 10
             // Similarly publishers and publish year are in random order,
             // so those are left null.
+            // val isbn13s: List<String> = isbnArray?.filter { it.length > 10 }.orEmpty()
+            // TODO: handle when the isbn 13 isn't 13 length :(
             val bookList: List<Book>? = isbnArray?.filter { it.length > 10 }?.let { isbn13s ->
                 isbn13s.map { isbn13 ->
                     Book(
