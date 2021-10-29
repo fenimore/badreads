@@ -71,6 +71,7 @@ class ShelfFragment : Fragment() {
         val manual = root.findViewById<MaterialButton>(R.id.fragment_manual_button)
         val scan = root.findViewById<MaterialButton>(R.id.fragment_scan_button)
         val search = root.findViewById<MaterialButton>(R.id.fragment_search_open_library_button)
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
