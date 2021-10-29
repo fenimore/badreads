@@ -52,6 +52,14 @@ class BookViewActivity : AppCompatActivity() {
                 }
             })
         }
+        findViewById<ImageView>(R.id.book_view_bookmark).setOnClickListener {
+            book?.let { b ->
+                b.bookmark = !b.bookmark
+                book = b
+                bookViewModel.update(b)
+                populateViews(b)
+            }
+        }
     }
 
     override fun onResume() {
@@ -149,6 +157,12 @@ class BookViewActivity : AppCompatActivity() {
         }
         if (current.format.isNullOrBlank()) {
             formatView.height = 0
+        }
+        val bookmarkView: ImageView = findViewById(R.id.book_view_bookmark)
+        if (current.bookmark) {
+            bookmarkView.setImageResource(R.drawable.ic_bookmark)
+        } else {
+            bookmarkView.setImageResource(R.drawable.ic_bookmark_empty)
         }
     }
 

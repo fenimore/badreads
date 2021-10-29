@@ -32,6 +32,16 @@ limitations under the License. -->
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/book_list_bookmark"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="25dp"
+            android:paddingLeft="25dp"
+            android:src="@drawable/ic_bookmark_empty" />
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

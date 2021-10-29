@@ -12,6 +12,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.activity.viewModels
+
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -20,8 +23,8 @@ import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.BookViewActivity
 import com.timenotclocks.bookcase.EXTRA_ID
 import com.timenotclocks.bookcase.R
-import com.timenotclocks.bookcase.database.Book
-import com.timenotclocks.bookcase.database.ShelfType
+import com.timenotclocks.bookcase.database.*
+import kotlin.coroutines.coroutineContext
 
 
 const val LOG_BOOK_ADAPTER = "BookAdapter"
@@ -53,9 +56,10 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
         private val coverView: ImageView = itemView.findViewById(R.id.book_list_cover_view)
         private val emptyCoverView: TextView = itemView.findViewById(R.id.book_list_empty_cover)
         private val yearView: TextView = itemView.findViewById(R.id.book_list_caption_view_1)
-        private val dateView: TextView = itemView.findViewById(R.id.book_list_caption_view_2)
-        private val shelfView: TextView = itemView.findViewById(R.id.book_list_caption_view_3)
+        // private val dateView: TextView = itemView.findViewById(R.id.book_list_caption_view_2)
+        // private val shelfView: TextView = itemView.findViewById(R.id.book_list_caption_view_3)
         private val ratingView: RatingBar = itemView.findViewById(R.id.book_list_rating_bar)
+        private val bookmarkView: ImageView = itemView.findViewById(R.id.book_list_bookmark)
 
         fun bind(book: Book?) {
             book?.let { b ->
@@ -73,6 +77,11 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
                 }
                 coverView.drawable ?: run {
                     emptyCoverView.visibility = View.VISIBLE
+                }
+                if (b.bookmark) {
+                    bookmarkView.setImageResource(R.drawable.ic_bookmark)
+                } else {
+                    bookmarkView.setImageResource(R.drawable.ic_bookmark_empty)
                 }
                 when (b.shelf) {
                     ShelfType.ReadShelf.shelf -> {
