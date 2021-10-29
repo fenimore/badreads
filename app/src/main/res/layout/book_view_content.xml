@@ -202,6 +202,16 @@
             card_view:layout_constraintEnd_toStartOf="@+id/book_view_series"
             card_view:layout_constraintTop_toBottomOf="@id/book_view_page_number" />
 
+        <TextView
+            android:id="@+id/book_view_format"
+            android:layout_marginTop="6dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Caption"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toStartOf="@+id/book_view_series"
+            card_view:layout_constraintTop_toBottomOf="@id/book_view_language" />
+
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -214,7 +224,7 @@
             android:src="@android:drawable/divider_horizontal_dark"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_language" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_format" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/book_view_shelf_dropdown"
@@ -228,7 +238,7 @@
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
             card_view:cornerRadius="15dp"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_view_language"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_view_format"
             android:text="Shelve Book"
             />
 

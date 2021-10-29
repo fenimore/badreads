@@ -18,11 +18,11 @@ class Exporter {
             // more info
             "ISBN", "ISBN13", "Publisher",
             "Number of Pages", "Year Published", "Original Publication Year",
-            "Progress", "Series", "Language",
+            "Progress", "Series", "Format", "Language",
             // dates
             "Date Read", "Date Added", "Date Started",
             // Library status
-            "My Rating", "My Review", "Exclusive Shelf"
+            "My Rating", "My Review", "Bookmark", "Exclusive Shelf",
         )  // add the started date
         val rows: List<List<String>> = books.map { book ->
             Log.i(LOG_EXP, "The book ${book.bookId}: ${book.titleString()}")
@@ -37,6 +37,7 @@ class Exporter {
                 book.originalYear?.toString().orEmpty(),
                 book.progress?.toString().orEmpty(),
                 book.series.orEmpty(),
+                book.format.orEmpty(),
                 book.language.orEmpty(),
                 // dates
                 book.dateRead?.let { LocalDate.ofEpochDay(it).format(csvDateFormatter) } ?: "",
@@ -45,6 +46,7 @@ class Exporter {
                 // Library status
                 book.rating?.toString().orEmpty(),
                 book.notes.orEmpty(),
+                if (book.bookmark) {"1"} else {""},  // toBoolean treats non-empty string as true
                 book.shelf,
                 // NOTE: put shelf last because it's non null (no empty string as last value
             )

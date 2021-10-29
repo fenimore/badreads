@@ -73,8 +73,10 @@ class BookEditActivity : AppCompatActivity() {
                         book?.numberPages != details.numberPages ?: book?.numberPages ||
                         book?.description != details.description ?: book?.description ||
                         book?.series != details.series ?: book?.series ||
+                        book?.format != details.format ?: book?.format ||
                         book?.language != details.language ?: book?.language
                         ) {
+                    Log.i("BookDetails", "Found new details $details")
                     Snackbar.make(
                             findViewById(R.id.book_edit_activity),
                             "New details added, click Save (disk) to save.",
@@ -87,6 +89,7 @@ class BookEditActivity : AppCompatActivity() {
                     book?.numberPages = details.numberPages ?: book?.numberPages
                     book?.description = details.description ?: book?.description
                     book?.series = details.series ?: book?.series
+                    book?.format = details.format ?: book?.format
                     book?.language = details.language ?: book?.language
                     book?.let { populateViews(it) }
                 } else {
@@ -190,7 +193,11 @@ class BookEditActivity : AppCompatActivity() {
         val languageEdit = findViewById<TextInputLayout>(R.id.book_edit_language).editText
         current.language?.let { languageEdit?.setText(it) }
         languageEdit?.doAfterTextChanged { editable -> current.language = editable.toString().ifEmpty { null } }
-        
+
+        val formatEdit = findViewById<TextInputLayout>(R.id.book_edit_format).editText
+        current.format?.let { formatEdit?.setText(it) }
+        formatEdit?.doAfterTextChanged { editable -> current.format = editable.toString().ifEmpty { null } }
+
         val dateAddedView = findViewById<DatePicker>(R.id.book_edit_date_added)
         val dateAdded = current.dateAdded?.let { LocalDate.ofEpochDay(it) } ?: LocalDate.now()
         dateAddedView.init(dateAdded.year, dateAdded.monthValue - 1, dateAdded.dayOfMonth, object : DatePicker.OnDateChangedListener {

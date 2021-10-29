@@ -34,6 +34,7 @@ data class BookDetails(
     val numberPages: Int?,
     val description: String?,
     val series: String?,
+    val format: String?,
     val language: String?,
 )
 
@@ -76,9 +77,10 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                     }?.value?.toIntOrNull()
                     val series: String? =
                         (details?.get("series") as JsonArray<String>?)?.firstOrNull()
+                    val format: String? = (details?.get("physical_format")) as? String
                     val language: String? = (details?.get("languages") as JsonArray<JsonObject>?)?.firstOrNull()?.get("key") as? String
                     // TODO: make human friendly https://openlibrary.org/languages
-                    Log.i(LOG_LIB, "Okay so I've $publisher $isbn10 $isbn13 $numPages $publishYear")
+                    Log.i(LOG_LIB, "Okay so I've $publisher $isbn10 $isbn13 $numPages $publishYear $format")
                     Log.i(LOG_LIB, "Description: $description")
                     bookDetails.value = BookDetails(
                         isbn13,
@@ -88,6 +90,7 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                         numPages,
                         description,
                         series,
+                        format,
                         language?.replace("/languages/", ""),
                     )
                 },
@@ -156,10 +159,12 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                         numberPages = null,
                         progress = null,
                         series = null,
+                        format = null,
                         language = null,
                         rating = null,
                         shelf = "to-read",
                         notes = null,
+                        bookmark = false,
                         description = null,
                         dateAdded = LocalDate.now().toEpochDay(),
                         dateRead = null,

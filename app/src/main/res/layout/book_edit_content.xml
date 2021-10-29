@@ -347,6 +347,26 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/book_edit_format"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:hint="Format"
+            android:inputType="text"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+            card_view:layout_constraintEnd_toStartOf="@+id/book_edit_series"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_language"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/book_edit_shelf_dropdown"
             android:layout_width="wrap_content"
@@ -360,7 +380,7 @@
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintHorizontal_bias="0.5"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_series" />
+            card_view:layout_constraintTop_toBottomOf="@+id/book_edit_format" />
 
 
         <RatingBar

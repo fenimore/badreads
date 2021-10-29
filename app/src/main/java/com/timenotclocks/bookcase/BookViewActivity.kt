@@ -3,6 +3,7 @@ package com.timenotclocks.bookcase
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -14,6 +15,7 @@ import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginTop
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookcase.database.*
@@ -68,6 +70,9 @@ class BookViewActivity : AppCompatActivity() {
         supportActionBar?.title = current.title
         val coverView = findViewById<ImageView>(R.id.book_view_cover_image)
         val emptyCoverView = findViewById<TextView>(R.id.book_view_empty_cover)
+        val seriesView = findViewById<TextView>(R.id.book_view_series)
+        val languageView = findViewById<TextView>(R.id.book_view_language)
+        val formatView = findViewById<TextView>(R.id.book_view_format)
         current.cover("L").let {
             Picasso.get().load(it).into(coverView, object : com.squareup.picasso.Callback {
                 override fun onSuccess() {
@@ -91,10 +96,13 @@ class BookViewActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.book_view_author).text = "By: ${current.authorString()}"
         current.isbn10?.let { findViewById<TextView>(R.id.book_view_isbn10).text = "ISBN 10: $it" }
         current.isbn13?.let { findViewById<TextView>(R.id.book_view_isbn13).text = "ISBN 13: $it" }
-        current.numberPages?.let { findViewById<TextView>(R.id.book_view_page_number).text = "Pages: $it" }
-        current.series?.let { findViewById<TextView>(R.id.book_view_series).text = "Series: $it" }
-        current.language?.let { findViewById<TextView>(R.id.book_view_language).text = "Language: $it" }
-        current.progress?.let { findViewById<TextView>(R.id.book_view_progress).text = "Progress: $it" }
+        val numberPagesView = findViewById<TextView>(R.id.book_view_page_number)
+        current.numberPages?.let { numberPagesView.text = "Pages: $it" }
+        current.series?.let { seriesView.text = "Series: $it" }
+        current.language?.let { languageView.text = "Language: $it" }
+        current.format?.let { formatView.text = "Format: $it" }
+        val progressView = findViewById<TextView>(R.id.book_view_progress)
+        current.progress?.let { progressView.text = "Progress: $it" }
         current.yearString()?.let { findViewById<TextView>(R.id.book_view_year).text = "$it" }
         current.publisher?.let { findViewById<TextView>(R.id.book_view_publisher).text = it }
         current.dateAdded?.let { findViewById<TextView>(R.id.book_view_date_added).text = LocalDate.ofEpochDay(it).format(viewDateFormatter) }
@@ -129,7 +137,19 @@ class BookViewActivity : AppCompatActivity() {
                     Snackbar.LENGTH_LONG
             ).setAction("Action", null).show()
         }
-
+        // TODO: current.language.isNullOrBlank() && !current.series.isNullOrBlank()):
+        // https://stackoverflow.com/questions/45263159/constraintlayout-change-constraints-programmatically
+        if (current.series.isNullOrBlank() && current.language.isNullOrBlank()) {
+            languageView.height = 0
+            seriesView.height = 0
+        }
+        if (current.numberPages == null && current.progress == null) {
+            progressView.height = 0
+            numberPagesView.height = 0
+        }
+        if (current.format.isNullOrBlank()) {
+            formatView.height = 0
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
