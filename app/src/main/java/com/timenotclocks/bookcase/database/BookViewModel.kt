@@ -36,6 +36,7 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
     val readShelf: LiveData<List<Book>> = repository.sortedReadShelf.asLiveData()
     val toReadShelf: LiveData<List<Book>> = repository.sortedToReadShelf.asLiveData()
     val currentShelf: LiveData<List<Book>> = repository.sortedCurrentShelf.asLiveData()
+    val bookmarks: LiveData<List<Book>> = repository.bookmarks.asLiveData()
 
     fun getBook(id: Long): LiveData<Book> {
         return repository.getBook(id)

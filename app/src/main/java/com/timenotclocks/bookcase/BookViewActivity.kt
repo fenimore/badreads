@@ -160,9 +160,9 @@ class BookViewActivity : AppCompatActivity() {
         }
         val bookmarkView: ImageView = findViewById(R.id.book_view_bookmark)
         if (current.bookmark) {
-            bookmarkView.setImageResource(R.drawable.ic_bookmark)
+            bookmarkView.setImageResource(R.drawable.ic_baseline_bookmark_48)
         } else {
-            bookmarkView.setImageResource(R.drawable.ic_bookmark_empty)
+            bookmarkView.setImageResource(R.drawable.ic_baseline_bookmark_empty_48)
         }
     }
 

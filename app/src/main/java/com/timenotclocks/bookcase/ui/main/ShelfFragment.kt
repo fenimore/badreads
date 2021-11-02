@@ -276,6 +276,11 @@ class ShelfFragment : Fragment() {
                         books.let { adapter.submitList(it) }
                     }
                 }
+                R.id.menu_sort_bookmarks -> {
+                    bookViewModel.bookmarks.observe(viewLifecycleOwner) { books ->
+                        books.let { adapter.submitList(it) }
+                    }
+                }
             }
             adapter.notifyDataSetChanged()
             true

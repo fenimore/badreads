@@ -30,7 +30,6 @@ Copyright 2021 Fenimore Love
 ## Todo:
 1. Fix settings action bar color
 2. Multiple Authors/DB Relation
-3. Add tag/star to books
 5. Include numbers in bar charts
 6. Make publishers fuzzy match duplicates in Summary of publishers
 10. Batch Scan!

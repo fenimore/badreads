@@ -12,5 +12,7 @@
         android:title="pages shortest-longest" />
     <item android:id="@+id/menu_sort_page_num_desc"
         android:title="pages longest-shortest" />
+    <item android:id="@+id/menu_sort_bookmarks"
+        android:title="bookmarks" />
 
 </menu>

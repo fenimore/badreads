@@ -45,6 +45,7 @@ class BookRepository(private val bookDao: BookDao) {
     val readShelf: Flow<List<Book>> = bookDao.readShelf()
     val toReadShelf: Flow<List<Book>> = bookDao.toReadShelf()
     val currentShelf: Flow<List<Book>> = bookDao.currentShelf()
+    val bookmarks: Flow<List<Book>> = bookDao.bookmarks()
 
     val sortedCurrentShelf: Flow<List<Book>> = bookDao.dateStartedSort(ShelfType.CurrentShelf.shelf)
     val sortedReadShelf: Flow<List<Book>> = bookDao.dateReadSort(ShelfType.ReadShelf.shelf)

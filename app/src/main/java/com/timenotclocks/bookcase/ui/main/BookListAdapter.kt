@@ -79,9 +79,9 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
                     emptyCoverView.visibility = View.VISIBLE
                 }
                 if (b.bookmark) {
-                    bookmarkView.setImageResource(R.drawable.ic_bookmark)
+                    bookmarkView.setImageResource(R.drawable.ic_baseline_bookmark_32)
                 } else {
-                    bookmarkView.setImageResource(R.drawable.ic_bookmark_empty)
+                    bookmarkView.setImageResource(R.drawable.ic_baseline_bookmark_empty_32)
                 }
                 when (b.shelf) {
                     ShelfType.ReadShelf.shelf -> {
