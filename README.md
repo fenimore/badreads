@@ -1,4 +1,4 @@
-# Badreads
+# Bookmark
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
     alt="Get it on F-Droid"
@@ -32,10 +32,18 @@ Copyright 2021 Fenimore Love
 2. Multiple Authors/DB Relation
 5. Include numbers in bar charts
 6. Make publishers fuzzy match duplicates in Summary of publishers
-10. Batch Scan!
+10. Batch Scan
 11. Long press the chart to set goal
 8. Version 2: Bookshelf view
 9. Version 2: Login to OpenLibrary/sync shelves
+
+Version 3:
+1. Cache images for offline access: https://stackoverflow.com/questions/23978828/how-do-i-use-disk-caching-in-picasso
+2. Change colors
+3. Rename to Bookmark
+4. De-duplicate results from search (ex. kornel esti)
+5. Save custom image URL?
+6. Manual entry should be a slick sliding up thing
 
 ### Gridlayout example:
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.timenotclocks.bookcase"> <!-- for barcode -->
+    xmlns:tools="http://schemas.android.com/tools"> <!-- for barcode -->
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -40,7 +39,7 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar" />
         <activity
             android:name=".NewBookActivity"
             android:label="@string/title_activity_new_book" />
