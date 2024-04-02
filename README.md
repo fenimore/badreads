@@ -1,4 +1,4 @@
-# Bookmark
+# Bookmark (formerly Badreads)
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
     alt="Get it on F-Droid"
@@ -44,6 +44,7 @@ Version 3:
 4. De-duplicate results from search (ex. kornel esti)
 5. Save custom image URL?
 6. Manual entry should be a slick sliding up thing
+7. Notify user that they can add image on openlibrary.org
 
 ### Gridlayout example:
 
