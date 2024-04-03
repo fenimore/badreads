@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookmark.database.*
+import com.timenotclocks.bookmark.ui.main.ImageLoader.ImageLoader
 import java.time.LocalDate
 
 
@@ -79,14 +80,8 @@ class BookViewActivity : AppCompatActivity() {
         val seriesView = findViewById<TextView>(R.id.book_view_series)
         val languageView = findViewById<TextView>(R.id.book_view_language)
         val formatView = findViewById<TextView>(R.id.book_view_format)
-        current.cover("L").let {
-            Picasso.get().load(it).into(coverView, object : com.squareup.picasso.Callback {
-                override fun onSuccess() {
-                    emptyCoverView.visibility = View.INVISIBLE
-                }
-
-                override fun onError(e: java.lang.Exception?) {}
-            })
+        current.cover("L")?.let {
+            ImageLoader().load(it, coverView, emptyCoverView)
         }
         emptyCoverView?.text = current.titleString() + "\n\n" + current.authorString()
         coverView.drawable ?: run {

@@ -22,6 +22,7 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookmark.api.OpenLibraryViewModel
 import com.timenotclocks.bookmark.database.*
+import com.timenotclocks.bookmark.ui.main.ImageLoader.ImageLoader
 import java.time.LocalDate
 
 
@@ -105,21 +106,16 @@ class BookEditActivity : AppCompatActivity() {
         val emptyCover = findViewById<TextView>(R.id.book_edit_empty_cover)
         emptyCover?.text = current.titleString() + "\n\n" + current.authorString()
         val coverView = findViewById<ImageView>(R.id.book_edit_cover_image)
-        current.cover("L").let {
-            Picasso.get().load(it).into(coverView, object : Callback {
-                override fun onSuccess() {
-                    emptyCover.visibility = View.INVISIBLE
-                }
-                override fun onError(e: Exception) {}
-            })
+        current.cover("L")?.let {
+            ImageLoader().load(it, coverView, emptyCover)
         }
         coverView.drawable ?: run {
             Log.i(LOG_TAG, "Check is it nulll?")
             emptyCover.visibility = View.VISIBLE
         }
 
-        current.cover("L").let {
-            Picasso.get().load(it).into(coverView)
+        current.cover("L")?.let {
+            ImageLoader().load(it, coverView, null)
         }
         findViewById<Button>(R.id.book_edit_image_edit).setOnClickListener { view ->
             val term = current.isbn13 ?: current.titleString()

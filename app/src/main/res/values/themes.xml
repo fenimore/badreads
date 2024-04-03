@@ -1,69 +1,69 @@
 <resources>
 
-    <style name="AppTheme.NoActionBar" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="Theme.Material3.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.Material3" />
 
-    <!--<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />-->
 
-    <style name="TextAppearance.AppTheme.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+
+    <style name="TextAppearance.AppTheme.Headline1" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="fontFamily">@font/lato_bold</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+    <style name="TextAppearance.AppTheme.Headline5" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="fontFamily">@font/lato_bold</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="TextAppearance.AppTheme.Headline6" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="fontFamily">@font/lato_bold</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Subtitle1Bold" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="TextAppearance.AppTheme.Subtitle1Bold" parent="TextAppearance.Material3.ActionBar.Subtitle">
         <item name="fontFamily">@font/lato_bold</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="TextAppearance.AppTheme.Subtitle1" parent="TextAppearance.Material3.ActionBar.Subtitle">
         <item name="fontFamily">@font/lato_regular</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Subtitle1Chart" parent="TextAppearance.AppTheme.Subtitle1">
+    <style name="TextAppearance.AppTheme.Subtitle1Chart" parent="TextAppearance.Material3.ActionBar.Subtitle">
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">8dp</item>
         <item name="android:paddingTop">12dp</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="TextAppearance.AppTheme.Subtitle2" parent="TextAppearance.Material3.ActionBar.Subtitle">
         <item name="fontFamily">@font/lato_regular</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Body1Bold" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="TextAppearance.AppTheme.Body1Bold" parent="TextAppearance.Material3.BodySmall">
         <item name="fontFamily">@font/lato_bold</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Body1" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="TextAppearance.AppTheme.Body1" parent="TextAppearance.Material3.BodySmall">
         <item name="fontFamily">@font/lato_regular</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Body2" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="TextAppearance.AppTheme.Body2" parent="TextAppearance.Material3.BodySmall">
         <item name="fontFamily">@font/lato_regular</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Body2Light" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="TextAppearance.AppTheme.Body2Light" parent="TextAppearance.Material3.BodySmall">
         <item name="fontFamily">@font/lato_light</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Caption" parent="TextAppearance.MaterialComponents.Caption">
+    <style name="TextAppearance.AppTheme.Caption" parent="TextAppearance.Material3.LabelSmall">
         <item name="fontFamily">@font/lato_regular</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Button" parent="TextAppearance.MaterialComponents.Button">
+    <style name="TextAppearance.AppTheme.Button" parent="TextAppearance.Material3.LabelMedium">
         <item name="fontFamily">@font/lato_regular</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.ButtonLight" parent="TextAppearance.MaterialComponents.Button">
+    <style name="TextAppearance.AppTheme.ButtonLight" parent="TextAppearance.Material3.LabelSmall">
         <item name="fontFamily">@font/lato_light</item>
     </style>
 

@@ -1,13 +1,13 @@
 
 <resources>
 
-    <style name="AppTheme.NoActionBar" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="Theme.Material3.Dark.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
     </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark" >
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.Material3.Dark" >
     </style>
 
     <style name="TextAppearance.AppTheme.SortButton" parent="TextAppearance.AppCompat.Button">

@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso
 import com.timenotclocks.bookmark.NewBookActivity
 import com.timenotclocks.bookmark.R
 import com.timenotclocks.bookmark.database.Book
+import com.timenotclocks.bookmark.ui.main.ImageLoader.ImageLoader
 import com.timenotclocks.bookmark.ui.main.OpenLibrarySearchAdapter.SearchViewHolder
 
 
@@ -58,13 +59,8 @@ class OpenLibrarySearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_CO
         fun bindTo(book: Book?) {
             book ?: return
 
-            book.cover("M").let {
-                Picasso.get().load(it).into(coverView, object : Callback {
-                    override fun onSuccess() {
-                        emptyCoverView.visibility = View.INVISIBLE
-                    }
-                    override fun onError(e: Exception) {}
-                })
+            book.cover("M")?.let {
+                ImageLoader().load(it, coverView, emptyCoverView)
             }
             coverView.drawable ?: run {
                 emptyCoverView.visibility = View.VISIBLE

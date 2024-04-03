@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso
 import com.timenotclocks.bookmark.api.OpenLibraryViewModel
 import com.timenotclocks.bookmark.database.*
 import com.timenotclocks.bookmark.ui.main.EXTRA_BOOK
+import com.timenotclocks.bookmark.ui.main.ImageLoader.ImageLoader
 import java.time.LocalDate
 
 const val TAG_NEW = "BookNew"
@@ -124,7 +125,9 @@ class NewBookActivity : AppCompatActivity() {
     }
 
     private fun displayNewBook(current: Book) {
-        current.cover("M").let { Picasso.get().load(it).into(findViewById<ImageView>(R.id.new_book_cover_image)) }
+        current.cover("M")?.let {
+            ImageLoader().load(it, findViewById(R.id.new_book_cover_image), null)
+        }
         findViewById<TextView>(R.id.new_book_title).text = current.titleString()
         findViewById<TextView>(R.id.new_book_author).text = current.authorString()
         findViewById<TextView>(R.id.new_book_description).text = current.description
@@ -157,7 +160,7 @@ class NewBookActivity : AppCompatActivity() {
 
     private fun displayDuplicate(alike: Book) {
         alike.cover("M")?.let {
-            Picasso.get().load(it).into(findViewById<ImageView>(R.id.duplicate_book_cover_image))
+            ImageLoader().load(it, findViewById(R.id.duplicate_book_cover_image), null)
         }
         findViewById<TextView>(R.id.duplicate_book_title).text = alike.titleString()
         findViewById<TextView>(R.id.duplicate_book_author).text = alike.authorString()

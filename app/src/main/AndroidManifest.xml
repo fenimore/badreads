@@ -39,7 +39,7 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+            android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar" />
         <activity
             android:name=".NewBookActivity"
             android:label="@string/title_activity_new_book" />

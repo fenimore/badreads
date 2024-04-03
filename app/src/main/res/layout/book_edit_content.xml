@@ -102,7 +102,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_title_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
@@ -122,7 +122,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_subtitle"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="subtitle"
@@ -138,7 +138,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_author"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -156,7 +156,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_author_extras"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
@@ -175,7 +175,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_publisher"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -193,7 +193,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_year"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -211,7 +211,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_original_year"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -229,7 +229,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_isbn13"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -248,7 +248,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_isbn10"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -268,7 +268,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_page_numbers"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -288,7 +288,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_progress"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -308,7 +308,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_series"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -328,7 +328,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_language"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -349,7 +349,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/book_edit_format"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -405,7 +405,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/book_edit_description"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
@@ -435,7 +435,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/book_edit_notes"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="14dp"

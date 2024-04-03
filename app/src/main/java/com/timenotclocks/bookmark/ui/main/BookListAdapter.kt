@@ -17,11 +17,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Callback
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import com.timenotclocks.bookmark.BookViewActivity
 import com.timenotclocks.bookmark.EXTRA_ID
 import com.timenotclocks.bookmark.R
 import com.timenotclocks.bookmark.database.*
+import com.timenotclocks.bookmark.ui.main.ImageLoader.ImageLoader
 
 
 const val LOG_BOOK_ADAPTER = "BookAdapter"
@@ -64,13 +66,8 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
                 authorView.text = "by ${b.authorString()}"
                 emptyCoverView.text = b.titleString()
                 b.yearString()?.let { yearView.text = it }
-                b.cover("M").let {
-                    Picasso.get().load(it).into(coverView, object : Callback {
-                        override fun onSuccess() {
-                            emptyCoverView.visibility = View.INVISIBLE
-                        }
-                        override fun onError(e: Exception) {}
-                    })
+                b.cover("M")?.let {
+                    ImageLoader().load(it, coverView, emptyCoverView)
                 }
                 coverView.drawable ?: run {
                     emptyCoverView.visibility = View.VISIBLE

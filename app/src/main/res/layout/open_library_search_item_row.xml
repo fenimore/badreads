@@ -96,7 +96,7 @@
             android:id="@+id/search_isbn13_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:textAppearance="@style/TextAppearance.Material3.DisplaySmall"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/search_cover_view"
             card_view:layout_constraintVertical_bias="1.0"
