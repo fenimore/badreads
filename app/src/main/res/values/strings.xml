@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. -->
 
 <resources>
-    <string name="app_name">Badreads</string>
+    <string name="app_name">Bookmark</string>
     <string name="tab_text_1">Reading</string>
     <string name="tab_text_2">Read</string>
     <string name="tab_text_3">To Read</string>
@@ -47,6 +47,7 @@ limitations under the License. -->
     <string name="about_source_title">Source Code</string>
     <string name="about_book_covers_title">Book Covers</string>
     <string name="dark_mode_prerence">dark_mode</string>
+    <string name="app_title">Bookmark</string>
 
 
 </resources>

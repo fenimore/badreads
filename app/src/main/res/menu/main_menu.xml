@@ -38,7 +38,7 @@
                 android:title="Delete All Data"/>
         </menu>
     </item>
-    <item android:title="Badreads App"
+    <item android:title="App"
         android:enabled="false"
         app:showAsAction="never"
         />

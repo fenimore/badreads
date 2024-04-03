@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_library"
         app:showAsAction="always"
         />
-    <item android:title="Badreads"
+    <item android:title="@string/app_title"
         android:enabled="false"
         app:showAsAction="never"
         />
