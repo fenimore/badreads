@@ -126,7 +126,7 @@ class NewBookActivity : AppCompatActivity() {
 
     private fun displayNewBook(current: Book) {
         current.cover("M")?.let {
-            ImageLoader().load(this, it, current.titleString(), findViewById(R.id.new_book_cover_image))
+            ImageLoader().load(this, it, findViewById(R.id.new_book_cover_image), R.drawable.book_placeholder_small)
         }
         findViewById<TextView>(R.id.new_book_title).text = current.titleString()
         findViewById<TextView>(R.id.new_book_author).text = current.authorString()
@@ -160,7 +160,7 @@ class NewBookActivity : AppCompatActivity() {
 
     private fun displayDuplicate(alike: Book) {
         alike.cover("M")?.let {
-            ImageLoader().load(this, it, alike.titleString(), findViewById(R.id.duplicate_book_cover_image))
+            ImageLoader().load(this, it, findViewById(R.id.duplicate_book_cover_image), R.drawable.book_placeholder_small)
         }
         findViewById<TextView>(R.id.duplicate_book_title).text = alike.titleString()
         findViewById<TextView>(R.id.duplicate_book_author).text = alike.authorString()

@@ -16,7 +16,6 @@ import com.beust.klaxon.Klaxon
 import com.timenotclocks.bookmark.NewBookActivity
 import com.timenotclocks.bookmark.R
 import com.timenotclocks.bookmark.database.Book
-import com.timenotclocks.bookmark.ui.main.ImageLoader
 import com.timenotclocks.bookmark.ui.main.OpenLibrarySearchAdapter.SearchViewHolder
 
 
@@ -55,7 +54,7 @@ class OpenLibrarySearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_CO
             book ?: return
 
             book.cover("M")?.let {
-                ImageLoader().load(itemView.context, it, book.titleString(), coverView)
+                ImageLoader().load(itemView.context, it, coverView, R.drawable.book_placeholder_small)
             }
 
             mainView.text = book.titleString()

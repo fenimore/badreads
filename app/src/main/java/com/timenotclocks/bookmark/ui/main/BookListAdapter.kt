@@ -16,6 +16,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.dialog.MaterialDialogs
+import com.timenotclocks.bookmark.BookEditActivity
 import com.timenotclocks.bookmark.BookViewActivity
 import com.timenotclocks.bookmark.EXTRA_ID
 import com.timenotclocks.bookmark.R
@@ -37,8 +40,32 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
 
         holder.bind(current)
         holder.itemView.findViewById<ImageView>(R.id.book_list_cover_view).setOnClickListener {
-            Log.i("BookId", "Loading book ${current.bookId}")
-            val intent = Intent(it.context, BookViewActivity::class.java).apply {
+            // TODO: add date started and date read
+            // TODO: add rating bar
+            // TODO: add pagenumber/lang/format
+            MaterialAlertDialogBuilder(holder.itemView.context)
+                .setTitle(current.titleString())
+                .setMessage("""
+                    ${current.authorString()}
+                    ${current.publisherString()}
+                    ${current.isbn13.orEmpty()} ${current.isbn10.orEmpty()}
+                    
+                    ${current.description.orEmpty()}
+                    
+                    ${current.notes.orEmpty()}
+                """.trimIndent())
+                .setNeutralButton("Edit") { dialog, which ->
+                    // TODO: edit button
+                }
+                .setPositiveButton("Okay") { dialog, which ->
+
+                }
+                .show()
+        }
+        holder.bind(current)
+        holder.itemView.findViewById<ImageView>(R.id.book_list_edit).setOnClickListener {
+            Log.i("BookId", "Editing book ${current.bookId}")
+            val intent = Intent(it.context, BookEditActivity::class.java).apply {
                 putExtra(EXTRA_ID, current.bookId)
             }
             it.context.startActivity(intent)
@@ -58,16 +85,16 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
         fun bind(book: Book?) {
             book?.let { b ->
                 titleView.text = b.titleString()
-                authorView.text = "by ${b.authorString()}"
+                authorView.text = b.authorString()
                 b.yearString()?.let { yearView.text = it }
                 b.cover("L")?.let {
-                    ImageLoader().load(itemView.context, it, b.titleString(), coverView)
+                    ImageLoader().load(itemView.context, it, coverView, R.drawable.book_placeholder_small)
                 }
 
                 if (b.bookmark) {
-                    bookmarkView.setImageResource(R.drawable.ic_baseline_bookmark_32)
+                    bookmarkView.visibility = View.VISIBLE
                 } else {
-                    bookmarkView.setImageResource(R.drawable.ic_baseline_bookmark_empty_32)
+                    bookmarkView.visibility = View.GONE
                 }
                 when (b.shelf) {
                     ShelfType.ReadShelf.shelf -> {

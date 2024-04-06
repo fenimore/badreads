@@ -16,6 +16,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import com.db.williamchart.extensions.getDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.timenotclocks.bookmark.api.OpenLibraryViewModel
@@ -51,27 +52,27 @@ class BookEditActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         intent.extras?.getLong(EXTRA_ID)?.let { bookId ->
-            bookViewModel.getBook(bookId).observe(this, { observable ->
+            bookViewModel.getBook(bookId).observe(this) { observable ->
                 observable?.let {
                     Log.i(LOG_EDIT, "Editing a book $it")
                     book = it
                     populateViews(it)
                 }
-            })
+            }
         }
 
         openLibraryViewModel.bookDetails.observe(this) { observable ->
             observable?.let { details ->
                 if (
-                        book?.isbn13 != details.isbn13 ?: book?.isbn13 ||
-                        book?.isbn10 != details.isbn10 ?: book?.isbn10 ||
-                        book?.publisher != details.publisher ?: book?.publisher ||
-                        book?.year != details.publishYear ?: book?.year ||
-                        book?.numberPages != details.numberPages ?: book?.numberPages ||
-                        book?.description != details.description ?: book?.description ||
-                        book?.series != details.series ?: book?.series ||
-                        book?.format != details.format ?: book?.format ||
-                        book?.language != details.language ?: book?.language
+                    book?.isbn13 != (details.isbn13 ?: book?.isbn13) ||
+                    book?.isbn10 != (details.isbn10 ?: book?.isbn10) ||
+                    book?.publisher != (details.publisher ?: book?.publisher) ||
+                    book?.year != (details.publishYear ?: book?.year) ||
+                    book?.numberPages != (details.numberPages ?: book?.numberPages) ||
+                    book?.description != (details.description ?: book?.description) ||
+                    book?.series != (details.series ?: book?.series) ||
+                    book?.format != (details.format ?: book?.format) ||
+                    book?.language != (details.language ?: book?.language)
                         ) {
                     Log.i("BookDetails", "Found new details $details")
                     Snackbar.make(
@@ -105,7 +106,7 @@ class BookEditActivity : AppCompatActivity() {
         emptyCover?.text = current.titleString() + "\n\n" + current.authorString()
         val coverView = findViewById<ImageView>(R.id.book_edit_cover_image)
         current.cover("L")?.let {
-            ImageLoader().load(this, it, current.titleString(), coverView)
+            ImageLoader().load(this, it, coverView, R.drawable.book_placeholder_small)
         }
         findViewById<Button>(R.id.book_edit_image_edit).setOnClickListener { view ->
             val term = current.isbn13 ?: current.titleString()
@@ -181,6 +182,10 @@ class BookEditActivity : AppCompatActivity() {
         val formatEdit = findViewById<TextInputLayout>(R.id.book_edit_format).editText
         current.format?.let { formatEdit?.setText(it) }
         formatEdit?.doAfterTextChanged { editable -> current.format = editable.toString().ifEmpty { null } }
+
+        val customCoverEdit = findViewById<TextInputLayout>(R.id.book_edit_custom_cover).editText
+        current.customCover?.let { customCoverEdit?.setText(it) }
+        customCoverEdit?.doAfterTextChanged { editable -> current.customCover = editable.toString().ifEmpty { null } }
 
         val dateAddedView = findViewById<DatePicker>(R.id.book_edit_date_added)
         val dateAdded = current.dateAdded?.let { LocalDate.ofEpochDay(it) } ?: LocalDate.now()

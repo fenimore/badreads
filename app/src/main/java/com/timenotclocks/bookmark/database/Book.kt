@@ -71,6 +71,9 @@ data class Book(
     @ColumnInfo(name = "customCover") var customCover: String?,
 ) {
     fun cover(size: String = "L"): String? {
+        customCover?.let {
+            return it
+        }
         val isbn = isbn13 ?: isbn10
         if (isbn.isNullOrBlank()) {
             return null
@@ -93,7 +96,7 @@ data class Book(
 
     fun publisherString(): String? {
         publisher?.let {
-            return "$it ${yearString()}"
+            return "${yearString()} $it"
         }
         return yearString()
     }

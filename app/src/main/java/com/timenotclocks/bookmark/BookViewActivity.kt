@@ -88,7 +88,7 @@ class BookViewActivity : AppCompatActivity() {
         val languageView = findViewById<TextView>(R.id.book_view_language)
         val formatView = findViewById<TextView>(R.id.book_view_format)
         current.cover("L")?.let {
-            ImageLoader().load(this, it, current.titleString(), coverView)
+            ImageLoader().load(this, it, coverView, R.drawable.book_placeholder_small)
         }
         // TODO: remove
         //  emptyCoverView?.text = current.titleString() + "\n\n" + current.authorString()
