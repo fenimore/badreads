@@ -16,14 +16,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Callback
-import com.squareup.picasso.NetworkPolicy
-import com.squareup.picasso.Picasso
 import com.timenotclocks.bookmark.BookViewActivity
 import com.timenotclocks.bookmark.EXTRA_ID
 import com.timenotclocks.bookmark.R
 import com.timenotclocks.bookmark.database.*
-import com.timenotclocks.bookmark.ui.main.ImageLoader.ImageLoader
 
 
 const val LOG_BOOK_ADAPTER = "BookAdapter"
@@ -53,7 +49,6 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
         private val titleView: TextView = itemView.findViewById(R.id.book_list_main_view)
         private val authorView: TextView = itemView.findViewById(R.id.book_list_sub_view)
         private val coverView: ImageView = itemView.findViewById(R.id.book_list_cover_view)
-        private val emptyCoverView: TextView = itemView.findViewById(R.id.book_list_empty_cover)
         private val yearView: TextView = itemView.findViewById(R.id.book_list_caption_view_1)
         // private val dateView: TextView = itemView.findViewById(R.id.book_list_caption_view_2)
         // private val shelfView: TextView = itemView.findViewById(R.id.book_list_caption_view_3)
@@ -64,14 +59,11 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
             book?.let { b ->
                 titleView.text = b.titleString()
                 authorView.text = "by ${b.authorString()}"
-                emptyCoverView.text = b.titleString()
                 b.yearString()?.let { yearView.text = it }
-                b.cover("M")?.let {
-                    ImageLoader().load(it, coverView, emptyCoverView)
+                b.cover("L")?.let {
+                    ImageLoader().load(itemView.context, it, b.titleString(), coverView)
                 }
-                coverView.drawable ?: run {
-                    emptyCoverView.visibility = View.VISIBLE
-                }
+
                 if (b.bookmark) {
                     bookmarkView.setImageResource(R.drawable.ic_baseline_bookmark_32)
                 } else {

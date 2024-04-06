@@ -18,11 +18,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import com.timenotclocks.bookmark.api.OpenLibraryViewModel
 import com.timenotclocks.bookmark.database.*
-import com.timenotclocks.bookmark.ui.main.ImageLoader.ImageLoader
+import com.timenotclocks.bookmark.ui.main.ImageLoader
 import java.time.LocalDate
 
 
@@ -107,15 +105,7 @@ class BookEditActivity : AppCompatActivity() {
         emptyCover?.text = current.titleString() + "\n\n" + current.authorString()
         val coverView = findViewById<ImageView>(R.id.book_edit_cover_image)
         current.cover("L")?.let {
-            ImageLoader().load(it, coverView, emptyCover)
-        }
-        coverView.drawable ?: run {
-            Log.i(LOG_TAG, "Check is it nulll?")
-            emptyCover.visibility = View.VISIBLE
-        }
-
-        current.cover("L")?.let {
-            ImageLoader().load(it, coverView, null)
+            ImageLoader().load(this, it, current.titleString(), coverView)
         }
         findViewById<Button>(R.id.book_edit_image_edit).setOnClickListener { view ->
             val term = current.isbn13 ?: current.titleString()

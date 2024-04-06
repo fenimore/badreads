@@ -89,6 +89,13 @@ data class Book(
 
         return author ?: ""
     }
+
+    fun publisherString(): String? {
+        publisher?.let {
+            return "$it ${yearString()}"
+        }
+        return yearString()
+    }
     fun yearString(): String? {
         if (year != null && originalYear != null) {
             if (year == originalYear) {

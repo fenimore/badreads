@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:id="@+id/empty_cover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:width="80dp"
+        android:height="120dp"
+        android:gravity="center"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="13dp"
+        android:ellipsize="end"
+        android:textAppearance="@style/TextAppearance.AppTheme.Body2"
+        />
+</selector>

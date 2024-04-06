@@ -9,15 +9,23 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.PopupMenu
+import android.widget.RatingBar
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.squareup.picasso.Picasso
-import com.timenotclocks.bookmark.database.*
-import com.timenotclocks.bookmark.ui.main.ImageLoader.ImageLoader
+import com.timenotclocks.bookmark.database.Book
+import com.timenotclocks.bookmark.database.BookViewModel
+import com.timenotclocks.bookmark.database.BookViewModelFactory
+import com.timenotclocks.bookmark.database.BooksApplication
+import com.timenotclocks.bookmark.database.ShelfType
+import com.timenotclocks.bookmark.database.viewDateFormatter
+import com.timenotclocks.bookmark.ui.main.ImageLoader
 import java.time.LocalDate
 
 
@@ -44,12 +52,12 @@ class BookViewActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         intent.extras?.getLong(EXTRA_ID)?.let { id ->
-            bookViewModel.getBook(id).observe(this, { observable ->
+            bookViewModel.getBook(id).observe(this) { observable ->
                 observable?.let {
                     book = it
                     populateViews(it)
                 }
-            })
+            }
         }
         findViewById<ImageView>(R.id.book_view_bookmark).setOnClickListener {
             book?.let { b ->
@@ -64,29 +72,26 @@ class BookViewActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         intent.extras?.getLong(EXTRA_ID)?.let { id ->
-            bookViewModel.getBook(id).observe(this, { observable ->
+            bookViewModel.getBook(id).observe(this) { observable ->
                 observable?.let {
                     book = it
                     populateViews(it)
                 }
-            })
+            }
         }
     }
 
     private fun populateViews(current: Book) {
         supportActionBar?.title = current.title
         val coverView = findViewById<ImageView>(R.id.book_view_cover_image)
-        val emptyCoverView = findViewById<TextView>(R.id.book_view_empty_cover)
         val seriesView = findViewById<TextView>(R.id.book_view_series)
         val languageView = findViewById<TextView>(R.id.book_view_language)
         val formatView = findViewById<TextView>(R.id.book_view_format)
         current.cover("L")?.let {
-            ImageLoader().load(it, coverView, emptyCoverView)
+            ImageLoader().load(this, it, current.titleString(), coverView)
         }
-        emptyCoverView?.text = current.titleString() + "\n\n" + current.authorString()
-        coverView.drawable ?: run {
-            emptyCoverView.visibility = View.VISIBLE
-        }
+        // TODO: remove
+        //  emptyCoverView?.text = current.titleString() + "\n\n" + current.authorString()
 
         current.title.let {findViewById<TextView>(R.id.book_view_title).text = it}
         current.subtitle?.let {

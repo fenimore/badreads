@@ -13,11 +13,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.beust.klaxon.Klaxon
 import com.google.android.material.button.MaterialButton
-import com.squareup.picasso.Picasso
+
 import com.timenotclocks.bookmark.api.OpenLibraryViewModel
 import com.timenotclocks.bookmark.database.*
 import com.timenotclocks.bookmark.ui.main.EXTRA_BOOK
-import com.timenotclocks.bookmark.ui.main.ImageLoader.ImageLoader
+import com.timenotclocks.bookmark.ui.main.ImageLoader
 import java.time.LocalDate
 
 const val TAG_NEW = "BookNew"
@@ -43,7 +43,7 @@ class NewBookActivity : AppCompatActivity() {
         val newBook = bookInfo?.let { Klaxon().parse<Book>(it) }
         var duplicateBook: Book? = null
 
-        openLibraryViewModel.bookDetails.observe(this, { observable ->
+        openLibraryViewModel.bookDetails.observe(this) { observable ->
             observable?.let { details ->
                 newBook?.isbn13 = details.isbn13 ?: newBook?.isbn13
                 newBook?.isbn10 = details.isbn10 ?: newBook?.isbn10
@@ -54,9 +54,9 @@ class NewBookActivity : AppCompatActivity() {
                 newBook?.series = details.series ?: newBook?.series
                 newBook?.format = details.format ?: newBook?.format
                 newBook?.language = details.language ?: newBook?.language
-                newBook?.let{ displayNewBook(it) }
+                newBook?.let { displayNewBook(it) }
             }
-        })
+        }
 
         newBook?.let {
             it.isbn13?.let {
@@ -126,7 +126,7 @@ class NewBookActivity : AppCompatActivity() {
 
     private fun displayNewBook(current: Book) {
         current.cover("M")?.let {
-            ImageLoader().load(it, findViewById(R.id.new_book_cover_image), null)
+            ImageLoader().load(this, it, current.titleString(), findViewById(R.id.new_book_cover_image))
         }
         findViewById<TextView>(R.id.new_book_title).text = current.titleString()
         findViewById<TextView>(R.id.new_book_author).text = current.authorString()
@@ -160,7 +160,7 @@ class NewBookActivity : AppCompatActivity() {
 
     private fun displayDuplicate(alike: Book) {
         alike.cover("M")?.let {
-            ImageLoader().load(it, findViewById(R.id.duplicate_book_cover_image), null)
+            ImageLoader().load(this, it, alike.titleString(), findViewById(R.id.duplicate_book_cover_image))
         }
         findViewById<TextView>(R.id.duplicate_book_title).text = alike.titleString()
         findViewById<TextView>(R.id.duplicate_book_author).text = alike.authorString()

@@ -12,12 +12,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.beust.klaxon.Klaxon
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
+
 import com.timenotclocks.bookmark.NewBookActivity
 import com.timenotclocks.bookmark.R
 import com.timenotclocks.bookmark.database.Book
-import com.timenotclocks.bookmark.ui.main.ImageLoader.ImageLoader
+import com.timenotclocks.bookmark.ui.main.ImageLoader
 import com.timenotclocks.bookmark.ui.main.OpenLibrarySearchAdapter.SearchViewHolder
 
 
@@ -51,33 +50,27 @@ class OpenLibrarySearchAdapter() : ListAdapter<Book, SearchViewHolder>(SEARCH_CO
         private val captView1: TextView = itemView.findViewById(R.id.book_list_caption_view_1)
         private val captView2: TextView = itemView.findViewById(R.id.book_list_caption_view_2)
         private val captView3: TextView = itemView.findViewById(R.id.book_list_caption_view_3)
-        private val emptyCoverView: TextView = itemView.findViewById(R.id.book_list_empty_cover)
-        // private val captView4: TextView = itemView.findViewById(R.id.book_list_caption_view_4)
-        // private val captView5: TextView = itemView.findViewById(R.id.book_list_caption_view_5)
-        // private val captView6: TextView = itemView.findViewById(R.id.book_list_caption_view_6)
 
         fun bindTo(book: Book?) {
             book ?: return
 
             book.cover("M")?.let {
-                ImageLoader().load(it, coverView, emptyCoverView)
-            }
-            coverView.drawable ?: run {
-                emptyCoverView.visibility = View.VISIBLE
-                emptyCoverView.text = book.titleString()
+                ImageLoader().load(itemView.context, it, book.titleString(), coverView)
             }
 
             mainView.text = book.titleString()
             subView.text = book.authorString()
 
             book.isbn13?.let {captView1.text = "$it" }
-            book.yearString()?.let { captView3.text = "$it" }
+            book.isbn10?.let {captView2.text = "$it" }
+            book.publisherString()?.let { captView3.text = "$it"}
+
         }
 
         companion object {
             fun create(parent: ViewGroup): SearchViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.book_view_list_item , parent, false)
+                        .inflate(R.layout.book_search_list_item , parent, false)
                 return SearchViewHolder(view)
             }
         }

@@ -34,8 +34,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.button.MaterialButton
 import com.timenotclocks.bookmark.*
 import com.timenotclocks.bookmark.database.*
@@ -73,7 +75,7 @@ class ShelfFragment : Fragment() {
         val search = root.findViewById<MaterialButton>(R.id.fragment_search_open_library_button)
         adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, 1)
 
         sortView?.setOnClickListener { showMenu(it) }
 

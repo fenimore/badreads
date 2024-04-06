@@ -41,6 +41,5 @@ ext {
     espressoVersion = '3.1.0'
     androidxJunitVersion = '1.1.2'
     ktor_version = '1.5.1'
-    picassoVersion = '2.71828'
     material3_version = '1.2.1'
 }

@@ -56,24 +56,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
-                <TextView
-                    android:id="@+id/book_view_empty_cover"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:height="240dp"
-                    android:width="170dp"
-                    android:background="@drawable/border"
-                    android:textColor="@color/primaryTextColor"
-                    android:paddingTop="40dp"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
-                    android:textAlignment="center"
-                    android:ellipsize="end"
-                    android:hint="Title"
-                    android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
-                    android:visibility="visible"
-                    />
         </RelativeLayout>
 
         <TextView

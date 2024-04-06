@@ -85,7 +85,7 @@ dependencies {
     // HTTP client
     implementation 'com.android.volley:volley:1.2.1'
     // Image resolution
-    implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
     // JSON
     implementation 'com.beust:klaxon:5.5'
     // CSV todo: update to 1.9.3
