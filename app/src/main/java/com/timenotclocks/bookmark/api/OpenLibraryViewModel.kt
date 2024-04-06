@@ -169,6 +169,7 @@ internal class OpenLibraryViewModel(application: Application) : AndroidViewModel
                         dateAdded = LocalDate.now().toEpochDay(),
                         dateRead = null,
                         dateStarted = null,
+                        customCover = null,
                     )
                 }
             }

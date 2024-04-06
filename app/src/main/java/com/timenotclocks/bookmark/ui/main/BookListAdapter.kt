@@ -36,7 +36,7 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
         val current = getItem(position)
 
         holder.bind(current)
-        holder.itemView.setOnClickListener {
+        holder.itemView.findViewById<ImageView>(R.id.book_list_cover_view).setOnClickListener {
             Log.i("BookId", "Loading book ${current.bookId}")
             val intent = Intent(it.context, BookViewActivity::class.java).apply {
                 putExtra(EXTRA_ID, current.bookId)

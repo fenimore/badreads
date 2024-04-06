@@ -68,8 +68,9 @@ data class Book(
     @ColumnInfo(name = "description") var description: String?,
     @ColumnInfo(name = "notes") var notes: String?,
     @ColumnInfo(name = "bookmark") var bookmark: Boolean,
+    @ColumnInfo(name = "customCover") var customCover: String?,
 ) {
-    fun cover(size: String = "M"): String? {
+    fun cover(size: String = "L"): String? {
         val isbn = isbn13 ?: isbn10
         if (isbn.isNullOrBlank()) {
             return null
@@ -189,6 +190,7 @@ fun fakeBook(
         dateAdded = LocalDate.now().toEpochDay(),
         dateStarted = null,
         dateRead = null,
+        customCover = null,
     )
 }
 
@@ -228,6 +230,7 @@ fun emptyBook(
         dateAdded = LocalDate.now().toEpochDay(),
         dateStarted = null,
         dateRead = null,
+        customCover = null,
     )
 }
 

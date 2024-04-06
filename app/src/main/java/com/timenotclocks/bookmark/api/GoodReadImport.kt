@@ -59,6 +59,7 @@ class GoodReadImport {
                 dateAdded = added,
                 dateRead = read,
                 dateStarted = started,
+                customCover = row["CustomCover"]?.ifBlank { null },
             )
             imports.add(book)
         }
