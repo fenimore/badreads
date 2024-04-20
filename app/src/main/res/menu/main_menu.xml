@@ -5,7 +5,7 @@
 
     <item android:id="@+id/menu_main_open_library_search"
         android:title="Search Open Library"
-        android:icon="@drawable/ic_add_circle_black"
+        android:icon="@drawable/ic_add_book_v2"
         app:showAsAction="always"
         />
 
@@ -45,7 +45,7 @@
     <item
         android:id="@+id/menu_charts"
         android:title="Summary"
-        android:icon="@drawable/ic_chart"
+        android:icon="@drawable/ic_profile_v2"
         app:showAsAction="ifRoom"
         />
     <item

@@ -179,7 +179,7 @@
                     android:layout_marginRight="8dp"
                     app:chart_axis="x"
                     app:chart_barsBackgroundColor="@color/emptyBook"
-                    app:chart_barsColor="@color/material_dynamic_primary0"
+                    app:chart_barsColor="@color/seed"
                     app:chart_barsRadius="4dp"
                     app:chart_labelsColor="?android:attr/textColorPrimary"
                     app:chart_labelsFont="@font/lato_regular"

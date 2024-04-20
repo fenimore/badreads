@@ -33,14 +33,14 @@ limitations under the License.
     <color name="secondaryLightColor">#52D4FF</color>
     <color name="secondaryDarkColor">#007C95</color> -->
     <color name="primaryTextColor">#000000</color>
-    <color name="secondaryTextColor">#FFF</color>
+    <color name="secondaryTextColor">#E8E7DD</color>
     <color name="emptyBook">#EAEAEA</color>
 
     <color name="seed">#783030</color>
     <color name="md_theme_light_primary">#783030</color>
-    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_onPrimary">#E8E7DD</color>
     <color name="md_theme_light_primaryContainer">#EADDFF</color>
-    <color name="md_theme_light_onPrimaryContainer">#21005D</color>
+    <color name="md_theme_light_onPrimaryContainer">#ECB65D</color>
     <color name="md_theme_light_secondary">#625B71</color>
     <color name="md_theme_light_onSecondary">#FFFFFF</color>
     <color name="md_theme_light_secondaryContainer">#E8DEF8</color>
