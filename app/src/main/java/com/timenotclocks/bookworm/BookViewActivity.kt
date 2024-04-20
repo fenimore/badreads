@@ -1,4 +1,4 @@
-package com.timenotclocks.bookmark
+package com.timenotclocks.bookworm
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -19,13 +19,13 @@ import androidx.annotation.MenuRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.timenotclocks.bookmark.database.Book
-import com.timenotclocks.bookmark.database.BookViewModel
-import com.timenotclocks.bookmark.database.BookViewModelFactory
-import com.timenotclocks.bookmark.database.BooksApplication
-import com.timenotclocks.bookmark.database.ShelfType
-import com.timenotclocks.bookmark.database.viewDateFormatter
-import com.timenotclocks.bookmark.ui.main.ImageLoader
+import com.timenotclocks.bookworm.database.Book
+import com.timenotclocks.bookworm.database.BookViewModel
+import com.timenotclocks.bookworm.database.BookViewModelFactory
+import com.timenotclocks.bookworm.database.BooksApplication
+import com.timenotclocks.bookworm.database.ShelfType
+import com.timenotclocks.bookworm.database.viewDateFormatter
+import com.timenotclocks.bookworm.ui.main.ImageLoader
 import java.time.LocalDate
 
 

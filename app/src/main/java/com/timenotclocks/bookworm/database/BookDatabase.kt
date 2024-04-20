@@ -16,7 +16,7 @@
 */
 
 
-package com.timenotclocks.bookmark.database
+package com.timenotclocks.bookworm.database
 
 import android.content.Context
 import androidx.room.Database

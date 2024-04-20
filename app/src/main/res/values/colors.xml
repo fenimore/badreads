@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2017 Google Inc.
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2017 Google Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -27,18 +26,18 @@ limitations under the License.
 -->
 
 <resources>
-    <color name="primaryColor">#CC003D</color>
+    <!--<color name="primaryColor">#CC003D</color>
     <color name="primaryLightColor">#FF72BB</color>
     <color name="primaryDarkColor">#C3CC0000</color>
     <color name="secondaryColor">#BA0F01CC</color>
     <color name="secondaryLightColor">#52D4FF</color>
-    <color name="secondaryDarkColor">#007C95</color>
+    <color name="secondaryDarkColor">#007C95</color> -->
     <color name="primaryTextColor">#000000</color>
-    <color name="secondaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#FFF</color>
     <color name="emptyBook">#EAEAEA</color>
 
-    <color name="seed">#6750A4</color>
-    <color name="md_theme_light_primary">#6750A4</color>
+    <color name="seed">#783030</color>
+    <color name="md_theme_light_primary">#783030</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#EADDFF</color>
     <color name="md_theme_light_onPrimaryContainer">#21005D</color>
@@ -65,7 +64,7 @@ limitations under the License.
     <color name="md_theme_light_inverseOnSurface">#F4EFF4</color>
     <color name="md_theme_light_inversePrimary">#D0BCFF</color>
     <color name="md_theme_light_shadow">#000000</color>
-    <color name="md_theme_light_surfaceTint">#6750A4</color>
+    <color name="md_theme_light_surfaceTint">#783030</color>
     <color name="md_theme_light_outlineVariant">#CAC4D0</color>
     <color name="md_theme_light_scrim">#000000</color>
     <color name="md_theme_dark_primary">#D0BCFF</color>
@@ -93,10 +92,15 @@ limitations under the License.
     <color name="md_theme_dark_onSurfaceVariant">#CAC4D0</color>
     <color name="md_theme_dark_inverseSurface">#E6E1E5</color>
     <color name="md_theme_dark_inverseOnSurface">#313033</color>
-    <color name="md_theme_dark_inversePrimary">#6750A4</color>
+    <color name="md_theme_dark_inversePrimary">#783030</color>
     <color name="md_theme_dark_shadow">#000000</color>
     <color name="md_theme_dark_surfaceTint">#D0BCFF</color>
     <color name="md_theme_dark_outlineVariant">#49454F</color>
     <color name="md_theme_dark_scrim">#000000</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
 
 </resources>

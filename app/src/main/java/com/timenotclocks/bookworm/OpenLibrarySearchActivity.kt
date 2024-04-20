@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.timenotclocks.bookmark
+package com.timenotclocks.bookworm
 
 import android.content.Context
 import android.content.Intent
@@ -34,13 +34,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.zxing.integration.android.IntentIntegrator
-import com.timenotclocks.bookmark.api.MAX_SEARCH_RESULTS
-import com.timenotclocks.bookmark.api.OpenLibraryViewModel
-import com.timenotclocks.bookmark.database.BookViewModel
-import com.timenotclocks.bookmark.database.BookViewModelFactory
-import com.timenotclocks.bookmark.database.BooksApplication
-import com.timenotclocks.bookmark.database.emptyBook
-import com.timenotclocks.bookmark.ui.main.OpenLibrarySearchAdapter
+import com.timenotclocks.bookworm.api.MAX_SEARCH_RESULTS
+import com.timenotclocks.bookworm.api.OpenLibraryViewModel
+import com.timenotclocks.bookworm.database.BookViewModel
+import com.timenotclocks.bookworm.database.BookViewModelFactory
+import com.timenotclocks.bookworm.database.BooksApplication
+import com.timenotclocks.bookworm.database.emptyBook
+import com.timenotclocks.bookworm.ui.main.OpenLibrarySearchAdapter
 
 
 /**

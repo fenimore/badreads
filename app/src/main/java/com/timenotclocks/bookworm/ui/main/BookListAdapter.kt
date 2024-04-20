@@ -2,7 +2,7 @@
 * 2021 Fenimore Love
 * */
 
-package com.timenotclocks.bookmark.ui.main
+package com.timenotclocks.bookworm.ui.main
 
 import android.content.Intent
 import android.util.Log
@@ -12,17 +12,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.dialog.MaterialDialogs
-import com.timenotclocks.bookmark.BookEditActivity
-import com.timenotclocks.bookmark.BookViewActivity
-import com.timenotclocks.bookmark.EXTRA_ID
-import com.timenotclocks.bookmark.R
-import com.timenotclocks.bookmark.database.*
+import com.timenotclocks.bookworm.BookEditActivity
+import com.timenotclocks.bookworm.EXTRA_ID
+import com.timenotclocks.bookworm.R
+import com.timenotclocks.bookworm.database.*
 
 
 const val LOG_BOOK_ADAPTER = "BookAdapter"
@@ -43,6 +43,7 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
             // TODO: add date started and date read
             // TODO: add rating bar
             // TODO: add pagenumber/lang/format
+
             MaterialAlertDialogBuilder(holder.itemView.context)
                 .setTitle(current.titleString())
                 .setMessage("""
@@ -55,7 +56,11 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
                     ${current.notes.orEmpty()}
                 """.trimIndent())
                 .setNeutralButton("Edit") { dialog, which ->
-                    // TODO: edit button
+                    Log.i("BookId", "Editing book ${current.bookId}")
+                    val intent = Intent(it.context, BookEditActivity::class.java).apply {
+                        putExtra(EXTRA_ID, current.bookId)
+                    }
+                    it.context.startActivity(intent)
                 }
                 .setPositiveButton("Okay") { dialog, which ->
 
@@ -63,13 +68,6 @@ class BookListAdapter : ListAdapter<Book, BookListAdapter.BookViewHolder>(BOOKS_
                 .show()
         }
         holder.bind(current)
-        holder.itemView.findViewById<ImageView>(R.id.book_list_edit).setOnClickListener {
-            Log.i("BookId", "Editing book ${current.bookId}")
-            val intent = Intent(it.context, BookEditActivity::class.java).apply {
-                putExtra(EXTRA_ID, current.bookId)
-            }
-            it.context.startActivity(intent)
-        }
     }
 
     class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

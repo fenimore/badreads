@@ -15,7 +15,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package com.timenotclocks.bookmark.database
+package com.timenotclocks.bookworm.database
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData

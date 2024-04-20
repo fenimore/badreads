@@ -1,4 +1,4 @@
-package com.timenotclocks.bookmark
+package com.timenotclocks.bookworm
 
 
 import android.annotation.SuppressLint
@@ -10,18 +10,16 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
-import com.db.williamchart.extensions.getDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import com.timenotclocks.bookmark.api.OpenLibraryViewModel
-import com.timenotclocks.bookmark.database.*
-import com.timenotclocks.bookmark.ui.main.ImageLoader
+import com.timenotclocks.bookworm.api.OpenLibraryViewModel
+import com.timenotclocks.bookworm.database.*
+import com.timenotclocks.bookworm.ui.main.ImageLoader
 import java.time.LocalDate
 
 

@@ -1,4 +1,4 @@
-package com.timenotclocks.bookmark.api
+package com.timenotclocks.bookworm.api
 
 import android.app.Application
 import android.util.Log
@@ -11,10 +11,10 @@ import com.android.volley.toolbox.StringRequest
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Klaxon
-import com.timenotclocks.bookmark.LOG_EDIT
-import com.timenotclocks.bookmark.LOG_SEARCH
-import com.timenotclocks.bookmark.TAG_NEW
-import com.timenotclocks.bookmark.database.Book
+import com.timenotclocks.bookworm.LOG_EDIT
+import com.timenotclocks.bookworm.LOG_SEARCH
+import com.timenotclocks.bookworm.TAG_NEW
+import com.timenotclocks.bookworm.database.Book
 import kotlinx.coroutines.launch
 import java.io.StringReader
 import java.lang.Integer.min

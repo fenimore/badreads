@@ -1,4 +1,4 @@
-package com.timenotclocks.bookmark
+package com.timenotclocks.bookworm
 
 import android.graphics.Color
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.preference.PreferenceManager
 import com.db.williamchart.view.BarChartView
 import com.db.williamchart.view.DonutChartView
 import com.db.williamchart.view.HorizontalBarChartView
-import com.timenotclocks.bookmark.database.*
+import com.timenotclocks.bookworm.database.*
 import java.time.LocalDate
 
 

@@ -1,14 +1,23 @@
-
 <resources>
 
     <style name="AppTheme.NoActionBar" parent="Theme.Material3.Dark.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_dark_onPrimaryContainer</item>
+        <item name="colorError">@color/md_theme_dark_error</item>
+        <item name="colorOnError">@color/md_theme_dark_onError</item>
+        <item name="colorErrorContainer">@color/md_theme_dark_errorContainer</item>
+        <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
+        <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
+        <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
 
     </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.Material3.Dark" >
-    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.Material3.Dark"></style>
 
     <style name="TextAppearance.AppTheme.SortButton" parent="TextAppearance.AppCompat.Button">
         <item name="iconTint">#FFF</item>

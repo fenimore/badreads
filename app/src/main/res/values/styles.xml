@@ -16,10 +16,10 @@ limitations under the License. -->
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="AppTheme.NoActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Customize your theme here.
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/secondaryColor</item>
+        <item name="colorAccent">@color/secondaryColor</item> -->
     </style>
 
     <style name="AppToolbar" parent="ThemeOverlay.Material3.ActionBar">
@@ -27,7 +27,7 @@ limitations under the License. -->
         <item name="android:textColorSecondary">@android:color/black</item>
         <item name="actionMenuTextColor">@android:color/black</item>
 
-        <item name="android:popupBackground">@color/secondaryColor</item>
+        <!--<item name="android:popupBackground">@color/secondaryColor</item>-->
     </style>
 
     <style name="AboutText">
@@ -37,6 +37,10 @@ limitations under the License. -->
 
     </style>
 
+    <style name="Widget.AppTheme.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
 
 
 </resources>

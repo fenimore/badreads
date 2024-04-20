@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 34
     defaultConfig {
-        applicationId "com.timenotclocks.bookmark"
+        applicationId "com.timenotclocks.bookworm"
         minSdkVersion 27
         targetSdkVersion 34
         versionCode 23
@@ -33,9 +33,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    namespace 'com.timenotclocks.bookmark'
+    namespace 'com.timenotclocks.bookworm'
     buildFeatures {
         buildConfig true
+        viewBinding true
     }
 }
 
@@ -59,6 +60,7 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
     implementation 'androidx.navigation:navigation-ui-ktx:2.7.7'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 
     // For Room SQLITE DB
     kapt  "androidx.room:room-compiler:$rootProject.roomVersion"

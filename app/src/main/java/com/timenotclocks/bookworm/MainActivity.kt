@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.timenotclocks.bookmark
+package com.timenotclocks.bookworm
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -30,17 +30,22 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
-import com.timenotclocks.bookmark.api.Exporter
-import com.timenotclocks.bookmark.api.GoodReadImport
-import com.timenotclocks.bookmark.database.BookViewModel
-import com.timenotclocks.bookmark.database.BookViewModelFactory
-import com.timenotclocks.bookmark.database.BooksApplication
-import com.timenotclocks.bookmark.database.emptyBook
-import com.timenotclocks.bookmark.ui.main.SectionsPagerAdapter
+import com.timenotclocks.bookworm.api.Exporter
+import com.timenotclocks.bookworm.api.GoodReadImport
+import com.timenotclocks.bookworm.database.BookViewModel
+import com.timenotclocks.bookworm.database.BookViewModelFactory
+import com.timenotclocks.bookworm.database.BooksApplication
+import com.timenotclocks.bookworm.database.emptyBook
+import com.timenotclocks.bookworm.ui.main.SectionsPagerAdapter
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -67,7 +72,6 @@ class MainActivity : AppCompatActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         setSupportActionBar(findViewById(R.id.toolbar))
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = findViewById(R.id.view_pager)
@@ -90,59 +94,6 @@ class MainActivity : AppCompatActivity()  {
             darkModeValues[3] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
         }
 
-        Log.d(LOG_TAG, "Created Main Activity")
-
-        //val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
-        //startActivity(intent)
-        /*
-        val fab: View = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
-            startActivity(intent)
-        }
-                val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java).apply {
-                    putExtra(EXTRA_SCAN, true)
-                }
-
-                startActivity(intent)
-                return true*/
-
-        /*
-        val data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null, "dateRead" : null, "isbn10" : "0307970655", "isbn13" : "9780385535595", "notes" : null, "numberPages" : null, "originalYear" : 2016, "publisher" : "Doubleday", "rating" : null, "shelf" : "to-read", "subtitle" : null, "title" : "Dark Money", "year" : 2016}"""
-        val intent = Intent(applicationContext, NewBookActivity::class.java).apply {
-            putExtra(EXTRA_BOOK, data)
-        }
-        startActivity(intent)
-
-        var data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null,
-            | "dateRead" : null, "isbn10" : null, "isbn13" : "9780385535595", "notes" : null, "numberPages" : null,
-            | "originalYear" : 2016, "publisher" : null, "rating" : null, "shelf" : "to-read", "subtitle" : null,
-            |  "title" : "Dark Money", "year" : null}""".trimMargin()
-        val intent = Intent(applicationContext, NewBookActivity::class.java).apply {
-            putExtra(EXTRA_BOOK, data)
-        }
-        startActivity(intent)
-
-        val data = """{"author" : "Jane Mayer", "authorExtras" : "", "bookId" : 0, "dateAdded" : "2020-11-25", "dateStarted": null, "dateRead" : null, "isbn10" : "0307970655", "isbn13" : "9780385535595", "notes" : null, "numberPages" : null, "originalYear" : 2016, "publisher" : "Doubleday", "rating" : null, "shelf" : "to-read", "subtitle" : null, "title" : "Dark Money", "year" : 2016}"""
-        val intent = Intent(applicationContext, NewBookActivity::class.java).apply {
-            putExtra(EXTRA_BOOK, data)
-        }
-        startActivity(intent)
-        */
-        /*val intent = Intent(applicationContext, BookViewActivity::class.java).apply {
-            putExtra(EXTRA_ID, 710.toLong())
-        }
-        startActivity(intent)
-
-        val intent = Intent(applicationContext, AboutActivity::class.java)
-        startActivity(intent)
-        */
-        // Dark Money
-        //val intent = Intent(applicationContext, BookViewActivity::class.java).apply {putExtra(EXTRA_ID, 506.toLong())}
-        //val intent = Intent(applicationContext, SettingsActivity::class.java)
-        // val intent = Intent(applicationContext, OpenLibrarySearchActivity::class.java)
-        //val intent = Intent(applicationContext, ChartActivity::class.java)
-        //startActivity(intent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

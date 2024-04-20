@@ -1,4 +1,4 @@
-package com.timenotclocks.bookmark.api
+package com.timenotclocks.bookworm.api
 
 import android.content.Context
 import android.graphics.Bitmap

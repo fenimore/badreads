@@ -16,7 +16,7 @@
 */
 
 
-package com.timenotclocks.bookmark.database
+package com.timenotclocks.bookworm.database
 
 import android.app.Application
 import kotlinx.coroutines.CoroutineScope

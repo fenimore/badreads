@@ -1,6 +1,6 @@
 /*Fenimore Love 2021*/
 
-package com.timenotclocks.bookmark.ui.main
+package com.timenotclocks.bookworm.ui.main
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.beust.klaxon.Klaxon
 
-import com.timenotclocks.bookmark.NewBookActivity
-import com.timenotclocks.bookmark.R
-import com.timenotclocks.bookmark.database.Book
-import com.timenotclocks.bookmark.ui.main.OpenLibrarySearchAdapter.SearchViewHolder
+import com.timenotclocks.bookworm.NewBookActivity
+import com.timenotclocks.bookworm.R
+import com.timenotclocks.bookworm.database.Book
+import com.timenotclocks.bookworm.ui.main.OpenLibrarySearchAdapter.SearchViewHolder
 
 
 const val EXTRA_OPEN_LIBRARY_SEARCH = "open_library_search_extra"

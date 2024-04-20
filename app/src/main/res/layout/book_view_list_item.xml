@@ -66,15 +66,20 @@ limitations under the License. -->
             card_view:layout_constraintTop_toTopOf="@+id/book_list_cover_wrapper" />
 
         <com.google.android.material.imageview.ShapeableImageView
+
             android:id="@+id/book_list_edit"
             android:layout_margin="4dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_edit_pencil"
             android:background="@drawable/border"
+            android:visibility="gone"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintBottom_toTopOf="@id/book_list_rating_bar"
             card_view:layout_constraintTop_toBottomOf="@+id/book_list_main_view" />
+            <!-- TODO: Remove shapeable Image
+            -->
+
 
 
         <RatingBar

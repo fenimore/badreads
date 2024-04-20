@@ -1,8 +1,8 @@
-package com.timenotclocks.bookmark.api
+package com.timenotclocks.bookworm.api
 
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
-import com.timenotclocks.bookmark.database.Book
-import com.timenotclocks.bookmark.database.csvDateFormatter
+import com.timenotclocks.bookworm.database.Book
+import com.timenotclocks.bookworm.database.csvDateFormatter
 import java.io.InputStream
 import java.time.LocalDate
 import java.util.*

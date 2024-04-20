@@ -1,4 +1,4 @@
-package com.timenotclocks.bookmark
+package com.timenotclocks.bookworm
 
 import android.content.Intent
 import android.net.Uri
@@ -14,10 +14,10 @@ import androidx.cardview.widget.CardView
 import com.beust.klaxon.Klaxon
 import com.google.android.material.button.MaterialButton
 
-import com.timenotclocks.bookmark.api.OpenLibraryViewModel
-import com.timenotclocks.bookmark.database.*
-import com.timenotclocks.bookmark.ui.main.EXTRA_BOOK
-import com.timenotclocks.bookmark.ui.main.ImageLoader
+import com.timenotclocks.bookworm.api.OpenLibraryViewModel
+import com.timenotclocks.bookworm.database.*
+import com.timenotclocks.bookworm.ui.main.EXTRA_BOOK
+import com.timenotclocks.bookworm.ui.main.ImageLoader
 import java.time.LocalDate
 
 const val TAG_NEW = "BookNew"

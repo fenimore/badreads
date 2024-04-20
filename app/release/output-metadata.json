@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.timenotclocks.bookcase",
+  "applicationId": "com.timenotclocks.bookworm",
   "variantName": "processReleaseResources",
   "elements": [
     {

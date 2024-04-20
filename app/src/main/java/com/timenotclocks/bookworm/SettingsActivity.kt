@@ -1,4 +1,4 @@
-package com.timenotclocks.bookmark
+package com.timenotclocks.bookworm
 
 import android.content.Intent
 import android.content.SharedPreferences

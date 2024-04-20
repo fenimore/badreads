@@ -15,7 +15,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package com.timenotclocks.bookmark.ui.main
+package com.timenotclocks.bookworm.ui.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -35,12 +35,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.button.MaterialButton
-import com.timenotclocks.bookmark.*
-import com.timenotclocks.bookmark.database.*
+import com.timenotclocks.bookworm.*
+import com.timenotclocks.bookworm.database.*
 
 
 const val LOG_SHELF = "BookShelf"
@@ -75,7 +74,7 @@ class ShelfFragment : Fragment() {
         val search = root.findViewById<MaterialButton>(R.id.fragment_search_open_library_button)
         adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = StaggeredGridLayoutManager(2, 1)
+        recyclerView.layoutManager = GridLayoutManager(context, 2)
 
         sortView?.setOnClickListener { showMenu(it) }
 

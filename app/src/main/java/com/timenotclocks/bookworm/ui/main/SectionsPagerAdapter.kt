@@ -15,13 +15,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package com.timenotclocks.bookmark.ui.main
+package com.timenotclocks.bookworm.ui.main
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.timenotclocks.bookmark.R
+import com.timenotclocks.bookworm.R
 
 private val TAB_TITLES = arrayOf(
         R.string.tab_text_1,
